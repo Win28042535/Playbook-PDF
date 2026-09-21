@@ -1,0 +1,610 @@
+# Design DNA — Digital Playbook / Better Trade 2026 (DNA Quiz App)
+
+Source of truth: [dna-quiz-flow.html](dna-quiz-flow.html) — the `:root` block (tokens), the CSS immediately
+below it (components), and the `<script>` at the bottom (motion + render logic). **This document is a
+read-out of that live file, not a new spec.** If this doc and the CSS ever disagree, the CSS wins — grep
+the file (`--fs-`, `--ink`, `.next-step`, etc.) before trusting a number here. Written 2026-08-26 for
+design review, last synced 2026-09-17 (see §10); expect it to drift the same way its siblings have (see §11).
+
+**Sibling docs** (this file indexes/condenses them — don't duplicate their detail here):
+- [PRODUCT.md](PRODUCT.md) — brand personality, users, product purpose, anti-references
+- [TYPOGRAPHY-DNA.md](TYPOGRAPHY-DNA.md) — full type-scale read-out
+- [EFINAI-ORB-DNA.md](EFINAI-ORB-DNA.md) — the efin AI orb icon's own DNA
+- [GLOW-BORDER-DNA.md](GLOW-BORDER-DNA.md) — the ตัวตน card preview's living rotating comet border
+- [AURORA-BACKGROUND-DNA.md](AURORA-BACKGROUND-DNA.md) — the analyzing screen's drifting light-blob background
+- [PLAYBOOK-2026-DATA-BASELINE.md](PLAYBOOK-2026-DATA-BASELINE.md) — content/persona data source
+
+---
+
+## 1. Brand voice (condensed from PRODUCT.md)
+
+**"Calm, but credible"** — Kinfolk-inspired editorial restraint, not SaaS-dashboard energy or a loud
+gamified event app. In practice:
+- **Scenes, not components** — sections are individually composed with white space + hairlines, not
+  uniform boxed cards with shadows stacked identically down the page.
+- **Spectrum gradient is a rare accent, never a fill** — reserved for interactive/selected moments
+  (button borders, underlines, progress) — never a background or resting-state color.
+- **Animation enhances, never gates** — every reveal has a `prefers-reduced-motion` fallback; content is
+  never hidden behind a class-triggered transition.
+- **One source of truth for tokens** — `:root` in this file, not a designer's original spec elsewhere.
+- **Device reality first** — attendees use whatever phone/event-tablet is in hand; the type scale is
+  fixed across breakpoints (only spacing breathes wider on tablet/pc — see §4).
+
+**Anti-references** (things this app deliberately does *not* look like): generic AI-slop SaaS (uniform
+card grids, gradient-text headlines, glassmorphism-as-decoration), and loud badge-heavy confetti-first
+gamified event apps.
+
+---
+
+## 2. Color tokens
+
+```css
+--ink:#111318;  --muted:#687078;
+--paper:#f7f8f7; --cloud:#eef1f6; --white:#ffffff;
+--accent:rgba(17,19,24,0.06);
+--line:rgba(17,19,24,0.09); --line-soft:rgba(17,19,24,0.08);
+--line-strong:rgba(17,19,24,0.17); --line-header:rgba(17,19,24,0.06);
+--focus:#2b6cff; --popover:rgba(255,255,255,0.96);
+```
+
+**⚠️ Correction to stale memory:** this app is **light-theme only** — a prior memory note claimed a full
+dark-mode token set exists; the live CSS says otherwise verbatim ("Light theme only — dark mode
+intentionally removed, per direction: keep the original editorial theme"). Don't re-introduce a
+`prefers-color-scheme` branch without a fresh direction.
+
+### 2.1 Brand spectrum (rare accent)
+```css
+--cyan:#61e8ed; --violet:#9c91ff; --pink:#f178d8; --yellow:#f2ea83;
+--spectrum:linear-gradient(90deg,#61e8ed,#9c91ff,#f178d8,#f2ea83,#61e8ed);
+```
+Used on interactive/accent moments only (Liquid Metal button rim, hero video badge) — never a section
+background.
+
+### 2.2 Status-tone ladder — the semantic color system
+
+This is the one place in the file where color carries *meaning*, not just decoration. Four tones, each
+with a fixed job — **don't borrow one tone's color for another tone's job** (this has drifted and been
+re-collapsed at least twice already, see the inline comments at each token):
+
+| Tone | Meaning | Base color | Wash/bg | Border | Fill/chip | Text |
+|---|---|---|---|---|---|---|
+| **Violet** | in progress / active / neutral info | `--violet` | `--active-wash` (10%) | `--active-border` (35%) | `--active-fill` (15%) | `--ink` |
+| **Cyan** | done / unlocked | `--cyan` | `--done-wash` (10%) | `--done-border` (35%) | `--done-fill` (15%) | `--ink` |
+| **Amber** | needs attention, do this | `--amber-bg:#fef4e2` | — (bg itself) | `--amber-border:#f3daa0` | same as bg | `--amber-text:#8a5a00` |
+| **Green** | success / positive outcome | `--green-text:#15803d` | `color-mix(in srgb,var(--green-text) 7%,var(--white))` | `color-mix(in srgb,var(--green-text) 32%,transparent)` | `color-mix(in srgb,var(--green-text) 14%,var(--white))` | `--green-text` |
+
+Cyan/violet are true design tokens (wash/fill/border rungs pre-defined in `:root`); amber is a token trio
+too (`--amber-bg/-border/-text`); **green only has one token (`--green-text`)** — every green wash/border
+you see is hand-mixed inline via `color-mix()` at point of use (e.g. `.next-step.ds-ok`, `.trait-chip.done`,
+`.ds-joined`). If green usage grows, promoting it to a real `--green-bg`/`--green-border` pair (mirroring
+amber's shape) is worth a review — see §11.
+
+**Where each tone shows up today:**
+- Violet: `.bp-fill` (booth progress bar, not-yet-complete), `.rt-badge.new`, active tab state, `.int-bar-fi` (interest bars, real signal)
+- Cyan: `.bp-fill`/`.pe-track-badge.full` once complete, `.bc-play.played`, `.game-row.played`, `.bp-btn.done` (booth partner button, that booth's shared activity genuinely completed — see §10 2026-09-17)
+- Amber: `.draw-status`→`.next-step.ds-need` ("ยังขาด"), `.redeem-card.on`, `.prof-tier`, `.rt-badge.feat`, `.bp-btn.chk` (booth partner button, checked in but that booth's activity not done yet — added 2026-09-17 to stop this state collapsing into `.bp-btn.done`'s cyan, see §10)
+- Green: `.next-step.ds-ok` ("ครบเงื่อนไขแล้ว" prize-draw success card), `.trait-chip.done`, `.ds-joined` (post-CTA acknowledgment)
+
+---
+
+## 3. Typography (condensed — see TYPOGRAPHY-DNA.md for the full read-out)
+
+Two typefaces: **FC Minimal** (`--font`, UI voice — everything, incl. all Thai text) and **Baskervville**
+(`--serif`, editorial display voice — **English display text + numerals only, never Thai**). Both
+self-hosted `@font-face`, no CDN dependency — as of the 2026-09-02 asset-extraction pass, the `.ttf`
+files live under `assets/` and are referenced by relative `url()`, not inlined as base64 (see §10).
+
+Fixed scale (identical mobile/tablet/pc — only spacing grows on wider viewports, never type size):
+
+| Token | Size | | Token | Size |
+|---|---|---|---|---|
+| `--fs-title` | 36px | | `--fs-bodysm` | 18px |
+| `--fs-heading` | 28px | | `--fs-label` | 16px |
+| `--fs-h2` | 24px | | `--fs-eyebrow` | 14px |
+| `--fs-sub` / `--fs-body` | 22px *(2026-08-26, was 20)* | | `--fs-meta` | 14px |
+
+Two rendered weights only: `--w-body`/`--w-head` = 500, `--w-label` = 700. Headlines default to
+`letter-spacing:0` (a deliberate signature — don't "fix" it). Uppercase eyebrow labels get `0.02–0.12em`
+positive tracking.
+
+---
+
+## 4. Spacing, radius, shadow
+
+Named-by-use-case spacing scale (10 values) — pick the *case* that matches, not a raw px. The
+2026-08-31 border/spacing audit rounded ~58 off-grid literals (9/10/14/18/26/28px, etc., that had
+drifted in ad hoc) onto the nearest existing rung below — no new tokens were added, this was
+compliance cleanup, not a re-tune:
+
+| Token | px | Use case |
+|---|---|---|
+| `--sp-hairline` | 2 | optical nudge only (never a real gap) |
+| `--sp-stack-tight` | 4 | title/value → its one caption line |
+| `--sp-glue` | 6 | an icon glued to its own label |
+| `--sp-list` | 8 *(2026-08-26, was 9)* | gap between repeated rows in one list/stack |
+| `--sp-inline` | 12 *(2026-08-26, was 10)* | two related items sharing a row (icon + text) |
+| `--sp-stack` | 16 *(2026-08-26, was 14)* | a card's own eyebrow/heading → its body |
+| `--sp-card-pad` | 22 *(2026-08-26, was 20)* | a card's inner edge padding |
+| `--sp-card-pad-sm` | 16 *(2026-08-26, was 14)* | small (`--r1`) cards' inner padding |
+| `--sp-edge` | 20 | the screen's outer gutter |
+| `--sp-block` | 22 | one labeled sub-section to the next inside one card |
+| `--sp-section` | 20 (24 tablet/pc) | gap between top-level sections on a long scroll |
+
+Radius: `--r0:6px` (micro-chrome — tooltip/focus ring/route badge), `--r1:8px` (small cards), `--r2:16px`
+(cards), `--rpill:48px` (pills/buttons). 12px and 24px are reserved, unused — **enforced by the
+2026-08-31 border/spacing audit**, which caught 3 consumers (`.ns-ic`, `.scan-mine-qr`, `.scan-note`)
+that had drifted onto a stray literal `12px` and repointed them at `var(--r2)`; the "reserved" claim is
+now actually true again, not just documented.
+
+Shadows: `--shadow-action`/`--shadow-primary` (buttons — genuine floating controls keep a shadow),
+`--shadow-md`/`--shadow-lg` (overlays: demo panel, map lightbox, scan/share/howto sheets). **Cards/
+sections themselves carry no shadow** — hairline border only (`--line-soft`), per the "scenes, not
+components" principle in §1. `--shadow-lg` was also re-tuned in the 2026-08-31 audit: it now matches
+the value already hand-duplicated across the map lightbox + `.scan-card`/`.share-sheet`/`.howto-card`
+(instead of an old 24px/64px/.26 definition none of them actually used), and those 4 consumers now
+reference the token instead of repeating the literal. `.demo-panel` is the only other `--shadow-lg`
+consumer and got marginally stronger as a side effect (dev-only tool, not user-facing).
+
+---
+
+## 5. Icon system
+
+**Default: Lucide** (outline, 24×24 grid, `currentColor`, round caps/joins) — 53 symbols embedded as
+inline `<symbol>` defs, rendered via `ic('lc-name')` → an inline `<svg><use></use></svg>`. Stroke width
+steps with size: 16px→1.75px, 20/24px→2px. Never filled/duotone/emoji.
+
+**Override: custom PNG icon-set art**, loaded from `assets/*.png` (base64-inlined `data:` URIs until
+the 2026-09-02 extraction pass, see §10 — same PNGs, just external files now), for specific domains
+where bespoke illustrated icons were supplied (17 images: `ICON_STOCK_TH_PNG`, `ICON_GOLD_PNG`,
+`ICON_JOYSTICK_PNG`, `ICON_CROWN_PNG`, etc.). **10 of these 17 (the `BOOTH_ICON_PNG` set) are now
+`.webp` on disk as of 2026-09-17 (see §10)** — var names kept as `*_PNG` regardless, same "don't
+rename despite the extension change" precedent `GAME_ART_PNG`/`BOOTH_ART_PNG` already established;
+check the actual `var X_PNG='assets/...'` string, not the var name, before assuming a format. Every
+consumer follows the same **fallback pattern** —
+PNG art if this specific key has it, else fall back to the Lucide symbol — so a future entry without
+commissioned art never renders broken:
+```js
+BOOTH_ICON_PNG[b.asset] ? '<img src="'+BOOTH_ICON_PNG[b.asset]+'" alt="">' : ic(b.icon,'bc-asset-ic')
+```
+Live today on: the 10 booth-zone asset icons (`BOOTH_ICON_PNG`), the 3 ticket-tier badges
+(`TIER_ICON_PNG` — crown/gem/compass), and the "เล่นเกมนี้ต่อ"/"ขั้นต่อไป" next-step card's joystick icon
+(always-PNG, no Lucide fallback needed there).
+
+**Icon sizing tokens:** `--ic-sm:16px`, `--ic-md:20px`, `--ic-lg:24px` — a PNG `<img>` inside any of these
+contexts sizes identically to the SVG it replaces (`.ns-ic img{width:var(--ic-lg);height:var(--ic-lg);
+object-fit:contain;}`), so swapping art never shifts a badge's footprint.
+
+---
+
+## 6. Motion DNA
+
+Three independent motion systems, layered, each with its own reduced-motion fallback:
+
+### 6.1 Container Scroll Animation (`.scroll-reveal`)
+Every section-level card carries `.scroll-reveal`. `revealTick()` (rAF-throttled, bound to
+window+`#root` scroll) computes each element's scroll progress between entering at ~92% down the
+viewport and settling flat by ~42%, and applies a 3D tip-back transform that eases out as it scrolls into
+place. **Scroll paces the reveal, it never gates content** — nothing is invisible before its transform
+settles. `prefers-reduced-motion` collapses straight to flat (`transform:none`).
+
+### 6.2 Chart reveal (`.viz-bar` / `initCharts`)
+A one-time `IntersectionObserver` (threshold 0.3) adds `.viz-in` to a chart's containing card the first
+time it enters the viewport, then unobserves — **never replays on re-scroll**. Any element with class
+`.viz-bar` animates `width:0 → width:var(--tw)` over `.7s` once its ancestor gets `.viz-in`. This is the
+one shared idiom behind every bar chart in the app (see §7.3) — a new bar chart should reuse this exact
+mechanism, not invent its own reveal.
+
+### 6.3 Liquid Metal buttons
+A ported shader-based button component (`js/liquid-metal-button.js` + `js/liquid-metal-cta.js`, ES
+modules, ships its own WebGL rim shader with a CSS-gradient fallback if WebGL fails). Three size presets
+— `hero` (splash CTA, standalone), `cta` (in-card single action — next-step, prize-draw), `compact`
+(header QR pill, secondary CTAs) — same rainbow rim palette and white pill fill at every size, so every
+Liquid Metal button reads as one family. Mounted imperatively per-render via
+`mountLiquidMetalButtonInto('#slotId','cta',{label,icon,onClick})` into a slot the markup leaves empty,
+since this SPA replaces `root.innerHTML` wholesale on every render (see §9.2).
+
+---
+
+## 7. Component library
+
+### 7.1 Buttons
+- `.btn.btn-primary` — ink fill / cloud text, 48px pill, the plain-CSS default action button.
+- Liquid Metal (§6.3) — for the app's genuine "the one thing to tap" CTAs inside a card.
+- `.howto-btn` — light-bordered pill (white bg, ink text) for a secondary/info action ("วิธีเล่น").
+
+### 7.2 Cards
+- `.home-card` — the generic top-level section card (hairline border, `--r2`, no shadow).
+- **`.next-step`** — the reusable "one prominent action" card: an icon badge (`.ns-ic`, 48px rounded
+  square) beside an eyebrow/title/body text block (`.ns-tx` → `.ns-ey`/`.ns-t`/`.ns-b`), with a CTA slot
+  (`.ns-cta-slot`) as a third flex sibling that wraps full-width/right-aligned on mobile. Originally the
+  ink-dark hero-style card (Home's "ขั้นต่อไป", Games' "เล่นเกมนี้ต่อ"); **as of 2026-08-26 also reskinned
+  via tone modifiers** (`.next-step.ds-ok` green, `.next-step.ds-need` amber) for the booth prize-draw
+  card — same icon-badge/eyebrow/title/body/cta-slot layout, just recolored per the status-tone ladder in
+  §2.2 instead of ink. **This is the pattern to reuse next time a new "one action, in a card" moment
+  needs a home** — don't invent a fourth bespoke card shape for it.
+- `.conf-box` — the Confidence Score card (sub-score bars + a `.conf-foot` note+CTA row, itself using the
+  full-width `.btn.btn-primary` shape, not Liquid Metal, for its "เล่นเกม 6 ด้าน" button). **Also reused
+  as-is by `skillCardHTML()`** for the SKILL ประจำการ์ด card (title + `.skc-chiprow` + `.conf-bars` rows,
+  same shell) — a second consumer of the same class, not a fork. Its "ยังขาด" badge (amber `.sc.act`
+  chip beside the title, laid out via a `.trait-hd` flex wrapper shared with `.skc-t`) was removed
+  2026-09-01 per direction; `.trait-hd` was deleted with it since nothing else used that wrapper, and
+  `.skc-t` went back to its own default margin instead of the inline zero it used to need.
+- **`.pass-card`'s multi-ticket variant** (2026-09-02, `DEMO.multiTicket` demo-panel preview only — see
+  §9.1) — **zero new classes.** `passCardMultiHTML()` just repeats the exact single-ticket block above
+  (`.pass-ey`+icon, `.pass-name.pn-indent`, `.pass-benefit`, `.pass-foot` price row) once per held
+  ticket inside the one card, pulling each ticket's ประเภทบัตร/สิทธิ/ราคา from the same `TIER_META`
+  lookup `curTier()` reads. Only ticket #1 keeps the chevron and the "บัตรของคุณ" eyebrow text; ticket
+  2+ gets "บัตรใบที่ N" and a hairline `border-top` divider (same technique `.pass-foot` already uses)
+  ahead of it. A same-day first pass here tried a bespoke combined-summary layout (icon badge + tier
+  pill row + one "unlocked X of Y" line) — scrapped once directed to reuse the single-ticket DNA
+  verbatim instead of inventing a new card shape.
+- **Profile's `ticketHistoryHTML()`** (2026-09-02, `DEMO.multiTicket` only) — also zero new classes: it
+  reuses `sidesHTML()`'s "6 ด้านที่วัดได้จากคุณ" list DNA verbatim (`.card`/`.sides-hd`/`.s-ey`/`.s-h`/
+  `.s-sub` for the header, `.side-item`/`.side-row`/`.side-num`/`.side-cx`/`.side-t`/`.side-s`/`.side-r`/
+  `.sc` per row) rather than the bespoke `.tkt-hist`/`.tkt-row` set a same-day first pass built — see
+  §9.1. `.side-num.done`/`.sc.done` (ink circle, the ladder's own green "complete" chip) both already
+  mean "settled/valid," reused as-is for "ใช้งานได้"; no expand/collapse, since a ticket has nothing
+  further to reveal the way a 6-ด้าน row's body does.
+
+### 7.3 Bars & charts — three idioms, one reveal mechanism
+All three share the `.viz-bar` reveal (§6.2) and a `grid-template-columns:1fr auto` row shape
+(label+value on top, a full-width track below), so a new metric can be dropped into whichever idiom fits
+without inventing new motion:
+
+| Idiom | Series | Used for | Color |
+|---|---|---|---|
+| `.trait-row` | single value/max | คะแนนพฤติกรรม (behavior score) | violet→cyan gradient fill |
+| `.alloc-bar`/`.alloc-seg` | stacked % segments + legend | แผนจัดพอร์ตที่แนะนำ (recommended allocation) | 4-hue palette, softened 55% toward white |
+| `.int-bar-row` | single %, sorted desc | เรดาร์ความสนใจ (interest bars) | full violet (touched) / pale violet tint (muted) — **same hue family, not gray**, per direction |
+
+**Real-data discipline:** `.int-bar-row`'s % is computed from genuine `BOOTH_CHK`/`BOOTH_ACT` signal, not
+invented — the file's own comment history flags this explicitly ("NOT a fabricated per-category %") and
+it's worth checking before adding a new bar chart: if there's no real signal behind a number, either tag
+the section `.ex-tag` "ตัวอย่าง" (§8) or don't ship the bar at all.
+
+### 7.4 Chips, pills, badges
+- `.ex-tag` — the "ตัวอย่าง" (example/mock data) marker pill — see §8.
+- `.ds-chip` / `.trait-chip` — small status pills, tone-colored per §2.2.
+- `.route-badge`, `.rt-badge` (`.pick`/`.feat`/`.new` variants) — booth-route status pills.
+
+### 7.5 Navigation
+- `.book-tabbar` — the app-shell bottom tab bar (5 tabs: หน้าหลัก/คู่มือของคุณ/เดินบูธ/เกมหลัก/โปรไฟล์).
+- `.bt-tabs--secondary` (pill row) — Book v2's in-page sub-nav (ตัวตน/วิเคราะห์/พอร์ต/เส้นทาง).
+- `.bt-tabs--primary` — asset drill-down tabs ("เจาะรายสินทรัพย์").
+
+---
+
+## 8. Content conventions
+
+- **"ตัวอย่าง" (example) tagging** — any section built on illustrative/mocked data (no real backing
+  measurement yet, e.g. `traitBars()`, `allocBars()`) carries a visible `<span class="ex-tag">ตัวอย่าง</span>`
+  next to its heading. This is a house rule, not a one-off: **never present mocked data as if it were the
+  user's real measured result** — tag it, or compute it from something real (see §7.3's `.int-bar-row`
+  discipline).
+- **No fabricated percentages** — when a real signal exists (booth check-ins, quiz picks, game plays),
+  prefer deriving a chart's numbers from it over hand-picking illustrative ones, even for a demo.
+- **Thai/English serif split** — Baskervville (`--serif`) never renders Thai text, full stop. See
+  TYPOGRAPHY-DNA.md §"Hard rule."
+- **Mock interactions still acknowledge the tap** — buttons with no real backend (post-event
+  "ดาวน์โหลด", prize-draw "ร่วมลุ้นรางวัล") flip to a small "…แล้ว (ตัวอย่าง)" acknowledgment state on
+  click rather than doing nothing, so the prototype never feels unresponsive.
+
+---
+
+## 9. Dev / review tooling conventions
+
+Two standing mechanisms exist specifically to support design review (not real end-user features) — worth
+knowing about since they're how this app is normally reviewed:
+
+### 9.1 "จำลองเคส" demo panel (`buildDemo()` / `.demo-panel`)
+A floating dev panel (bottom-right FAB, `id="demoFab"`) simulating states that would otherwise require
+real interaction to reach: viewport preset, ticket tier, a persona shortcut, quiz-done toggle, and —
+as of this session — **explicit force-toggles for edge-case states** (e.g. `DEMO.draw`: อัตโนมัติ/
+ครบเงื่อนไขแล้ว/ยังขาด for the prize-draw card) so both branches of a conditional UI can be previewed
+without manually driving the real counters to the threshold. **When a new screen has a meaningful
+if/else state, add a demo-panel override for it** — this has become the established way to make a state
+reviewable. **`DEMO.multiTicket`** (2026-09-02) is the newest example: a "จำนวนบัตร" toggle previewing a
+customer holding 2 tickets at once (see §7.2's `.pass-card` multi-ticket bullet) — default OFF,
+single-ticket stays the real/active state, and it's scoped to just Home + Profile, not a reinterpretation of the
+`สิทธิ์ของคุณ` `curTier()` select every other gate in the file still reads.
+
+### 9.2 Version-preview toggles (retired pattern — `BOOK_VER`, `POSTER_VER`)
+Global vars (not real user-facing settings) that let the demo panel A/B two implementations of the same
+screen side-by-side during a redesign (Book v1 vs v2, Poster v1/v2/v3) before one is retired. Once a
+version "won," the loser was usually kept reachable via the panel for a while rather than deleted
+immediately, in case review reopened it — but both examples here have since had their loser actually
+deleted once no one reopened it: `POSTER_VER` (2026-08-29, only V3 ever reachable) and `BOOK_VER`
+(2026-08-30, "ลบ คู่มือ 1 ออก" — คู่มือ 1's `renderBook()` removed, `renderBook2()` renamed to
+`renderBook`). Neither var exists in the code anymore; this section stays as a record of the pattern
+for the next time a version A/B is needed, not as a pointer to live code.
+
+---
+
+## 10. What changed most recently
+
+For quick orientation on what's newest and least battle-tested — worth a closer look in review.
+Newest first; each session's own commit(s) are named so you can `git show` for the full diff.
+
+**2026-09-17 — efin.finance check-in gate for เกมหลัก + partial-completion warning.** The เกมหลัก
+page's own copy has always promised "เช็คอินที่บูธ efin.finance...เพื่อปลดล็อกทั้ง 6 เกม" (the
+pre-event "Coming soon" empty state below), but that promise only ever showed pre-event — once
+`eventPhase==='on'`, every one of the 6 games was openable with zero gate, the same "promised in
+copy, never wired" gap the booth check-in gate had before its own 2026-09-09 fix. Added a new state
+flag, `EFIN_CHECKED_IN` (a separate physical check-in point from the 10 asset booths, confirmed with
+direction), gating `openPlay('game',...)` until true. The locked state **reuses the pre-event "Coming
+soon" card's exact DNA verbatim** (`.ev-empty-ic`/`.shimmer-ink`/`.shimmer-violet`/`.ast-block`, §7/§6
+— only the PNG icon and copy changed, not the structure), and the header's existing "สแกน QR" pill
+(`mountHeaderQR()`) became phase-aware — it opens a new `SCAN.bi==='efin'` branch of the same scan
+modal (§ "QR SCAN MODAL") while on เกมหลัก and not yet checked in, instead of a dedicated new button.
+Also added a "เล่นไม่ครบมีผลมาก" note (shown while <6 games are done) — plain copy only (no numeric
+weighting system exists to back a real score), built on **`.pe-report`/`.pe-report-t`/`.pe-report-s`
+verbatim**, the same DNA as Home's "รายงานพัฒนาการหลังงาน" card (§7.2's reuse-don't-invent discipline
+applied to both of these). Demo panel (§9.1) gained a "เช็คอิน efin.finance" toggle. Verified live:
+lock/unlock round-trips cleanly via the real scan flow, booth check-in's own generic scan (`SCAN.bi
+==null`) unaffected, no console errors.
+
+**2026-09-17 (same session, earlier) — booth partner check-in split into its own amber "checked in"
+state, distinct from cyan "activity done."** `.bp-btn` (the per-partner QR button on a booth card)
+only ever read `BOOTH_CHK` and rendered `.done` (cyan/`--done-fill`) the instant a partner was
+checked in — collapsing the booth-legend's own 3 states (ยังไม่เช็คอิน/เช็คอินแล้ว/ร่วมกิจกรรมแล้ว,
+§2.2) down to 2, since the legend's amber "เช็คอินแล้ว" middle state never actually rendered. Added
+`.bp-btn.chk` (amber, the same 3 tokens `.next-step.ds-need` uses) for "checked in, that booth's
+shared activity (`BOOTH_ACT[bi]`, booth-wide — one game per booth, not per partner) not done yet";
+`.bp-btn.done` now only fires once `BOOTH_ACT[bi]` is true too, so every checked-in partner under a
+booth flips from amber to cyan together the moment that booth's game is completed. Verified live at
+both states plus the existing demo-seeded default.
+
+**2026-09-16/17 — responsive audit, touch-target fixes, and a run of DNA-consistency passes
+(one session, several direction rounds — see `git log` on this range for individual commits).**
+Grouped here since they share one session but touch unrelated surfaces:
+- **Touch targets**: a scripted audit (§ this section's own 2026-09-02/09-03 precedent) flagged 6
+  interactive elements under the 44×44px minimum — `.bp-btn`, `.howto-btn` (cascades to `.bc-play`),
+  `.gr-hd .btn-primary`, `.bt-tabs--primary`/`--secondary .bt-tab`, `.mp-zoom` — all bumped to
+  `min-height:44px`. `.bmk` (the 26px map-pin marker) got an invisible `::before` hit-area instead
+  of padding (padding would have shifted `.bmk-ring`/`.bmk-lbl`'s own position math, both anchored to
+  `.bmk`'s box) — same "small icon, bigger tap zone" technique as native platform guidance, verified
+  via `elementFromPoint()` at an offset outside the visible circle, not just a bounding-rect read.
+- **Games-page icon DNA aligned to `.pass-ey-ic`**: "สิ่งที่ได้เรียนรู้จากเกมนี้"'s icon swapped
+  `lc-check-circle` → `ICON_JOYSTICK_PNG`, and `.gr-ic` (the "ด้านอื่นใน Playbook" row icon) dropped
+  its bordered 48px square frame — both now bare icons at `width:var(--ic-lg);height:auto`, the exact
+  same recipe `.pass-ey-ic` (Home's "ความคืบหน้าของ Playbook") already used. `.gr-ic`'s box had been
+  tried bare once before (2026-09-11) and reverted to a bordered badge same-day; this reverts it back
+  again, this time confirmed to stay.
+- **Result-screen save-note reskinned + หมายเหตุ repositioned**: `saveNoteHTML` ("บันทึกเรื่องที่
+  เรียนรู้...") moved off `.pf-note` (Profile footer's flat muted line) onto `.pe-report.on`/
+  `.pe-report-t`/`.pe-report-s` — the same icon+title+subtitle-on-done-wash DNA as Home's "รายงาน
+  พัฒนาการหลังงาน" card (title/subtitle text also split, weights 700/500) — and its icon sized up via
+  a scoped `.pe-report-lg` modifier to match the result screen's other icon-led sections (`.str-hd`/
+  `.ast-lbl`/`.hero-note.skill-note`, all `--ic-lg`/24px; the base `.pe-report svg` stays `--ic-md`/
+  20px for Home's own card). The noType "หมายเหตุ" note (`.hero-note.skill-note`) was pulled out of
+  its old position (between insBox and resultCard) and now always renders dead-last on the page,
+  after saveNoteHTML — genuinely bottom-most regardless of game type, not just bottom-of-one-variable.
+- **Points UI removed entirely.** Every "+N แต้ม" surface in the app — `.play-pts-badge` (question
+  screen), `.bp-pts`/`.pe-report` "สะสมแล้ว" running total (booth list), the briefing's "รางวัล" card
+  (booth pre-game brief) — removed per direction ("เอาออกทั้งหมด"), continuing the 2026-09-11 removal
+  of the same reward card on the end-of-game screen. `boothPointsTotal()`/`.play-sum-pts`/
+  `.play-pts-badge` CSS and `ptsCountUp()` left in place, unused — same "kept for history" precedent
+  §9.2 documents for retired version-toggles. Booth briefs now show only the "จำนวนข้อ" card, centered
+  at its original half-width (`.round-cards.single`) rather than stretched full-width once its "รางวัล"
+  sibling was gone.
+- **Asset-weight pass**: the 10 `BOOTH_ICON_PNG` category icons converted PNG→WebP (canvas
+  `toBlob('image/webp',0.8)`, no resize — already at/under their largest real display size, 80px@2x
+  — see §5's own note): 318.9KB → 48.2KB combined, ~85% smaller. Main-games result-screen art (§7,
+  `GAME_ART_PNG`, temporarily `null`'d 2026-09-16 pending a new set) restored with a freshly-supplied
+  6-image set, already carrying clean per-pixel alpha (unlike every prior `GAME_ART_PNG` source, which
+  needed flood-fill background removal) — resized 1254px→360px + WebP q0.8: ~7.86MB → ~188KB total.
+- **Content/copy pass**: home hero poster trimmed (dropped the `.hh-badge` eyebrow line, new
+  subtext), the booth "วิธีเล่น" modal and draw-eligibility copy updated (its deadline line removed),
+  Profile's footer rewritten (brand name + tagline lines bumped to `--w-label`/700).
+
+**2026-09-10 — responsive audit: real tablets stuck rendering the mobile phone-frame, header/content/
+bottom-nav not filling the screen.** Per direction "responsive audit" with device screenshots (real
+iPad Safari + Android Chrome, portrait, ~768–874px wide) showing the header, `.book-tabbar`, and card
+content all clamped into a narrow centered column with large empty margins on both sides — matches
+the `.shell{max-width:400px}` "phone-frame preview" look, not the tablet layout. Root cause: the
+2026-08-26 change ("`อัตโนมัติ` default ไว้ที่ mobile size") made `applyView()`'s `'auto'` branch
+resolve to `'mobile'` unconditionally, dropping the old `window.innerWidth` check entirely — so ANY
+real visitor who never touches the demo panel's `มุมมอง` segmented control (i.e. everyone) got
+`data-view="mobile"` regardless of actual device width, contradicting this doc's own "Device reality
+first" principle (§ above: attendees use whatever phone/event-tablet is in hand) and silently
+undoing the 2026-09-02/09-03 tablet-width audits' premise that `data-view` tracks the real viewport.
+Fixed by restoring real-width detection inside the `'auto'` branch only (`w<768→mobile /
+w<1440→tablet / else pc`) while leaving the demo panel's explicit PC/แท็บเล็ต/มือถือ overrides
+untouched — so a genuine tablet auto-resolves to `data-view="tablet"` (verified via
+`getBoundingClientRect()`, not just a screenshot: at 768px, `.shell`/`.topbar`/`.book-tabbar` went
+from 400px to 753px) while the demo panel can still force any of the three states for previewing off
+real hardware. See `applyView()` in dna-quiz-flow.html.
+
+**2026-09-03 — scroll motion bug: `revealTick()`'s "กิจกรรมประจำโซน" card arriving nearly a full page
+late on tall phones (iPhone 15 Pro/Pro Max reported).** Root cause wasn't a device- or width-specific
+breakpoint — it was `revealTick()` (§ "CONTAINER SCROLL ANIMATION DNA") reading `el.getBoundingClientRect()`
+**without clearing the element's own transform from the previous tick first**. That's harmless for a
+normal-height `.scroll-reveal` card, but `perspective(1000px) rotateX(12deg)` foreshortens a rotated
+box more the taller it is relative to that 1000px perspective distance — negligible on a ~480px card,
+severe on this section's booth-grid card (~1700px tall on mobile, one column). The distorted
+mid-rotation box fed its own (wrong) `rect.top` into the NEXT tick's progress calc, so `p` chased a
+moving target and never converged until the user had scrolled nearly the section's own height past
+it — reading as "leaves a blank gap for almost the whole page before it shows up". Fixed two ways in
+`revealTick()`: (1) clear `el.style.transform` before reading `rect` each tick, so `p` is always
+computed from the TRUE scrolled position, not last frame's distorted paint (costs one extra reflow
+per `.scroll-reveal` element per tick — negligible at the handful this app has); (2) scale
+`perspective` with the element's own height (`Math.max(1000, rect.height*2.2)`, same 1000px floor as
+before for anything at/under that height) so a very tall card foreshortens by about the same visual
+amount as a short one under the same 12deg tilt, instead of collapsing harder the taller it is.
+Verified via direct `getBoundingClientRect()`/`offsetHeight` reads (not just eyeballing — this bug is
+invisible in a single screenshot, only shows up as a timing error across a scroll range) that the
+section now converges to its natural height within the same ~0.5×vh scroll window every other
+`.scroll-reveal` card gets, at both reported sizes (iPhone 15 Pro 393×852, Pro Max 430×932) plus the
+full 393/402/420/430/440 (phone) and 800/820/834/884 (tablet) width set from the audit below — and
+re-ran that audit's own 0-overflow sweep after the change since `revealTick()` is shared by every
+screen, not just this one card. No other `.scroll-reveal` section changed behavior (all comfortably
+under the old fixed 1000px perspective's safe height already).
+
+**2026-09-03 — responsive audit: tablet 800/820/834/884px + phone 393/402/420/430/440px, clean (no code change).** Per direction "responsive audit" for these two specific width bands — same
+`scrollWidth`/`clientWidth` sweep methodology as the 2026-09-02 entry below, run fresh against this
+session's own harness: `st.phase` forced through all 10 screens (splash/consent/quiz/reveal/book/
+library/home/passport/games/profile) × all 3 `data-view` states (mobile/tablet/pc, incl. every
+mismatched real-width/data-view combo the 2026-09-02 fixes were about) × both `DEMO.eventPhase`
+values (pre/on, since on-event is what mounts the 3-item `.topbar` — logo + reg-cta + QR pill —
+that was the last real bug found) × all 9 target widths = 540 checks, 0 overflows. Cross-checked
+with direct `getBoundingClientRect()` reads (not just screenshots — screenshots taken immediately
+after a `data-view` switch under-read `.shell`'s width because of its own `.shell{transition:
+max-width .3s}`, and can visually mis-render viewports wider than the preview pane's own physical
+size; neither is a real bug, just artifacts of testing too fast / too wide — verify geometry via
+JS rects when a screenshot taken right after a state change looks implausible) on the two specific
+prior fix points (`.str-grid{flex-direction:column}` and `.next-step`'s narrow-phone grid-template,
+both keyed off `max-width:420px` regardless of `data-view`) at the 420px boundary — both hold.
+**Conclusion: nothing in this file needed a fix for these 9 widths** — the 320–480px hardening from
+prior sessions already covers the phone band, and 800–884px falls inside the same "no breakpoint
+lives here" gap the file already had between 640px and 1024px (data-view carries the layout, not a
+raw `@media` at these widths), so tablet holds too. Documented here so a future session doesn't
+re-run the identical sweep from scratch assuming these ranges were never checked.
+
+**2026-09-02 — responsive audit: `.topbar` overflow at 320px, on-event.** Per direction "responsive
+audit" — scripted a `scrollWidth`/`clientWidth` sweep (not visual spot-checks) across every screen ×
+`data-view` × real width (320/375/768/1280px), 17 screen-states × 3 views × 4 widths. Found exactly one
+genuine overflow: on-event, `.topbar` holds 3 items at once (`.tb-logo` + `.reg-cta` "ลงทะเบียน"
+[`flex-shrink:0`, never compresses] + `#qr-cta-slot`'s mounted "สแกน QR" button) — reproduces on every
+screen showing this header combo (Home/Games/Booth via `appHeader()`, Book via its own pre-`appHeader()`
+duplicate header at line ~3988 — see the open item below), but **only at 320–329px**, a genuinely
+narrow window (confirmed clean at 330/340/375px via the same script). Fixed by tightening just the gap
+between the 3 items from `--sp-inline` (12px) to `--sp-glue` (6px) at `max-width:340px` — closes the 6px
+shortfall with margin, verified via the same sweep script (0 overflow found, re-run at all 4 widths)
+before and after, not just a visual re-check. Re-ran the full sweep clean afterward at 320/375/768/1280.
+
+**Methodology note for next time:** the sweep script's first draft leaked `DEMO` state between
+screen-setups (not resetting `eventPhase`/`RESULT`/etc. per iteration), which combined with render()'s
+own on-event redirect gate (§ "On-Event gate" near `function render()`) silently substituted `home`/
+`book` for several screens the script THOUGHT it was testing as `splash`/`consent`/etc. — inflated the
+first pass's finding count with mislabeled duplicates of the same real bug. Second draft resets all
+demo/session state at the top of every screen-setup call; trust that version's results, not the first.
+
+**2026-09-02 — multi-ticket demo preview (new feature, default OFF), revised same day.** Per direction
+"จำลองเคส...ลูกค้าบัตร 1 แบบ / บัตร 2 แบบ...แต่ยังให้ active ที่กรณีลูกค้าบัตร 1 แบบ" — added
+`DEMO.multiTicket` (demo-panel "จำนวนบัตร" toggle, §9.1) previewing a customer holding 2 tickets at
+once (a fixed Explorer + Master Class combo, `MULTI_TICKET_DEMO`), scoped to exactly the 2 screens
+asked for. **First pass** invented a bespoke combined-summary look for both screens (an icon-badge +
+tier-pill-row pass-card with a "7 จาก 9 สิทธิ" line; a different demo persona name/photo on Profile; a
+new `.tkt-hist` card). **Follow-up direction the same day** asked for the opposite instinct — reuse
+existing DNA, don't invent — so it was rebuilt:
+- **Home's pass-card** (`passCardMultiHTML()`) — no combined summary; repeats the single-ticket
+  ประเภทบัตร/สิทธิ/ราคา block (§7.2) once per ticket, reading the same `TIER_META` `curTier()` uses.
+- **Profile** — chips row unchanged from the first pass (one `.prof-tier` pill per ticket); photo/name/
+  org now stay identical to the single-ticket demo ("ออนไลน์ แอสเซ็ท") rather than a different persona;
+  the "ประวัติการซื้อบัตร" section (`ticketHistoryHTML()`) now reuses `sidesHTML()`'s "6 ด้านที่วัดได้
+  จากคุณ" list DNA verbatim instead of a bespoke card (§7.2).
+
+**Deliberately NOT touched:** every other `curTier()` read in the file (booth map personalization,
+prize-draw eligibility, the post-event upgrade CTA, etc.) — the direction only asked for these 2
+screens, and "what tier level should 2 combined tickets resolve to for gating elsewhere" was never
+specified, so it stays out of scope rather than guessed at. Verified (both passes): default
+(`multiTicket:false`) renders byte-identical to before on both screens; toggling on/off round-trips
+cleanly with no console errors, on mobile and tablet.
+
+**Second follow-up, same day** — 3 small fixes: `ticketHistoryHTML()`'s "ทุกบัตรที่คุณถือ" eyebrow lost
+the icon it had gained in the first rebuild (`sidesHTML()`'s own eyebrow never had one either — this
+was drift, not a deliberate difference). `.pass-ey{align-items:center}` → `flex-start` — the tier icon
+(24px) is visibly taller than the eyebrow's own small text, so centering let it overhang above and
+below the label; this also affects the single-ticket card (harmless — same fix applies either way).
+`passCardMultiHTML()`'s first ticket no longer keeps the "บัตรของคุณ" eyebrow — once there's more than
+one ticket, ALL of them read "บัตรใบที่ N" (1, 2, ...); "บัตรของคุณ" is reserved for the true
+single-ticket card alone, not mixed with "บัตรใบที่ 2" on ticket 1.
+
+**2026-09-02 — asset extraction (repo-size fix, no visual change).** `dna-quiz-flow.html` had grown to
+~54MB because every image/video/font was inlined as a base64 `data:` URI directly in JS variables
+(`ICON_*_PNG`, `LOGO_IMG`, `BG_IMG`, `ASSET_IMG`, `REAL_CARD_IMG`, `BG_VIDEO`, the 3 `@font-face` rules)
+— GitHub started warning on push once it crossed the 50MB recommended-max. Pulled all 53 embedded
+assets out to real files under `assets/` (biggest wins: the 22.7MB home hero video and the 13.8MB
+booth-map PNG) and replaced each data URI with a relative path string — since JS just interpolates
+these vars into `src="..."`/`url(...)` either way, **no consuming code needed to change**, only the
+RHS of each `var NAME=`/`key:` assignment. `dna-quiz-flow.html` dropped to ~540KB; `assets/` holds the
+~38MB of actual binary content (base64 itself was inflating the text by ~33% on top of that). Verified
+line-by-line that only the 29 known asset-declaration lines changed (nothing else in the file moved),
+and confirmed live that video/map/card art/icons/fonts all still load with no console errors after the
+swap. Git history before this commit still has the old ~54MB blob in it — this only stops it from
+growing further, it doesn't shrink already-pushed history (that needs a separate, more invasive
+history-rewrite pass if ever wanted).
+
+**2026-09-02 — video compression (same-day follow-up).** `assets/sky.mp4` (the home hero background,
+§7 doesn't cover it since it's markup not a component, but it's the `.hh-video` behind "คู่มือลงทุนของ
+คุณ") was the single biggest asset — probed with ffprobe and found it was a raw **3364×2464 @ ~17Mbps**
+export, way past what `.hh-video{object-fit:cover}` ever needs (the card it fills tops out at 760px
+wide on tablet/pc, less on mobile). Re-encoded with ffmpeg — installed one-time as a scratch npm
+package (`ffmpeg-static`/`ffprobe-static`), not a system install — to 1280px-wide H.264, CRF 28,
+`+faststart`, no audio track (there wasn't one to begin with): **17MB → 1.1MB**, a further ~15×
+reduction on top of the extraction above. Compared a same-timestamp frame from both versions side by
+side before committing to the swap — visually indistinguishable at the video's real display size.
+Verified live: same 8.04s duration, still autoplays/loops/plays muted, no console errors.
+
+**2026-09-02 — map image compression (same-day follow-up).** `assets/MAP_IMG.png` (the booth floorplan,
+`.mp-img` inline preview + `.ml-img` fullscreen lightbox) was next biggest at 10.37MB — a raw
+3657×2772 RGBA export, again far past what either consumer displays at (`.ml-card{max-width:720px}`
+caps even the "zoomed in" lightbox). Converted to **WebP** instead of just downscaling the PNG, since
+it has real alpha transparency (the floorplan's diagonal silhouette sits on `.map-ph`'s own gradient
+background, not a bounding box) that a plain JPEG swap would have lost. Scaled to 2200px wide (~3× the
+720px display cap, generous headroom for the small zone-label text) at WebP quality 90: **10.37MB →
+0.32MB**, ~32× smaller. Compared crops of the same real-world region (the "Alternative Investment
+ZONE"/"Health ZONE" labels) between the original and two quality candidates (90 and 85) before picking
+— text stayed crisp at both, went with 90 for the larger safety margin at negligible extra size (~100KB
+between them). Verified live: preview thumbnail and the fullscreen lightbox zoom both render sharp, no
+console errors, transparency intact.
+
+**2026-09-02 — icon-set outlier cleanup (same-day follow-up).** 4 of the 17 custom PNG icons
+(`ICON_GOLD_PNG`, `ICON_HEALTH_PNG`, `ICON_JOYSTICK_PNG`, `ICON_HOURGLASS_PNG` — 1.5–2.6MB each, ~8.7MB
+combined) turned out to be raw **1920×1920** exports that never got downsized like their 13 siblings,
+which all sit at a consistent 240×240 (~90–130KB each). Every consumer displays these at 24–48px
+(`.bc-asset-ic`/`.ns-ic`/`.ev-empty-ic`) — even 3× retina only ever needs ~144px. Downscaled all 4 to
+the same 240×240 the rest of the set already uses (lanczos filter, kept PNG for consistency with the
+siblings rather than introducing a third format): **~8.7MB → ~0.35MB**, ~25× smaller. Verified each
+visually at 240×240 before swapping (still sharp, illustrated-glass style holds up fine at this size)
+and live in its real context — booth-zone rows (gold bars, health heart), the games next-step card
+(joystick), and the Games "Coming soon" empty state (hourglass) — no console errors.
+
+**2026-09-01** (`894dc5e`) — two unrelated fixes in one commit:
+- Glow border (`.hero-glow-spin`'s conic-gradient) reworked for a longer spectrum + softer graduated
+  tail — stop positions/angles only, motion/mask technique untouched. Detailed in full in
+  [GLOW-BORDER-DNA.md](GLOW-BORDER-DNA.md) §7–§8 (kept in sync there, not duplicated here).
+- `skillCardHTML()`'s "ยังขาด" badge removed per direction — see the `.conf-box` bullet in §7.2.
+
+**2026-08-31** (`32aad80`, "Border & spacing audit") — compliance cleanup, no new tokens or visual
+redesign: 3 stray `border-radius:12px` consumers repointed at `var(--r2)`, `--shadow-lg` aligned to
+the value already duplicated across 4 overlay cards, ~58 off-grid spacing literals rounded onto the
+existing scale. Full detail folded into §4 above. Verified in-browser (no console errors, no
+clipping/overlap) across Book, Home, and demo-panel screens.
+
+**2026-08-26** (token re-tune + content additions, folded into their sections above rather than kept
+here as a separate list): `--fs-sub`/`--fs-body` 20→22px; `--sp-list` 9→8, `--sp-inline` 10→12,
+`--sp-stack`/`--sp-card-pad-sm` 14→16, `--sp-card-pad` 20→22 (see §3/§4). Booth-zone icon-set
+completed (all 10 zones now have bespoke PNG icons, §5). New **green** status tone added (§2.2) —
+still the newest tone, only one hand-mixed token deep, unchanged since. `.next-step` extended with
+tone modifiers `ds-ok`/`ds-need` (§7.2) and `.int-bar-row` interest-bar chart added (§7.3) — both
+still current, no further changes since.
+
+---
+
+## 11. Open items for review
+
+- **Green tone is under-tokenized** relative to cyan/violet/amber — only `--green-text` exists; every
+  wash/border is an inline `color-mix()`. Worth promoting to a real token trio if green usage grows past
+  its current 3 consumers.
+- **`.next-step` now serves two visual jobs** (ink-dark hero card *and* light tone-colored status card) —
+  confirm this dual-purpose is intentional going forward, not a shortcut that should fork into two
+  components once one of them grows more custom needs.
+- **`.conf-box` now serves two jobs too** (Confidence Score card *and* the SKILL card via
+  `skillCardHTML()`, §7.2) — same watch-out as `.next-step` above: fine while both stay simple rows +
+  a foot/chip row, worth a second look if either grows bespoke needs the other shouldn't inherit.
+- **`.pe-report` picked up a third job as of 2026-09-17** (Home's "รายงานพัฒนาการหลังงาน" progress
+  card, the result-screen save-note, *and* the เกมหลัก partial-completion warning, §10) — same
+  watch-out as `.next-step`/`.conf-box` above, plus a real size split already: the base rule stays
+  `--ic-md`/20px for Home's card, while a scoped `.pe-report-lg` modifier bumps it to `--ic-lg`/24px
+  for the result-screen instance (to match that screen's OTHER icon-led sections). Worth confirming
+  this two-size split is intentional-and-final rather than a sign `.pe-report` needs a size prop.
+- **This doc itself will go stale** — the same way `design-dna-bt2026` (memory) and the sibling `.md`
+  files already have, per their own admitted history. Re-grep `:root` and the component classes named
+  here before trusting a specific value in a future review.
+- **Book's header is a hand-duplicated `appHeader()`** (line ~3988, predates `appHeader()` existing as a
+  shared helper — see the 2026-09-02 responsive-audit entry in §10) — unlike `appHeader()`, it renders
+  `#qr-cta-slot` unconditionally instead of omitting it in Pre-Event. Harmless today (an unmounted empty
+  slot is 0-width, `mountHeaderQR()` already no-ops in Pre-Event), but it's still a second copy of the
+  same markup that can silently drift from `appHeader()` again — worth switching Book to call
+  `appHeader()` directly next time this file is touched.
