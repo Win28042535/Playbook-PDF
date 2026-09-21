@@ -919,7 +919,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-cat-hd{display:flex;align-items:center;gap:var(--sp-inline);padding:var(--sp-list) 0;border-bottom:var(--rule-w) solid var(--rule);}
 .pb-cat-hd svg{width:var(--ic-md);height:var(--ic-md);color:var(--ink);flex:0 0 auto;}
 .pb-cat-t{flex:1;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
-.pb-cat-n{font-size:var(--fs-eyebrow);font-weight:var(--w-label);color:var(--violet);background:var(--active-fill);padding:var(--sp-hairline) var(--sp-inline);border-radius:var(--rpill);}
 .pb-art{padding:0 0 var(--sp-stack);border-bottom:1px solid var(--line-soft);}
 .pb-art-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
 .pb-art-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
@@ -1919,9 +1918,9 @@ function renderBook(){
    {k:'gold',   s:'top:33%;left:3%',   w:58, r:4,  z:0,op:.42,bl:2.4,sh:6, shb:14,sha:.12},
    {k:'heart',  s:'top:47%;right:2%',  w:56, r:6,  z:0,op:.40,bl:2.6,sh:6, shb:14,sha:.12},
    {k:'bitcoin',s:'top:7%;right:1%',   w:84, r:6,  z:1,op:.72,bl:.6, sh:11,shb:22,sha:.16},
-   {k:'efin',   s:'bottom:20%;left:1%',w:76, r:-8, z:1,op:.65,bl:.9, sh:10,shb:20,sha:.15},
+   {k:'efin',   s:'top:419px;left:1%',w:76, r:-8, z:1,op:.65,bl:.9, sh:10,shb:20,sha:.15},
    {k:'candle', s:'top:1%;left:0%',    w:112,r:-8, z:3,op:.92,bl:0,  sh:18,shb:34,sha:.26},
-   {k:'card',   s:'bottom:2%;right:0%',w:118,r:10, z:3,op:.94,bl:0,  sh:20,shb:38,sha:.28}
+   {k:'card',   s:'top:446px;right:0%',w:118,r:10, z:3,op:.94,bl:0,  sh:20,shb:38,sha:.28}
   ].map(function(a){return '<img class="pb-el" alt="" src="'+PB_ASSET_IMG[a.k]+'" style="'+a.s+';--w:'+a.w+'px;--r:'+a.r+'deg;--z:'+a.z+';--op:'+a.op+';--bl:'+a.bl+'px;--sh:'+a.sh+'px;--shb:'+a.shb+'px;--sha:'+a.sha+'">';}).join('');
   var compareBlock='<div class="pb-stage">'+pbScatter+'<div class="cr2" style="cursor:default"><div class="cr2-side">'+pcStatic(r.heroKey)+'</div></div></div>';
   root.innerHTML=
@@ -2145,7 +2144,7 @@ function libraryBlocksHTML(h){
   var empty=[];
   LIBRARY_CATS.forEach(function(c,i){
     if(!c.n){empty.push(c.t);return;}
-    out+='<div class="pb-plain pb-cat-hd pb-keep">'+ic(c.icon)+'<span class="pb-cat-t">'+c.t+'</span><span class="pb-cat-n">'+c.n+'</span></div>';
+    out+='<div class="pb-plain pb-cat-hd pb-keep">'+ic(c.icon)+'<span class="pb-cat-t">'+c.t+'</span></div>';
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
   });
   /* 8-category shell kept: categories with no source articles yet share one "กำลังจัดทำ" note */
@@ -2174,7 +2173,7 @@ function pbFrame(pg){
   pg.classList.add('pb-framed');pg.insertAdjacentHTML('afterbegin',svg);
 }
 var PB_ASSET_IMG={candle:'assets/candle.png',gold:'assets/gold.png',bitcoin:'assets/bitcoin.png',card:'assets/card.png',heart:'assets/heart.png',efin:'assets/efin-2.png'};
-/* Sheets 2-11: 2-4 splash elements each (2026-09-21, per direction), INSIDE the frame, at believable depth. Three planes, as on the
+/* Sheets 2..last: 1-3 small splash elements each (2026-09-21, per direction; first 2-4, then trimmed), INSIDE the frame, at believable depth. Three planes, as on the
    splash: FAR = tiny, faint, blurred; MID = small, softer; NEAR = large, sharp, strong shadow. Placement is measured per sheet:
    - two FAR pieces in the strip between the frame line and the content (left + right, at different heights);
    - on even sheets one MID piece in the empty right end of the header row (inside the frame's rounded corner);
@@ -2186,18 +2185,31 @@ function pbDecoHTML(key,plane,size,rot,pos){
   var pl=PB_PLANE[plane];
   return '<img class="pb-el" alt="" src="'+PB_ASSET_IMG[key]+'" style="'+pos+';--w:'+size+'px;--r:'+rot+'deg;--z:0;--op:'+pl.op+';--bl:'+pl.bl+'px;--sh:'+pl.sh+'px;--shb:'+pl.shb+'px;--sha:'+pl.sha+'">';
 }
+/* Sheet 1's scatter is authored inside the card's stage, but .pb-body clips (overflow:hidden) and the near pieces' big drop-shadows
+   spill past the body edge - which showed up as a hard vertical cut in the paper tone beside them. Lift the pieces out to the sheet
+   itself (absolute page coordinates, same visual position) so nothing clips their shadows. */
+function pbLiftStage(pg){
+  var st=pg.querySelector('.pb-stage');if(!st)return;
+  var pr=pg.getBoundingClientRect(),els=[].slice.call(st.querySelectorAll('.pb-el'));
+  els.forEach(function(e){
+    var r=e.getBoundingClientRect();
+    e.style.left=Math.round(r.left-pr.left)+'px';e.style.top=Math.round(r.top-pr.top)+'px';e.style.right='auto';e.style.bottom='auto';
+    pg.appendChild(e);
+  });
+}
 function pbDeco(pg,n){
-  if(n<2||n>11)return;
+  if(n===1)pbLiftStage(pg);
+  if(n<2)return; // sheets 2..last (library + glossary included)
   var pr=pg.getBoundingClientRect(),body=pg.querySelector('.pb-body'),last=body.lastElementChild,ft=pg.querySelector('.pb-ft').getBoundingClientRect();
   var lastBottom=last?last.getBoundingClientRect().bottom-pr.top:body.getBoundingClientRect().top-pr.top,free=(ft.top-pr.top)-lastBottom;
   var K=function(i){return PB_KEYS[(n+i)%PB_KEYS.length];},out='';
-  // FAR: in the strip between the frame line and the content (33..57px from each edge)
-  out+=pbDecoHTML(K(0),'far',24,(n*7)%20-10,'left:33px;top:'+(24+(n*13)%46)+'%');
-  out+=pbDecoHTML(K(2),'far',22,(n*11)%24-12,'right:33px;top:'+(30+(n*17)%44)+'%');
-  // MID: even sheets, empty right end of the header row
-  if(n%2===0)out+=pbDecoHTML(K(4),'mid',40,8,'right:112px;top:56px');
-  // NEAR: under the content, if there is real room
-  if(free>=170){var sz=Math.min(124,Math.floor(free-52));out+=pbDecoHTML(K(1),'near',sz,(n%2?10:-8),'right:'+(72+(n*9)%40)+'px;top:'+Math.round(lastBottom+(free-sz)/2-8)+'px');}
+  // Toned down (2026-09-21, per direction: fewer + smaller): 1-3 pieces per sheet.
+  // FAR (18px): one per sheet, alternating side, in the strip between the frame line and the content
+  out+=pbDecoHTML(K(0),'far',18,(n*7)%20-10,(n%2?'left':'right')+':35px;top:'+(24+(n*13)%46)+'%');
+  // MID (28px): every 4th sheet, empty right end of the header row
+  if(n%4===0)out+=pbDecoHTML(K(4),'mid',28,8,'right:116px;top:62px');
+  // NEAR (max 76px): only where there is generous empty space under the content (>=220px)
+  if(free>=220){var sz=Math.min(76,Math.floor(free-70));out+=pbDecoHTML(K(1),'near',sz,(n%2?10:-8),'right:'+(80+(n*9)%40)+'px;top:'+Math.round(lastBottom+(free-sz)/2-8)+'px');}
   pg.insertAdjacentHTML('beforeend',out);
 }
 /* pbSetZoom — the fit-shrink used when a block is a touch too tall for a sheet. It also publishes the factor as --pbz so bar
@@ -2283,7 +2295,10 @@ function pbBuild(label,cover){
         move.forEach(function(m){put(m,m===node?shell:null);});
       }
       if(over(body)&&body.children.length===1&&(!shell||cur.inner.children.length===1)){
-        var t=shell?cur.root:node,k=Math.max(.6,body.clientHeight/body.scrollHeight);pbSetZoom(t,+k.toFixed(3));t.dataset.pbFit=k.toFixed(2);
+        var t=shell?cur.root:node,k=Math.max(.6,body.clientHeight/body.scrollHeight),tries=0;
+        /* the bar-thickness compensation (--pbz) makes a shrunk block a little taller than the ratio predicts - step down until it fits */
+        do{pbSetZoom(t,+k.toFixed(3));k-=.01;tries++;}while(over(body)&&k>=.6&&tries<20);
+        t.dataset.pbFit=(k+.01).toFixed(2);
       }
     }
     [].slice.call(panel.children).forEach(function(blk){
@@ -2857,5 +2872,14 @@ function buildGoTop(){
 seedPersonaResult('sage');
 RESULT.revealed=RESULT.declared;RESULT.gap=0; // the PDF sample reads "สอดคล้อง (Aligned)": what they said = what they did
 applyView();buildGoTop();
-render();
+/* Lay the sheets out only AFTER the webfonts are in (2026-09-21 bug fix): pbBuild() paginates by measuring text height, and with the
+   fallback font showing (font-display:swap) every measurement was wrong - the book came out as 43 loosely-packed sheets instead of the
+   ~36 the real font produces. document.fonts.load() forces the three faces to download even though nothing has used them yet; a 2.5s
+   timeout keeps the page from ever hanging on a blocked font. */
+(function(){
+  var done=false;function go(){if(done)return;done=true;render();}
+  setTimeout(go,2500);
+  if(!document.fonts||!document.fonts.load){go();return;}
+  Promise.all([document.fonts.load('500 16px "FC Minimal"'),document.fonts.load('700 16px "FC Minimal"'),document.fonts.load('500 16px "Baskervville"'),document.fonts.load('700 16px "Baskervville"')]).then(function(){return document.fonts.ready;}).then(go,go);
+})();
 </script>
