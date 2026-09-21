@@ -235,3 +235,14 @@ weight the action actually carries, not by which screen it's on:
 
 All three share the same rim spectrum palette and pill background so every Liquid Metal button in
 the app reads as one family, just at three sizes.
+
+---
+
+## 11. Library + glossary ported (2026-09-21)
+
+- `js/library-data.js` holds `window.LIB_ITEMS` (71 articles) and `window.GLOSSARY` (33 terms), copied verbatim from the BT2026 Dry-run source (`knowledge.js` / `glossary.js`, bt2026-dryrun.vercel.app/dryrun-pwa/). This supersedes the older 41-item / 8-category counts in section 7.
+- The source has only 6 categories; the app keeps its 8 (`LIBRARY_CATS`), so ภาษีและกฎเกณฑ์ and เครื่องมือและการติดตาม render a "กำลังจัดทำ" stub. Source category ความเสี่ยงและจิตวิทยาการลงทุน maps to the app's ความเสี่ยงและการอ่านตัวเอง.
+- Glossary drops Intent Score and Tier (this app has neither; the PDF also strikes those tiles).
+- **Compliance:** the source marks this content as NOT yet certified by licensed reviewers (IC/IP) — must be certified before real use.
+- Confidence Score now uses the Dry-run's 4-part split (ความรู้ 35 / รู้จักตัวเอง 25 / ลงมือ 25 / ความกว้าง 15) via `confidenceScore()`; per-part rules are this app's own estimate from real signals (the source computes it server-side).
+- Book page is a single long page (all chapters stacked, sticky jump-nav) instead of tabs, laid out as fixed A4 sheets (ratio 2480:3508, authored 794x1123 CSS px, scaled to the column) by `pbBuild()`; library (71 articles) + glossary are static pages in the same book; `@media print` renders the sheets 1:1 on @page A4 (the "พิมพ์ / บันทึกเป็น PDF (A4)" button calls window.print()).
