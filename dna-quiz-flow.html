@@ -10,6 +10,7 @@
 <!-- FIXED LAYOUT (2026-09-21, per direction "ไม่ต้องมีกรณี responsive"): the page is laid out at exactly the A4 sheet width
      (794px) on every device; a phone's browser scales the whole page to fit — there are no breakpoints or resize logic. -->
 <meta name="viewport" content="width=794">
+<link rel="icon" href="assets/bt.png">
 <style>
 @font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-100-500.ttf) format('truetype');font-weight:100 500;font-style:normal;font-display:swap;}
 @font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-600-900.ttf) format('truetype');font-weight:600 900;font-style:normal;font-display:swap;}
@@ -87,7 +88,6 @@
   --pb-pad-top:68px; --pb-pad-bottom:64px;
   --pb-gap:20px;          /* gap between blocks on a sheet — its own value, NOT --sp-section (which grows on tablet/pc; a sheet must lay out identically everywhere) */
   --pb-folio-inset:18px;  /* extra inset of the header/footer text so it clears the frame's rounded corners */
-  --pb-nav-h:80px;        /* height of the sticky jump-nav (scroll offset) */
   --fs-folio:12px;        /* header / footer text on a sheet */
   /* ── rules & ornaments (read off the reference art) ── */
   --rule:#c4c5c7;         /* 2px section divider */
@@ -266,7 +266,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
   .btn:hover{transform:translateY(-1px);}
   .btn-primary:hover{filter:brightness(1.08);}
   .btn:hover svg{transform:scale(1.1);}
-  .bt-tabs--secondary .bt-tab:hover{border-color:var(--line-strong);color:var(--ink);}
 }
 .btn:active{transform:scale(.97);}
 /* Position range is deliberately kept to exactly 0%->100% (not a wider "160% to -60%" travel,
@@ -351,13 +350,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* Single long page (2026-09-21, per direction "เรียงเป็นหน้ายาวหน้าเดียว") — every panel is always
    displayed and stacks in main.scroll (which already gaps sections); the old .show toggle is gone and
    the .toc pills are now jump-links (bindBook2Nav) that scroll to their panel. */
-.b2-panel{display:flex;flex-direction:column;gap:var(--sp-section);scroll-margin-top:calc(var(--pb-nav-h) + var(--sp-inline));}
-/* the jump-nav stays pinned under the 54px topbar while the long page scrolls */
-.toc{overflow-x:auto;scrollbar-width:none;}
-.toc.bt-tabs .bt-tab{flex:0 0 auto!important;}
-.toc.bt-tabs .bt-tab .bt-tab-label{white-space:nowrap!important;}
-.toc{position:sticky;top:0;z-index:70;background:var(--popover);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-bottom:var(--sp-list);}
-.toc{display:flex;gap:var(--sp-glue);padding:var(--sp-inline) var(--sp-stack) 4px;flex-shrink:0;}
+.b2-panel{display:flex;flex-direction:column;gap:var(--sp-section)}
 
 /* HERO CARD — FULL GLOW FRAME + MOVING LIGHT TEXTURE (rebuilt 2026-09-03 per DESIGN-DNA.md, which
    supersedes the earlier Origin-Kit comet border and GLOW-BORDER-DNA.md). Direction's core principle:
@@ -435,7 +428,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    else on this card (icons, chip fills, str-box borders). bg/color are set inline per-render (and
    updated live on tab switch, see renderBook/heroPanelBody call sites) since they depend on
    whichever persona is currently showing, not a fixed value. */
-.fam-badge{display:flex;width:fit-content;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-bodysm);font-weight:var(--w-label);letter-spacing:0;margin:0 auto var(--sp-card-pad-sm);padding:var(--sp-glue) var(--sp-stack);border-radius:var(--rpill);}
+.fam-badge{display:flex;width:fit-content;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-h2);font-weight:var(--w-label);letter-spacing:0;margin:0 auto var(--sp-inline);padding:var(--sp-list) var(--sp-block);border-radius:var(--rpill);} /* 1st in the reading order: the persona's name pill, the largest text of the trio */
 /* h.famIcon (2026-08-15, per Icon System audit review "ปรับให้เข้ากับ token ที่มี") — every persona
    already carries this (copied from FAM[fam].icon: lc-shield/lc-compass/lc-sparkles) but nothing
    rendered it, so the badge showed text only. Now shown at --ic-sm, tinted via currentColor so it
@@ -544,8 +537,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    redeem-note's "บัตร Explorer..." line right above it, WITHOUT touching the plain .hero-note used
    elsewhere (e.g. the hero-sec's own "ตัวตนนี้สรุปจากคำตอบ..." note) — was --sp-inline (12px)/--ic-sm
    (16px), now matches --sp-card-pad-sm (16px)/--ic-lg (24px) exactly like .redeem-note. */
-.hero-note.skill-note{padding:var(--sp-card-pad-sm);}
-.hero-note.skill-note svg{width:var(--ic-lg);height:var(--ic-lg);}
+.hero-note.skill-note{padding:var(--sp-inline);} /* 3rd: the quietest block */
+.hero-note.skill-note svg{width:var(--ic-md);height:var(--ic-md);}
 /* .hero-ev-tabs (the pre/post-event in-card picker inside Book v1's hero card) removed 2026-08-30
    along with คู่มือ 1 itself — see the removal note near BOOK2_TAB. */
 .ev-empty{text-align:center;padding:24px var(--sp-inline);border:1px dashed var(--line-strong);border-radius:var(--r1);}
@@ -841,7 +834,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .list-row{display:grid;align-items:center;gap:var(--sp-inline);cursor:pointer;}
 /* ══ LIBRARY (คลังความรู้ sub-screen) ══ real category names/counts, accordion-per-category */
 .lib-num{font-family:var(--serif);}
-.lib-stub{display:flex;gap:var(--sp-list);align-items:flex-start;padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);background:var(--paper);font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;}
+.lib-stub{display:flex;gap:var(--sp-list);align-items:flex-start;padding:var(--sp-list) 0;border-radius:var(--r1);background:var(--paper);font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;}
 .lib-stub svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:1px;}
 /* ══ A4 EBOOK PAGES (2026-09-21, per direction "อ้างอิงตามสัดส่วน 2480*3508 ... ebook หรือ pdf file") ══
    The Playbook (ผลลัพธ์ + คลังความรู้ + ศัพท์) is laid out as fixed A4 sheets, ratio 2480:3508 (= A4 @300dpi).
@@ -850,10 +843,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    width. pbBuild() (JS) packs the section blocks onto sheets; @media print renders the same sheets 1:1
    on @page A4 so print / "Save as PDF" matches the screen page-for-page. */
 .pb-doc{display:flex;flex-direction:column;align-items:center;gap:var(--sp-inline);}
-.pb-fit{width:794px;height:calc(794px*3508/2480);flex:0 0 auto;position:relative;scroll-margin-top:calc(var(--pb-nav-h) + var(--sp-inline));}
+.pb-fit{width:794px;height:calc(794px*3508/2480);flex:0 0 auto;position:relative}
 .pb-page{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);box-sizing:border-box;background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow-page);display:flex;flex-direction:column;padding:var(--pb-pad-top) var(--pb-pad-x) var(--pb-pad-bottom);overflow:hidden;}
 .pb-cover{padding:0;border:0;background-color:var(--cover-paper);background-size:100% 100%;background-repeat:no-repeat;}
 .pb-frame{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
+.pb-page .viz-bar{transition:none;}
 .pb-frame-line{fill:none;stroke:var(--frame-line);stroke-width:1.1;}
 .pb-frame-star{fill:var(--frame-star);}
 .pb-frame-halo{fill:var(--paper);} /* punches the gap in the line behind each star */
@@ -865,6 +859,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-page.pb-framed .hero-glow-base,.pb-page.pb-framed .hero-glow-energy{display:none;}
 .pb-page.pb-framed .hero-in{background:transparent;padding:0;border-radius:0;}
 #b2ident-head:empty{display:none;}
+/* the card's stage: the card centred, brand assets scattered in the gutters/corners around it */
+.pb-stage{position:relative;display:flex;justify-content:center;padding:var(--sp-block) 0;}
+.pb-stage .cr2{position:relative;z-index:2;flex:0 0 auto;}
+.pb-el{position:absolute;width:var(--w);opacity:var(--op);z-index:var(--z);transform:rotate(var(--r));filter:drop-shadow(0 var(--sh) var(--shb) rgba(17,19,24,var(--sha))) blur(var(--bl));pointer-events:none;}
 .pb-page #b2ident-head{margin-top:var(--sp-stack);} /* breathing room under the single card (its caption is gone) */
 /* the card JPGs carry their own rounded corner (~5% of the width, black outside it): clip the frame to that same
    curve (a touch larger) so the black corner pixels never show */
@@ -942,8 +940,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
   .shell,#root{display:block!important;max-width:none!important;width:auto!important;height:auto!important;min-height:0!important;overflow:visible!important;background:#fff!important;}
-  .toc,
-.book-tabbar,
+  .book-tabbar,
 .reg-cta,
 .go-top{display:none!important;}
   main.scroll{display:block!important;padding:0!important;max-width:none!important;width:auto!important;}
@@ -1001,100 +998,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    .side-t just above (2026-08-29, per direction). */
 .rs-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);margin-bottom:2px;}
 .rs-d{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
-/* ══ BT-TABS ══ generic accessible tab component (bt- prefix, per direction, to avoid clashing
-   with this file's own many single-purpose classes) — role=tablist/tab, full keyboard nav, whole-
-   group + per-tab disable, optional icon, CSS-only tooltip, light/dark, responsive. Two variants:
-   --primary (underline, for a page-level section switcher) and --secondary (pill/compact, matching
-   what .ag-seg/.dd-tab already looked like before this pass — used for both real in-card tab groups
-   in this app: the agenda day-selector below, and ddTabs()'s asset drilldown). Behavior lives in
-   initBtTabs() near the bottom of the script; markup/ARIA state is plain HTML attributes, not a
-   framework, so it works with this file's own render()-replaces-innerHTML pattern. */
-.bt-tabs{display:flex;gap:var(--sp-list);}
-.bt-tabs[aria-disabled="true"]{opacity:.5;pointer-events:none;}
-.bt-tab{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-glue);font-family:var(--font);cursor:pointer;background:none;border:none;color:var(--muted);white-space:nowrap;-webkit-tap-highlight-color:transparent;}
-.bt-tab:disabled,.bt-tab[aria-disabled="true"]{opacity:.45;cursor:not-allowed;}
-.bt-tab-icon{display:inline-flex;flex:0 0 auto;}
-.bt-tab-icon svg{width:var(--ic-md);height:var(--ic-md);}
-.bt-tab:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:var(--r0);}
-/* --secondary: compact/pill active state. flex-wrap:nowrap (was wrap) keeps every item on ONE row
-   — wrap let items size to their own content, which visually read as "uneven, and the one that
-   didn't fit fell to a second row" (TOC's original 4 buttons). The original fix forced flex:1 (equal
-   width regardless of label length) with ellipsis as a safety net for whatever got squeezed — but
-   Book v2's own content-nav (ตัวตน/วิเคราะห์/พอร์ต/เส้นทาง, a real --secondary consumer added later)
-   showed this wasn't just a rare-squeeze fallback: "วิเคราะห์"/"เส้นทาง" clip to "วิเคร..."/"เส้นท..."
-   on an ordinary 375px phone every time, since forcing 4 labels of different lengths into identical
-   widths guarantees the longer ones overflow (2026-08-19 typography review, confirmed via
-   scrollWidth>clientWidth on both). Fixed with 3 changes: (1) flex:0 1 auto — each pill sized to its
-   OWN label instead of a forced equal share, only shrinking if the row's total content truly exceeds
-   the container; (2) padding tightened 10px->6px horizontal, freeing enough width that NEITHER label
-   set (this one, or v1's TOC — "Confidence" is the widest single word across both and was checked
-   too) needs to shrink at all from ~375px up; (3) below 420px (this component's own icon+padding
-   overhead no longer fits either set even un-shrunk) it switches to horizontal scroll instead of
-   clipping, same overflow-x:auto pattern --primary already uses right above for the identical
-   problem — confirmed zero clipping 375-420px, and a real usable scroll (not a clip) below that,
-   down to 320px, for both label sets. Ellipsis rule kept below as a last-resort safety net for any
-   future label wider than this can size for even while scrolling. */
-.bt-tabs--secondary{flex-wrap:nowrap;justify-content:space-between;}
-/* min-height 40->44px (2026-09-17, responsive audit). */
-.bt-tabs--secondary .bt-tab{flex:0 1 auto;min-width:0;padding:var(--sp-list) var(--sp-glue);min-height:44px;font-size:var(--fs-bodysm);font-weight:var(--w-head);border:1px solid var(--line-soft);border-radius:var(--rpill);background:var(--white);transition:color .15s,border-color .15s,background .15s;}
-/* Softened from solid --ink/--cloud (2026-08-19, per direction) — sitting right under the header's
-   own black "ลงทะเบียน" CTA, a solid-black selected pill read as a second primary button stacked
-   underneath it. Switched to the app's existing violet "active" wash (--active-fill/--violet/
-   --active-border — same tokens already used for other in-progress/active states, e.g. .rt-badge.new,
-   .ds-chip) so the selected tab reads as navigation, not another CTA. */
-.bt-tabs--secondary .bt-tab[aria-selected="true"]{background:var(--active-fill);color:var(--violet);border-color:var(--active-border);}
-/* Wrap instead of ellipsis-truncate (2026-08-24, bug fix) — on data-view="mobile" the 4 pills
-   share the row equally (flex:1 1 0 above) and never scroll by design, but the longest label
-   ("วิเคราะห์") still doesn't fit one line at real phone widths (375px and down), so the old
-   overflow:hidden+ellipsis clipped it to "วิเครา…" — and at 320px all 4 labels clipped to
-   unreadable single-character fragments. Letting the label wrap to 2 lines keeps every label
-   fully legible without reintroducing horizontal scroll: .bt-tabs (the row) has no explicit
-   align-items, so it defaults to stretch — when one pill grows taller for a 2-line label, its
-   3 siblings stretch to match, so the row stays a uniform-height segmented control. */
-.bt-tabs--secondary .bt-tab-label{white-space:normal;overflow-wrap:break-word;text-align:center;line-height:1.15;}
-/* Same narrow-frame fix as the @media rule above, keyed off data-view instead of raw viewport
-   width (2026-08-19, per direction) — the app's own .shell caps at ~400px on data-view="mobile",
-   but a real browser viewport can stay well over 420px while showing that narrow frame (desktop
-   testing, the demo panel's forced "มือถือ" mode), so the @media query alone never fired there:
-   justify-content:space-between kept spacing pill items apart while flex:0 1 auto let them
-   shrink-squeeze their own 9px 6px padding to fit — exactly the "gap between items wide, padding
-   inside each item squeezed" complaint. flex-start + no-shrink here fixes it regardless of which
-   breakpoint actually triggered "mobile". */
-/* Follow-up (2026-08-19, per direction) — the flex-start/no-shrink fix above stopped the padding
-   squeeze, but left the 4 items packed to the left with dead space at the row's end on a mobile-
-   width card. Equal flex-grow (flex-basis 0) instead makes all 4 stretch to fill the card's full
-   width evenly, like a real segmented control, while each item's own padding stays untouched since
-   nothing is shrinking anymore — only growing. overflow-x/scrollbar no longer needed once items
-   fill exactly 100% of the row (nothing left to scroll). */
-:root[data-view="pdf"] .bt-tabs--secondary{justify-content:flex-start;}
-:root[data-view="pdf"] .bt-tabs--secondary .bt-tab{flex:1 1 0;}
-/* Responsive audit follow-up (2026-08-27) — even with the 2026-08-24 wrap fix above, Book v2's own
-   4-pill set (ตัวตน/วิเคราะห์/พอร์ต/เส้นทาง) still wrapped ONE label ("เส้นทาง") to 2 lines on an
-   ordinary 375px phone while its 3 siblings stayed single-line (confirmed via real screenshot + a
-   getBoundingClientRect measurement: labelH 41.4px vs the other three's 20.7px) — every pill stretches
-   to match the tallest per the wrap-fix's own align-items:stretch, so heights stayed uniform, but the
-   one pill's label sitting alone on 2 lines while its neighbors had dead vertical space around a
-   single line still read as an unfinished/inconsistent segmented control, not a deliberate design.
-   Root cause: at the 79.8px share each pill gets on a 375px row, the icon+gap+padding ate enough width
-   that "เส้นทาง"'s ~40px label had ~2px less room than it needed — but only THAT label, since Thai's
-   dictionary-based line-breaking found a valid word-boundary inside it (เส้น+ทาง, a real compound)
-   while e.g. "วิเคราะห์" has no such boundary and so never wrapped even though it measures wider.
-   Shrinking just this tab bar's icon from --ic-md (20px) to --ic-sm (16px) at mobile width frees the
-   ~4px needed — confirmed via live measurement, all 4 labels render single-line 375px down to 390px+,
-   and even at the 320px floor only the one genuinely-longest label ("เส้นทาง") still wraps (down from
-   two labels wrapping there pre-fix) — a strict improvement, never a regression, at every width. Scoped
-   to .bt-tabs--secondary so it doesn't touch the shared .bt-tab-icon svg rule's other consumers
-   (v1 TOC, primary tabs, dd-tablist) which keep the full --ic-md icon. */
-:root[data-view="pdf"] .bt-tabs--secondary .bt-tab-icon svg{width:var(--ic-sm);height:var(--ic-sm);}
-/* data-tooltip — CSS-only, no JS beyond what initBtTabs already wires for focus */
-.bt-tab[data-tooltip]::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%) translateY(4px);background:var(--ink);color:var(--cloud);font-size:var(--fs-label);font-weight:var(--w-body);padding:var(--sp-stack-tight) 9px;border-radius:var(--r0);white-space:nowrap;opacity:0;visibility:hidden;transition:opacity .15s,transform .15s;pointer-events:none;z-index:20;}
-.bt-tab[data-tooltip]:hover::after,.bt-tab[data-tooltip]:focus-visible::after{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
-.ag-more{width:100%;margin-top:var(--sp-inline);display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-glue);border:1px solid var(--line-soft);background:var(--white);color:var(--ink);font-family:var(--font);font-weight:var(--w-head);font-size:var(--fs-bodysm);min-height:44px;border-radius:var(--r1);cursor:pointer;transition:transform .15s var(--ease),background .15s var(--ease);}
-.ag-more svg{width:var(--ic-sm);height:var(--ic-sm);}
-/* "เพิ่ม interaction" (2026-08-28, per direction) — same press-scale + desktop-hover-tint idiom as
-   .mp-zoom above; this button had cursor:pointer already but no actual press/hover feedback. */
-.ag-more:active{transform:scale(.98);}
-@media(hover:hover) and (pointer:fine){.ag-more:hover{background:var(--cloud);}}
 @media(hover:hover) and (pointer:fine){.bp-btn:not(.done):not(.chk):hover{background:var(--cloud);}}
 /* ══ SPLASH / ATTRACT ══ two-tone headline · drifting brand assets · card carousel */
 /* overflow-x only (never -y): the CTA must NEVER be unreachable. overflow:hidden on both axes
@@ -1219,7 +1122,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* .pcv-wrap/.pcv-hint/.pcv-ctas/.pcv-btn (the old drag-to-rotate viewer's hint pill + flip button)
    and .hero-cardwrap (its wrapping frame) removed 2026-08-30 along with คู่มือ 1 — see the removal
    note near BOOK2_TAB. */
-.hero-sig-c{font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--muted);line-height:1.5;text-align:center;max-width:32ch;margin:0 auto 20px;}
+.hero-sig-c{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;text-align:center;text-wrap:balance;max-width:40ch;margin:0 auto var(--sp-block);} /* 2nd: the value line, one step down from the pill */
 @media(prefers-reduced-motion:reduce){.pc-tilt{transition:none!important;}}
 
 /* ══ RESPONSIVE ══ data-view on <html>: mobile | tablet | pc (set by JS from window, or forced by demo panel) */
@@ -1869,56 +1772,6 @@ function skillNoteHTML(){
    implementation-internal, never user-visible, and renaming them file-wide would be a large,
    purely-cosmetic diff with no functional upside. */
 var BOOK2_TAB='identity';
-/* POSTER_VER (the .home-hero preview-toggle var, v1 light-wash / v2 night-sky photo / v3 sky video)
-   removed entirely (2026-08-29, per direction "ไม่ต้องมี preview...V1, V2 ลบออก เหลือแค่ V3") — the
-   poster had already been locked to always-V3 since 2026-08-24 (no code path could reach v1/v2
-   anymore), so this drops the now-pointless variable along with the demo-panel switcher and v1/v2's
-   own dead CSS; renderHome's home-hero markup below just hardcodes the v3/video markup directly. */
-var BOOK2_TABS=[
-  {k:'identity',icon:'lc-user',label:'ตัวตน'},
-  {k:'analysis',icon:'lc-sparkles',label:'วิเคราะห์'},
-  {k:'portfolio',icon:'lc-pie-chart',label:'พอร์ต'},
-  {k:'journey',icon:'lc-route',label:'เส้นทาง'},
-  {k:'library',icon:'lc-library',label:'คลังความรู้'}
-];
-/* Content-nav position note (2026-08-16 decision, still applies): moved to the TOP, right under the
-   (since-removed) คู่มือ/คู่มือ 2 version pill, reusing v1's OWN .toc position + exact style (.bt-tabs
-   .bt-tabs--secondary pill tabs) instead of a bottom bar — matches Book v1's own top jump-nav slot
-   precisely. The panel-SWITCH behavior (not v1's anchor-scroll) stays custom — see bindBook2Nav. */
-/* Pre-Event (2026-08-28, per direction "หน้าคู่มือ...Pre-Event: Tab ตัวตน, วิเคราะห์") — พอร์ต/เส้นทาง
-   both narrate real in-event measurement (booth-scored asset radar, the hero route's check-in
-   progress) that's meaningless before doors open, so only the identity card + AI-insight analysis
-   stay reachable. renderBook mirrors this same filter when deciding which .b2-panel divs to render
-   at all — see the `pre` guard there. */
-/* Unregistered case (2026-09-04, per direction — see renderBook's `unreg` branch) — locked to just
-   ตัวตน regardless of eventPhase; checked first so it wins over the pre-event identity+analysis
-   filter below. */
-function book2Tabs(){if(!DEMO.registered)return BOOK2_TABS.filter(function(t){return t.k==='identity';});return DEMO.eventPhase==='pre'?BOOK2_TABS.filter(function(t){return t.k==='identity'||t.k==='analysis';}):BOOK2_TABS;}
-function book2Subnav(active){
-  return '<nav class="toc bt-tabs bt-tabs--secondary" role="tablist" aria-label="หมวด Playbook">'+book2Tabs().map(function(t){
-    return '<button class="bt-tab" type="button" role="tab" aria-selected="'+(t.k===active?'true':'false')+'" data-b2="'+t.k+'"><span class="bt-tab-icon">'+ic(t.icon)+'</span><span class="bt-tab-label">'+t.label+'</span></button>';
-  }).join('')+'</nav>';
-}
-function bindBook2Nav(){
-  var pills=root.querySelectorAll('.toc .bt-tab');
-  function mark(k){BOOK2_TAB=k;pills.forEach(function(x){x.setAttribute('aria-selected',x.dataset.b2===k?'true':'false');});}
-  /* the first A4 sheet of a chapter (pbBuild starts every chapter on a fresh sheet, tagged data-sect) */
-  function jump(k,smooth){var pg=root.querySelector('.pb-page[data-sect="'+k+'"]');if(!pg)return;
-    var fit=pg.parentElement;
-    fit.scrollIntoView({behavior:smooth&&!RM?'smooth':'auto',block:'start'});}
-  pills.forEach(function(b){b.onclick=function(){mark(b.dataset.b2);jump(b.dataset.b2,true);};});
-  /* scroll-spy — highlight the pill of the sheet nearest the top of the viewport */
-  if(pills.length>1){
-    if(window.__b2spy)window.removeEventListener('scroll',window.__b2spy);
-    window.__b2spy=function(){
-      if(st.phase!=='book')return;
-      var top=80+24,cur=null;
-      root.querySelectorAll('.pb-page').forEach(function(p){if(p.getBoundingClientRect().top<=top)cur=p.dataset.sect;});
-      if(cur&&cur!==BOOK2_TAB&&root.querySelector('.toc .bt-tab[data-b2="'+cur+'"]'))mark(cur);};
-    window.addEventListener('scroll',window.__b2spy,{passive:true});}
-  /* arriving with a non-identity BOOK2_TAB (e.g. the ticket flow lands on วิเคราะห์) → jump straight there */
-  if(BOOK2_TAB!=='identity')jump(BOOK2_TAB,false);
-}
 /* AI Insight card (risk gap + confidence) — shared markup so v1 and v2 can't drift apart. */
 function insightHTML(r,h,matchOk){
   var cf=confidenceScore(r);
@@ -2058,7 +1911,19 @@ function renderBook(){
      cursor reset to default instead of the slider's ew-resize. */
   /* The Playbook shows exactly ONE card (2026-09-21, per direction "สรุปใน playbook จะแสดงการ์ดได้แค่ 1 ใบเท่านั้น"):
      the reader's own result card. The before/after compare slider (and its caption / lock state) is gone. */
-  var compareBlock='<div class="cr2" style="cursor:default"><div class="cr2-side">'+pcStatic(r.heroKey)+'</div></div>';
+  /* Brand-asset scatter around the card (2026-09-21, per direction: reuse the splash's asset elements): the SAME six
+     elements and the SAME three depth planes the old splash used — FAR (small · blurred · faint), MID, NEAR (large ·
+     sharp · strong shadow) — but at a fixed rest position (no drift animation: this is a page). Placed in the side gutters
+     and corners so they frame the card without covering its title or its tags. Sizes/opacity/blur/shadow are the splash's. */
+  var pbScatter=[
+   {k:'gold',   s:'top:33%;left:3%',   w:58, r:4,  z:0,op:.42,bl:2.4,sh:6, shb:14,sha:.12},
+   {k:'heart',  s:'top:47%;right:2%',  w:56, r:6,  z:0,op:.40,bl:2.6,sh:6, shb:14,sha:.12},
+   {k:'bitcoin',s:'top:7%;right:1%',   w:84, r:6,  z:1,op:.72,bl:.6, sh:11,shb:22,sha:.16},
+   {k:'efin',   s:'bottom:20%;left:1%',w:76, r:-8, z:1,op:.65,bl:.9, sh:10,shb:20,sha:.15},
+   {k:'candle', s:'top:1%;left:0%',    w:112,r:-8, z:3,op:.92,bl:0,  sh:18,shb:34,sha:.26},
+   {k:'card',   s:'bottom:2%;right:0%',w:118,r:10, z:3,op:.94,bl:0,  sh:20,shb:38,sha:.28}
+  ].map(function(a){return '<img class="pb-el" alt="" src="'+PB_ASSET_IMG[a.k]+'" style="'+a.s+';--w:'+a.w+'px;--r:'+a.r+'deg;--z:'+a.z+';--op:'+a.op+';--bl:'+a.bl+'px;--sh:'+a.sh+'px;--shb:'+a.shb+'px;--sha:'+a.sha+'">';}).join('');
+  var compareBlock='<div class="pb-stage">'+pbScatter+'<div class="cr2" style="cursor:default"><div class="cr2-side">'+pcStatic(r.heroKey)+'</div></div></div>';
   root.innerHTML=
   /* unreg drops REG_CTA_HTML too (2026-09-04, per direction "เอาปุ่มลงทะเบียนมุมขวาบนออก เพราะย้ายมา
      ไว้ด้านล่างแล้ว") — unregisteredCtaHTML()'s own CTA at the bottom is now the only register button
@@ -2070,7 +1935,6 @@ function renderBook(){
   /* unreg also drops the ตัวตน subnav pill entirely (2026-09-04, per direction "เอา tab ตัวตน
      ออก...ไม่มีข้อมูล tab อื่นให้เลือกอยู่แล้ว") — book2Tabs() already resolves to a single-item list
      for this case, but a 1-choice tab bar has nothing left to switch between, so skip rendering it. */
-  (unreg?'':book2Subnav(tab))+
   '<main class="scroll fade" style="padding-bottom:var(--sp-stack)">'+
     '<div class="pb-src">'+
     '<div class="b2-panel" data-panel="identity">'+
@@ -2132,7 +1996,7 @@ function renderBook(){
   /* Playbook = the downloadable PDF's on-screen twin (2026-09-21, per direction): no app header (logo /
      register / QR) and no bottom tab bar (หน้าหลัก / เดินบูธ / เกมหลัก / โปรไฟล์) — none of it belongs in the PDF. */
   pbBuild(h.th,true);
-  bindBook2Nav();sizeHeroGlow();
+  sizeHeroGlow();
   /* #shareCardBtn bound here (not down with klibRow/confPlayBtn2 etc. below) because unreg's own
      copy of this button (unregisteredCtaHTML(), 2026-09-07) needs wiring too, and everything past
      the `if(unreg)return;` a few lines down is skipped entirely for that case — the registered-case
@@ -2271,7 +2135,7 @@ function libEsc(t){return String(t==null?'':t).replace(/[&<>]/g,function(m){retu
 function pbArtHTML(a){
   return '<article class="pb-art"><div class="pb-art-t">'+libEsc(a.t)+'</div><div class="pb-art-s">'+libEsc(a.s)+'</div>'+
     '<p class="pb-art-p">'+libEsc(a.b)+'</p>'+
-    (a.x?'<div class="pb-note pb-note-ex">'+ic('lc-info')+'<span>'+libEsc(a.x)+'</span></div>':'')+
+    (a.x?'<div class="pb-note pb-note-ex">'+ic('lc-check-circle')+'<span>'+libEsc(a.x)+'</span></div>':'')+
     (a.p?'<div class="pb-note pb-note-pit">'+ic('lc-alert-triangle')+'<span><b>คนมักเข้าใจผิด:</b> '+libEsc(a.p)+'</span></div>':'')+
     '</article>';
 }
@@ -2308,6 +2172,33 @@ function pbFrame(pg){
   var d2='M'+(x0+r)+','+y0+'H'+(x1-r)+'A'+r+','+r+' 0 0 1 '+x1+','+(y0+r)+'V'+(y1-r)+'A'+r+','+r+' 0 0 1 '+(x1-r)+','+y1+'H'+(x0+r)+'A'+r+','+r+' 0 0 1 '+x0+','+(y1-r)+'V'+(y0+r)+'A'+r+','+r+' 0 0 1 '+(x0+r)+','+y0+'Z';
   var svg='<svg class="pb-frame" viewBox="0 0 '+W+' '+H.toFixed(2)+'" aria-hidden="true"><g class="pb-frame-line"><path d="'+d1+'"/><path d="'+d2+'"/></g>'+star(y0)+star(y1)+'</svg>';
   pg.classList.add('pb-framed');pg.insertAdjacentHTML('afterbegin',svg);
+}
+var PB_ASSET_IMG={candle:'assets/candle.png',gold:'assets/gold.png',bitcoin:'assets/bitcoin.png',card:'assets/card.png',heart:'assets/heart.png',efin:'assets/efin-2.png'};
+/* Sheets 2-11: 2-4 splash elements each (2026-09-21, per direction), INSIDE the frame, at believable depth. Three planes, as on the
+   splash: FAR = tiny, faint, blurred; MID = small, softer; NEAR = large, sharp, strong shadow. Placement is measured per sheet:
+   - two FAR pieces in the strip between the frame line and the content (left + right, at different heights);
+   - on even sheets one MID piece in the empty right end of the header row (inside the frame's rounded corner);
+   - a NEAR piece in the empty space under the content when there is room for it (>=170px) - never over text.
+   Nothing crosses the frame line and nothing overlaps content. */
+var PB_KEYS=['gold','heart','bitcoin','candle','card','efin'];
+var PB_PLANE={far:{op:.5,bl:1.4,sh:4,shb:10,sha:.1},mid:{op:.78,bl:.4,sh:9,shb:18,sha:.16},near:{op:.96,bl:0,sh:18,shb:34,sha:.26}};
+function pbDecoHTML(key,plane,size,rot,pos){
+  var pl=PB_PLANE[plane];
+  return '<img class="pb-el" alt="" src="'+PB_ASSET_IMG[key]+'" style="'+pos+';--w:'+size+'px;--r:'+rot+'deg;--z:0;--op:'+pl.op+';--bl:'+pl.bl+'px;--sh:'+pl.sh+'px;--shb:'+pl.shb+'px;--sha:'+pl.sha+'">';
+}
+function pbDeco(pg,n){
+  if(n<2||n>11)return;
+  var pr=pg.getBoundingClientRect(),body=pg.querySelector('.pb-body'),last=body.lastElementChild,ft=pg.querySelector('.pb-ft').getBoundingClientRect();
+  var lastBottom=last?last.getBoundingClientRect().bottom-pr.top:body.getBoundingClientRect().top-pr.top,free=(ft.top-pr.top)-lastBottom;
+  var K=function(i){return PB_KEYS[(n+i)%PB_KEYS.length];},out='';
+  // FAR: in the strip between the frame line and the content (33..57px from each edge)
+  out+=pbDecoHTML(K(0),'far',24,(n*7)%20-10,'left:33px;top:'+(24+(n*13)%46)+'%');
+  out+=pbDecoHTML(K(2),'far',22,(n*11)%24-12,'right:33px;top:'+(30+(n*17)%44)+'%');
+  // MID: even sheets, empty right end of the header row
+  if(n%2===0)out+=pbDecoHTML(K(4),'mid',40,8,'right:112px;top:56px');
+  // NEAR: under the content, if there is real room
+  if(free>=170){var sz=Math.min(124,Math.floor(free-52));out+=pbDecoHTML(K(1),'near',sz,(n%2?10:-8),'right:'+(72+(n*9)%40)+'px;top:'+Math.round(lastBottom+(free-sz)/2-8)+'px');}
+  pg.insertAdjacentHTML('beforeend',out);
 }
 /* pbSetZoom — the fit-shrink used when a block is a touch too tall for a sheet. It also publishes the factor as --pbz so bar
    thicknesses (calc(var(--bar-h)/var(--pbz,1))) can cancel it: a bar stays exactly 4 / 8 / 16px however much its block was shrunk. */
@@ -2346,7 +2237,7 @@ function pbBuild(label,cover){
     if(block.matches('.hero-sec')){
       var gw=block.querySelector('.hero-gw'),hi=gw&&gw.querySelector('.hero-in');
       if(!hi)return null;
-      var at=[].slice.call(hi.children),cp=at.filter(function(x){return x.classList.contains('cr2-cap')||x.classList.contains('cr2');})[0],hd=at.filter(function(x){return x.id==='b2ident-head';})[0];
+      var at=[].slice.call(hi.children),cp=at.filter(function(x){return x.classList.contains('cr2-cap')||x.classList.contains('cr2')||x.classList.contains('pb-stage');})[0],hd=at.filter(function(x){return x.id==='b2ident-head';})[0];
       var sk=at.filter(function(x){return x.classList.contains('skill-note');})[0],anchor=cp;
       if(hd&&cp){at.splice(at.indexOf(hd),1);at.splice(at.indexOf(cp)+1,0,hd);anchor=hd;} // the persona's name line sits right under its card
       if(sk&&anchor){at.splice(at.indexOf(sk),1);at.splice(at.indexOf(anchor)+1,0,sk);} // the SKILL disclaimer is about that same card
@@ -2356,7 +2247,7 @@ function pbBuild(label,cover){
         g.appendChild(h);sec.appendChild(g);return {root:sec,inner:h};}};
     }
     if(block.matches('.card')&&block.children.length>1)
-      return {atoms:[].slice.call(block.children),make:function(){var c=block.cloneNode(false);return {root:c,inner:c};}};
+      return {atoms:[].slice.call(block.children),make:function(){var c=block.cloneNode(false);c.removeAttribute('id');return {root:c,inner:c};}};
     return null;
   }
   [].slice.call(src.querySelectorAll(':scope>.b2-panel')).forEach(function(panel){
@@ -2407,8 +2298,10 @@ function pbBuild(label,cover){
   });
   if(cover)addCover('back');
   doc.querySelectorAll('.scroll-reveal').forEach(function(e){e.classList.remove('scroll-reveal');e.style.transform='';});
+  /* a document has no scroll-into-view moment: draw every chart full now (bars used to stay at width 0 until scrolled to) */
+  doc.querySelectorAll('.conf-box,.risk-box,.trait-sec,.alloc-sec,.radar-sec').forEach(function(b){b.classList.add('viz-in');});
   src.remove();
-  pages.forEach(function(pg,i){pg.querySelector('.pb-pn').textContent='หน้า '+(i+1)+' / '+pages.length;});
+  pages.forEach(function(pg,i){pg.querySelector('.pb-pn').textContent='หน้า '+(i+1)+' / '+pages.length;pbDeco(pg,i+1);});
 }
 /* charts only fill when scrolled into view — force them full before print/PDF */
 window.addEventListener('beforeprint',function(){document.querySelectorAll('.conf-box,.risk-box,.trait-sec,.alloc-sec,.radar-sec').forEach(function(b){b.classList.add('viz-in');});});
