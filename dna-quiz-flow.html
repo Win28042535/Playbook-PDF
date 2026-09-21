@@ -304,8 +304,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    of .scroll — prog card, hero, efin banner, pdf bar, every data card, quote, route, library — is now
    separated by exactly --sp-section, so section boundaries read consistently down the whole scroll. */
 .scroll{flex:1;padding:var(--sp-inline) 0 var(--sp-stack);display:flex;flex-direction:column;gap:var(--sp-section);}
-/* fixed bottom tab bar — pinned within the app frame (max-width:inherit copies .shell's own responsive max-width so it never spans wider than the app on tablet/pc); stub navigation only, no destinations exist yet besides this page */
-.book-tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:inherit;z-index:90;display:flex;justify-content:space-around;align-items:center;background:var(--popover);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line-header);padding:var(--sp-list) 4px calc(var(--sp-list) + env(safe-area-inset-bottom,0px));}
 /* Bug fix (2026-09-03, responsive audit — real 320px phone) — .tab-item has no explicit flex-basis,
    so its default flex-shrink:1 let the 5 items compress once their combined content (icon-or-label
    width + var(--sp-inline)=12px padding each side) overflowed the row: at 320px the 5 items' natural
@@ -848,6 +846,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-cover{padding:0;border:0;background-color:var(--cover-paper);background-size:100% 100%;background-repeat:no-repeat;}
 .pb-frame{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
 .pb-page .viz-bar{transition:none;}
+.pb-intro .s-h{margin-bottom:0;}
+.pb-intro .s-sub{margin:var(--sp-stack-tight) 0 0;}
+.pb-body>.pb-intro{margin-bottom:calc(var(--sp-stack) - var(--pb-gap));}
+/* no rule between a section's heading and its first row */
+.pb-page.pb-unframed .s-h+.dd-asset,.pb-page.pb-unframed .sides-hd+.side-item{border-top:none;padding-top:0;}
 .pb-frame-line{fill:none;stroke:var(--frame-line);stroke-width:1.1;}
 .pb-frame-star{fill:var(--frame-star);}
 .pb-frame-halo{fill:var(--paper);} /* punches the gap in the line behind each star */
@@ -939,9 +942,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
   .shell,#root{display:block!important;max-width:none!important;width:auto!important;height:auto!important;min-height:0!important;overflow:visible!important;background:#fff!important;}
-  .book-tabbar,
-.reg-cta,
-.go-top{display:none!important;}
+  .reg-cta{display:none!important;}
   main.scroll{display:block!important;padding:0!important;max-width:none!important;width:auto!important;}
   .pb-doc{display:block!important;}
   .pb-fit{width:210mm!important;height:297mm!important;break-after:page;page-break-after:always;overflow:hidden;margin:0!important;}
@@ -985,18 +986,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .side-bi{padding:0 20px var(--sp-card-pad-sm) 66px;}
 .side-dl{border-left:1px solid var(--line-soft);padding-left:var(--sp-inline);}
 .side-dl p{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);}
-.route-steps{padding:4px 20px var(--sp-card-pad-sm);display:flex;flex-direction:column;}
-.rs{grid-template-columns:28px 1fr;align-items:flex-start;padding:var(--sp-stack) 0;border-bottom:1px solid var(--line-soft);}
-.rs:last-child{border-bottom:none;}
-.rs-n{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:var(--fs-meta);font-weight:var(--w-head);flex-shrink:0;font-family:var(--font);}
-.rs-n.done{background:var(--ink);color:var(--cloud);}
-.rs-n.act{border:2px solid transparent;background:linear-gradient(var(--white),var(--white)) padding-box,var(--spectrum) border-box;color:var(--ink);}
-.rs-n.fut{background:var(--accent);color:var(--muted);}
-.rs-n svg{width:var(--ic-sm);height:var(--ic-sm);}
-/* size/weight matched to .int-bar-l ("หุ้นไทย" etc., เรดาร์ความสนใจ section) — same bump as
-   .side-t just above (2026-08-29, per direction). */
-.rs-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);margin-bottom:2px;}
-.rs-d{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
 @media(hover:hover) and (pointer:fine){.bp-btn:not(.done):not(.chk):hover{background:var(--cloud);}}
 /* ══ SPLASH / ATTRACT ══ two-tone headline · drifting brand assets · card carousel */
 /* overflow-x only (never -y): the CTA must NEVER be unreachable. overflow:hidden on both axes
@@ -1138,13 +1127,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    at ≥480px (see that rule), where a real phone this wide doesn't exist and it's actually a desktop
    previewing data-view=mobile. */
 :root[data-view="pdf"] .shell{max-width:none;}
-/* Go-to-top — appended to <body>, JS-positioned against the shell's right edge (works in every
-   view mode: on real mobile the window scrolls, on the desktop phone-frame the .shell scrolls, so
-   the scroll listener watches both). Hidden until scrolled past ~one screen. */
-.go-top{position:fixed;z-index:89;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-soft);background:var(--white);color:var(--ink);box-shadow:var(--shadow-md);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s var(--ease),transform .2s var(--ease),visibility .2s;}
-.go-top.show{opacity:1;visibility:visible;transform:translateY(0);}
-.go-top:active{transform:scale(.92);}
-.go-top svg{width:var(--ic-lg);height:var(--ic-lg);}
 
 .fade{animation:fade .32s var(--ease);}
 @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
@@ -1780,7 +1762,7 @@ function insightHTML(r,h,matchOk){
      identical inline copy in renderBook() (Book v1) keeps its own padding-bottom:0 since THAT one
      has more sections following inside the same card — this copy has nothing after it. */
   return '<section class="card scroll-reveal"><div class="s-pad">'+
-    '<div class="s-ey" style="font-weight:var(--w-label)">AI Insight</div><h2 class="s-h" style="margin-bottom:18px">คุณเป็นนักลงทุนแบบไหน</h2>'+
+    '<div class="s-ey" style="font-weight:var(--w-label)">AI Insight</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">คุณเป็นนักลงทุนแบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?('<span class="ld" style="background:var(--cyan)"></span>ตรงกัน'):('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
@@ -1977,8 +1959,6 @@ function renderBook(){
     '</div>'+
     '<div class="b2-panel" data-panel="journey">'+
       sidesHTML(r)+
-      '<section class="card scroll-reveal"><div class="s-pad" style="padding-bottom:0;border-bottom:1px solid var(--line-soft)"><div class="s-ey">เฉพาะสำหรับ '+h.th+'</div><h2 class="s-h">เส้นทางฮีโร่ของคุณ</h2></div>'+
-        '<div class="route-steps">'+routeStep('done','','ทำ DNA Quiz','ตอบครบ 10 ข้อ เสร็จแล้ว — ได้ตัวตน '+h.th)+routeStep('act','2','ทำครบ 6 ด้าน','เสร็จแล้ว 2 จาก 6 — เหลืออีก 4 ด้านในบูธ')+routeStep('fut','3','รับ Playbook ส่วนตัวสมบูรณ์','เมื่อครบ 6 ด้าน รับกลยุทธ์เฉพาะตัวตน')+routeStep('fut','4','ติดตามบน efin.finance','Playbook sync ขึ้นแอปหลังงาน')+'</div></section>'+
       /* learnedLedgerHTML (2026-09-10) — sits between the journey progress card and the static
          คลังความรู้ shelf: specific (what YOU personally unlocked, from real GAME_PLAYED/BOOTH_ACT
          answers) before general (the full 41-article reference shelf below). Top-level .card here,
@@ -2140,7 +2120,7 @@ function pbArtHTML(a){
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
 function libraryBlocksHTML(h){
-  var out='<section class="pb-plain"><div class="s-ey">สำหรับ '+libEsc(h.th)+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 8 หมวด ✦ เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
+  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 8 หมวด ✦ เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
   var empty=[];
   LIBRARY_CATS.forEach(function(c,i){
     if(!c.n){empty.push(c.t);return;}
@@ -2169,7 +2149,7 @@ function pbFrame(pg){
   var star=function(y){return '<rect x="'+(cx-25)+'" y="'+(y-5)+'" width="50" height="10" class="pb-frame-halo"/><path transform="translate('+cx+' '+y+')" class="pb-frame-star" d="M0-12C1.6-4 4-1.6 12 0 4 1.6 1.6 4 0 12-1.6 4-4 1.6-12 0-4-1.6-1.6-4 0-12Z"/>';};
   var d1='M'+x0+','+y0+'H'+x1+'V'+y1+'H'+x0+'Z';
   var d2='M'+(x0+r)+','+y0+'H'+(x1-r)+'A'+r+','+r+' 0 0 1 '+x1+','+(y0+r)+'V'+(y1-r)+'A'+r+','+r+' 0 0 1 '+(x1-r)+','+y1+'H'+(x0+r)+'A'+r+','+r+' 0 0 1 '+x0+','+(y1-r)+'V'+(y0+r)+'A'+r+','+r+' 0 0 1 '+(x0+r)+','+y0+'Z';
-  var svg='<svg class="pb-frame" viewBox="0 0 '+W+' '+H.toFixed(2)+'" aria-hidden="true"><g class="pb-frame-line"><path d="'+d1+'"/><path d="'+d2+'"/></g>'+star(y0)+star(y1)+'</svg>';
+  var svg='<svg class="pb-frame" viewBox="0 0 '+W+' '+H.toFixed(2)+'" aria-hidden="true"><g class="pb-frame-line"><path d="'+d1+'"/><path d="'+d2+'"/></g>'+star(y0)+'</svg>'; // top star only (the bottom one was removed, so the bottom rule is one unbroken line)
   pg.classList.add('pb-framed');pg.insertAdjacentHTML('afterbegin',svg);
 }
 var PB_ASSET_IMG={candle:'assets/candle.png',gold:'assets/gold.png',bitcoin:'assets/bitcoin.png',card:'assets/card.png',heart:'assets/heart.png',efin:'assets/efin-2.png'};
@@ -2408,7 +2388,6 @@ function interestsHTML(r){
   return '<div class="int-bar-list">'+rows+'</div>'+
     '<p class="int-bar-note">จากเกมและบูธที่คุณทำจริง · รวมทุกแท่ง = 100% ของข้อมูลที่เรามี · แท่งสีจางคือหมวดที่คุณยังไม่ได้แตะวันนี้</p>';
 }
-function routeStep(cls,n,t,d){var inner=cls==='done'?ic('lc-check'):n;return '<div class="list-row rs"><div class="rs-n '+cls+'">'+inner+'</div><div><div class="rs-t">'+t+'</div><div class="rs-d">'+d+'</div></div></div>';}
 
 function sidesHTML(r){
   var gapTxt=r.gap>0?('+'+r.gap):(''+r.gap);
@@ -2820,49 +2799,6 @@ function seedPersonaResult(key){
   GAME_PLAYED={0:true,1:true,2:true,3:true};GAME_ANSWERS={};BOOTH_CHK={0:new Set([0])};BOOTH_ACT={0:true};BOOTH_ANSWERS={};EFIN_CHECKED_IN=true;
 }
 
-/* Go-to-top FAB (system-wide, all view modes incl. desktop/tablet). The page itself is what
-   scrolls (the tabbar is position:fixed to the real viewport, not to #root/.shell), so the FAB is
-   anchored the same way: `bottom` is a fixed viewport offset (cleared above the tabbar), not
-   computed from the shell's own bounding rect — that used to drift far off-screen on tall pages
-   once scrolled deep, since the shell's rect.bottom moves with scroll while its rect.height does
-   NOT track total content height. Only the horizontal position (left) needs the shell's rect, to
-   hug the phone-frame's right edge instead of the full browser width on tablet/pc. */
-function buildGoTop(){
-  var btn=document.createElement('button');
-  btn.className='go-top';btn.id='goTop';btn.setAttribute('aria-label','กลับขึ้นบนสุด');
-  btn.innerHTML=ic('lc-arrow-up');
-  document.body.appendChild(btn);
-  var root=document.getElementById('root');
-  var scrollTopNow=function(){return Math.max(window.scrollY||0,document.documentElement.scrollTop||0,root.scrollTop||0);};
-  var reposition=function(){
-    var r=root.getBoundingClientRect();
-    btn.style.left=Math.round(r.right-16-btn.offsetWidth)+'px';
-    var tabbar=document.querySelector('.book-tabbar');
-    var clear=tabbar?tabbar.getBoundingClientRect().height:64;
-    btn.style.bottom=Math.round(clear+16)+'px';
-  };
-  /* Threshold made relative to each screen's OWN scrollable range, not a flat 70%-of-viewport
-     (2026-08-15, per direction "ปุ่ม go to top เพิ่มในหน้า เกมส์หลัก และ โปรไฟล์ด้วย") — Games and
-     Profile are short enough that (scrollHeight - clientHeight) never reaches 70% of the viewport
-     height, so the button was mathematically unreachable there, not just rare — no amount of
-     scrolling could ever satisfy the old fixed threshold. Long pages (Book) are unaffected since
-     min() just keeps the original 70%-of-viewport figure whenever a screen's own range comfortably
-     exceeds it. */
-  var onScroll=function(){
-    var maxRoot=Math.max(0,root.scrollHeight-root.clientHeight);
-    var maxDoc=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
-    var max=Math.max(maxRoot,maxDoc);
-    var thresh=Math.min(window.innerHeight*0.7,max*0.5);
-    btn.classList.toggle('show',max>0&&scrollTopNow()>thresh&&scrollTopNow()>150);
-    reposition();
-  };
-  window.addEventListener('scroll',onScroll,{passive:true});
-  root.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',reposition,{passive:true});
-  reposition();
-  btn.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});root.scrollTo({top:0,behavior:'smooth'});};
-}
-
 /* Default demo state (2026-09-10, per direction): "ทำแบบทดสอบตัวตนแล้ว" out of the box — seed a
    RESULT before the very first render/buildDemo so DEMO.eventPhase:'on''s render() gate (which
    redirects splash/quiz/etc. to 'book' once RESULT exists, else 'home') lands on the Book page
@@ -2871,7 +2807,7 @@ function buildGoTop(){
    Booth tab's draw-status card genuinely (not forced) reads "ยังขาด" by default too. */
 seedPersonaResult('sage');
 RESULT.revealed=RESULT.declared;RESULT.gap=0; // the PDF sample reads "สอดคล้อง (Aligned)": what they said = what they did
-applyView();buildGoTop();
+applyView();
 /* Lay the sheets out only AFTER the webfonts are in (2026-09-21 bug fix): pbBuild() paginates by measuring text height, and with the
    fallback font showing (font-display:swap) every measurement was wrong - the book came out as 43 loosely-packed sheets instead of the
    ~36 the real font produces. document.fonts.load() forces the three faces to download even though nothing has used them yet; a 2.5s
