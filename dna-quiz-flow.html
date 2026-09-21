@@ -330,7 +330,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    flex item with no explicit min-width, this defaulted to min-width:auto, which for long compound
    Thai text with no browser-recognized break opportunity refuses to shrink/wrap at all, overflowing
    past the card edge instead ("อสังหาฯ และกองทุนอสังหาฯ (REIT)" was the option that hit this). */
-.int-t{flex:1;min-width:0;font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--ink);line-height:1.35;}
+.int-t{flex:1;min-width:0;font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--ink);line-height:1.5;}
 
 /* NAV / BUTTONS — nav pinned to bottom (equal-height screens); primary CTA capped so it stays a consistent proportion, never full-bleed on wide screens */
 /* Both nav buttons now split the row evenly (flex:1 each) instead of sizing to their own content and
@@ -568,7 +568,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    sticky rule, so it didn't need it. */
 /* Bumped 36px(--fs-title)->64px per direction (2026-08-19) — a dedicated size for THIS headline
    only, not a change to the shared --fs-title token (still used by .q-title/.conf-sc elsewhere).
-   letter-spacing:-0.01em -> 0 (2026-09-21, per direction, typography audit F3) — zero tracking on sans
+   letter-spacing:0 -> 0 (2026-09-21, per direction, typography audit F3) — zero tracking on sans
    headlines is the house rule (.tb-title/.q-title/.hero-th/.s-h all set 0); negative tracking is
    reserved for the serif display faces. .ch-1/.ch-2 inherit this too. */
 .consent-h{position:relative;z-index:2;font-size:64px;letter-spacing:0;line-height:1.06;margin-bottom:var(--sp-stack);}
@@ -639,7 +639,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    history stays visible without a live selector to trip over. Removing it needs no replacement rule:
    .play-brief-h still matches the `:not(.reveal-h)` disable rule several lines up, which reverts it to
    flat/static color the same as the plain consent screen's heading. */
-.consent-p{position:relative;z-index:2;font-size:var(--fs-body);font-weight:var(--w-body);color:var(--muted);line-height:1.65;max-width:280px;margin:0 auto;}
+.consent-p{position:relative;z-index:2;font-size:var(--fs-body);font-weight:var(--w-body);color:var(--muted);line-height:1.5;max-width:280px;margin:0 auto;}
 /* "คู่มือลงทุนของคุณ" emphasis (2026-08-15, per direction) — ink/700 against the paragraph's own
    muted/500 base, same two-weight device used elsewhere in the file rather than a new pattern. */
 .consent-p b{color:var(--ink);font-weight:var(--w-label);}
@@ -657,7 +657,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    สีดำ text weight 700") — was an unweighted (inherits 500) muted eyebrow, same tier as a dozen
    other quiet labels in the app; here it's the one thing naming which section is which, so it
    reads as a real label now instead of a footnote. */
-.rc-kicker{font-family:var(--font);font-size:var(--fs-eyebrow);letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);font-weight:var(--w-label);}
+.rc-kicker{font-family:var(--font);font-size:var(--fs-eyebrow);letter-spacing:0;text-transform:uppercase;color:var(--ink);font-weight:var(--w-label);}
 /* weight bumped w-head->w-label (2026-08-28, per direction "card ข้อมูล ส่วนที่ 1,2,3...text weight
    700") — was 500. */
 .rc-title{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);margin-bottom:4px;}
@@ -787,7 +787,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    English tags) but never nonsense text — so it stays visible; only the genuinely-broken title band
    above is masked. */
 .cr2-before{clip-path:inset(0 48% 0 0);z-index:2;will-change:clip-path;}
-.cr2-chip{position:absolute;top:10px;z-index:6;pointer-events:none;padding:var(--sp-stack-tight) var(--sp-list);border-radius:var(--rpill);color:var(--white);background:rgba(17,19,24,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:.03em;line-height:1;transition:opacity .18s ease;}
+.cr2-chip{position:absolute;top:10px;z-index:6;pointer-events:none;padding:var(--sp-stack-tight) var(--sp-list);border-radius:var(--rpill);color:var(--white);background:rgba(17,19,24,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:0;line-height:1;transition:opacity .18s ease;}
 .cr2-chip-b{left:10px;}
 .cr2-chip-a{right:10px;}
 .cr2-divider{position:absolute;top:0;bottom:0;left:48%;z-index:10;width:2px;margin-left:-1px;background:var(--white);box-shadow:0 0 0 1px rgba(17,19,24,.18);pointer-events:none;}
@@ -803,7 +803,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    activity yet), so a genuinely divergent or illustrative post-event persona still renders uncovered. */
 .cr2-lock{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(17,19,24,.7);color:var(--cloud);text-align:center;padding:16px;}
 .cr2-lock svg{width:28px;height:28px;}
-.cr2-lock span{font-size:var(--fs-bodysm);font-weight:var(--w-label);max-width:20ch;line-height:1.4;}
+.cr2-lock span{font-size:var(--fs-bodysm);font-weight:var(--w-label);max-width:20ch;line-height:1.5;}
 /* Single long page (2026-09-21, per direction "เรียงเป็นหน้ายาวหน้าเดียว") — every panel is always
    displayed and stacks in main.scroll (which already gaps sections); the old .show toggle is gone and
    the .toc pills are now jump-links (bindBook2Nav) that scroll to their panel. */
@@ -827,7 +827,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .page-el{position:absolute;opacity:.1;filter:blur(1.5px) saturate(.85);}
 .prog-donut{flex-shrink:0;width:48px;height:48px;}
 .prog-r{flex:1;}
-.prog-lbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:var(--sp-hairline);}
+.prog-lbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0;text-transform:uppercase;color:var(--muted);margin-bottom:var(--sp-hairline);}
 .prog-val{font-size:var(--fs-h2);font-weight:var(--w-head);color:var(--ink);margin-bottom:var(--sp-glue);letter-spacing:0;}
 .prog-track{height:3px;border-radius:var(--rpill);background:var(--accent);overflow:hidden;}
 .prog-fill{height:100%;border-radius:var(--rpill);background-image:var(--spectrum);}
@@ -912,7 +912,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    else on this card (icons, chip fills, str-box borders). bg/color are set inline per-render (and
    updated live on tab switch, see renderBook/heroPanelBody call sites) since they depend on
    whichever persona is currently showing, not a fixed value. */
-.fam-badge{display:flex;width:fit-content;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-bodysm);font-weight:var(--w-label);letter-spacing:0.01em;margin:0 auto var(--sp-card-pad-sm);padding:var(--sp-glue) var(--sp-stack);border-radius:var(--rpill);}
+.fam-badge{display:flex;width:fit-content;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-bodysm);font-weight:var(--w-label);letter-spacing:0;margin:0 auto var(--sp-card-pad-sm);padding:var(--sp-glue) var(--sp-stack);border-radius:var(--rpill);}
 /* h.famIcon (2026-08-15, per Icon System audit review "ปรับให้เข้ากับ token ที่มี") — every persona
    already carries this (copied from FAM[fam].icon: lc-shield/lc-compass/lc-sparkles) but nothing
    rendered it, so the badge showed text only. Now shown at --ic-sm, tinted via currentColor so it
@@ -922,12 +922,12 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .hero-art{flex-shrink:0;width:106px;border-radius:var(--r1);overflow:hidden;border:1px solid var(--line-soft);}
 .hero-art-in{width:106px;height:134px;background:var(--accent);display:flex;align-items:center;justify-content:center;}
 .hero-art-in svg{width:44px;height:44px;color:var(--ink);opacity:.35;}
-.hero-art-ft{background:var(--paper);border-top:1px solid var(--line-soft);padding:var(--sp-glue) var(--sp-list);font-family:var(--font);font-size:var(--fs-meta);font-weight:var(--w-head);color:var(--ink);text-align:center;display:flex;align-items:center;justify-content:center;gap:4px;letter-spacing:0.04em;}
+.hero-art-ft{background:var(--paper);border-top:1px solid var(--line-soft);padding:var(--sp-glue) var(--sp-list);font-family:var(--font);font-size:var(--fs-meta);font-weight:var(--w-head);color:var(--ink);text-align:center;display:flex;align-items:center;justify-content:center;gap:4px;letter-spacing:0;}
 .hero-art-ft svg{width:var(--ic-sm);height:var(--ic-sm);}
 .hero-tx{flex:1;min-width:0;}
-.hero-en{font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:var(--sp-hairline);font-family:var(--font);}
+.hero-en{font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0;text-transform:uppercase;color:var(--muted);margin-bottom:var(--sp-hairline);font-family:var(--font);}
 .hero-th{font-size:var(--fs-heading);font-weight:var(--w-label);color:var(--ink);line-height:1.1;letter-spacing:0;margin-bottom:var(--sp-stack-tight);}
-.hero-sig{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.6;margin-bottom:var(--sp-stack);}
+.hero-sig{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
 /* ความแข็งแกร่ง = green (a clear "this is good" signal — distinct from any persona accent color,
    so it reads the same for every persona); สิ่งที่ต้องระวัง = the same amber the sponsor chip/gold
    badges use (reads as "pay attention", not a scary red). Side-by-side on tablet/pc — was a fixed
@@ -956,7 +956,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .str-box.wn{background:var(--paper);border-color:var(--line-soft);}
 /* font-size bumped fs-eyebrow->fs-bodysm (2026-08-28, per direction "text title size เท่ากับ
    แลกรับการ์ดตัวจริง") — was 14px (an eyebrow-label size), now matches .redeem-t's 18px title size.
-   letter-spacing:0.04em was left in place at the time (an eyebrow-style treatment, kept since only
+   letter-spacing:0 was left in place at the time (an eyebrow-style treatment, kept since only
    size was asked for) — but at 18px instead of the old 14px, that same em-relative tracking reads
    as visibly loose/spaced-out letterforms instead of a subtle label treatment (2026-08-28 follow-up,
    per direction "text spacing ดูห่างๆ ต้องการให้เท่าคำอื่นๆ ปกติ"), so it's dropped to normal here —
@@ -980,7 +980,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    the box's own padding edge, but these list rows sit flush at that padding edge instead, one full
    icon-width to the left of where the title reads. Indents them to line up under the title's own
    text start, at every breakpoint (not just mobile) since the ask covers pc/tablet/mobile alike. */
-.str-li{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.55;margin-bottom:var(--sp-stack-tight);margin-left:calc(var(--ic-lg) + var(--sp-inline));}
+.str-li{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-stack-tight);margin-left:calc(var(--ic-lg) + var(--sp-inline));}
 /* สินทรัพย์ที่ถนัด — the one thing this whole card exists to tell the customer ("what you're
    suited for"), so the whole block is its own tinted panel (background+border in the persona's
    accent color, applied inline via h.accent) instead of just sitting bare on the card surface —
@@ -1038,8 +1038,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    ("แรงบันดาลใจจาก") on its own line, then the name+why as ONE real paragraph underneath — a
    single wrapping unit instead of several competing ones. */
 .hero-leg{display:flex;align-items:flex-start;margin-top:var(--sp-stack);padding-top:var(--sp-stack);border-top:1px solid var(--line-soft);}
-.hero-leg-lbl{font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0.04em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.hero-leg-txt{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.55;}
+.hero-leg-lbl{font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.hero-leg-txt{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
 .ld{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .ln{font-family:var(--serif);font-weight:var(--w-label);color:var(--ink);}
 /* Right-aligned+secondary (prior pass) → full-width+primary per direction: this is the ONE action
@@ -1047,7 +1047,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    other primary button in the app, not a quiet outlined pill off to one side. */
 .hero-acts{display:flex;margin-top:var(--sp-stack);}
 .hero-share-btn{flex:1;}
-.hero-note{margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-inline);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);background:var(--accent);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.6;}
+.hero-note{margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-inline);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);background:var(--accent);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
 .hero-note svg{width:var(--ic-sm);height:var(--ic-sm);flex-shrink:0;margin-top:1px;}
 /* .skill-note modifier (2026-08-28, per direction) — scopes the SKILL-disclaimer .hero-note (in
    redeemCardHTML) to redeem-note's own padding/icon size so its icon+text starts flush with
@@ -1081,7 +1081,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    line before wrapping, so short trailing orphans disappear without touching any margin/line-height —
    only where lines break, not the rhythm between them. Falls back to normal wrapping silently on any
    engine that doesn't support it yet (progressive enhancement, not a hard dependency). */
-.ev-empty-s{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.55;max-width:34ch;margin:0 auto var(--sp-stack);text-wrap:balance;}
+.ev-empty-s{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;max-width:34ch;margin:0 auto var(--sp-stack);text-wrap:balance;}
 /* Every .ev-empty-s (and, with the Games/Booth "coming soon" states, now sometimes 2+ of them
    stacked) carries its own trailing margin-bottom for the gap ABOVE whatever follows it (another
    paragraph, or a CTA button) — but when there's nothing after the last one, that same margin just
@@ -1125,7 +1125,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* Violet wash/border — same token pair .draw-status.need already uses for "needs attention" info,
    reused here for "here's how the digital vs. physical card split works" rather than inventing a
    new color pairing. */
-.redeem-note{display:flex;gap:var(--sp-inline);align-items:flex-start;margin-top:var(--sp-list);padding:var(--sp-card-pad-sm);border-radius:var(--r2);background:var(--active-wash);border:1px solid var(--active-border);font-size:var(--fs-eyebrow);color:var(--ink);line-height:1.55;}
+.redeem-note{display:flex;gap:var(--sp-inline);align-items:flex-start;margin-top:var(--sp-list);padding:var(--sp-card-pad-sm);border-radius:var(--r2);background:var(--active-wash);border:1px solid var(--active-border);font-size:var(--fs-eyebrow);color:var(--ink);line-height:1.5;}
 .redeem-note svg{width:var(--ic-lg);height:var(--ic-lg);flex:0 0 auto;color:var(--violet);}
 /* PDF download CTA (post-event panel) — full-width violet pill, same --active-fill/border token
    pair as .ds-chip's "in progress" chip, scaled up into a real button since this is the panel's
@@ -1157,8 +1157,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .s-ey{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;color:var(--muted);margin-bottom:var(--sp-glue);display:flex;align-items:center;gap:var(--sp-glue);}
 .s-ey svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
 .s-h{font-size:var(--fs-heading);font-weight:var(--w-label);letter-spacing:0;color:var(--ink);margin-bottom:4px;}
-.s-sub{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.55;margin-bottom:var(--sp-card-pad-sm);}
-.upd-pill{display:inline-flex;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0.04em;color:var(--muted);margin-bottom:var(--sp-card-pad-sm);text-transform:uppercase;}
+.s-sub{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
+.upd-pill{display:inline-flex;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0;color:var(--muted);margin-bottom:var(--sp-card-pad-sm);text-transform:uppercase;}
 .upd-pill svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
 /* Stepped down from --r2 to --r1 (2026-08-15, per Card & Section review "09") — this panel sits
    nested inside a --r2 .card, so it was matching its own parent's radius instead of reading as a
@@ -1176,8 +1176,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .risk-tag{font-size:var(--fs-label);font-weight:var(--w-label);color:var(--ink);flex:1;}
 .risk-match{display:inline-flex;align-items:center;gap:var(--sp-glue);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);padding:var(--sp-stack-tight) 0;}
 .risk-match .ld{width:6px;height:6px;}
-.risk-desc{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.65;margin-bottom:var(--sp-stack);}
-.risk-slbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0.06em;margin-bottom:var(--sp-list);text-transform:uppercase;}
+.risk-desc{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
+.risk-slbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0;margin-bottom:var(--sp-list);text-transform:uppercase;}
 .risk-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
 .risk-row{display:flex;align-items:center;gap:var(--sp-inline);}
 .risk-rl{width:86px;flex-shrink:0;font-size:var(--fs-label);font-weight:var(--w-body);color:var(--muted);}
@@ -1207,7 +1207,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    stuck together rather than one score. inline-flex + baseline align + a small gap fixes the
    collision; narrowing the size ratio (12px→16px) keeps "/100" legible as part of the same figure
    instead of an afterthought. */
-.conf-sc{margin-left:auto;text-align:right;font-family:var(--serif);font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1;letter-spacing:-0.01em;display:inline-flex;align-items:baseline;gap:3px;}
+.conf-sc{margin-left:auto;text-align:right;font-family:var(--serif);font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1;letter-spacing:0;display:inline-flex;align-items:baseline;gap:3px;}
 .conf-su{font-size:var(--fs-sub);font-weight:var(--w-head);color:var(--muted);font-family:var(--font);}
 .conf-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
 .conf-row{display:flex;align-items:center;gap:var(--sp-inline);}
@@ -1215,7 +1215,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .conf-tr{flex:1;height:1px;background:var(--line-soft);position:relative;}
 .conf-fi{height:1px;background:var(--ink);position:absolute;left:0;top:0;}
 .conf-vl{width:50px;text-align:right;font-size:var(--fs-meta);font-weight:var(--w-head);color:var(--ink);font-family:var(--serif);}
-.conf-note{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.55;margin-top:var(--sp-stack);}
+.conf-note{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-stack);}
 /* "เล่นเกม 6 ด้าน" CTA (2026-08-26, per direction — the confidence card should route people on to
    the 6 main games, not dead-end once they've read their score). First tried as a small inline
    .btn-primary next to the note, then per follow-up direction ("button style และ layout เดียวกับ"
@@ -1276,7 +1276,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    softer at the old wordmark height. */
 .efin-logo{height:24px;width:auto;display:block;flex-shrink:0;}
 .efin-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
-.efin-d{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.55;margin-bottom:var(--sp-stack);}
+.efin-d{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
 .efin-acts{display:flex;flex-direction:column;gap:var(--sp-list);}
 /* Brand blue reserved for efin.finance-specific CTAs only (2026-08-20, per direction "ให้เป็นสีกรณี
    เกี่ยวกับ efin.finance เท่านั้น") — scoped to .efin-acts so this never leaks onto any other
@@ -1329,13 +1329,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 
 /* quote / legend card — reuses only real data already in HEROES (legend, legendWhy, strengths) laid out as its own reinforcing moment */
 .quote-card{background:var(--ink);color:var(--cloud);border-radius:var(--r2);padding:22px 20px;}
-.quote-badge{display:inline-flex;align-items:center;gap:var(--sp-glue);font-size:var(--fs-eyebrow);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:var(--sp-inline);}
+.quote-badge{display:inline-flex;align-items:center;gap:var(--sp-glue);font-size:var(--fs-eyebrow);letter-spacing:0;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:var(--sp-inline);}
 .quote-h{font-size:var(--fs-h2);font-weight:var(--w-label);margin-bottom:var(--sp-inline);}
 /* Promoted from a small trailing footnote (under a border-top divider, --fs-meta) to the card's
    main body copy, now that the redundant .quote-li strength bullets above it are gone — no divider
    needed when there's nothing left to divide from, and --fs-bodysm reads as real content instead
    of a footer credit line. */
-.quote-leg{font-size:var(--fs-bodysm);line-height:1.55;color:rgba(255,255,255,.72);}
+.quote-leg{font-size:var(--fs-bodysm);line-height:1.5;color:rgba(255,255,255,.72);}
 .quote-leg .ln{color:var(--cloud);font-weight:var(--w-label);}
 .quote-acts{margin-top:var(--sp-stack);}
 .btn-onink{background:var(--cloud);color:var(--ink);border-color:var(--cloud);width:100%;}
@@ -1345,8 +1345,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .next-card{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r1);padding:var(--sp-inline) var(--sp-list);}
 .next-ic{width:26px;height:26px;border-radius:50%;background:var(--white);border:1px solid var(--line-soft);display:flex;align-items:center;justify-content:center;margin-bottom:var(--sp-list);}
 .next-ic svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
-.next-t{font-size:var(--fs-label);font-weight:var(--w-label);color:var(--ink);margin-bottom:var(--sp-stack-tight);line-height:1.3;}
-.next-d{font-size:var(--fs-meta);color:var(--muted);line-height:1.4;}
+.next-t{font-size:var(--fs-label);font-weight:var(--w-label);color:var(--ink);margin-bottom:var(--sp-stack-tight);line-height:1.5;}
+.next-d{font-size:var(--fs-meta);color:var(--muted);line-height:1.5;}
 /* boundary between the merged "ทำอะไรต่อดี"/"สรุปไว้คุยกับผู้แนะนำการลงทุน" sub-sections — same
    weight as a section-to-section break (border, not just spacing) since they used to be two
    separate cards, just now inside one. */
@@ -1365,7 +1365,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    component, not part of this "small badge" family). radius also moved off its own 20px literal
    onto --rpill — renders identically at this size (48>=height/2 either way) but stops it being
    the one pill in the file with a magic-number radius. */
-.ex-tag{display:inline-flex;align-items:center;gap:var(--sp-stack-tight);font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:.04em;color:var(--muted);background:var(--accent);border-radius:var(--rpill);padding:4px var(--sp-inline);text-transform:uppercase;}
+.ex-tag{display:inline-flex;align-items:center;gap:var(--sp-stack-tight);font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:0;color:var(--muted);background:var(--accent);border-radius:var(--rpill);padding:4px var(--sp-inline);text-transform:uppercase;}
 
 /* trait score bars — thicker filled bars (distinct from the hairline risk/confidence bars) */
 .trait-sec,.alloc-sec{padding:var(--sp-block) var(--sp-card-pad);border-top:1px solid var(--line-soft);}
@@ -1483,7 +1483,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* font-weight reverted 700->500 (2026-08-29, per follow-up direction "text weight 500") — the
    earlier 700 bump (same session) read too heavy for this longer-running body copy; --w-body is
    this file's normal paragraph weight everywhere else. */
-.dd-li{display:flex;align-items:flex-start;gap:var(--sp-inline);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.55;margin-bottom:var(--sp-inline);font-weight:var(--w-body);}
+.dd-li{display:flex;align-items:flex-start;gap:var(--sp-inline);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);font-weight:var(--w-body);}
 .dd-li svg{width:var(--ic-sm);height:var(--ic-sm);flex-shrink:0;margin-top:2px;color:var(--violet);}
 .dd-note{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-glue);padding-top:var(--sp-inline);border-top:1px solid var(--line-soft);}
 
@@ -1541,28 +1541,79 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-fit{width:calc(794px*var(--pbs));height:calc(794px*3508/2480*var(--pbs));flex:0 0 auto;position:relative;scroll-margin-top:calc(80px + 12px);}
 .pb-page{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);transform:scale(var(--pbs));transform-origin:0 0;box-sizing:border-box;background:var(--white);border:1px solid var(--line);box-shadow:0 6px 24px rgba(17,19,24,.08);display:flex;flex-direction:column;padding:40px 56px 28px;overflow:hidden;}
 .pb-cover{padding:0;border:0;background-color:#e9e3da;background-size:100% 100%;background-repeat:no-repeat;}
+.pb-frame{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
+.pb-page.pb-framed{padding:68px 62px 64px;background:var(--paper);} /* frame line is 30px in, so 62 = 32px between the frame and the content */
+/* body content runs edge to edge inside the frame; only the header / footer text is inset, to stay clear of the rounded corners */
+.pb-page.pb-framed .pb-hd,.pb-page.pb-framed .pb-ft{padding-left:18px;padding-right:18px;} /* #F7F8F7 = --paper, per the supplied swatch */
+/* framed sheet: the ornament is the container, so the persona card sits straight on the page — no glow frame / card box of its own — and is shown larger */
+.pb-page.pb-framed .hero-gw{padding:0;}
+.pb-page.pb-framed .hero-glow-base,.pb-page.pb-framed .hero-glow-energy{display:none;}
+.pb-page.pb-framed .hero-in{background:transparent;padding:0;border-radius:0;}
+#b2ident-head:empty{display:none;}
+.pb-page #b2ident-head{margin-top:var(--sp-stack);} /* breathing room under the single card (its caption is gone) */
+/* the card JPGs carry their own rounded corner (~5% of the width, black outside it): clip the frame to that same
+   curve (a touch larger) so the black corner pixels never show */
+.pb-page .cr2{border-radius:5.8% / 4.15%;}
+.pb-page.pb-framed .hero-in .cr2{max-width:400px;margin-top:8px;}
+.pb-page.pb-framed .hero-in .cr2-cap{max-width:420px;margin-top:var(--sp-stack);}
 .pb-hd{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line-soft);font-size:12px;color:var(--muted);}
 .pb-hd b{font-weight:var(--w-label);color:var(--ink);}
 .pb-body{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:20px;padding-top:20px;}
 .pb-body>*{flex:0 0 auto;margin:0;}
-.pb-ft{flex:0 0 auto;display:flex;justify-content:space-between;gap:16px;padding-top:10px;border-top:1px solid var(--line-soft);font-size:11px;color:var(--muted);}
+.pb-ft{flex:0 0 auto;display:flex;justify-content:space-between;gap:16px;padding-top:10px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--muted);}
 /* accordions are always expanded on a page (a fixed sheet can't grow when a row opens; print needs it all) */
 .pb-page .side-body{max-height:none;overflow:visible;}
 .pb-page .side-row{cursor:default;}
 .pb-page .side-row .s-cv{display:none;}
+/* sheet 1: the SKILL note hugs its text instead of filling the width */
+.pb-page .hero-note.skill-note{width:100%;max-width:400px;margin-left:auto;margin-right:auto;} /* same width as the character card above it (.cr2 max-width 400) */
+/* sheet 2: strengths / watch-outs side by side (the pc layout) at any viewport width */
+:root .pb-page .str-grid{flex-direction:row!important;}
+/* every card on a sheet uses the strengths-box surface (#F7F8F7 + hairline) instead of white */
+.pb-page .card{background:var(--paper);border:1px solid var(--line-soft);}
+/* หน้า "เส้นทาง" (journey) is print-like: nothing on it reacts to hover / tap */
+.pb-page[data-sect="journey"]{pointer-events:none;}
+.pb-page[data-sect="journey"] *{cursor:default!important;}
+/* เจาะรายสินทรัพย์: all four assets laid out one after another (no tabs) */
+.dd-asset{padding:var(--sp-inline) 0;border-top:1px solid var(--line-soft);}
+.dd-asset:first-child{border-top:none;padding-top:0;}
+.dd-asset-hd{display:flex;align-items:center;gap:var(--sp-list);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);margin-bottom:var(--sp-inline);}
+.dd-asset-hd svg{width:var(--ic-md);height:var(--ic-md);color:var(--violet);flex:0 0 auto;}
+/* sheet 2: sections are set apart by ornaments, not frames */
+#b2ident-detail .ast-block,#b2ident-detail .str-box,#b2ident-detail .str-box.wn,#b2ident-detail .conf-box{background:none!important;border:none!important;border-radius:0;box-shadow:none;}
+#b2ident-detail .conf-glow{display:none;}
+#b2ident-detail .ast-block,#b2ident-detail .str-box,#b2ident-detail .conf-box{padding-left:0;padding-right:0;} /* unframed: text lines up with the ends of the dividers */
+#b2ident-detail>*{margin-top:0!important;margin-bottom:0!important;}
+#b2ident-detail .str-grid{gap:var(--sp-stack);margin:0;align-items:stretch;}
+.orn-h{height:2px;background:#c4c5c7;margin:var(--sp-stack) 0;}
+.orn-v{display:flex;flex-direction:column;align-items:center;gap:10px;flex:0 0 auto;align-self:stretch;}
+.orn-v i{flex:1;width:2px;min-height:24px;}
+.orn-v i:first-child{background:linear-gradient(to bottom,#d4d3d7,#55535c);}
+.orn-v i:last-child{background:linear-gradient(to bottom,#55535c,#d4d3d7);}
+.orn-star{width:16px;height:16px;flex:0 0 auto;fill:#1f273a;}
+/* ── chapters วิเคราะห์ / พอร์ต / เส้นทาง: unframed ── */
+:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) :is(.card,.risk-box,.conf-box,.ast-block,.radar-insight){background:none!important;border:none;border-radius:0;box-shadow:none;}
+:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) .conf-glow{display:none;}
+:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) :is(.s-pad,.sides-hd,.radar-sec,.trait-sec,.alloc-sec,.risk-box,.conf-box,.route-steps){padding-left:0;padding-right:0;}
+:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) .list-row.side-row{padding-left:0;padding-right:0;}
+/* section dividers: the same 2px #c4c5c7 hairline as sheet 2 */
+:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) :is(.trait-sec,.alloc-sec,.dd-asset,.side-item){border-top:2px solid #c4c5c7;}
+:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) .risk-box+.conf-box{border-top:2px solid #c4c5c7;padding-top:var(--sp-stack);margin-top:var(--sp-stack);}
+:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) .pb-body>.card~.card{border-top:2px solid #c4c5c7;padding-top:var(--sp-stack);}
+:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) .dd-asset:first-child,:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) .card>.side-item:first-child,:is(.pb-page[data-sect="analysis"],.pb-page[data-sect="portfolio"],.pb-page[data-sect="journey"]) .card>:is(.trait-sec,.alloc-sec):first-child{border-top:none;}
 .pb-actions{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:var(--sp-list);margin:0 0 var(--sp-inline);}
 .pb-actions .ag-more{width:auto;padding-left:var(--sp-stack);padding-right:var(--sp-stack);}
 /* library / glossary blocks (static + fully expanded — a page has no accordions) */
 .pb-plain{padding:0;}
-.pb-cat-hd{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:2px solid var(--ink);}
+.pb-cat-hd{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:2px solid #c4c5c7;}
 .pb-cat-hd svg{width:20px;height:20px;color:var(--ink);flex:0 0 auto;}
 .pb-cat-t{flex:1;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
 .pb-cat-n{font-size:var(--fs-eyebrow);font-weight:var(--w-label);color:var(--violet);background:var(--active-fill);padding:2px 10px;border-radius:var(--rpill);}
 .pb-art{padding:0 0 16px;border-bottom:1px solid var(--line-soft);}
 .pb-art-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
 .pb-art-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:2px;}
-.pb-art-p{font-size:var(--fs-bodysm);color:var(--ink);line-height:1.7;margin:10px 0 0;}
-.pb-note{margin-top:10px;display:flex;align-items:flex-start;gap:8px;padding:8px 12px;border-radius:var(--r1);font-size:var(--fs-eyebrow);line-height:1.6;}
+.pb-art-p{font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;margin:10px 0 0;}
+.pb-note{margin-top:10px;display:flex;align-items:flex-start;gap:8px;padding:8px 12px;border-radius:var(--r1);font-size:var(--fs-eyebrow);line-height:1.5;}
 .pb-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:2px;}
 .pb-note-ex{background:var(--accent);color:var(--muted);}
 .pb-note-pit{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber-text);}
@@ -1573,7 +1624,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .gl-gn{font-weight:var(--w-body);color:var(--muted);font-size:var(--fs-eyebrow);}
 .gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;border-top:1px solid var(--line-soft);}
 .gl-term{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
-.gl-def{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.6;}
+.gl-def{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;}
 @page{size:A4;margin:0;}
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
@@ -1608,7 +1659,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .side-cx{min-width:0;}
 /* size/weight matched to .int-bar-l ("หุ้นไทย" etc., เรดาร์ความสนใจ section) — fs-sub/22px+w-head
    (500) -> fs-bodysm/18px+w-label (700) (2026-08-29, per direction). */
-.side-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.3;}
+.side-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
 .side-s{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);margin-top:2px;}
 .side-r{display:flex;align-items:center;gap:var(--sp-inline);flex-shrink:0;}
 /* Restyled into a colored pill badge (2026-08-29, per direction "status ให้เป็น badge dna
@@ -1627,8 +1678,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .side-body.show{max-height:400px;}
 .side-bi{padding:0 20px var(--sp-card-pad-sm) 66px;}
 .side-dl{border-left:1px solid var(--line-soft);padding-left:var(--sp-inline);}
-.side-dl p{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.65;margin-bottom:var(--sp-inline);}
-.side-loc{display:inline-flex;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0.02em;}
+.side-dl p{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);}
+.side-loc{display:inline-flex;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0;}
 .side-loc svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--muted);}
 /* align-items:flex-start + icon margin-top nudge (2026-08-29, per direction "ให้ไอคอน alignment
    top กับข้อความ (ตอนนี้ center)") — same font-size:18px/line-height:1.5 pairing as .radar-insight,
@@ -1674,7 +1725,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    direction, so .hh-logo is now the card's first element — its old margin-top (spacing it away
    from the badge above) is dropped; the card's own padding-top already clears it. */
 .hh-logo{display:block;width:min(56%,210px);height:auto;margin:0 auto;}
-.hh-sub{font-size:var(--fs-sub);font-weight:var(--w-head);color:var(--ink);line-height:1.55;max-width:34ch;margin:var(--sp-inline) auto 0;}
+.hh-sub{font-size:var(--fs-sub);font-weight:var(--w-head);color:var(--ink);line-height:1.5;max-width:34ch;margin:var(--sp-inline) auto 0;}
 /* 500 base / 700 emphasized trailing clause — same "text weight play" convention as .q-title/
    .q-title b (emphasizeQ()), hand-authored here since this is one static string, not a per-item
    render. Bolds "ดูย้อนหลังได้บน efin.finance" so the poster subtext isn't one flat weight. */
@@ -1740,7 +1791,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    under the icon that now precedes it in every current usage. */
 .pass-name.pn-indent{margin-left:calc(var(--ic-lg) + var(--sp-inline));}
 .pass-cv{width:20px;height:20px;color:var(--muted);flex:0 0 auto;}
-.pass-benefit{font-size:var(--fs-bodysm);color:var(--muted);margin-top:var(--sp-inline);line-height:1.4;}
+.pass-benefit{font-size:var(--fs-bodysm);color:var(--muted);margin-top:var(--sp-inline);line-height:1.5;}
 .pass-foot{margin-top:var(--sp-inline);padding-top:var(--sp-inline);border-top:1px solid var(--line-soft);display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-list);}
 .pass-foot-lbl{font-size:var(--fs-eyebrow);color:var(--muted);}
 /* Multi-ticket pass-card (2026-09-02, per direction "จำลองเคส...ลูกค้าบัตร 2 แบบ", revised same day
@@ -1796,7 +1847,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* letter-spacing dropped (2026-08-29, per direction) — same fix as .s-ey above; covers "ขั้นต่อไป"
    (Home), "เล่นเกมนี้ต่อ" (Games), and "ลุ้นรางวัลใหญ่" (Booth) — this class's only 3 call sites. */
 .ns-ey{font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;color:rgba(255,255,255,.55);}
-.ns-t{font-size:var(--fs-h2);font-weight:var(--w-label);color:var(--white);line-height:1.3;margin-top:2px;}
+.ns-t{font-size:var(--fs-h2);font-weight:var(--w-label);color:var(--white);line-height:1.5;margin-top:2px;}
 /* .ns-body wraps whatever trailing content a card has (just .ns-b for Home/Games; .ns-b plus the
    booth-only .ds-dl/.ds-chips for the prize-draw card) as ONE grid item, so the grid-area template
    above never has to know how many lines that content happens to be. */
@@ -1816,7 +1867,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .hc-card{background:var(--white);border:1px solid var(--line-soft);border-radius:var(--r2);padding:var(--sp-card-pad-sm);cursor:pointer;display:flex;flex-direction:column;gap:2px;text-align:left;font-family:var(--font);}
 .hc-card svg{width:var(--ic-md);height:var(--ic-md);}
 .hc-val{font-size:var(--fs-h2);font-weight:var(--w-label);color:var(--ink);line-height:1.2;font-family:var(--font);}
-.hc-label{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.35;}
+.hc-label{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
 .book-teaser{background:var(--white);border:1px solid var(--line-soft);border-radius:var(--r2);padding:var(--sp-stack);grid-template-columns:1fr auto;}
 /* Was flat neutral gray (var(--accent)/var(--ink)) like a plain UI-chrome icon — the book teaser
    is a real content shortcut (same "your guide/identity" idea as the Home pass-card and profile
@@ -1830,7 +1881,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    the now-unused 44px column to match (see below). */
 .bt-t{display:flex;align-items:center;gap:var(--sp-inline);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);line-height:1.25;}
 .bt-t-ic{width:24px;height:auto;flex:0 0 auto;}
-.bt-s{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.45;margin-top:2px;margin-left:calc(var(--ic-lg) + var(--sp-inline));}
+.bt-s{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;margin-top:2px;margin-left:calc(var(--ic-lg) + var(--sp-inline));}
 .bt-cv{width:20px;height:20px;color:var(--muted);flex-shrink:0;}
 .home-card{background:var(--white);border:1px solid var(--line-soft);border-radius:var(--r2);padding:var(--sp-card-pad-sm) var(--sp-card-pad);}
 .hcard-hd{margin-bottom:var(--sp-inline);}
@@ -2010,9 +2061,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    bigger/bolder size with flex-shrink:0 holding the box at that width regardless — dropped the
    fixed width and added white-space:nowrap instead, so the column just sizes to its own content;
    every AGENDA_D1/D2 time string is the same "HH:MM" length, so columns still line up. */
-.ag-time{flex:0 0 auto;white-space:nowrap;font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--violet);line-height:1.45;font-family:var(--font);}
-.ag-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.4;}
-.ag-by{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.45;margin-top:2px;}
+.ag-time{flex:0 0 auto;white-space:nowrap;font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--violet);line-height:1.5;font-family:var(--font);}
+.ag-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
+.ag-by{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:2px;}
 .ag-more{width:100%;margin-top:var(--sp-inline);display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-glue);border:1px solid var(--line-soft);background:var(--white);color:var(--ink);font-family:var(--font);font-weight:var(--w-head);font-size:var(--fs-bodysm);min-height:44px;border-radius:var(--r1);cursor:pointer;transition:transform .15s var(--ease),background .15s var(--ease);}
 .ag-more svg{width:var(--ic-sm);height:var(--ic-sm);}
 /* Chevron now actually flips (2026-08-28, per direction "กรณีย่อรายการ...ไอคอนต้องเป็น top...ตอนนี้ยัง
@@ -2033,8 +2084,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .ann-row:active{transform:scale(.98);}
 @media(hover:hover) and (pointer:fine){.ann-row:hover{background:var(--cloud);}}
 .ann-row+.ann-row{margin-top:var(--sp-list);}
-.ann-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.4;}
-.ann-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.45;margin-top:1px;}
+.ann-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
+.ann-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:1px;}
 /* ══ POST-EVENT ("หลังจบงาน · ดูย้อนหลัง") ══ */
 .pe-report{display:flex;gap:var(--sp-inline);align-items:flex-start;padding:var(--sp-inline) var(--sp-stack);border-radius:var(--r1);background:var(--paper);margin-top:2px;}
 .pe-report.on{background:var(--done-wash);}
@@ -2060,8 +2111,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    them. margin-top recalculated for the bigger icon using the same centering math as the base rule's
    own comment: (25.2 - 24)/2 ≈ 1px, not the base rule's 3px (which was centering a 20px icon). */
 .pe-report.pe-report-lg svg{width:var(--ic-lg);height:var(--ic-lg);margin-top:1px;}
-.pe-report-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.4;}
-.pe-report-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.45;margin-top:2px;}
+.pe-report-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
+.pe-report-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:2px;}
 /* Sized/weighted to match .pe-track-lbl (the "Conference"/"Workshop"/"Master Class" sub-section
    titles further down this same card) — was a small muted eyebrow, reading as a lesser tier than
    its sibling sub-titles despite doing the same job. Color matched to --ink too: at this size/
@@ -2086,7 +2137,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pe-items{display:flex;flex-direction:column;gap:var(--sp-list);}
 .pe-item{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-inline);padding:var(--sp-inline) var(--sp-inline);border-radius:var(--r1);border:1px solid var(--line-soft);}
 .pe-item-tx{flex:1;min-width:0;}
-.pe-item-t{font-size:var(--fs-bodysm);font-weight:var(--w-head);color:var(--ink);line-height:1.35;}
+.pe-item-t{font-size:var(--fs-bodysm);font-weight:var(--w-head);color:var(--ink);line-height:1.5;}
 .pe-item-s{font-size:var(--fs-eyebrow);color:var(--muted);margin-top:2px;}
 .pe-dl{display:inline-flex;align-items:center;gap:var(--sp-stack-tight);flex:0 0 auto;border:1px solid var(--ink);background:var(--ink);color:var(--cloud);font-family:var(--font);font-weight:var(--w-head);font-size:var(--fs-label);padding:var(--sp-glue) var(--sp-inline);border-radius:var(--rpill);cursor:pointer;white-space:nowrap;}
 .pe-dl svg{width:var(--ic-sm);height:var(--ic-sm);}
@@ -2101,7 +2152,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .stub-ic{width:72px;height:72px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--muted);}
 .stub-ic svg{width:32px;height:32px;}
 .stub-t{font-size:var(--fs-heading);font-weight:var(--w-label);color:var(--ink);}
-.stub-s{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.55;max-width:30ch;}
+.stub-s{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;max-width:30ch;}
 
 /* ══ BOOTH / PASSPORT TAB ══ structure ported from Playbook Final's Passport screen (progress →
    grand-prize status → personalized hero route → per-zone booth check-in), re-skinned to our DNA. */
@@ -2109,7 +2160,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    own 24px/700 — reading as its own oversized glyph instead of a quiet separator. .hd-star scales
    it down relative to whatever heading it sits in (em, not a fixed px) and mutes the color. */
 .hd-star{font-size:0.6em;color:var(--muted);}
-.booth-hd .booth-s{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.45;margin-top:var(--sp-stack-tight);}
+.booth-hd .booth-s{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;margin-top:var(--sp-stack-tight);}
 /* margin-bottom added (2026-08-15, per direction "ตอนนี้ติดกันอยู่ ให้แยก spacing ตาม system dna") —
    this row and the draw-status callout right after it had no gap between them at all. --sp-list is
    the token for "next row in the same stack", the same relationship these two blocks have. */
@@ -2147,7 +2198,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    height regardless of whether that card's own label happens to wrap to 1 or 2 lines — explicit
    line-height + min-height for exactly 2 lines of it, so .bp-frac always starts on the same line
    across both cards in the .booth-prog pair. */
-:root[data-view="mobile"] .bp-lbl{line-height:1.3;min-height:calc(1.3em * 2);}
+:root[data-view="mobile"] .bp-lbl{line-height:1.5;min-height:calc(1.3em * 2);}
 /* points total (Phase 4, 2026-09-09) — display-only stat, see boothPointsTotal()'s own comment.
    Reskinned onto .pe-report's own DNA (2026-09-10, per direction "section นี้ต้องการให้ใช้ dna เดียวกับ
    รายงานพัฒนาการหลังงาน (หน้าหลัก)") — was a one-off amber-bordered pill (bold inline number, its own
@@ -2238,7 +2289,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .scan-x{position:absolute;right:12px;top:12px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:var(--ink);border:none;cursor:pointer;}
 .scan-x svg{width:var(--ic-md);height:var(--ic-md);}
 .scan-hd{padding-right:30px;margin-bottom:var(--sp-stack);}
-.scan-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);line-height:1.3;}
+.scan-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
 .scan-s{font-size:var(--fs-eyebrow);color:var(--muted);margin-top:2px;}
 /* Scan-mode switcher is .bt-tabs.bt-tabs--primary (swapped per direction, the same tab component
    used everywhere else) — was its own bespoke .scan-tab pill-in-a-track, now one component
@@ -2313,7 +2364,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    DNA quiz's own --fs-title/36px .q-title, staying a notch smaller since this lives in a modal, not
    a full screen. `b` matches .q-title b's own bold-tail treatment (emphasizeQ() wraps the trailing
    clause in <b> — see renderPlayBody). */
-.play-q{font-size:32px;font-weight:var(--w-body);color:var(--ink);line-height:1.3;margin-bottom:2px;}
+.play-q{font-size:32px;font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:2px;}
 .play-q b{font-weight:var(--w-label);}
 .play-sub{font-size:var(--fs-label);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
 .play-opts .q-opts{margin-bottom:var(--sp-stack);}
@@ -2354,7 +2405,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .play-result-card .pr-ic{flex:0 0 auto;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:var(--ink);}
 .play-result-card .pr-ic svg{width:var(--ic-md);height:var(--ic-md);}
 .play-result-card .pr-tx{min-width:0;}
-.play-result-ey{font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:2px;}
+.play-result-ey{font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);text-transform:uppercase;letter-spacing:0;margin-bottom:2px;}
 .play-result-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
 .play-sum-list{display:flex;flex-direction:column;gap:var(--sp-list);margin-bottom:var(--sp-stack);}
 .play-sum-item{display:flex;gap:var(--sp-list);align-items:flex-start;padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);background:var(--paper);}
@@ -2389,7 +2440,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    the .consent-h class, just re-sized for the modal), a muted lead paragraph, .round-cards, and a
    primary CTA. See renderPlayBrief(). */
 .play-brief{text-align:center;padding-top:2px;}
-.play-brief-badge{display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-label);font-weight:var(--w-head);color:var(--ink);background:var(--accent);border-radius:var(--rpill);padding:5px var(--sp-list);margin-bottom:var(--sp-stack);line-height:1.3;}
+.play-brief-badge{display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-label);font-weight:var(--w-head);color:var(--ink);background:var(--accent);border-radius:var(--rpill);padding:5px var(--sp-list);margin-bottom:var(--sp-stack);line-height:1.5;}
 .play-brief-badge .pb-emoji{font-size:16px;line-height:1;}
 /* Back in use (2026-09-10, per direction "หน้าคั่น...text title size เล็กลงกว่านี้อีกหน่อย (ใช้ตามที่
    .md มี)") — overrides .consent-h's own hero-specific 64px (a size bumped up 2026-08-19 purely for
@@ -2659,7 +2710,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    overlapping the cards (sticky) or being clipped off entirely (had .pb-consent not made this
    scrollable). */
 :root[data-view="mobile"] .consent.overflow-fix .consent-btn{position:static;width:100%;margin:var(--sp-block) 0 0;padding:0;background:none;}
-.play-brief-p{font-size:var(--fs-body);color:var(--muted);line-height:1.6;max-width:300px;margin:0 auto var(--sp-block);}
+.play-brief-p{font-size:var(--fs-body);color:var(--muted);line-height:1.5;max-width:300px;margin:0 auto var(--sp-block);}
 .play-brief .round-cards{margin:0 0 var(--sp-stack);text-align:left;}
 .play-brief-note{display:flex;gap:var(--sp-list);align-items:flex-start;justify-content:center;font-size:var(--fs-label);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-block);}
 .play-brief-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:1px;color:var(--ink);}
@@ -2675,7 +2726,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .share-scrim{position:absolute;inset:0;background:rgba(17,19,24,.6);}
 .share-sheet{position:relative;width:100%;max-width:340px;background:var(--white);border-radius:var(--r2);padding:var(--sp-card-pad-sm);box-shadow:var(--shadow-lg);}
 .share-hd{padding-right:30px;margin-bottom:var(--sp-stack);}
-.share-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);line-height:1.3;}
+.share-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
 .share-x{position:absolute;right:12px;top:12px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:var(--ink);border:none;cursor:pointer;}
 .share-x svg{width:var(--ic-md);height:var(--ic-md);}
 .share-sub{font-size:var(--fs-eyebrow);color:var(--muted);margin-top:2px;}
@@ -2706,7 +2757,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* weight bumped w-head->w-label (2026-08-28, per direction "รายการแต่ละ zone text title...text
    weight 700") — was 500, same step-up .klib-t/.bt-t already went through for their own list-row
    titles (see .klib-t's own comment above). */
-.rt-name{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.35;display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-glue);}
+.rt-name{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.5;display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-glue);}
 /* radius moved off --r0 (6px, visibly squarer than every sibling badge) onto --rpill — with
    padding now matching the rest of this family too, the old squarer corner would have stood out
    MORE, not less, once it was the only thing left different. */
@@ -2791,7 +2842,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .howto-x{position:absolute;right:12px;top:12px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:var(--ink);border:none;cursor:pointer;}
 .howto-x svg{width:var(--ic-md);height:var(--ic-md);}
 .howto-hd{padding-right:30px;margin-bottom:var(--sp-stack);}
-.howto-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);line-height:1.3;}
+.howto-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
 .howto-s{font-size:var(--fs-eyebrow);color:var(--muted);margin-top:2px;}
 /* dlpbModal's own footer — the one .howto-modal consumer (Booth's "วิธีเล่น") never needed action
    buttons at all, just a body, so there's no shared footer-row class to reuse yet. Stacked full-width
@@ -2878,7 +2929,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 
 /* ══ GAMES TAB ══ the source's "คู่มือ 6 ด้านของคุณ" — 6 mini-games, each fills one Playbook side.
    Ported from Playbook Final's Games screen + sideResult() narratives, re-skinned to our DNA. */
-.gh-sub{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.45;margin:-6px 0 2px;}
+.gh-sub{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;margin:-6px 0 2px;}
 /* .gh-title-row (2026-09-18, per direction — moved "ดาวน์โหลด PLAYBOOK" onto the title's own row,
    right-aligned) — .s-h+.gh-sub (as one block) + the button together don't fit one line without
    wrapping the heading itself into 2-3 cramped lines (confirmed via screenshots at 320/416px AND at
@@ -2898,7 +2949,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    .next-step (ขั้นต่อไป) for the one next action, both defined near line ~670-703. This also fixes
    the old pie-chart's cramped center-number legibility complaint by dropping the chart entirely —
    the pass-card's plain "เปิดแล้ว X จาก 6 ด้าน" text carries the same info without a chart at all. */
-.gh-restlbl{font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:.06em;color:var(--muted);margin:var(--sp-stack) 0 var(--sp-list);text-transform:uppercase;}
+.gh-restlbl{font-size:var(--fs-eyebrow);font-weight:var(--w-head);letter-spacing:0;color:var(--muted);margin:var(--sp-stack) 0 var(--sp-list);text-transform:uppercase;}
 /* game list rows */
 .game-list{display:flex;flex-direction:column;gap:var(--sp-inline);}
 .game-row{border:1px solid var(--line-soft);border-radius:var(--r2);background:var(--white);overflow:hidden;transition:border-color .15s;}
@@ -2928,7 +2979,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* font-size/weight now match Booth's "กิจกรรมประจำโซน" asset title (.bc-asset — fs-bodysm/w-label,
    2026-08-28, per direction "text size และ text weight อ้างอิงให้เท่ากับ...หุ้นไทย") — was fs-sub/
    w-head, a size step up and a lighter weight than that reference. */
-.gr-title{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.35;}
+.gr-title{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);line-height:1.5;}
 /* Solid fill, not a tint — a 16%-tint chip on a row that's ALSO 5%-cyan-tinted (.game-row.played)
    just blended into its own background instead of reading as a distinct status. */
 /* Bug fix (2026-09-03, per direction "การวางข้อมูล...ดูแปลกๆ ไม่สมบูรณ์") — .gr-title used to be
@@ -2946,7 +2997,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    identically — title line, then the pill directly under it, every time. */
 .gr-played{display:flex;width:fit-content;align-items:center;gap:var(--sp-stack-tight);font-size:var(--fs-label);font-weight:var(--w-head);color:var(--ink);background:var(--cyan);padding:4px var(--sp-inline);border-radius:var(--rpill);margin-top:4px;}
 .gr-played svg{width:var(--ic-sm);height:var(--ic-sm);}
-.gr-status{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.4;margin-top:2px;}
+.gr-status{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:2px;}
 .gr-chev{width:20px;height:20px;color:var(--muted);flex-shrink:0;cursor:pointer;transition:transform .2s var(--ease);}
 .gr-chev.open{transform:rotate(180deg);}
 /* Now the SAME max-height CSS-transition mechanism as .side-body (2026-08-15, per Component
@@ -2963,7 +3014,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    unopened game result, and reads better lighter than the app's other dashed panels. */
 .gr-bin{border-top:1px dashed var(--line-soft);padding:var(--sp-inline);}
 .gr-from{font-size:var(--fs-eyebrow);color:var(--muted);margin-bottom:var(--sp-stack-tight);}
-.gr-result{font-size:var(--fs-bodysm);font-weight:var(--w-head);color:var(--ink);line-height:1.6;}
+.gr-result{font-size:var(--fs-bodysm);font-weight:var(--w-head);color:var(--ink);line-height:1.5;}
 .games-note{margin-top:var(--sp-inline);display:flex;align-items:center;gap:var(--sp-glue);font-size:var(--fs-eyebrow);color:var(--muted);}
 .games-note svg{width:var(--ic-sm);height:var(--ic-sm);}
 
@@ -2986,7 +3037,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .prof-av{width:66px;height:66px;margin:0 auto var(--sp-list);border-radius:50%;overflow:hidden;background:var(--accent);animation:profPop .36s var(--ease) both;}
 .prof-av img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);}
 .prof-name{font-size:var(--fs-h2);font-weight:var(--w-label);color:var(--ink);}
-.prof-org{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.45;margin-top:2px;}
+.prof-org{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;margin-top:2px;}
 .prof-chips{display:flex;flex-wrap:wrap;gap:var(--sp-glue);justify-content:center;margin-top:var(--sp-inline);}
 @keyframes profPop{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
 .prof-vf{display:inline-flex;align-items:center;gap:var(--sp-stack-tight);padding:4px var(--sp-inline);border-radius:var(--rpill);background:var(--done-fill);color:var(--ink);font-size:var(--fs-eyebrow);font-weight:var(--w-head);}
@@ -3008,7 +3059,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .prof-qr{margin-top:var(--sp-stack);padding:var(--sp-stack);border-radius:var(--r1);border:1px dashed var(--line-strong);background:var(--paper);display:inline-block;}
 /* ink/700 (2026-08-16, per direction "section qr ประจำตัว title เป็นสีดำ text weight 700") — was a
    muted 500 eyebrow; it's the one label naming this block, so it reads as a real title now. */
-.pq-lbl{font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:var(--sp-list);}
+.pq-lbl{font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:0;text-transform:uppercase;color:var(--ink);margin-bottom:var(--sp-list);}
 .pq-box{width:148px;height:148px;margin:0 auto;border-radius:var(--r1);background:var(--white);border:1px solid var(--line-soft);display:flex;align-items:center;justify-content:center;color:var(--ink);}
 /* 96px — the largest placeholder icon in the app (profile QR not generated yet), one-off, no
    repeated value elsewhere to consolidate into a token. */
@@ -3031,7 +3082,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* .pf-brand-bold (2026-09-16, per direction) — "BetterTrade"/"New world New Playbook" bumped to
    --w-label/700; the lead description line right below stays at the base --w-head/500. */
 .pf-brand-bold{font-weight:var(--w-label);}
-.pf-note{display:flex;align-items:flex-start;gap:var(--sp-glue);font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.6;}
+.pf-note{display:flex;align-items:flex-start;gap:var(--sp-glue);font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;}
 .pf-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:2px;}
 /* ══ SPLASH / ATTRACT ══ two-tone headline · drifting brand assets · card carousel */
 /* overflow-x only (never -y): the CTA must NEVER be unreachable. overflow:hidden on both axes
@@ -3104,7 +3155,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    .consent-p's own fs-body (the <b> only overrides color/weight); weight already matched (both
    var(--w-label)) before this, size was the remaining gap. */
 .sp-kick{font-family:var(--font);font-size:var(--fs-body);font-weight:var(--w-label);color:var(--muted);margin-bottom:var(--sp-stack);}
-.sp-h{font-family:var(--serif);font-weight:var(--w-label);font-size:clamp(34px,12vw,50px);line-height:0.96;letter-spacing:-0.015em;text-wrap:balance;}
+.sp-h{font-family:var(--serif);font-weight:var(--w-label);font-size:clamp(34px,12vw,50px);line-height:0.96;letter-spacing:0;text-wrap:balance;}
 .sp-h .l1{display:block;color:var(--ink);}
 .sp-h .l2{display:block;color:var(--muted);}
 /* subtitle carries the "what am I here to do" message — kept prominent (ink, slightly larger) so it out-reads the decorative hero logo; the key phrase is bolded via <b> in render */
@@ -3115,7 +3166,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    boundary (76%×447≈340, comfortably before 480 — no jump, and framed wide viewports beyond it stay
    capped instead of growing with raw vw forever). 340px still reads as a normal paragraph measure,
    not an over-wide line. */
-.sp-sub{font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--ink);line-height:1.55;max-width:min(76vw,340px);margin:var(--sp-inline) auto 0;}
+.sp-sub{font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--ink);line-height:1.5;max-width:min(76vw,340px);margin:var(--sp-inline) auto 0;}
 .sp-sub b{font-weight:var(--w-label);}
 .sp-stage{position:relative;z-index:2;flex:0 0 auto;width:100%;display:flex;align-items:center;justify-content:center;min-height:0;margin:clamp(22px,5vh,46px) 0 0;}
 /* fan carousel — adapted from a GSAP card-fan reference (rot/scale/x/y per slot, arc shape) into
@@ -3243,7 +3294,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pcE-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#f4f1e9;}
 .pcE::before{content:"";position:absolute;inset:0;opacity:.55;background-image:radial-gradient(rgba(17,19,24,0.05) 0.5px,transparent 0.6px);background-size:3px 3px;pointer-events:none;}
 .pcE-name{flex:0 0 auto;text-align:center;position:relative;z-index:3;margin-bottom:var(--sp-glue);}
-.pcE-en{font-family:var(--serif);font-weight:var(--w-label);font-size:var(--pc-fs-1);line-height:1.05;color:#15171d;letter-spacing:-0.01em;}
+.pcE-en{font-family:var(--serif);font-weight:var(--w-label);font-size:var(--pc-fs-1);line-height:1.05;color:#15171d;letter-spacing:0;}
 @supports(width:1cqw){.pcE-en{font-size:clamp(20px,10cqw,30px);}}
 .pcE-art{flex:1 1 auto;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;z-index:1;}
 /* Halo (a big conic-gradient CIRCLE FILL behind the icon) removed, and the glyph's solid-black
@@ -3268,7 +3319,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    no visual change (a 2px-tall bar renders as a full pill at either radius), just consistency. */
 .pcE-divider{width:52px;height:2px;border-radius:4px;background:var(--spectrum);}
 .pcE-th2{font-family:var(--font);font-weight:var(--w-label);font-size:var(--pc-fs-2);color:#15171d;}
-.pcE-def{font-family:var(--font);font-weight:var(--w-body);font-size:var(--pc-fs-3);line-height:1.45;color:rgba(17,19,24,0.6);max-width:34ch;}
+.pcE-def{font-family:var(--font);font-weight:var(--w-body);font-size:var(--pc-fs-3);line-height:1.5;color:rgba(17,19,24,0.6);max-width:34ch;}
 .pcE-ed{font-family:var(--font);font-size:var(--pc-fs-5);color:rgba(17,19,24,0.4);}
 .pcE-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 10px;}
 .pcE-tag{display:flex;align-items:center;gap:4px;font-family:var(--font);font-size:var(--pc-fs-5);color:rgba(17,19,24,0.75);white-space:nowrap;}
@@ -3279,13 +3330,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    inset frame is its own category from the dot/bar group above (see .alloc-dot's comment); 8px is
    close enough to the old 9px to fold onto the real token instead of a bespoke number. */
 .pcb::before{content:"";position:absolute;inset:9px;border:1px solid rgba(17,19,24,0.22);border-radius:var(--r1);pointer-events:none;}
-.pcb-ey{font-family:var(--font);font-size:var(--pc-fs-4);letter-spacing:0.12em;text-transform:uppercase;color:rgba(17,19,24,0.5);}
+.pcb-ey{font-family:var(--font);font-size:var(--pc-fs-4);letter-spacing:0;text-transform:uppercase;color:rgba(17,19,24,0.5);}
 .pcb-en{font-family:var(--serif);font-weight:var(--w-label);font-size:var(--pc-fs-1);color:#15171d;line-height:1.02;margin-top:3px;}
 .pcb-th{font-size:var(--pc-fs-2);color:rgba(17,19,24,0.6);margin:2px 0 10px;}
 .pcb-sec{margin-top:var(--sp-inline);}
-.pcb-hd{display:flex;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--pc-fs-4);font-weight:var(--w-label);letter-spacing:0.06em;text-transform:uppercase;color:#15171d;margin-bottom:var(--sp-stack-tight);}
+.pcb-hd{display:flex;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--pc-fs-4);font-weight:var(--w-label);letter-spacing:0;text-transform:uppercase;color:#15171d;margin-bottom:var(--sp-stack-tight);}
 .pcb-hd svg{width:var(--ic-sm);height:var(--ic-sm);}
-.pcb-li{font-size:var(--pc-fs-3);font-weight:var(--w-body);color:rgba(17,19,24,0.72);line-height:1.45;padding-left:var(--sp-inline);position:relative;margin-bottom:3px;}
+.pcb-li{font-size:var(--pc-fs-3);font-weight:var(--w-body);color:rgba(17,19,24,0.72);line-height:1.5;padding-left:var(--sp-inline);position:relative;margin-bottom:3px;}
 .pcb-li::before{content:"✦";position:absolute;left:0;top:0;font-size:var(--pc-fs-5);color:rgba(17,19,24,0.5);}
 .pcb-strow{display:grid;grid-template-columns:46px 1fr 20px;gap:var(--sp-list);align-items:center;margin-bottom:var(--sp-stack-tight);}
 .pcb-stl{font-family:var(--font);font-size:var(--pc-fs-4);color:rgba(17,19,24,0.6);}
@@ -3300,7 +3351,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* .pcv-wrap/.pcv-hint/.pcv-ctas/.pcv-btn (the old drag-to-rotate viewer's hint pill + flip button)
    and .hero-cardwrap (its wrapping frame) removed 2026-08-30 along with คู่มือ 1 — see the removal
    note near BOOK2_TAB. */
-.hero-sig-c{font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--muted);line-height:1.55;text-align:center;max-width:32ch;margin:0 auto 20px;}
+.hero-sig-c{font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--muted);line-height:1.5;text-align:center;max-width:32ch;margin:0 auto 20px;}
 /* 32ch is tuned to wrap cleanly on a real phone's narrow card; on tablet/pc the same card is ~670px+
    wide (see .toc/main.scroll's 760px reading column) so that cap forced most sig lines to wrap to 2
    lines with plenty of spare width sitting unused beside them (2026-09-01, per direction — "ชอบสร้าง
@@ -3555,7 +3606,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .demo-ti svg{width:var(--ic-md);height:var(--ic-md);color:var(--focus);}
 .demo-x{cursor:pointer;color:var(--muted);display:flex;padding:4px;}
 .demo-x svg{width:var(--ic-md);height:var(--ic-md);}
-.demo-lbl{font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:0.05em;color:var(--muted);text-transform:uppercase;margin:var(--sp-stack) 0 var(--sp-list);}
+.demo-lbl{font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:0;color:var(--muted);text-transform:uppercase;margin:var(--sp-stack) 0 var(--sp-list);}
 .seg{display:flex;background:var(--accent);border-radius:var(--r1);padding:4px;gap:4px;}
 .seg button{flex:1;border:none;background:none;padding:9px 4px;border-radius:var(--r1);font-family:var(--font);font-size:var(--fs-bodysm);color:var(--muted);cursor:pointer;transition:background .15s,color .15s;}
 .seg button.on{background:var(--focus);color:var(--white);font-weight:var(--w-label);box-shadow:0 1px 3px rgba(43,108,255,0.4);}
@@ -3572,7 +3623,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* .demo-reset now composes with .btn.btn-secondary (call site) for its fill/border/motion — this
    rule only supplies the dev-panel-specific layout (full-width, spaced from the row above it). */
 .demo-reset{width:100%;margin-top:var(--sp-stack);}
-.demo-stub{font-size:var(--fs-meta);color:var(--muted);margin-top:var(--sp-stack-tight);line-height:1.4;}
+.demo-stub{font-size:var(--fs-meta);color:var(--muted);margin-top:var(--sp-stack-tight);line-height:1.5;}
 
 .fade{animation:fade .32s var(--ease);}
 @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
@@ -3634,7 +3685,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    own box-shadow (used everywhere else a card renders — Book, splash, compare-reveal) stays untouched;
    two classes here outguns its one on specificity alone, no !important needed. */
 .cr-scene .pc-face{box-shadow:none;}
-.cr-kicker{position:relative;z-index:3;margin-bottom:22px;font-family:var(--font);font-size:var(--fs-body);font-weight:var(--w-label);letter-spacing:normal;color:var(--muted);opacity:0;transform:translateY(-8px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
+.cr-kicker{position:relative;z-index:3;margin-bottom:22px;font-family:var(--font);font-size:var(--fs-body);font-weight:var(--w-label);letter-spacing:0;color:var(--muted);opacity:0;transform:translateY(-8px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
 .cr-scene.s-appear .cr-kicker{opacity:1;transform:none;}
 .cr-stage{position:relative;display:flex;align-items:center;justify-content:center;width:100%;z-index:1;}
 /* translateY-only, never scale() (2026-09-08, per direction "ขอบรอบการ์ด...เห็นเส้นบางๆ เข้มๆ...
@@ -3736,9 +3787,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    the analyzing screen's own headline kept it all along), which is also exactly the codebase's existing
    .shimmer-ink utility (see .ev-empty-t.shimmer-ink) — same shimmerSweep keyframe, same ink-tinted
    sweep band, reused verbatim rather than re-invented. */
-.cr-en{font-family:var(--serif);font-size:48px;font-weight:var(--w-label);color:var(--ink);line-height:1.06;letter-spacing:-0.01em;background-repeat:no-repeat;background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-image:linear-gradient(100deg,var(--ink) 0%,var(--ink) 34%,color-mix(in srgb,var(--violet) 78%,var(--ink) 22%) 48%,color-mix(in srgb,var(--violet) 78%,var(--ink) 22%) 52%,var(--ink) 66%,var(--ink) 100%);animation:shimmerSweep 4.2s ease-in-out infinite;}
+.cr-en{font-family:var(--serif);font-size:48px;font-weight:var(--w-label);color:var(--ink);line-height:1.06;letter-spacing:0;background-repeat:no-repeat;background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-image:linear-gradient(100deg,var(--ink) 0%,var(--ink) 34%,color-mix(in srgb,var(--violet) 78%,var(--ink) 22%) 48%,color-mix(in srgb,var(--violet) 78%,var(--ink) 22%) 52%,var(--ink) 66%,var(--ink) 100%);animation:shimmerSweep 4.2s ease-in-out infinite;}
 /* Thai name — same text DNA as the splash's own subtitle (.sp-sub, "โลกการลงทุนใบใหม่...") per direction. */
-.cr-th{font-family:var(--font);font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--ink);line-height:1.55;margin-top:6px;}
+.cr-th{font-family:var(--font);font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-top:6px;}
 /* hint — was "same text DNA as the splash fan carousel's own caption (.cr2-cap)" per direction; that splash caption
    was removed 2026-09-21 (see renderSplash), the values below (14px/muted/lh1.5/280px) stand on their own now. */
 .cr-hint{position:relative;z-index:3;margin-top:16px;font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;max-width:280px;margin-left:auto;margin-right:auto;opacity:0;transition:opacity .6s var(--ease);}
@@ -4123,57 +4174,6 @@ var PB_INTRO=false;
 var root=document.getElementById('root');
 function ic(id,cls){return '<svg viewBox="0 0 24 24" class="lucide'+(cls?' '+cls:'')+'"><use href="#'+id+'"/></svg>';}
 
-/* ══ BT-TABS (behavior) ══ generic tablist engine — ARIA state, full keyboard nav (ArrowLeft/
-   ArrowRight/Home/End, skipping disabled tabs), click-to-select, whole-group disable via
-   aria-disabled="true" on the tablist itself, per-tab disable via the `disabled` attribute.
-   Deliberately does NOT assume a fixed tab→panel mapping — this app's two real instances need
-   different side-effects on selection (the agenda day-selector re-renders the whole screen with
-   different data; the asset drilldown just toggles a local panel's visibility), so selection just
-   calls back via onSelect(value, tabEl) and the caller owns what happens next — same division of
-   responsibility as this file's other local-repaint helpers (togSide, paintInterests). Safe to
-   call again on a tablist it's already wired (e.g. a re-render that rebuilds the same DOM node
-   fresh) since it's keyed off the live element, not a one-time global flag. */
-function initBtTabs(tablist,onSelect){
-  if(!tablist)return;
-  var getTabs=function(){return Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));};
-  var isDisabled=function(t){return t.disabled||t.getAttribute('aria-disabled')==='true';};
-  var groupDisabled=function(){return tablist.getAttribute('aria-disabled')==='true';};
-  var select=function(tab,focus){
-    if(groupDisabled()||isDisabled(tab))return;
-    getTabs().forEach(function(t){
-      var sel=(t===tab);
-      t.setAttribute('aria-selected',sel?'true':'false');
-      t.tabIndex=sel?0:-1;
-    });
-    if(focus!==false)tab.focus();
-    if(onSelect)onSelect(tab.dataset.value,tab);
-  };
-  tablist.onclick=function(e){
-    var tab=e.target.closest('[role="tab"]');
-    if(!tab||!tablist.contains(tab))return;
-    select(tab);
-  };
-  tablist.onkeydown=function(e){
-    if(groupDisabled())return;
-    var keys=['ArrowLeft','ArrowRight','Home','End'];
-    if(keys.indexOf(e.key)<0)return;
-    var tabs=getTabs(),enabled=tabs.filter(function(t){return !isDisabled(t);});
-    if(!enabled.length)return;
-    var active=document.activeElement,cur=enabled.indexOf(active)>-1?active:tabs.filter(function(t){return t.getAttribute('aria-selected')==='true';})[0];
-    var pos=enabled.indexOf(cur),next=null;
-    if(e.key==='ArrowLeft')next=enabled[pos<=0?enabled.length-1:pos-1];
-    else if(e.key==='ArrowRight')next=enabled[(pos<0||pos>=enabled.length-1)?0:pos+1];
-    else if(e.key==='Home')next=enabled[0];
-    else if(e.key==='End')next=enabled[enabled.length-1];
-    if(next){e.preventDefault();select(next);}
-  };
-  // tabIndex pass — only the selected enabled tab (or the first enabled one, if markup didn't
-  // pre-select any) is in the natural tab order; every other tab is reachable via arrow keys only.
-  var tabs=getTabs(),preSelected=tabs.filter(function(t){return t.getAttribute('aria-selected')==='true';});
-  tabs.forEach(function(t){t.tabIndex=(t.getAttribute('aria-selected')==='true')?0:-1;});
-  if(!preSelected.length){var firstEnabled=tabs.filter(function(t){return !isDisabled(t);})[0];if(firstEnabled)firstEnabled.tabIndex=0;}
-}
-
 /* On-Event gate (2026-09-01, per direction "เอา flow ส่วน dna quiz ออกทั้งหมด...เอา splash, หน้า 2
    [consent], กำลังวิเคราะห์ [reveal] ออก — หน้าเหล่านี้จะใช้งานได้เฉพาะช่วง Pre-Event") — the whole
    onboarding+quiz-taking flow (splash intro -> consent -> the 11 quiz questions -> the "กำลังวิเคราะห์"
@@ -4313,52 +4313,6 @@ function initCharts(scope){
   },{threshold:.3});
   boxes.forEach(function(b){io.observe(b);});
 }
-
-/* ── PRE/POST-EVENT IDENTITY — merges the old standalone "hero card" (pure DNA Quiz result) with
-   a "สรุปให้คุณก่อนกลับ" post-event verdict into ONE hero-sec, switched by an in-card tab instead
-   of two separate scroll-stops, so a customer can flip between "what the quiz said" and "what you
-   actually did in the event" without leaving the card. Logic is adapted from Playbook Final's own
-   evoState machine (declared quiz persona vs a behavior-revealed persona, gated by evidence) —
-   simplified to this app's real signals: games played (gamesPlayedCount), booth check-ins/
-   activities (boothCheckinCount/boothActivityCount, defined further down — safe to reference here
-   since these are all function declarations, fully hoisted), interests picked, and the
-   declared-vs-revealed risk gap compute() already produces (r.gap). The family-weight FORMULA
-   below is a design estimate (like riskLevel/radar elsewhere in this file) even though its INPUTS
-   are all real user actions — hence the .ex-tag on the rendered result, never claimed as a
-   measured/validated behavioral score. */
-/* G and V point at the 2 personas with REAL photographed card art (diamondhand/waverider) instead
-   of a CSS-mockup flagship — since evoCompute() below can only ever resolve a shift to G or V
-   (risk gap is a 1-axis signal; N has no natural "more/less risk than declared" direction), every
-   'evolved' result now lands on real art, never a mockup, on the post-event side. N keeps its
-   mockup rep since no N-family persona has real art yet. */
-var EVO_REP={G:'diamondhand',N:'planner',V:'waverider'};
-/* v3 — dropped the "เทียบก่อน–หลัง" 2-card compare + badge/evidence narrative entirely per
-   direction ("post-event doesn't need the compare section — just show the card, same layout as
-   pre-event, for the post-event persona"). The evidence-gated behFam decision (v2, still ties the
-   shift to ONE real signal — compute()'s own declared-vs-revealed risk gap, |gap|>=2 — behind an
-   activity threshold so a lone stray signal can't flip the persona) is unchanged; only the
-   RENDERING collapsed from 4 narrative states (building/gathering/confirmed/evolved) to 2 (no
-   data yet vs a resolved persona), since gathering/confirmed/evolved all rendered identically now
-   that there's no compare/badge copy left to differentiate them by. */
-function evoCompute(r){
-  var hero=r.hero,heroKey=r.heroKey;
-  var played=gamesPlayedCount(),chk=boothCheckinCount(),act=boothActivityCount(),interests=(r.interests||[]).length;
-  var sig=[played>=1,chk>=1,act>=1,interests>=1,played>=4,(chk>=CHECKIN_NEED&&act>=ACTIVITY_NEED)].filter(Boolean).length;
-  var enough=played>=1&&sig>=3;
-  var diverged=Math.abs(r.gap)>=2; // a real, already-computed behavioral risk gap of ≥2/10
-  var behFam=(enough&&diverged)?(r.gap>=2?'V':'G'):hero.fam;
-  var behKey=(behFam===hero.fam)?heroKey:EVO_REP[behFam];
-  /* Bug fix (found in a system-wide bug audit, 2026-08-19): state used to gate on played===0, but
-     GAME_PLAYED starts pre-seeded with 2 games already marked played for every session (see the
-     GAMES TAB comment), so gamesPlayedCount() is never really 0 — 'building' was dead/unreachable
-     for every real first-time visitor, even one who's checked into zero booths and played zero real
-     games, making the old Book v1 evoPanelHTML()'s "ยังไม่มีข้อมูลจากในงาน" empty state unreachable
-     (evoPanelHTML itself was removed along with Book v1, 2026-08-30 — see BOOK2_TAB). Book v2's
-     renderBook already worked around this with its own local noActivity check
-     (chk===0&&act===0&&played<=2) — reusing that exact formula here instead of touching it a 2nd
-     time in a 2nd place. */
-  return {state:(chk===0&&act===0&&played<=2)?'building':'ready',behKey:behKey,behHero:HEROES[behKey]};
-}
 /* #famBadge's tint+text color track whichever persona is currently active (pre vs post can be a
    different family entirely) — shared by the initial render and the tab-switch handler below so
    the two never drift apart. */
@@ -4392,7 +4346,7 @@ function heroDetailBody(hero,previewOnly){
        goes to plain --ink instead of hero.accent — color lives in the surface now, not the text. */
     '<div class="ast-block" style="background:color-mix(in srgb,var(--violet) 8%,var(--white));border:1px solid color-mix(in srgb,var(--violet) 24%,transparent)">'+
       '<div class="ast-lbl">สินทรัพย์ที่ถนัด</div><div class="ast-chips">'+chips+'</div></div>'+
-    '<div class="str-grid" style="margin-top:var(--sp-stack)"><div class="str-box"><div class="str-hd">'+ic('lc-check-circle')+'ความแข็งแกร่ง</div>'+strengths+'</div><div class="str-box wn"><div class="str-hd">'+ic('lc-alert-triangle')+'สิ่งที่ต้องระวัง</div>'+watch+'</div></div>';
+    '<div class="str-grid" style="margin-top:var(--sp-stack)"><div class="str-box"><div class="str-hd">'+ic('lc-check-circle')+'ความแข็งแกร่ง</div>'+strengths+'</div>'+ORN_V+'<div class="str-box wn"><div class="str-hd">'+ic('lc-alert-triangle')+'สิ่งที่ต้องระวัง</div>'+watch+'</div></div>';
   /* previewOnly (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้
      ลงทะเบียน...เห็นแค่ preview card ลงมาจนถึง จุดแข็ง/จุดที่ต้องระวัง เนื้อหาด้านล่างอื่นๆจะไม่แสดง") —
      an unregistered quiz-taker's Book (renderBook, see its `unreg` branch) stops right here; skips
@@ -4519,44 +4473,29 @@ function insightHTML(r,h,matchOk){
       '<div class="conf-foot"><p class="conf-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p></div></div>'+
     '</div></section>';
 }
-/* Compare-reveal (adapted from compare-reveal.html, skinned to DNA) — pointer drag + keyboard slider +
-   double-click reset + a one-time intro sweep. Idempotent per element (cr.__cr2 guard). */
-/* opts.onMove(pos), if given, fires only on USER-driven position changes (drag/keyboard/double-
-   click) — deliberately NOT from the intro sweep, so the linked detail-swap below (see renderBook)
-   doesn't flicker through both personas during the automatic reveal animation. */
-function initCompareReveal(opts){
-  opts=opts||{};
-  root.querySelectorAll('[data-cr2]').forEach(function(cr){
-    if(cr.__cr2)return;cr.__cr2=true;
-    var before=cr.querySelector('.cr2-before'),divider=cr.querySelector('.cr2-divider'),handle=cr.querySelector('.cr2-handle');
-    var bChip=cr.querySelector('.cr2-chip-b'),aChip=cr.querySelector('.cr2-chip-a');
-    var startPos=parseFloat(cr.dataset.start||'50'),pos=startPos,dragging=false;
-    function paint(){var x=Math.max(0,Math.min(100,pos));before.style.clipPath='inset(0 '+(100-x).toFixed(2)+'% 0 0)';divider.style.left=x.toFixed(2)+'%';handle.setAttribute('aria-valuenow',Math.round(x));if(bChip)bChip.style.opacity=x>12?'1':'0';if(aChip)aChip.style.opacity=x<88?'1':'0';}
-    function fromX(clientX){var rc=cr.getBoundingClientRect();pos=((clientX-rc.left)/Math.max(1,rc.width))*100;paint();if(opts.onMove)opts.onMove(pos);}
-    cr.addEventListener('pointerdown',function(e){dragging=true;try{if(cr.setPointerCapture)cr.setPointerCapture(e.pointerId);}catch(err){}fromX(e.clientX);});
-    cr.addEventListener('pointermove',function(e){if(dragging)fromX(e.clientX);});
-    cr.addEventListener('pointerup',function(){dragging=false;});
-    cr.addEventListener('pointercancel',function(){dragging=false;});
-    cr.addEventListener('dblclick',function(){pos=50;paint();if(opts.onMove)opts.onMove(pos);});
-    handle.setAttribute('role','slider');handle.setAttribute('aria-valuemin','0');handle.setAttribute('aria-valuemax','100');
-    handle.addEventListener('keydown',function(e){var s=e.shiftKey?10:4;if(e.key==='ArrowLeft'||e.key==='ArrowDown')pos-=s;else if(e.key==='ArrowRight'||e.key==='ArrowUp')pos+=s;else if(e.key==='Home')pos=0;else if(e.key==='End')pos=100;else return;e.preventDefault();paint();if(opts.onMove)opts.onMove(pos);});
-    paint();
-    /* Bug fix (found in a system-wide bug audit, 2026-08-19): this sweep used to hardcode its
-       oscillation center AND final rest position to the literal 52 regardless of cr.dataset.start
-       — harmless for the common case (data-start="52", the "has activity" compareBlock branch),
-       but for the noActivity/"locked" branch (data-start="90", meant to keep the locked หลังงาน
-       side almost entirely hidden) it dragged the divider down to a ~50/50 split and left it there,
-       defeating the whole point of that locked-preview state. Now sweeps around and settles back on
-       the real intended startPos, so the little "tease" wiggle still plays but rests where the
-       caller actually asked it to. */
-    if(!RM){var t0=null;var sweep=function(ts){if(t0===null)t0=ts;var u=(ts-t0)/1500;if(u>=1){pos=startPos;paint();return;}var e=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;pos=startPos+Math.sin(e*Math.PI*2)*32;paint();requestAnimationFrame(sweep);};requestAnimationFrame(sweep);}
-  });
-}
 /* fam-badge + signature/assets/strengths-watchouts + legend — everything the compare-reveal slider's
    "which persona is currently showing" should drive (2026-08-16, per direction "ถ้าได้ character card
    คนละตัวกัน ต้องการให้ข้อมูลทั้งหมด ใน section preview นี้เปลี่ยนตาม card ที่ active อยู่"). Kept as
    its own swappable block (id="b2ident-detail") separate from the compare-reveal markup itself, so
    swapping personas only replaces this innerHTML — the slider's own drag state/DOM is untouched. */
+/* Section ornaments (2026-09-21, per direction — sheet 2): a hairline with a 4-point star at its centre replaces the
+   card frames as the divider between sections (horizontal), and between side-by-side sections (vertical, tapering
+   toward its ends). Shared star glyph; colours read off the two reference images. */
+var ORN_STAR='<svg class="orn-star" viewBox="-11 -11 22 22" aria-hidden="true"><path d="M0-11C1.7-4.2 4.2-1.7 11 0 4.2 1.7 1.7 4.2 0 11-1.7 4.2-4.2 1.7-11 0-4.2-1.7-1.7-4.2 0-11Z"/></svg>';
+var ORN_H='<div class="orn-h" aria-hidden="true"></div>'; // plain hairline: no star, no gap
+var ORN_V='<div class="orn-v" aria-hidden="true"><i></i>'+ORN_STAR+'<i></i></div>';
+/* identParts — book2IdentityDetail() split in two: the family badge + signature line ("Navigator ✦ นักเดินเรือ
+   / ให้คุณค่ากับชีวิต…") go to #b2ident-head so they can sit directly under the card on the first sheet; everything
+   else (assets, strengths/watch-outs, SKILL) stays in #b2ident-detail. Both are re-filled together when the
+   compare slider crosses 50%. */
+function identParts(hero,unreg){
+  var t=document.createElement('div');t.innerHTML=book2IdentityDetail(hero,unreg);
+  var head=document.createElement('div');
+  [].slice.call(t.children).slice(0,2).forEach(function(c){head.appendChild(c);});
+  var nd=function(h){return h.replace(/\s*\u2014\s*/g,' ');}; // no em dashes on a sheet
+  var rest=[].slice.call(t.children).map(function(c){return c.outerHTML;}).join(ORN_H);
+  return {head:nd(head.innerHTML),rest:nd(rest)};
+}
 function book2IdentityDetail(hero,previewOnly){
   // .hero-leg ("แรงบันดาลใจจาก") removed 2026-08-19, per direction — applies to both sides of the
   // compare-reveal (this same function renders both the pre-event and post-event detail block).
@@ -4606,7 +4545,7 @@ function unregisteredCtaHTML(){
        same day, per follow-up direction "แชร์ภาพการ์ด กรณี pre, on-event ทั้งหมด ทั้งที่ลงทะเบียน
        แล้ว และยัง ให้ปรับมาใช้รูปแบบล่าสุดทั้งหมด" — retiring the old solid-fill
        .btn-primary.hero-share-btn there. */
-    '<button class="ag-more" id="shareCardBtn" style="font-size:var(--fs-sub);border-radius:var(--rpill)">'+ic('lc-upload')+'แชร์ภาพการ์ด</button>';
+    '';
 }
 function renderBook(){
   if(!RESULT){st.phase='splash';render();return;}
@@ -4623,7 +4562,7 @@ function renderBook(){
   // .b2-panel showing 'show' (see the pre guard below) — fall back to the one tab that's always
   // reachable in both phases.
   if(pre&&BOOK2_TAB!=='identity'&&BOOK2_TAB!=='analysis')BOOK2_TAB='identity';
-  var r=RESULT,h=r.hero,ev=evoCompute(r),matchOk=Math.abs(r.gap)<=1.5,tab=BOOK2_TAB,isUltimate=curTier().name==='Ultimate';
+  var r=RESULT,h=r.hero,matchOk=Math.abs(r.gap)<=1.5,tab=BOOK2_TAB,isUltimate=curTier().name==='Ultimate';
   var arrows='<svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M6 1 L1 7 L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 1 L17 7 L12 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   /* Compare-reveal ALWAYS previews two genuinely DIFFERENT persona cards now (2026-08-16, per
      direction "อยากให้ preview ตัวอย่าง character card ผลลัพธ์จริงที่ออกมาต่างกันเสมอ เพื่อให้เห็นถึง
@@ -4636,9 +4575,6 @@ function renderBook(){
      — same divergence technique forcePersona()'s own demo mode already uses (shift to the opposite
      family's flagship, EVO_REP) — and tagged "ตัวอย่าง" so it's never presented as if it were the
      user's own real result. */
-  var realPost=ev.state!=='building'&&ev.behKey!==r.heroKey;
-  var postKey=realPost?ev.behKey:(r.heroKey==='sage'?'planner':EVO_REP[h.fam==='V'?'G':'V']); // PDF sample: sage → planner
-  var postHero=HEROES[postKey];
   /* "หลังงาน" locked/empty state (2026-08-19, per direction "กรณีที่ยังไม่ร่วมกิจกรรม หรือเล่นเกมส์
      ในงาน (ทำเฉพาะแบบทดสอบทั้ง 3 ชุดเข้ามา) อยากให้ default ที่ฝั่ง preview ก่อนงาน...หลังงาน...เป็นภาพ
      preview mockup และมี overlay สีเข้มๆ"). Deliberately its OWN check, not ev.state==='building' —
@@ -4649,26 +4585,14 @@ function renderBook(){
      check-in/activity start truly empty regardless, so gating on THOSE (plus tolerating the app's own
      2-game baseline) reaches exactly the "hasn't really been to the event yet" case being asked for,
      without touching evoCompute()'s own semantics (Book v1's evoPanelHTML still depends on it). */
-  var noActivity=boothCheckinCount()===0&&boothActivityCount()===0&&gamesPlayedCount()<=2;
   /* unreg: no ก่อนงาน/หลังงาน comparison at all — just the one static ก่อนงาน card, no chips, no
      divider/handle, no drag (no data-cr2, so initCompareReveal's own querySelectorAll never touches
      it — see the `if(!unreg)` guard around that call below). Reuses .cr2's own frame (300px-capped
      box, aspect-ratio 5/7, shadow, radius) with .cr2-side for its inset:0 fill, just the one side and
      cursor reset to default instead of the slider's ew-resize. */
-  var compareBlock=unreg
-    ? '<div class="cr2" style="cursor:default"><div class="cr2-side">'+pcStatic(r.heroKey)+'</div></div>'
-    : (noActivity
-    ? '<div class="cr2" data-cr2 data-start="90"><div class="cr2-side cr2-after">'+pcStatic(postKey)+
-        '<div class="cr2-lock">'+ic('lc-lock')+'<span>ยังไม่มีข้อมูล</span></div></div>'+
-        '<div class="cr2-side cr2-before">'+pcStatic(r.heroKey)+'</div>'+
-        '<span class="cr2-chip cr2-chip-b">ก่อนงาน</span><span class="cr2-chip cr2-chip-a">หลังงาน · รอข้อมูล</span>'+
-        '<div class="cr2-divider"><button class="cr2-handle" type="button" aria-label="เลื่อนเทียบการ์ดก่อนงานและหลังงาน">'+arrows+'</button></div></div>'+
-        '<p class="cr2-cap">ตอนนี้เห็นได้แค่การ์ด <b>ก่อนงาน</b> — ฝั่ง <b>หลังงาน</b> จะปลดล็อกหลังเล่นกิจกรรม/เกมในงาน</p>'
-    : '<div class="cr2" data-cr2 data-start="52"><div class="cr2-side cr2-after">'+pcStatic(postKey)+'</div>'+
-        '<div class="cr2-side cr2-before">'+pcStatic(r.heroKey)+'</div>'+
-        '<span class="cr2-chip cr2-chip-b">ก่อนงาน</span><span class="cr2-chip cr2-chip-a">หลังงาน'+(realPost?'':' · ตัวอย่าง')+'</span>'+
-        '<div class="cr2-divider"><button class="cr2-handle" type="button" aria-label="เลื่อนเทียบการ์ดก่อนงานและหลังงาน">'+arrows+'</button></div></div>'+
-        '<p class="cr2-cap">ลากเส้นแบ่งเพื่อเทียบการ์ดตัวตน <b>ก่อนงาน</b> ↔ <b>หลังงาน</b> ข้อมูลด้านล่างจะเปลี่ยนตามฝั่งที่เห็นเต็ม'+(realPost?'':' (ฝั่งหลังงานเป็นตัวอย่าง จนกว่าจะมีข้อมูลกิจกรรมจริงในงาน)')+'</p>');
+  /* The Playbook shows exactly ONE card (2026-09-21, per direction "สรุปใน playbook จะแสดงการ์ดได้แค่ 1 ใบเท่านั้น"):
+     the reader's own result card. The before/after compare slider (and its caption / lock state) is gone. */
+  var compareBlock='<div class="cr2" style="cursor:default"><div class="cr2-side">'+pcStatic(r.heroKey)+'</div></div>';
   root.innerHTML=
   /* unreg drops REG_CTA_HTML too (2026-09-04, per direction "เอาปุ่มลงทะเบียนมุมขวาบนออก เพราะย้ายมา
      ไว้ด้านล่างแล้ว") — unregisteredCtaHTML()'s own CTA at the bottom is now the only register button
@@ -4687,7 +4611,8 @@ function renderBook(){
     '<div class="b2-panel" data-panel="identity">'+
       '<section class="hero-sec"><div class="hero-gw">'+heroGlowMarkup()+'<div class="hero-in scroll-reveal">'+
         compareBlock+
-        '<div id="b2ident-detail">'+book2IdentityDetail(h,unreg)+'</div>'+
+        '<div id="b2ident-head">'+identParts(h,unreg).head+'</div>'+
+        '<div id="b2ident-detail">'+identParts(h,unreg).rest+'</div>'+
         (unreg?unregisteredCtaHTML():(
           skillNoteHTML()+
           /* Unified onto the unreg case's own share-button DNA (2026-09-07, per direction "แชร์
@@ -4697,7 +4622,7 @@ function renderBook(){
              share-btn/.hero-acts wrapper (now unused — .hero-share-btn's own CSS rule stays only
              for history, nothing renders it anymore). This one line covers both event phases
              (pre/on-event) since renderBook never branches this button on `pre`. */
-          '<button class="ag-more" id="shareCardBtn" style="font-size:var(--fs-sub);border-radius:var(--rpill)">'+ic('lc-upload')+'แชร์ภาพการ์ด</button>'
+          ''
         ))+
       '</div></div></section>'+
     '</div>'+
@@ -4748,7 +4673,6 @@ function renderBook(){
      the `if(unreg)return;` a few lines down is skipped entirely for that case — the registered-case
      button still exists further down but this one binding now covers both, so nothing there needs
      to duplicate it. */
-  var scBtn=root.querySelector('#shareCardBtn');if(scBtn)scBtn.onclick=openShare;
   /* One-time staged reveal after the Character Card animation handed off to us (see PB_INTRO). Placed
      BEFORE the `if(unreg)return;` below so both the registered and unregistered identity panels get it.
      Opacity-only cascade (never transform) so it can't fight the .scroll-reveal engine, which owns
@@ -4760,47 +4684,6 @@ function renderBook(){
   // now the logo's "tap to go Home" affordance works in every case, matching the header markup above
   // which no longer overrides its cursor to look non-clickable.
   bindHeaderLogo();
-  // Linked preview: crossing the slider's 50% midpoint swaps #b2ident-detail to whichever persona
-  // is now showing MORE of its card (pos>=50 -> pre-event's .cr2-before layer covers more of the
-  // frame; see initCompareReveal's clip-path math) — threshold-gated so this only fires on an
-  // actual crossing, not every pixel of drag. postHero/postKey are always a genuinely different
-  // persona from r.hero now (see the compareBlock comment above), so this always has something
-  // real to demonstrate regardless of whether ev's own real divergence produced one — UNLESS
-  // noActivity, where the detail below the "หลังงาน" side is deliberately empty (reusing v1's own
-  // .ev-empty pattern) rather than describing a persona that isn't real data yet.
-  /* unreg has no slider at all (compareBlock is a single static card, no data-cr2) — this whole
-     before/after crossing handler has nothing to bind to, so skip setting it up. */
-  if(unreg)return;
-  var emptyDetailHTML='<div class="ev-empty"><div class="ev-empty-ic">'+ic('lc-hourglass')+'</div>'+
-    '<div class="ev-empty-t">ยังไม่มีข้อมูลจากในงาน</div>'+
-    '<div class="ev-empty-s">เล่นเกมและเดินบูธในงานก่อน แล้วค่อยกลับมาดูว่าตัวตนที่ "ทำจริง" ตรงกับที่ DNA Quiz บอกไหม</div></div>';
-  var activeIsPre=true;
-  initCompareReveal({onMove:function(pos){
-    var wantPre=pos>=50;
-    if(wantPre===activeIsPre)return;
-    activeIsPre=wantPre;
-    var det=root.querySelector('#b2ident-detail');
-    if(!det)return;
-    /* pdfDownloadHTML() appended on the post side only (2026-08-19, per direction — was in the
-       mockup but missing here) — same PDF-download prompt Book v1 shows in its post-event tab,
-       shown regardless of noActivity since it's gated by ticket tier, not by booth activity data.
-       Unregistered (unreg) drops it — same "nothing below จุดที่ต้องระวัง" rule book2IdentityDetail's
-       own previewOnly param already applies to the initial render, threaded here too so crossing the
-       slider mid-preview can't re-reveal it. */
-    det.innerHTML=wantPre?book2IdentityDetail(h,unreg):((noActivity?emptyDetailHTML:book2IdentityDetail(postHero,unreg)));
-    /* re-init chart reveal on the swapped-in subtree (bug fix, 2026-08-31 — found while investigating
-       "fix bug") — book2IdentityDetail() now renders skillCardHTML()'s .conf-box/.viz-bar (added same
-       day), and this handler replaces det's ENTIRE innerHTML with a brand-new one every crossing.
-       initCharts(root) only ever runs once, right after the initial renderBook() pass (see its call
-       near the end of that function) — its IntersectionObserver never saw these new elements, so
-       they'd sit at .viz-bar's own default width:0 forever (only .viz-in adds the real width) even
-       though they're already on-screen. Scoping to det (not root) re-queries just the swapped
-       subtree, and initCharts()'s own one-shot io.unobserve-per-element behavior means re-running it
-       on the FIRST swap's det (before this bug existed to matter) would have been a harmless no-op
-       anyway — nothing here can double-animate an element that's already viz-in. */
-    initCharts(det);
-  }});
-  initBtTabs(root.querySelector('#ddTabs'),function(value){root.querySelectorAll('.dd-panel').forEach(function(p){p.style.display=(p.dataset.ddp===value)?'':'none';});});
   /* unreg: no qr-cta-slot in the header to mount into (see the header markup above) — bindHeaderLogo()
      moved up above the `if(unreg)return;` (2026-09-10) since the logo itself IS clickable in every
      case now; only the QR mount stays gated here since unreg genuinely has nowhere to put it. */
@@ -4953,10 +4836,26 @@ function glossaryBlocksHTML(){
    would overflow .pb-body, then flow to a new sheet. A .pb-keep block (category header) travels with the
    block after it. A block taller than a whole sheet is shrunk with CSS zoom rather than clipped (floor
    0.6). .scroll-reveal is dropped from blocks: a document page doesn't tilt in on scroll. */
-var PB_W=794;
+var PB_W=794;
+/* pbFrame — the cover's page frame as an inline SVG ornament: a square outline with the same rectangle
+   re-drawn with large rounded corners inside it (radius ~13% of the frame width, measured off the
+   reference art), plus a 4-point star centred on the top and bottom edges with a small gap in the line
+   behind it. Stroke/star colours are the reference's greys. The sheet gets extra padding so content
+   sits inside the frame and clear of the rounded corners. */
+function pbFrame(pg){
+  var W=794,H=794*3508/2480,m=30,x0=m,y0=m,x1=W-m,y1=H-m,r=Math.round((x1-x0)*.13),cx=W/2;
+  var star=function(y){return '<rect x="'+(cx-25)+'" y="'+(y-5)+'" width="50" height="10" fill="#f7f8f7"/><path transform="translate('+cx+' '+y+')" fill="#2d3036" d="M0-12C1.6-4 4-1.6 12 0 4 1.6 1.6 4 0 12-1.6 4-4 1.6-12 0-4-1.6-1.6-4 0-12Z"/>';};
+  var d1='M'+x0+','+y0+'H'+x1+'V'+y1+'H'+x0+'Z';
+  var d2='M'+(x0+r)+','+y0+'H'+(x1-r)+'A'+r+','+r+' 0 0 1 '+x1+','+(y0+r)+'V'+(y1-r)+'A'+r+','+r+' 0 0 1 '+(x1-r)+','+y1+'H'+(x0+r)+'A'+r+','+r+' 0 0 1 '+x0+','+(y1-r)+'V'+(y0+r)+'A'+r+','+r+' 0 0 1 '+(x0+r)+','+y0+'Z';
+  var svg='<svg class="pb-frame" viewBox="0 0 '+W+' '+H.toFixed(2)+'" aria-hidden="true"><g fill="none" stroke="#6d7178" stroke-width="1.1"><path d="'+d1+'"/><path d="'+d2+'"/></g>'+star(y0)+star(y1)+'</svg>';
+  pg.classList.add('pb-framed');pg.insertAdjacentHTML('afterbegin',svg);
+}
 function pbBuild(label,cover){
   var main=root.querySelector('main.scroll'),src=main&&main.querySelector('.pb-src');
   if(!src)return;
+  /* em dashes read as a plain space on every sheet (2026-09-21, per direction) — done on the source text nodes
+     before packing so the measured heights already reflect it */
+  (function(w){var n;while((n=w.nextNode()))if(n.nodeValue.indexOf('\u2014')>-1)n.nodeValue=n.nodeValue.replace(/\s*\u2014\s*/g,' ');})(document.createTreeWalker(src,NodeFilter.SHOW_TEXT,null));
   var doc=document.createElement('div');doc.className='pb-doc';
   var vp=document.createElement('div');vp.className='pb-viewport';vp.appendChild(doc);
   main.appendChild(vp);
@@ -4964,7 +4863,8 @@ function pbBuild(label,cover){
   function newPage(sect){
     var fit=document.createElement('div');fit.className='pb-fit';
     var pg=document.createElement('div');pg.className='pb-page';pg.dataset.sect=sect;
-    pg.innerHTML='<div class="pb-hd"><span><b>BetterTrade 2026</b> · Personal Playbook</span><span>'+libEsc(label||'')+'</span></div><div class="pb-body"></div><div class="pb-ft"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span><span class="pb-pn"></span></div>';
+    pg.innerHTML='<div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span></div><div class="pb-body"></div><div class="pb-ft"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span><span class="pb-pn"></span></div>';
+    pbFrame(pg); // the cover's frame ornament + #F7F8F7 paper on every content sheet
     fit.appendChild(pg);doc.appendChild(fit);pages.push(pg);
     return pg.querySelector('.pb-body');
   }
@@ -4985,10 +4885,10 @@ function pbBuild(label,cover){
     if(block.matches('.hero-sec')){
       var gw=block.querySelector('.hero-gw'),hi=gw&&gw.querySelector('.hero-in');
       if(!hi)return null;
-      var at=[].slice.call(hi.children),sb=at.filter(function(x){return x.id==='shareCardBtn';})[0],cp=at.filter(function(x){return x.classList.contains('cr2-cap');})[0];
-      var sk=at.filter(function(x){return x.classList.contains('skill-note');})[0];
-      if(sb&&cp){at.splice(at.indexOf(sb),1);at.splice(at.indexOf(cp)+1,0,sb);} // share sits right under the card it shares
-      if(sk&&cp){at.splice(at.indexOf(sk),1);at.splice(at.indexOf(cp)+(sb?2:1),0,sk);} // the SKILL disclaimer is about that same card
+      var at=[].slice.call(hi.children),cp=at.filter(function(x){return x.classList.contains('cr2-cap')||x.classList.contains('cr2');})[0],hd=at.filter(function(x){return x.id==='b2ident-head';})[0];
+      var sk=at.filter(function(x){return x.classList.contains('skill-note');})[0],anchor=cp;
+      if(hd&&cp){at.splice(at.indexOf(hd),1);at.splice(at.indexOf(cp)+1,0,hd);anchor=hd;} // the persona's name line sits right under its card
+      if(sk&&anchor){at.splice(at.indexOf(sk),1);at.splice(at.indexOf(anchor)+1,0,sk);} // the SKILL disclaimer is about that same card
       return {atoms:at,make:function(){
         var sec=block.cloneNode(false),g=gw.cloneNode(false),h=hi.cloneNode(false);
         [].slice.call(gw.children).forEach(function(c){if(c!==hi)g.appendChild(c.cloneNode(true));});
@@ -5074,17 +4974,15 @@ function pbZoom(dir){
 /* charts only fill when scrolled into view — force them full before print/PDF */
 window.addEventListener('beforeprint',function(){document.querySelectorAll('.conf-box,.risk-box,.trait-sec,.alloc-sec,.radar-sec').forEach(function(b){b.classList.add('viz-in');});});
 function ddTabs(h){
-  var tabs=h.assets.slice(0,4);
-  var tablist=tabs.map(function(a,i){return '<button class="bt-tab" type="button" role="tab" aria-selected="'+(i===0?'true':'false')+'" data-value="'+i+'"><span class="bt-tab-icon">'+ic(a.icon)+'</span><span class="bt-tab-label">'+a.t+'</span></button>';}).join('');
-  var panels=tabs.map(function(a,i){
-    return '<div class="dd-panel" data-ddp="'+i+'"'+(i===0?'':' style="display:none"')+'>'+
+  /* 2026-09-21, per direction: no tab strip — every asset's detail is laid out in turn (a printed page can't switch tabs) */
+  return h.assets.slice(0,4).map(function(a){
+    return '<div class="dd-asset"><div class="dd-asset-hd">'+ic(a.icon)+'<span>'+a.t+'</span></div>'+
       '<div class="dd-li">'+ic('lc-check')+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</div>'+
       '<div class="dd-li">'+ic('lc-check')+'เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</div>'+
       '<div class="dd-li">'+ic('lc-check')+'ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</div>'+
       '<div class="dd-note">* เนื้อหาตัวอย่าง — ฉบับสมบูรณ์จะปรับตามพฤติกรรมจริงของคุณในงาน</div>'+
     '</div>';
   }).join('');
-  return '<div class="bt-tabs bt-tabs--primary dd-tablist" id="ddTabs" role="tablist" aria-label="เลือกสินทรัพย์ที่จะดูรายละเอียด">'+tablist+'</div>'+panels;
 }
 /* Each sub-score gets its own spectrum hue (2026-08-19, per direction "อยากให้มีการใช้สีที่ต่างๆกัน" —
    all 4 bars were solid --ink and read as flat/monotone next to the risk bars above them) — mapped
@@ -5125,65 +5023,6 @@ function confidenceScore(r){
   var conf=Math.min(100,knowledge+self+action+breadth);
   var level=conf>=85?'สูงมาก - หลักฐานมากพอจะอ่านคุณ':(conf>=70?'สูง - หลักฐานค่อนข้างครบ':(conf>=55?'ปานกลาง - พอเห็นทิศทาง':'กำลังก่อตัว - ยังรู้จักคุณน้อย'));
   return {conf:conf,level:level,subs:{knowledge:knowledge,self:self,action:action,breadth:breadth}};
-}
-/* ══ SHARE MODAL (logic) ══ "แชร์ภาพการ์ด"/"แชร์พรุ่งนี้ของคุณ" both open this bottom-sheet share
-   modal — a copy-link field plus social targets (LINE first, it's the dominant channel in TH),
-   modeled on the reference share sheet but skinned to this app's design DNA. Each social chip opens
-   that platform's OWN share composer in a new tab (nothing is posted automatically; the user
-   confirms in the platform UI). Rendering the card to an actual image needs a DOM-screenshot lib
-   this project doesn't bundle, so what's shared is the text + page URL — same as the previous
-   native-share fallback, just presented as a proper picker now. */
-var SHARE_TARGETS=[
-  {k:'copy',label:'คัดลอกลิงก์',bg:'linear-gradient(135deg,#8f9bb3,#6b7690)',icon:'lc-link'},
-  {k:'line',label:'LINE',bg:'#06C755',icon:'lc-message-circle'},
-  {k:'facebook',label:'Facebook',bg:'#1877F2',icon:'lc-facebook'},
-  {k:'x',label:'X',bg:'#000000',icon:'lc-x'},
-  {k:'whatsapp',label:'WhatsApp',bg:'#25D366',icon:'lc-whatsapp'},
-  {k:'telegram',label:'Telegram',bg:'#26A5E4',icon:'lc-send'},
-  {k:'email',label:'อีเมล',bg:'linear-gradient(135deg,#d94a3d,#b5362b)',icon:'lc-mail'}
-];
-function shareText(){var h=(RESULT&&RESULT.hero); return h?('ฉันคือ '+h.th+' ('+h.en+') — ค้นหาตัวตนนักลงทุนของคุณที่ BetterTrade 2026'):'ค้นหาตัวตนนักลงทุนของคุณที่ BetterTrade 2026';}
-function shareURL(){return location.href;}
-function openShare(){
-  var m=document.getElementById('shareModal');if(!m)return;
-  m.querySelector('#shareUrl').textContent=shareURL();
-  m.querySelector('#shareCopyBtn').innerHTML=ic('lc-copy')+'<span>คัดลอก</span>';
-  m.classList.add('show');
-}
-function closeShare(){var m=document.getElementById('shareModal');if(m)m.classList.remove('show');}
-function doShareTarget(k){
-  var url=encodeURIComponent(shareURL()),txt=encodeURIComponent(shareText());
-  var open=function(u){window.open(u,'_blank','noopener,noreferrer');};
-  if(k==='copy'){
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(shareURL()).then(function(){
-        var b=document.getElementById('shareCopyBtn');if(b)b.innerHTML=ic('lc-check')+'<span>คัดลอกแล้ว</span>';
-      }).catch(function(){});
-    }
-    return;
-  }
-  if(k==='line')open('https://social-plugins.line.me/lineit/share?url='+url);
-  else if(k==='facebook')open('https://www.facebook.com/sharer/sharer.php?u='+url);
-  else if(k==='x')open('https://twitter.com/intent/tweet?text='+txt+'&url='+url);
-  else if(k==='whatsapp')open('https://wa.me/?text='+txt+'%20'+url);
-  else if(k==='telegram')open('https://t.me/share/url?url='+url+'&text='+txt);
-  else if(k==='email')open('mailto:?subject='+encodeURIComponent('ตัวตนนักลงทุนของฉัน')+'&body='+txt+'%20'+url);
-}
-function buildShareModal(){
-  var wrap=document.createElement('div');
-  wrap.className='share-modal';wrap.id='shareModal';
-  wrap.innerHTML=
-    '<div class="share-scrim" id="shareScrim"></div>'+
-    '<div class="share-sheet">'+
-      '<button class="share-x" id="shareClose">'+ic('lc-x')+'</button>'+
-      '<div class="share-hd"><div class="share-t">แชร์การ์ดตัวตนของคุณ</div><div class="share-sub">ส่งการ์ดตัวตนนักลงทุนของคุณให้เพื่อน หรือคัดลอกลิงก์ไปแชร์เอง</div></div>'+
-      '<div class="share-row">'+SHARE_TARGETS.map(function(t){return '<button class="share-opt" data-share="'+t.k+'"><span class="share-ic" style="background:'+t.bg+'">'+ic(t.icon)+'</span><span class="share-opt-lbl">'+t.label+'</span></button>';}).join('')+'</div>'+
-      '<div class="share-copy"><span class="share-copy-url" id="shareUrl"></span><button class="share-copy-btn" id="shareCopyBtn" data-share="copy">'+ic('lc-copy')+'<span>คัดลอก</span></button></div>'+
-    '</div>';
-  document.body.appendChild(wrap);
-  document.getElementById('shareScrim').onclick=closeShare;
-  document.getElementById('shareClose').onclick=closeShare;
-  wrap.querySelectorAll('[data-share]').forEach(function(b){b.onclick=function(){doShareTarget(b.dataset.share);};});
 }
 /* Short display labels for the 10 interest bars below — same order/index as S3_OPTS/BOOTHS (both
    already share one order), just trimmed to fit a "label ⋯ NN%" row (2026-08-26, per direction
@@ -5404,7 +5243,6 @@ var BOOTH_Q=[
      insight:'ตรวจสุขภาพประจำปี ก็เหมือนการเปิดดูภาพรวมเงินลงทุนของเรา'}
   ]}
 ];
-function boothCheckinCount(){var n=0;for(var k in BOOTH_CHK){if(BOOTH_CHK[k]&&BOOTH_CHK[k].size>0)n++;}return n;}
 function boothActivityCount(){var n=0;for(var k in BOOTH_ACT){if(BOOTH_ACT[k])n++;}return n;}
 
 /* ══ GAMES TAB ══ content ported from Playbook Final: SIDES (6 mini-games) + sideResult() narratives.
@@ -5691,6 +5529,6 @@ function buildGoTop(){
    Booth tab's draw-status card genuinely (not forced) reads "ยังขาด" by default too. */
 seedPersonaResult('sage');
 RESULT.revealed=RESULT.declared;RESULT.gap=0; // the PDF sample reads "สอดคล้อง (Aligned)": what they said = what they did
-applyView();buildShareModal();buildGoTop();
+applyView();buildGoTop();
 render();
 </script>
