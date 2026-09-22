@@ -926,16 +926,17 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-plain{padding:0;}
 .pb-cat-hd{display:flex;align-items:center;gap:var(--sp-inline);padding:var(--sp-list) 0;border-bottom:var(--rule-w) solid var(--rule);}
 .pb-cat-hd svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);flex:0 0 auto;}
+.pb-cat-hd img{width:var(--ic-lg);height:var(--ic-lg);object-fit:contain;flex:0 0 auto;}
 .pb-cat-t{flex:1;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
 .pb-art{padding:0 0 var(--sp-stack);border-bottom:1px solid var(--line-soft);}
-.pb-art-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
+.pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .pb-art-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
 .pb-art-p{font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
 .pb-note{margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-eyebrow);line-height:1.5;}
 .pb-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:2px;}
 .pb-note-ex{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green-text);}
 .pb-note-pit{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber-text);}
-.pb-note-pit b{color:var(--amber-text);font-weight:var(--w-label);}
+.pb-note-pit b{color:var(--amber-text);font-weight:var(--w-body);}
 /* Glossary (ศัพท์ในเล่มนี้) — term/definition rows grouped by kind */
 .gl-grp{margin-top:var(--sp-stack);}
 .gl-gt{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);padding-bottom:var(--sp-list);}
@@ -2104,15 +2105,18 @@ function bindRadarTap(scope){
    the full 41 article titles/bodies weren't re-extracted for this pass (flagged in §7 as a future
    content-parity gap), so this is a real, correctly-labeled category accordion — counts are real,
    not fabricated — rather than a fake "browse the articles" experience with invented copy. */
+/* img (2026-09-22, per direction "map icon ที่ใช้ อิงตามความหมาย...จาก assets"): real icon art per
+   category, picked for semantic fit from the same glassy icon set เจาะรายสินทรัพย์'s DD_ASSET_IMG
+   already draws from — lucide `icon` stays as the fallback glyph if an id here is ever missing. */
 var LIBRARY_CATS=[
-  {t:'พื้นฐานการลงทุน',icon:'lc-book-open'},
-  {t:'สินทรัพย์แต่ละประเภท',icon:'lc-pie-chart'},
-  {t:'ต้นทุนและผลตอบแทน',icon:'lc-trending-up'},
-  {t:'กลลวงและการป้องกันตัว',icon:'lc-shield'},
-  {t:'วางแผนชีวิตและสุขภาพการเงิน',icon:'lc-heart'},
-  {t:'ความเสี่ยงและการอ่านตัวเอง',icon:'lc-alert-triangle'},
-  {t:'ภาษีและกฎเกณฑ์',icon:'lc-file-text'},
-  {t:'เครื่องมือและการติดตาม',icon:'lc-sliders'}
+  {t:'พื้นฐานการลงทุน',icon:'lc-book-open',img:'assets/ICON_BOOK_PNG.png'},
+  {t:'สินทรัพย์แต่ละประเภท',icon:'lc-pie-chart',img:'assets/portfolio.png'},
+  {t:'ต้นทุนและผลตอบแทน',icon:'lc-trending-up',img:'assets/coinbaht.png'},
+  {t:'กลลวงและการป้องกันตัว',icon:'lc-shield',img:'assets/shieldcheck.png'},
+  {t:'วางแผนชีวิตและสุขภาพการเงิน',icon:'lc-heart',img:'assets/ICON_HEALTH_PNG.webp'},
+  {t:'ความเสี่ยงและการอ่านตัวเอง',icon:'lc-alert-triangle',img:'assets/warning.png'},
+  {t:'ภาษีและกฎเกณฑ์',icon:'lc-file-text',img:'assets/document.png'},
+  {t:'เครื่องมือและการติดตาม',icon:'lc-sliders',img:'assets/ICON_COMPASS_PNG.png'}
 ];
 /* n (2026-09-21) — now counted from window.LIB_ITEMS (js/library-data.js: 71 real articles from the
    BT2026 Dry-run's knowledge.js, each tagged c = index into this array) instead of hardcoded. The
@@ -2136,7 +2140,7 @@ function libraryBlocksHTML(h){
   var empty=[];
   LIBRARY_CATS.forEach(function(c,i){
     if(!c.n){empty.push(c.t);return;}
-    out+='<div class="pb-plain pb-cat-hd pb-keep">'+ic(c.icon)+'<span class="pb-cat-t">'+c.t+'</span></div>';
+    out+='<div class="pb-plain pb-cat-hd pb-keep">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="pb-cat-t">'+c.t+'</span></div>';
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
   });
   /* 8-category shell kept: categories with no source articles yet share one "กำลังจัดทำ" note */
