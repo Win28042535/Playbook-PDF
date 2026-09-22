@@ -663,7 +663,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .list-row{display:grid;align-items:center;gap:var(--sp-inline);cursor:pointer;}
 /* ══ LIBRARY (คลังความรู้ sub-screen) ══ real category names/counts, accordion-per-category */
 .lib-num{font-family:var(--serif);}
-.lib-stub{display:flex;gap:var(--sp-list);align-items:flex-start;padding:var(--sp-list) 0;border-radius:var(--r1);background:var(--paper);font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
+.lib-stub{display:flex;gap:var(--sp-list);align-items:flex-start;padding:var(--sp-list) 0;border-radius:var(--r1);background:var(--paper);font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;}
 .lib-stub svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:1px;}
 /* ══ A4 EBOOK PAGES (2026-09-21, per direction "อ้างอิงตามสัดส่วน 2480*3508 ... ebook หรือ pdf file") ══
    The Playbook (ผลลัพธ์ + คลังความรู้ + ศัพท์) is laid out as fixed A4 sheets, ratio 2480:3508 (= A4 @300dpi).
@@ -783,7 +783,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-art{padding:0 0 calc(var(--sp-stack) + 4px);} /* a touch more room since the divider between articles is gone */
 .pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .pb-art-s{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
-.pb-art-p{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
+.pb-art-p{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
 .pb-note{font-family:var(--font);margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-eyebrow);font-weight:var(--w-body);line-height:1.5;}
 .pb-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:2px;}
 .pb-note-ex{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green-text);}
@@ -795,7 +795,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .gl-gn{font-weight:var(--w-body);color:var(--muted);font-size:var(--fs-eyebrow);}
 .gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;}
 .gl-term{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
-.gl-def{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
+.gl-def{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;}
 @page{size:A4;margin:0;}
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
