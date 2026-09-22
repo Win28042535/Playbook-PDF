@@ -305,18 +305,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    found --r2 (16px) is close enough to fold them onto the real token instead of leaving a 4th
    unbacked radius value in the file. */
 .cr2{position:relative;width:100%;max-width:300px;margin:6px auto 0;aspect-ratio:5/7;border-radius:var(--r2);overflow:hidden;background:var(--cloud);cursor:ew-resize;touch-action:pan-y;user-select:none;isolation:isolate;box-shadow:var(--shadow-card);}
-/* Shrink (2026-08-19, per direction) — at the base 300px width (→420px tall, aspect-ratio 5/7) the
-   compare-reveal card alone filled almost an entire phone-height viewport, pushing #b2ident-detail
-   — the text block that's the whole POINT of dragging the slider — fully below the fold with zero
-   of it visible on load. 230px (→322px tall) frees ~100px so the detail's fam-badge and opening
-   line peek into view without scrolling, hinting there's more to see. Originally mobile-only ("
-   tablet/pc keep the base 300px — they have the width to spare and aren't the viewport this was
-   reported against"), but that assumption didn't hold: pc/tablet have spare WIDTH, not spare
-   HEIGHT, and the base 300px card (420px tall) pushed #b2ident-detail below the fold there too —
-   worse than mobile, since mobile at least showed a peek (2026-08-20, per direction "อยากให้ลดขนาด
-   character card ลง เพื่อให้เห็นข้อมูล...อย่างน้อยในปริมาณที่เท่ากับของ mobile"). Extended the same
-   230px cap to tablet/pc so all three views free up the identical ~100px of headroom. */
-:root[data-view="pdf"] .cr2{max-width:230px;}
 .cr2-side{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
 .cr2-side .pc3d,.cr2-side .pc-tilt{width:100%;height:100%;aspect-ratio:auto;}
 .cr2-side .pc-face{box-shadow:none;border-radius:0;}
@@ -868,7 +856,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .side-bi{padding:0 20px var(--sp-card-pad-sm) 56px;}
 .side-dl{background:var(--spectrum-v) left/2px 100% no-repeat;padding-left:var(--sp-inline);}
 .side-dl p{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);}
-@media(hover:hover) and (pointer:fine){.bp-btn:not(.done):not(.chk):hover{background:var(--cloud);}}
 /* ══ SPLASH / ATTRACT ══ two-tone headline · drifting brand assets · card carousel */
 /* overflow-x only (never -y): the CTA must NEVER be unreachable. overflow:hidden on both axes
    used to CLIP (not scroll-hide) anything past the fold whenever content ran taller than the
@@ -981,20 +968,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    note near BOOK2_TAB. */
 .hero-sig-c{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;text-align:center;text-wrap:balance;max-width:40ch;margin:0 auto var(--sp-block);} /* 2nd: the value line, one step down from the pill */
 
-/* ══ RESPONSIVE ══ data-view on <html>: mobile | tablet | pc (set by JS from window, or forced by demo panel) */
-.shell{transition:max-width .3s var(--ease);}
-/* Bug fix (2026-09-03, responsive audit from 428px up, per direction "เนื้อหาบีบๆแคบๆ...ให้เต็ม
-   หน้าจอ") — this 400px cap used to apply unconditionally on data-view="mobile", but the matching
-   "phone frame" look (border/shadow/rounded corners, @media(min-width:480px) below) only turns on
-   at ≥480px. Below that, a REAL phone in the extremely common 400-479px CSS-px range (412/414/420/
-   428/430 — Pixel/Galaxy/iPhone Plus/Pro Max widths) got squeezed into a plain, unstyled 400px
-   column with 12-30px of dead space down one side for no visual reason (confirmed live: shell
-   clientWidth 400 at innerWidth 428). 320-399px phones were never affected (100% already loses to
-   400px there) — only this specific mid-width band was. Un-capped here so .shell is edge-to-edge on
-   any real width below 480px; the 400px card width is reinstated ONLY alongside the frame styling
-   at ≥480px (see that rule), where a real phone this wide doesn't exist and it's actually a desktop
-   previewing data-view=mobile. */
-:root[data-view="pdf"] .shell{max-width:none;}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
 </style>
@@ -2450,17 +2423,7 @@ function learnedLedgerHTML(){
    ACTIVITY_NEED, so it reads "ยังขาด" out of the box — see the 'auto' branch in renderBooth this
    direction restored). Switching the ช่วงงาน segment to Pre-Event is the one way back to the
    splash/quiz flow (RESULT/quizDone/boothVer aren't touched by that switch, same as before). */
-var DEMO={view:'auto',quizDone:true,draw:'auto',eventPhase:'on',multiTicket:false,boothVer:'v2',registered:true}; // draw: 'auto' (default, real boothCheckinCount()/boothActivityCount() math) | 'ok' (force eligible) | 'need' (force not-eligible) — see renderBooth. registered (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้ลงทะเบียน"): true (default, the real/active state) = the normal full Book; false previews a quiz-taker who never went through the registration site — renderBook locks to just the ตัวตน tab, truncates it at จุดแข็ง/จุดที่ต้องระวัง, and drops the bottom app-tabbar (see renderBook's `unreg` branches + book2Tabs()). boothVer (2026-09-03, per direction "อยากเพิ่ม หน้าเดินบูธ อีกเวอร์ชัน แยก preview ในเดโม"): 'v1' = the shipped booth page (static map image + separate route list, unchanged); 'v2' = a UX-enhancement preview per the Booth Journey spec — the SAME sections/layout/content, but the map gets numbered semantic markers synced 1:1 with the route steps, plus two-way Step↔Map focus. Everything v2 adds is gated on this flag so v1 stays byte-identical. (splashVer removed 2026-09-18, per direction "preview card เอา v1 ออก" — the splash fan carousel's "การ์ดมีชีวิต" build (added 2026-09-09, promoted to shipped default 2026-09-11) is now the only splash preview; v1 the plain static carousel, v3/v5 the "3D Character Card Flow" field and its living-card variant, were all removed the same day/session — see renderSplash's own comment for that full history.) eventPhase default flipped 'on'->'pre' (2026-08-28, per follow-up direction "จำลองเคส...อยากให้ preview default ที่ Pre-Event ก่อน") — see the comment above. multiTicket: false by default (2026-09-02) — the single-ticket case stays the active/real state; see MULTI_TICKET_DEMO. (sumTitleVer — a brief demo-panel toggle comparing 2 title treatments for renderPlaySummary's game-name — removed 2026-09-11, per direction "เลือกแบบ v2 และเอาแบบ v1 ออกได้เลย": v2, the DNA quiz's .q-icon-bare + .q-title header, is now just how renderPlaySummary always renders — see its own comment there.)
-/* 'auto' resolves from real window.innerWidth again (2026-09-10 responsive audit — the 2026-08-26
-   "always resolve to mobile" change meant a real event-tablet visitor (768–1024px wide) never got
-   data-view="tablet": the .shell/topbar/book-tabbar all clamped to the 400px phone-frame width,
-   leaving the header/content/bottom-nav stranded in a narrow centered column with huge side margins
-   on an actual iPad — see DESIGN-DNA.md §"Device reality first: attendees use whatever phone/
-   event-tablet is in hand". Restored w<768→mobile/w<1440→tablet/else pc so real devices get their
-   matching layout; PC/แท็บเล็ต/มือถือ stay available as explicit demo-panel overrides for previewing
-   other sizes regardless of the actual window. */
-/* one fixed view (2026-09-21): the PDF layout never reacts to the window, so data-view is simply "pdf" */
-function applyView(){document.documentElement.setAttribute('data-view','pdf');}
+var DEMO={quizDone:true,draw:'auto',eventPhase:'on',multiTicket:false,boothVer:'v2',registered:true}; // draw: 'auto' (default, real boothCheckinCount()/boothActivityCount() math) | 'ok' (force eligible) | 'need' (force not-eligible) — see renderBooth. registered (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้ลงทะเบียน"): true (default, the real/active state) = the normal full Book; false previews a quiz-taker who never went through the registration site — renderBook locks to just the ตัวตน tab, truncates it at จุดแข็ง/จุดที่ต้องระวัง, and drops the bottom app-tabbar (see renderBook's `unreg` branches + book2Tabs()). boothVer (2026-09-03, per direction "อยากเพิ่ม หน้าเดินบูธ อีกเวอร์ชัน แยก preview ในเดโม"): 'v1' = the shipped booth page (static map image + separate route list, unchanged); 'v2' = a UX-enhancement preview per the Booth Journey spec — the SAME sections/layout/content, but the map gets numbered semantic markers synced 1:1 with the route steps, plus two-way Step↔Map focus. Everything v2 adds is gated on this flag so v1 stays byte-identical. (splashVer removed 2026-09-18, per direction "preview card เอา v1 ออก" — the splash fan carousel's "การ์ดมีชีวิต" build (added 2026-09-09, promoted to shipped default 2026-09-11) is now the only splash preview; v1 the plain static carousel, v3/v5 the "3D Character Card Flow" field and its living-card variant, were all removed the same day/session — see renderSplash's own comment for that full history.) eventPhase default flipped 'on'->'pre' (2026-08-28, per follow-up direction "จำลองเคส...อยากให้ preview default ที่ Pre-Event ก่อน") — see the comment above. multiTicket: false by default (2026-09-02) — the single-ticket case stays the active/real state; see MULTI_TICKET_DEMO. (sumTitleVer — a brief demo-panel toggle comparing 2 title treatments for renderPlaySummary's game-name — removed 2026-09-11, per direction "เลือกแบบ v2 และเอาแบบ v1 ออกได้เลย": v2, the DNA quiz's .q-icon-bare + .q-title header, is now just how renderPlaySummary always renders — see its own comment there.)
 
 /* synthesize a plausible RESULT for a forced persona and jump to the Book (demo shortcut).
    gap:0 here used to mean the demo persona picker could NEVER show a real post-event difference —
@@ -2492,7 +2455,6 @@ function seedPersonaResult(key){
    Booth tab's draw-status card genuinely (not forced) reads "ยังขาด" by default too. */
 seedPersonaResult('sage');
 RESULT.revealed=RESULT.declared;RESULT.gap=0; // the PDF sample reads "สอดคล้อง (Aligned)": what they said = what they did
-applyView();
 /* Lay the sheets out only AFTER the webfonts are in (2026-09-21 bug fix): pbBuild() paginates by measuring text height, and with the
    fallback font showing (font-display:swap) every measurement was wrong - the book came out as 43 loosely-packed sheets instead of the
    ~36 the real font produces. document.fonts.load() forces the three faces to download even though nothing has used them yet; a 2.5s
