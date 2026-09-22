@@ -738,7 +738,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* ── สารบัญ: the consent screen's backdrop DNA (room1.jpg under a flat white wash), not paper + frame ── */
 /* background lifted from better-trade-2026.vercel.app's own .cta__panel (2026-09-22, per direction):
    a flat #f5f5f5 base + two radial glows — pale blue top-left, the app's own violet bottom-right. */
-.pb-toc{padding:0;border:0;background-color:#f5f5f5;background-image:radial-gradient(circle at 18% 0%,rgba(234,242,255,.72) 0%,rgba(0,0,0,0) 34%),radial-gradient(circle at 92% 100%,rgba(114,45,244,.12) 0%,rgba(0,0,0,0) 34%);position:relative;overflow:clip;isolation:isolate;}
+.pb-toc{padding:0;border:0;position:relative;overflow:clip;isolation:isolate;}
+.pb-page.pb-toc{background-color:#f5f5f5;background-image:radial-gradient(circle at 18% 0%,rgba(234,242,255,.72) 0%,rgba(0,0,0,0) 34%),radial-gradient(circle at 92% 100%,rgba(114,45,244,.12) 0%,rgba(0,0,0,0) 34%);} /* .pb-page.pb-framed{background:var(--paper)} (2 classes) would otherwise outrank a bare .pb-toc (1 class) */
 .toc-in{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding:var(--pb-pad-top) var(--pb-pad-x) var(--pb-pad-bottom);}
 .toc-h{font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1.1;margin:var(--sp-block) 0 var(--sp-block);}
 .toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
@@ -1973,6 +1974,7 @@ function pbTOC(doc,pages,label){
   var fit=document.createElement('div');fit.className='pb-fit';
   var pg=document.createElement('div');pg.className='pb-page pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
   pg.innerHTML='<div class="toc-in"><div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span></div><h2 class="toc-h">สารบัญ</h2><div class="toc-list">'+out+'</div></div>';
+  pbFrame(pg); // same rounded-corner + star ornament every other content sheet gets
   fit.appendChild(pg);
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
