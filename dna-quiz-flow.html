@@ -790,10 +790,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* Glossary (ศัพท์ในเล่มนี้) — term/definition rows grouped by kind */
 .gl-grp{margin-top:var(--sp-stack);}
 .gl-gt{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);padding-bottom:var(--sp-list);}
-.gl-gn{font-weight:var(--w-body);color:var(--muted);font-size:var(--fs-eyebrow);}
-.gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;}
+.gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;align-items:baseline;}
 .gl-term{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
-.gl-def{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;}
+.gl-def{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
 @page{size:A4;margin:0;}
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
@@ -1752,7 +1751,7 @@ function glossaryBlocksHTML(){
   var n=GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);
   return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ</div><h2 class="s-h">ศัพท์ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
     GLOSSARY.map(function(g){
-      return '<div class="pb-plain gl-grp"><div class="gl-gt">'+libEsc(g.g)+(g.n?'<span class="gl-gn"> '+libEsc(g.n)+'</span>':'')+'</div>'+
+      return '<div class="pb-plain gl-grp"><div class="gl-gt">'+libEsc(g.g)+'</div>'+
         g.i.map(function(it){return '<div class="gl-row"><div class="gl-term">'+libEsc(it[0])+'</div><div class="gl-def">'+libEsc(it[1])+'</div></div>';}).join('')+'</div>';
     }).join('');
 }
