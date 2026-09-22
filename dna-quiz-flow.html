@@ -164,7 +164,7 @@
      everything else held. This narrows the h2(24)↔sub/body(22) gap to 2px and widens sub/body(22)↔
      bodysm(18) to 4px, breaking the "ratios preserved" pattern the v2/v3 passes kept — a deliberate,
      isolated bump per this direction, not a full re-scale. */
-  --fs-title:36px; --fs-heading:28px; --fs-h2:24px; --fs-sub:22px; --fs-subtitle:16px;
+  --fs-title:36px; --fs-heading:28px; --fs-h2:24px; --fs-sub:22px; --fs-sig:20px; --fs-subtitle:16px;
   --fs-body:22px; --fs-bodysm:18px; --fs-label:16px; --fs-eyebrow:14px; --fs-meta:14px;
   /* Icon scale v2 (2026-08-15, per Icon System audit review) — sm/md stepped up a rung (12→16,
      16→20), lg held at 24. Hero-tier icons (the single dominant icon on a screen) still stay
@@ -440,6 +440,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    elsewhere (e.g. the hero-sec's own "ตัวตนนี้สรุปจากคำตอบ..." note) — was --sp-inline (12px)/--ic-sm
    (16px), now matches --sp-card-pad-sm (16px)/--ic-lg (24px) exactly like .redeem-note. */
 .hero-note.skill-note{padding:var(--sp-inline);background:none;justify-content:center;text-align:center;font-size:var(--fs-label);} /* 3rd: the quietest block; no fill, no icon, centered per direction; +2px over the base --fs-eyebrow */
+.hero-note.skill-note b{font-size:var(--fs-bodysm);} /* "ค่า SKILL บนการ์ด" title reads a step up (18px) from its own description line (16px) */
 /* .hero-ev-tabs (the pre/post-event in-card picker inside Book v1's hero card) removed 2026-08-30
    along with คู่มือ 1 itself — see the removal note near BOOK2_TAB. */
 .ev-empty{text-align:center;padding:24px var(--sp-inline);border:1px dashed var(--line-strong);border-radius:var(--r1);}
@@ -779,8 +780,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-cat-hd svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);flex:0 0 auto;}
 .pb-cat-hd img{width:var(--ic-lg);height:var(--ic-lg);object-fit:contain;flex:0 0 auto;}
 .pb-cat-t{flex:1;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
-.pb-art{padding:0 0 var(--sp-stack);}
-.pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);}
+.pb-art{padding:0 0 calc(var(--sp-stack) + 4px);} /* a touch more room since the divider between articles is gone */
+.pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .pb-art-s{font-family:var(--font-read);font-size:var(--fs-folio);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
 .pb-art-p{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
 .pb-note{font-family:var(--font-read);margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-folio);font-weight:var(--w-body);line-height:1.5;}
@@ -957,7 +958,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* .pcv-wrap/.pcv-hint/.pcv-ctas/.pcv-btn (the old drag-to-rotate viewer's hint pill + flip button)
    and .hero-cardwrap (its wrapping frame) removed 2026-08-30 along with คู่มือ 1 — see the removal
    note near BOOK2_TAB. */
-.hero-sig-c{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;text-align:center;text-wrap:balance;max-width:40ch;margin:0 auto var(--sp-block);} /* 2nd: the value line, one step down from the pill */
+.hero-sig-c{font-size:var(--fs-sig);font-weight:var(--w-body);color:var(--ink);line-height:1.5;text-align:center;text-wrap:balance;max-width:40ch;margin:0 auto var(--sp-block);} /* 2nd: the value line, one step down from the pill */
 
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
