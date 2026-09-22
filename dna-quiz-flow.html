@@ -249,48 +249,12 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    2026-08-15 (Design DNA review "✦1") — the Liquid Metal button owns that
    job now.
    ============================================================================ */
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-list);min-height:48px;padding:0 24px;border-radius:var(--rpill);font-family:var(--font);font-weight:var(--w-head);font-size:var(--fs-sub);cursor:pointer;white-space:nowrap;border:1.5px solid transparent;line-height:1;transition:box-shadow .18s var(--ease),filter .18s var(--ease),transform .18s var(--ease),background-color .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease);}
-.btn svg{width:var(--ic-md);height:var(--ic-md);transition:transform .2s cubic-bezier(.4,0,.2,1);}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-list);min-height:48px;padding:0 24px;border-radius:var(--rpill);font-family:var(--font);font-weight:var(--w-head);font-size:var(--fs-sub);cursor:pointer;white-space:nowrap;border:1.5px solid transparent;line-height:1;}
+.btn svg{width:var(--ic-md);height:var(--ic-md);}
 .btn:disabled{opacity:.38;cursor:not-allowed;box-shadow:none;filter:none;}
 .btn-primary{flex:1;background:var(--ink);color:var(--cloud);border-color:var(--ink);box-shadow:var(--shadow-primary);}
-/* ── button hover system ── adapted from a jakobhoeg/21st.dev "expandIcon" button reference (icon
-   nudges in its direction of travel on hover, fill darkens slightly). Icons stay visible always —
-   unlike the reference's hide-until-hover reveal, hiding by default would mean touch users (this
-   app's primary audience) never see the icon at all, since touch has no hover to reveal it; hover
-   here only ADDS a nudge on top of the icon that's already there. Scoped to hover:hover+pointer:fine
-   so tapping on touch can never leave a "stuck" hover state (a common mobile web bug).
-   ONE shared motion for all 3 tiers — lift + a per-tier emphasis cue. Icon direction is tagged on
-   the icon ITSELF (.ic-fwd/.ic-back, via ic()'s 2nd arg), not on the button tier — so an arrow means
-   the same thing whether it's sitting on a primary, secondary, or tertiary button. */
-@media (hover:hover) and (pointer:fine){
-  .btn:hover{transform:translateY(-1px);}
-  .btn-primary:hover{filter:brightness(1.08);}
-  .btn:hover svg{transform:scale(1.1);}
-}
-.btn:active{transform:scale(.97);}
-/* Position range is deliberately kept to exactly 0%->100% (not a wider "160% to -60%" travel,
-   which was tried and broke: with background-size>100% and background-repeat:no-repeat, any
-   background-position outside [0%,100%] pushes part of the gradient image off the box with
-   nothing behind it — background-clip:text then paints those glyphs with NO fill at all
-   (invisible), which showed up as whole Thai characters vanishing mid-sweep, not just dimming.
-   0%..100% is the one range where the math guarantees the (220%-wide) image always fully
-   overlaps the 100%-wide box, so every glyph keeps a solid, visible fill at every frame. */
-@keyframes shimmerSweep{0%{background-position:0% 0;}100%{background-position:100% 0;}}
-/* .shimmer-violet (2026-08-28, per direction — Games' "6 เกม 6 มุมมอง" heading, "รูปแบบเดียวกับหน้า
-   กำลังวิเคราะห์ แต่ใช้สีม่วงเดิม") — same shimmer mechanism as .consent-h .ch-1/.ch-2 above (same
-   220%-wide gradient/no-repeat/background-clip:text setup, same shimmerSweep keyframe/4.2s timing,
-   same reduced-motion story: the global `*{animation:none}` rule freezes this on a fully-opaque
-   frame, never blank), just re-based on the already-violet resting color this heading had instead
-   of muted/ink. Since the base IS violet here, "mix toward violet" (what ch-1/ch-2 do) would be a
-   no-op — the highlight mixes toward white instead, at the same 78/22 ratio, which on this palette's
-   pastel --violet (#9c91ff) still reads as "light passing over violet ink", not a foreign flash.
-   Selector is the compound .ev-empty-t.shimmer-violet, not bare .shimmer-violet, so its `color`
-   reliably beats .ev-empty-t's own color:var(--ink) regardless of the two rules' source order —
-   .ev-empty-t is declared further down (with the rest of the shared component library), which
-   would otherwise win the (equal-specificity) cascade and leave `color` at ink as a dead fallback
-   (harmless today since -webkit-text-fill-color:transparent is what actually paints everywhere this
-   matters, but wrong/confusing if that fallback ever needed to kick in). */
-.ev-empty-t.shimmer-violet{background-repeat:no-repeat;background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--violet);background-image:linear-gradient(100deg,var(--violet) 0%,var(--violet) 34%,color-mix(in srgb,var(--white) 78%,var(--violet) 22%) 48%,color-mix(in srgb,var(--white) 78%,var(--violet) 22%) 52%,var(--violet) 66%,var(--violet) 100%);animation:shimmerSweep 4.2s ease-in-out infinite;}
+/* .shimmer-violet (2026-09-22, motion removed per direction) — flat violet text, no sweep. */
+.ev-empty-t.shimmer-violet{color:var(--violet);}
 /* Shimmer removed from the consent screen's own "รู้จัก ตัวคุณ?" headline (2026-08-20, per direction
    "คำว่า รู้จัก ตัวคุณ? เอา shimmer ออก") — scoped to :not(.reveal-h) so the reveal screen's
    .consent-h.reveal-h ("ตัวตนนักลงทุนของคุณ / กำลังจะปรากฏ...") keeps its shimmer untouched; only
@@ -350,72 +314,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    the .toc pills are now jump-links (bindBook2Nav) that scroll to their panel. */
 .b2-panel{display:flex;flex-direction:column;gap:var(--sp-section)}
 
-/* HERO CARD — FULL GLOW FRAME + MOVING LIGHT TEXTURE (rebuilt 2026-09-03 per DESIGN-DNA.md, which
-   supersedes the earlier Origin-Kit comet border and GLOW-BORDER-DNA.md). Direction's core principle:
-   "the frame itself IS the glow; the motion is light moving through its surface" — explicitly NOT a
-   bright head racing a resting rail (§08 Motion DNA, §14 Don't). So this is a full rewrite of the
-   VISUAL, on the SAME aspect-ratio-safe machinery the comet used (kept because it was the robust part):
-   an OVERSIZED SQUARE conic per layer (so the conic's angle→position map is never distorted on this
-   tall ~1:4 box — the 2 earlier direct-conic / SVG-dash attempts that failed on aspect ratio are
-   documented in git history), each MASKED (two solid layers clipped content-box/border-box,
-   mask-composite:exclude) down to the real 3px border ring, which is what makes the glow follow
-   .hero-gw's REAL edges + corners on any shape. Sizes computed in sizeHeroGlow() below.
-   TWO layers now instead of one comet:
-   - .hero-glow-base — the frame's ALWAYS-ON spectrum glow (default state, §05). The mirrored Better
-     Trade spectrum (cyan→blue→indigo→violet→magenta→orange→…mirror…→cyan) means 0deg===360deg so
-     there is NO seam at the wrap (§04/§07), and every neighbouring stop is an adjacent hue so there
-     is NO colour jump at any corner. 12s drift (sped up from an initial 24s per direction) = "light
-     living in the surface", never a racer.
-   - .hero-glow-energy — a soft, WIDE, two-lobed brightness field (░▒▓████▓▒░ symmetric head/tail,
-     §06) drifting the SAME direction but faster (5s, sped up from an initial 11s), screen-blended so it LIFTS the spectrum
-     beneath (a brighter moving core, §05 "Moving Energy") instead of painting a line over it. Two
-     lobes 180deg apart read as an energy field pulsing through the frame, not one dot. Loop-closed
-     at 0/360 (both transparent) so no reset is ever visible (§08).
-   Ambient bloom (§03 outer layer) = drop-shadow on the .hero-glow PARENT — it operates on the
-   already-masked ring's alpha, so it blooms the RING shape outward, cheaply, without a 3rd blurred
-   layer. Glow fades in on viewport entry via .glow-on (§10 Scroll Reveal, wired in sizeHeroGlow).
-   Hover nudges core brightness + bloom only (§09). prefers-reduced-motion freezes the flow but keeps
-   the frame glowing (§12). */
+/* HERO CARD frame (2026-09-22: the glow-ring light-texture layer removed — it only ever painted on
+   .hero-gw.pb-framed context, which is display:none there, see pbFrame rules; the wrapper below
+   keeps the real 3px ring gap + border-radius the persona card sits inside). */
 .hero-gw{position:relative;padding:3px;border-radius:calc(var(--r2) + 3px);}
 .hero-in{position:relative;z-index:1;background:var(--white);border-radius:var(--r2);padding:var(--sp-block) var(--sp-card-pad);}
-/* Outer wrapper carries the ambient bloom + the scroll-reveal fade. Its filter also establishes an
-   isolated stacking context, so the energy layer's screen blend resolves only against the base ring,
-   never bleeding onto page content behind the frame. */
-.hero-glow{position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  filter:drop-shadow(0 0 6px rgba(114,45,244,.30)) drop-shadow(0 0 14px rgba(0,212,254,.16));
-  opacity:0;transition:opacity 1.1s var(--ease);}
-.hero-gw.glow-on .hero-glow{opacity:1;}
-.hero-glow-mask{position:absolute;inset:0;padding:3px;border-radius:inherit;overflow:hidden;box-sizing:border-box;}
-/* Bug retained from 2026-08-30 — declaring BOTH standard mask-composite:exclude AND legacy
-   -webkit-mask-composite:xor on the same rule silently breaks the 2-layer XOR composite in this
-   engine (nothing revealed). @supports picks exactly one set per engine instead of both at once. */
-@supports (mask-composite:exclude){.hero-glow-mask{mask-image:linear-gradient(#fff 0 0),linear-gradient(#fff 0 0);mask-clip:content-box,border-box;mask-composite:exclude;}}
-@supports not (mask-composite:exclude){.hero-glow-mask{-webkit-mask-image:linear-gradient(#fff 0 0),linear-gradient(#fff 0 0);-webkit-mask-clip:content-box,border-box;-webkit-mask-composite:xor;}}
-.hero-glow-base,.hero-glow-energy{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(0deg);will-change:transform;}
-/* BASE — always-on spectrum ring (§05 Default State: full glow on all 4 sides + corners). Mirrored
-   Better Trade spectrum (§04) so 0deg===360deg (seamless, §07) and every step is an adjacent hue. */
-.hero-glow-base{opacity:.85;animation:heroGlowDrift 12s linear infinite;
-  background:conic-gradient(from 0deg,
-    #00D4FE 0deg,#1F87E6 36deg,#113CF3 72deg,#722DF4 108deg,#E63BD8 144deg,
-    #F79319 180deg,#E63BD8 216deg,#722DF4 252deg,#113CF3 288deg,#1F87E6 324deg,#00D4FE 360deg);}
-/* ENERGY — two soft wide lobes (§06 soft head→core→tail falloff), screen-blended to brighten the
-   spectrum beneath. Faster drift (5s) than the base so light appears to flow THROUGH the frame. */
-.hero-glow-energy{mix-blend-mode:screen;opacity:.9;animation:heroGlowFlow 5s linear infinite;
-  background:conic-gradient(from 0deg,
-    rgba(255,255,255,0) 0deg,rgba(255,255,255,0) 40deg,
-    rgba(255,255,255,.12) 66deg,rgba(255,255,255,.42) 90deg,rgba(255,255,255,.12) 114deg,
-    rgba(255,255,255,0) 140deg,rgba(255,255,255,0) 220deg,
-    rgba(255,255,255,.12) 246deg,rgba(255,255,255,.42) 270deg,rgba(255,255,255,.12) 294deg,
-    rgba(255,255,255,0) 320deg,rgba(255,255,255,0) 360deg);}
-@keyframes heroGlowDrift{to{transform:translate(-50%,-50%) rotate(360deg);}}
-@keyframes heroGlowFlow{to{transform:translate(-50%,-50%) rotate(360deg);}}
-/* Hover (§09) — subtle: brighten the moving core + a touch more ambient bloom. Frame stays fully
-   glowing; nothing turns into a hard line. */
-.hero-gw:hover .hero-glow{filter:drop-shadow(0 0 8px rgba(114,45,244,.40)) drop-shadow(0 0 18px rgba(0,212,254,.22));}
-.hero-gw:hover .hero-glow-energy{opacity:1;}
-/* Reduced motion (§12) — freeze the flow but KEEP the frame glowing (base spectrum + a static energy
-   position remain); no content depends on the motion. */
-@media(prefers-reduced-motion:reduce){.hero-glow-base,.hero-glow-energy{animation:none!important;}.hero-glow{transition:none;}}
 /* Centered + a real pill chip instead of quiet uppercase eyebrow text — this is the card's own
    identity line ("Visionary ✦ ผู้มองการณ์ไกล"), so it should read as a badge, not a caption. No
    leading dot (removed per direction — the ✦ inside famTh already marks it, a second dot in front
@@ -659,7 +562,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    หัวข้อ") — this callout's sentence wraps to 2 lines on the app's mobile-scaled type, so centering
    the icon against the WHOLE wrapped block (old behavior) drifted it below where the sentence
    actually starts; top-aligning keeps it level with that first line regardless of wrap length. */
-.radar-insight{display:flex;align-items:flex-start;gap:var(--sp-inline);margin-top:var(--sp-stack);padding:var(--sp-stack-tight) var(--sp-stack);border-radius:var(--r1);border:1px solid var(--line-soft);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;opacity:0;transform:translateY(4px);transition:opacity .4s var(--ease),transform .4s var(--ease);transition-delay:1s;}
+.radar-insight{display:flex;align-items:flex-start;gap:var(--sp-inline);margin-top:var(--sp-stack);padding:var(--sp-stack-tight) var(--sp-stack);border-radius:var(--r1);border:1px solid var(--line-soft);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;}
 /* margin-top nudge (2026-08-29, per direction "ให้ไอคอน alignment top กับ text") — align-items:
    flex-start above already box-top-aligns the icon with the text span, but at font-size:18px/
    line-height:1.5 the first line's actual glyph-top sits ~4px below its own line-box top (leading
@@ -668,7 +571,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .radar-insight-ic{display:flex;flex:0 0 auto;margin-top:4px;}
 .radar-insight svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;}
 .radar-insight b{font-weight:var(--w-label);}
-.viz-in .radar-insight{opacity:1;transform:none;}
 .int-bar-list{display:flex;flex-direction:column;gap:var(--sp-stack);margin-top:var(--sp-stack);}
 .int-bar-row{display:grid;grid-template-columns:1fr auto;gap:var(--sp-glue) 10px;align-items:center;}
 .int-bar-l{font-size:var(--fs-bodysm);color:var(--ink);font-weight:var(--w-label);}
@@ -749,77 +651,16 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .alloc-l{flex:1;color:var(--ink);font-weight:var(--w-label);}
 .alloc-p{font-family:var(--serif);color:var(--ink);}
 
-/* ══ CHART MOTION + INTERACTION (Dashboard Design & Interaction DNA reference) ══
-   Every chart on this page (confidence bars, risk bars, trait bars, allocation bars, radar) used to
-   be static — correct final values, zero motion, zero hover response. This adds the reveal-on-scroll
-   + chart-appropriate draw animation + hover highlight/dim the reference calls for, without touching
-   the numbers themselves (still the same real inline values, just animated into place). One-time
-   reveal per card (driven by initCharts(), JS section near radarSVG) — never repeats on re-scroll,
-   this is a data-reveal moment, not a decorative loop. `.viz-bar` is the shared "grows from 0 to its
-   real value" primitive (confidence/risk/trait rows + allocation segments all use it); the radar gets
-   its own center→axis→shape→dots sequence since a width-grow doesn't apply to a polygon. Every rule
-   below is a plain `transition`, so the file's existing global `prefers-reduced-motion:reduce`
-   kill-switch (`*,*::before,*::after{transition:none!important}`, top of stylesheet) already
-   collapses all of this to an instant snap-to-final-value — no separate RM branch needed here. */
-.viz-bar{width:0;transition:width .7s var(--ease);}
-.viz-in .viz-bar{width:var(--tw,0);}
-.risk-row:nth-child(2) .viz-bar{transition-delay:.08s;}
-.conf-row:nth-child(2) .viz-bar{transition-delay:.06s;}
-.conf-row:nth-child(3) .viz-bar{transition-delay:.12s;}
-.conf-row:nth-child(4) .viz-bar{transition-delay:.18s;}
-.trait-row:nth-child(2) .viz-bar{transition-delay:.06s;}
-.trait-row:nth-child(3) .viz-bar{transition-delay:.12s;}
-.trait-row:nth-child(4) .viz-bar{transition-delay:.18s;}
-.alloc-seg:nth-child(2){transition-delay:.06s;}
-.alloc-seg:nth-child(3){transition-delay:.12s;}
-.alloc-seg:nth-child(4){transition-delay:.18s;}
+/* ══ CHART RENDERING (static) ══ every chart on the page (confidence/risk/trait/allocation bars,
+   radar) draws straight at its real final value — a printed document has no scroll-into-view or
+   hover moment, so there's no reveal or highlight state to animate (2026-09-22, per direction —
+   motion/interaction removed). `.viz-bar` is the shared "bar at its real value" width primitive. */
+.viz-bar{width:var(--tw,0);}
 
-/* radar — "Center → Axis → Shape Expand → Data Points" per the chart-animation reference. Each axis
-   ray now "draws" outward from center (stroke-dashoffset via pathLength=1, angle-agnostic) at the
-   SAME index-matched delay its data point travels out to sit on it (was: axis just faded in static
-   early, then every dot popped in ~0.6s+ later as one late separate burst — direction: "จุด...
-   movement พร้อมแกนต่างๆ", the point should move together with its axis, not after it). */
-.rk-grid{opacity:0;transition:opacity .3s var(--ease);}
-.viz-in .rk-grid{opacity:1;}
-.rk-axis{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;transition:opacity .15s var(--ease),stroke-dashoffset .45s var(--ease);}
-.viz-in .rk-axis{opacity:1;stroke-dashoffset:0;}
-.rk-poly{transform-box:view-box;transform-origin:0 0;transform:scale(0);transition:transform .5s var(--ease) .3s;}
-.rk-dot{opacity:0;transform:scale(0);transition:opacity .3s var(--ease),transform .45s var(--ease);cursor:pointer;}
-.rk-lab{opacity:0;transition:opacity .3s var(--ease) .85s;}
-.viz-in .rk-lab{opacity:1;}
-.viz-in .rk-poly{transform:scale(1);}
-.viz-in .rk-dot{opacity:1;transform:scale(1);}
-.rk-axis:nth-of-type(1),.rk-dot:nth-of-type(1){transition-delay:.08s;}
-.rk-axis:nth-of-type(2),.rk-dot:nth-of-type(2){transition-delay:.13s;}
-.rk-axis:nth-of-type(3),.rk-dot:nth-of-type(3){transition-delay:.18s;}
-.rk-axis:nth-of-type(4),.rk-dot:nth-of-type(4){transition-delay:.23s;}
-.rk-axis:nth-of-type(5),.rk-dot:nth-of-type(5){transition-delay:.28s;}
-.rk-axis:nth-of-type(6),.rk-dot:nth-of-type(6){transition-delay:.33s;}
-/* tap/hover a data point (or its label) → it pops/bolds, the other 5 dim to ~40% — same "active
-   100% / inactive ~40-60%" focus rule as the row-hover rule below, but JS-driven (bindRadarTap(),
-   near bindAllocHover()) instead of a pure :hover sibling-selector trick (2026-08-29, per direction
-   "ให้มี Interaction" — the old version was CSS :hover-only, same "no hover on a touch kiosk" gap
-   this file already calls out for .conf-bars/.risk-bars/.trait-row just below, so it never gave a
-   real touch/tablet visitor anything; :hover selectors can't express a persistent tap-to-select
-   state anyway). .rk-dot/.rk-lab both get cursor:pointer + a bigger invisible tap target isn't
-   needed here since the label text itself is the practical tap target, the 3px dot is a bonus for
-   precise pointers. */
-.radar-ww .rk-dot,.radar-ww .rk-lab{cursor:pointer;}
-.radar-ww.sel .rk-dot:not(.rk-act){opacity:.4;}
-.radar-ww.sel .rk-dot.rk-act{opacity:1;transform:scale(1.5);}
-.radar-ww.sel .rk-lab:not(.rk-act){opacity:.4;}
-.radar-ww.sel .rk-lab.rk-act{font-weight:700;fill:var(--ink);}
-
-/* row hover — active row stays full opacity, its siblings dim to ~55% (desktop/mouse only; a touch
-   kiosk has no hover, so every row just stays fully visible there, the safer default anyway) */
-@media(hover:hover) and (pointer:fine){
-  .conf-bars .conf-row,.risk-bars .risk-row,.trait-row{transition:opacity .15s var(--ease);}
-  .conf-bars:hover .conf-row,.risk-bars:hover .risk-row,.trait-list:hover .trait-row{opacity:.55;}
-  .conf-bars .conf-row:hover,.risk-bars .risk-row:hover,.trait-list .trait-row:hover{opacity:1;}
-  .alloc-seg,.alloc-row{transition:opacity .15s var(--ease),filter .15s var(--ease);}
-  .alloc-seg.dim,.alloc-row.dim{opacity:.45;}
-  .alloc-seg.hi{filter:brightness(1.18) saturate(1.1);}
-}
+/* radar — static, print-like: every chart renders straight at its final state (no reveal animation,
+   no tap-to-select), same "a document has no scroll-into-view moment" reasoning pbBuild() already
+   applies to every other chart on the page (2026-09-22, per direction — motion/interaction removed). */
+.rk-poly{transform-box:view-box;transform-origin:0 0;}
 /* font-weight reverted 700->500 (2026-08-29, per follow-up direction "text weight 500") — the
    earlier 700 bump (same session) read too heavy for this longer-running body copy; --w-body is
    this file's normal paragraph weight everywhere else. */
@@ -844,7 +685,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-page{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);box-sizing:border-box;background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow-page);display:flex;flex-direction:column;padding:var(--pb-pad-top) var(--pb-pad-x) var(--pb-pad-bottom);overflow:hidden;}
 .pb-cover{padding:0;border:0;background-color:var(--cover-paper);background-size:100% 100%;background-repeat:no-repeat;}
 .pb-frame{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
-.pb-page .viz-bar{transition:none;}
 .pb-intro .s-h{margin-bottom:0;}
 .pb-intro .s-sub{margin:var(--sp-stack-tight) 0 0;}
 .pb-body>.pb-intro{margin-bottom:calc(var(--sp-stack) - var(--pb-gap));}
@@ -858,7 +698,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-page.pb-framed .pb-hd,.pb-page.pb-framed .pb-ft{padding-left:var(--pb-folio-inset);padding-right:var(--pb-folio-inset);} /* #F7F8F7 = --paper, per the supplied swatch */
 /* framed sheet: the ornament is the container, so the persona card sits straight on the page — no glow frame / card box of its own — and is shown larger */
 .pb-page.pb-framed .hero-gw{padding:0;}
-.pb-page.pb-framed .hero-glow-base,.pb-page.pb-framed .hero-glow-energy{display:none;}
 .pb-page.pb-framed .hero-in{background:transparent;padding:0;border-radius:0;}
 #b2ident-head:empty{display:none;}
 /* the card's stage: the card centred, brand assets scattered in the gutters/corners around it */
@@ -988,9 +827,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .sc{display:inline-flex;align-items:center;gap:4px;font-family:var(--font);font-size:var(--fs-label);font-weight:var(--w-head);white-space:nowrap;padding:4px var(--sp-inline);border-radius:var(--rpill);background:var(--accent);color:var(--muted);}
 .sc.done{background:color-mix(in srgb,var(--green-text) 12%,var(--white));color:var(--green-text);}
 .sc.act{background:var(--amber-bg);color:var(--amber-text);}
-.s-cv{width:15px;height:15px;color:var(--muted);transition:transform .2s var(--ease);flex-shrink:0;}
+.s-cv{width:15px;height:15px;color:var(--muted);flex-shrink:0;}
 .s-cv.open{transform:rotate(180deg);}
-.side-body{max-height:0;overflow:hidden;transition:max-height .28s var(--ease);}
+.side-body{max-height:0;overflow:hidden;}
 .side-body.show{max-height:400px;}
 .side-bi{padding:0 20px var(--sp-card-pad-sm) 56px;}
 .side-dl{background:var(--spectrum-v) left/2px 100% no-repeat;padding-left:var(--sp-inline);}
@@ -1042,21 +881,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    bullet glyph) · 0.6 body ink (divider-chip label, back eyebrow/title/stat-label/legend) · 0.72
    back bullet-list body text. */
 .pc3d{perspective:900px;width:100%;}
-.pc-tilt{position:relative;width:100%;aspect-ratio:5/7;transform-style:preserve-3d;transition:transform .5s var(--ease);will-change:transform;}
-/* fix bug (2026-09-04): a stretched/skewed frame briefly escaping the rounded card frame during a
-   flip — reported on v2's tease-open flip and on v3's rev-edge/rev-turn cards, both of which flip
-   while an ANCESTOR is also actively animating (v2: the dominant card's own ambient float; v3: the
-   lane's continuous drift). `.pc-tilt` (this rotation's sibling) already carried its own
-   will-change:transform; `.pc-flip` — the element whose `transform` is what's actually being
-   animated by every flip in the app — never did. Without it, the browser has to promote this element
-   onto its own GPU compositing layer AT THE INSTANT the flip's transform animation starts, and if an
-   ancestor is simultaneously mid-transform, that promotion can land a frame late — the exact "content
-   briefly escapes its clip" symptom, since backface-visibility + overflow:hidden clipping is only
-   reliable once the element is properly layered. Promoting it ahead of time (same treatment as
-   .pc-tilt) removes the race entirely. v1's own flip never showed this because its flipping card is
-   always the fan's CENTERED slot, whose own ancestor transform is idle (paintFan settles it at
-   dead-center, xn/yn/rot all 0) while flipped — no concurrent ancestor animation to race against. */
-.pc-flip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .7s var(--ease);will-change:transform;}
+.pc-tilt{position:relative;width:100%;aspect-ratio:5/7;transform-style:preserve-3d;}
+.pc-flip{position:absolute;inset:0;transform-style:preserve-3d;}
 .pc3d.flipped .pc-flip{transform:rotateY(180deg);}
 /* border-radius promoted 14px->var(--r2) (2026-08-31, per corner-radius audit) — see .cr2's comment;
    same repeated "media frame" magic number, folded onto the same token. */
@@ -1120,7 +946,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    and .hero-cardwrap (its wrapping frame) removed 2026-08-30 along with คู่มือ 1 — see the removal
    note near BOOK2_TAB. */
 .hero-sig-c{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;text-align:center;text-wrap:balance;max-width:40ch;margin:0 auto var(--sp-block);} /* 2nd: the value line, one step down from the pill */
-@media(prefers-reduced-motion:reduce){.pc-tilt{transition:none!important;}}
 
 /* ══ RESPONSIVE ══ data-view on <html>: mobile | tablet | pc (set by JS from window, or forced by demo panel) */
 .shell{transition:max-width .3s var(--ease);}
@@ -1137,28 +962,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    previewing data-view=mobile. */
 :root[data-view="pdf"] .shell{max-width:none;}
 
-.fade{animation:fade .32s var(--ease);}
-@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
-/* ══ CONTAINER SCROLL ANIMATION DNA ══ .scroll-reveal sections tip back in 3D perspective while
-   still below the fold and settle flat as scroll brings them into place — scroll paces the reveal,
-   it doesn't gate it (see revealTick() near the bottom of the script). Reduced-motion collapses
-   straight to flat, content is never hidden, only its entrance timing changes.
-   2026-08-19 system-wide motion audit — extended from the original 5 tabbar screens to every
-   remaining screen, closing the exact gap flagged ("หน้าคู่มือ (Playbook) ยังไม่ครบ"): Book v2's
-   3 non-identity tabs (analysis/portfolio/journey — efin-banner, AI Insight, radar/trait/alloc
-   card, dd-tabs card, 6-ด้าน sides card, route-steps card, library-teaser card) had ZERO scroll
-   motion and its <main> was even missing the base .fade page-enter every other tabbar screen gets
-   — both fixed. Also added to Home's postEventHTML() card (missed in the original pass) and to
-   Library's single card. Quiz/Consent/Reveal (previously deliberately skipped as "scoped to the 5
-   tabbar screens only") now carry .scroll-reveal too (.q-head, .consent-body, the reveal-scene
-   wrapper) so the same engine governs every screen — on these short single-viewport screens it
-   mostly renders pre-settled (nothing to tip from), but it keeps the system honest if their content
-   ever grows past one viewport, and it's zero-risk since it's purely additive to an existing,
-   already-proven mechanism. Splash intentionally untouched — its ambient asset-scatter + auto-fan
-   carousel is its own deliberate attract-motion, not a gap. */
-.scroll-reveal{will-change:transform;transform-origin:50% 100%;}
-@media(prefers-reduced-motion:reduce){.scroll-reveal{transform:none!important;}}
 </style>
 
 <!-- Lucide icons — inline symbol defs (MIT, lucide.dev), per Design DNA §07. -->
@@ -1454,45 +1258,6 @@ function pcFrontInner(key){
       '<div class="pcE-tags">'+tags+'</div><div class="pcE-ed">'+roman(pnum(key))+' / XII</div></div>'+
     '</div>'; /* closes the outer .pcE opened at the top of this function */
 }
-/* .hero-gw's Full Glow Frame + Moving Light Texture (see the big FULL GLOW FRAME comment near
-   .hero-gw's CSS). heroGlowMarkup() is the shared markup fragment, dropped inside .hero-gw right
-   before .hero-in so .hero-in's own opaque background covers everything but the 3px ring. Both light
-   layers (base spectrum + moving energy) are oversized squares that CSS alone can't size — "the
-   diagonal of this specific element" needs container-query units this codebase doesn't use — so
-   sizeHeroGlow() computes it (diagonal + 48px margin, so their corners clear .hero-gw's real corners
-   at every angle) and also wires the §10 scroll-reveal activation. */
-function heroGlowMarkup(){
-  return '<div class="hero-glow" aria-hidden="true"><div class="hero-glow-mask"><div class="hero-glow-base"></div><div class="hero-glow-energy"></div></div></div>';
-}
-var HERO_GLOW_RESIZE_BOUND=false,HERO_GLOW_IO=null;
-function sizeHeroGlow(){
-  var gws=root.querySelectorAll('.hero-gw');
-  if(!gws.length)return;
-  /* one frame per A4 sheet now (pbBuild re-creates the hero frame on every sheet it spans) */
-  gws.forEach(function(gw){
-    var layers=gw.querySelectorAll('.hero-glow-base,.hero-glow-energy');
-    var w=gw.clientWidth,h=gw.clientHeight;
-    if(w&&h&&layers.length){
-      var d=Math.sqrt(w*w+h*h)+48;
-      for(var i=0;i<layers.length;i++){layers[i].style.width=d+'px';layers[i].style.height=d+'px';}
-    }
-  });
-  /* one-shot resize listener (guarded so repeated renderBook() calls never stack duplicates) — looks
-     up the current .hero-gw/layers fresh each fire rather than closing over these, since every
-     render() rebuilds .hero-gw's DOM from scratch. */
-  if(!HERO_GLOW_RESIZE_BOUND){HERO_GLOW_RESIZE_BOUND=true;window.addEventListener('resize',sizeHeroGlow,{passive:true});}
-  /* §10 Scroll Reveal — the glow fades in (base first, then the moving field) only once the frame
-     enters the viewport, not on page load. One-shot per element; disconnect the prior observer since
-     render() gives us a brand-new (detached-from-the-old-observer) .hero-gw each time. */
-  var pending=[].slice.call(gws).filter(function(gw){return !gw.classList.contains('glow-on');});
-  if(!pending.length)return;
-  if(!window.IntersectionObserver){pending.forEach(function(gw){gw.classList.add('glow-on');});return;}
-  if(HERO_GLOW_IO)HERO_GLOW_IO.disconnect();
-  HERO_GLOW_IO=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('glow-on');HERO_GLOW_IO.unobserve(e.target);}});
-  },{threshold:.2});
-  pending.forEach(function(gw){HERO_GLOW_IO.observe(gw);});
-}
 /* static card (carousel + compare-reveal). Front-only by default — pass flippable:true (splash fan
    carousel only, see renderSplash below) to also render a back face showing the real physical
    card-back photo (CARD_BACK_IMG, one shared image — the back is generic, not per-persona).
@@ -1512,7 +1277,6 @@ function pcStatic(key,flippable,startFlipped){
    .pcv-wrap/.pcv-hint/.pcv-ctas/.pcv-btn CSS) removed 2026-08-30 along with คู่มือ 1 — see the
    removal note near BOOK2_TAB — since it was only ever used by the Book v1 layout this replaced.
    pcStatic() above (front-face-only, no interaction) is what the surviving Book uses. */
-var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 var S3_OPTS=[
  {icon:'lc-landmark',t:'หุ้นไทย'},
  {icon:'lc-globe',t:'หุ้นต่างประเทศ'},
@@ -1527,11 +1291,6 @@ var S3_OPTS=[
 ]; /* S1(3) + S2(7) + S3(1 multi-select) */
 var st={phase:'splash',spidx:0,idx:0,s1:[null,null,null],s2:[null,null,null,null,null,null,null],s3:[]};
 var RESULT=null;
-/* Set true only by the Character Card Reveal handoff (renderCardReveal → goBook) so the very next
-   renderBook() plays a one-time staged content reveal on the ตัวตน panel (Card → detail → CTA cascade,
-   per "Playbook Reveal" direction). Consumed + cleared on that render; normal tab switches never set it,
-   so ordinary Book navigation is untouched. */
-var PB_INTRO=false;
 var root=document.getElementById('root');
 function ic(id,cls){return '<svg viewBox="0 0 24 24" class="lucide'+(cls?' '+cls:'')+'"><use href="#'+id+'"/></svg>';}
 
@@ -1563,80 +1322,7 @@ function render(){
   st.phase='book';
   renderBook();
   window.scrollTo(0,0);
-  revealTick(); // sync .scroll-reveal transforms to the fresh DOM immediately, don't wait for a scroll event
 }
-
-/* ══ CONTAINER SCROLL ANIMATION DNA (motion) ══ shared scroll-linked controller for every
-   .scroll-reveal element (see the CSS block above) — re-queries the DOM each tick so it stays
-   correct across renders() without being rebound per screen, same "bind once, query live" pattern
-   as buildGoTop()'s onScroll below. Bound to BOTH window and #root's own scroll (root scrolls
-   internally in the desktop mobile-frame preview per :root[data-view=mobile] .shell{overflow-y:
-   auto}), matching buildGoTop's dual-binding. rAF-throttled since scroll fires far faster than a
-   frame budget needs. */
-function revealTick(){
-  SR_RAF=null;
-  var els=document.querySelectorAll('.scroll-reveal');
-  if(RM){els.forEach(function(el){el.style.transform='';});return;}
-  var vh=window.innerHeight;
-  // Bug fix (scroll motion never settling): the p formula below is purely rect.top-driven, so on a
-  // page whose scrollable height can't push a trailing element's top past `end` (i.e. you've already
-  // hit the bottom of the page — nothing left to reveal against), p gets stuck under 1 forever and
-  // that section stays visibly tilted/offset instead of lying flat. Once the ACTIVE scroll container
-  // has reached its max, there's no more scroll distance to animate with, so force every remaining
-  // element fully settled (p=1) rather than leaving it mid-transform. Only #root's own scrollTop/
-  // scrollHeight counts as a blocker when #root is actually the one scrolling (overflow-y:auto —
-  // desktop mobile-frame preview, per the CONTAINER SCROLL ANIMATION DNA comment above); at real
-  // mobile widths .shell has no such overflow (overflow:visible) and its scrollHeight can still
-  // read taller than its clientHeight despite it never being the scroll container, which would
-  // false-block atBottom forever if not gated on overflowY here — window is what's actually
-  // scrolling in that case, so root's own check is skipped.
-  var wAtBottom=(window.innerHeight+window.scrollY)>=(document.documentElement.scrollHeight-1);
-  var rootScrolls=getComputedStyle(root).overflowY==='auto'||getComputedStyle(root).overflowY==='scroll';
-  var rAtBottom=!rootScrolls||(root.scrollTop+root.clientHeight)>=(root.scrollHeight-1);
-  var atBottom=wAtBottom&&rAtBottom;
-  els.forEach(function(el){
-    // Bug fix (2026-09-03, "กิจกรรมประจำโซน" reveal arriving way too late on tall phones — iPhone 15
-    // Pro/Pro Max reported, but this was really a height bug, not a device bug). rect.top below used
-    // to be read WITHOUT clearing the transform first, so on every tick after the first it measured
-    // the box as the PREVIOUS tick's rotateX/perspective had already distorted it, not its true
-    // scrolled position — a feedback loop. perspective(1000px) foreshortens a rotated box more the
-    // taller it is (negligible on a ~480px card, severe on this section's ~1700px booth-grid card on
-    // mobile, where the whole grid stacks to one column), so the corrupted rect.top under-reported
-    // how far the section had actually scrolled, and p kept chasing a moving target instead of
-    // reaching 1 — the section stayed visibly shrunken/tilted for nearly a full extra screen of
-    // scrolling before catching up. Clearing the transform before reading gets the TRUE untransformed
-    // position every tick (costs one extra reflow per .scroll-reveal element, negligible at this
-    // count). Also scale the perspective distance with the element's own height (floor 1000px, same
-    // as before, for anything at/under that height) so a very tall card foreshortens by roughly the
-    // same visual amount as a short one under the same 12deg tilt, instead of collapsing harder the
-    // taller it is.
-    if(el.style.transform)el.style.transform='';
-    var rect=el.getBoundingClientRect();
-    if(rect.width===0&&rect.height===0)return; // display:none (e.g. an inactive book2 tab panel)
-    var start=vh*0.92,end=vh*0.42; // enters the reveal ~92% down the viewport, settles flat by ~42%
-    var p=atBottom?1:Math.max(0,Math.min(1,(start-rect.top)/(start-end)));
-    // Bug fix (2026-09-11 responsive audit): a fully-settled element (p>=1) used to still get an
-    // explicit 'perspective(Npx) rotateX(0deg) translateY(0px) scale(1.000)' string — numerically a
-    // no-op (0deg/0px/1.000 render identically to no transform at all), but NOT the same as actually
-    // having no transform: the browser still resolves it to a matrix3d(...) with a live perspective
-    // (m34) term and keeps the element in its own 3D/will-change compositing layer. Reproduced this
-    // rendering an ENTIRE settled .scroll-reveal section (the home stat-tile row; separately the
-    // เดินบูธ route/map card) fully invisible — content present in the DOM with opacity:1 and a
-    // "no-op" matrix3d, painting nothing, confirmed fixed instantly by clearing the transform. Since
-    // "content is never hidden" is this system's own explicit contract (see the CONTAINER SCROLL
-    // ANIMATION DNA comment above), a settled element now drops the transform entirely instead of
-    // carrying a numerically-equivalent 3D matrix — same flat result, no lingering perspective
-    // context once there's nothing left to animate.
-    if(p>=1){el.style.transform='';return;}
-    var persp=Math.max(1000,rect.height*2.2);
-    el.style.transform='perspective('+Math.round(persp)+'px) rotateX('+((1-p)*12).toFixed(2)+'deg) translateY('+((1-p)*26).toFixed(1)+'px) scale('+(0.95+p*0.05).toFixed(3)+')';
-  });
-}
-var SR_RAF=null;
-function requestRevealTick(){if(!SR_RAF)SR_RAF=requestAnimationFrame(revealTick);}
-window.addEventListener('scroll',requestRevealTick,{passive:true});
-window.addEventListener('resize',requestRevealTick,{passive:true});
-root.addEventListener('scroll',requestRevealTick,{passive:true});
 
 function radarSVG(vals,hue){
   var R=90,cx=170,cy=122,pts=[];
@@ -1656,23 +1342,6 @@ function radarSVG(vals,hue){
     '<polygon class="rk-grid" points="'+ring(1)+'"/><polygon class="rk-grid" points="'+ring(.75)+'"/><polygon class="rk-grid" points="'+ring(.5)+'"/><polygon class="rk-grid" points="'+ring(.25)+'"/>'+
     axis(0)+axis(1)+axis(2)+axis(3)+axis(4)+axis(5)+
     '<polygon class="rk-poly" points="'+poly+'" fill="rgba('+hue+',0.14)" stroke-linejoin="round"/>'+dots+labels+'</g></svg>';
-}
-/* ── Dashboard chart-reveal (Motion DNA: Section → Card Reveal → Data Reveal → Chart Animation →
-   Final State) — observes each chart's containing card and adds .viz-in the first time it enters the
-   viewport; the CSS above ("CHART MOTION + INTERACTION") does the actual animating per chart type.
-   Called once per render from renderBook() right after its HTML lands in the DOM, and naturally
-   re-fires for Book's tab-hidden (display:none) chart panels once the user switches to them, since
-   the observer keeps watching regardless of the .b2-panel/.show toggle. One-time per
-   element (unobserve after firing) — re-scrolling past an already-revealed chart never re-plays it,
-   matching the reference's "not a decorative loop" rule. */
-function initCharts(scope){
-  var boxes=(scope||root).querySelectorAll('.conf-box,.risk-box,.trait-sec,.alloc-sec,.radar-sec');
-  if(!boxes.length)return;
-  if(!window.IntersectionObserver){boxes.forEach(function(b){b.classList.add('viz-in');});return;}
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('viz-in');io.unobserve(e.target);}});
-  },{threshold:.3});
-  boxes.forEach(function(b){io.observe(b);});
 }
 /* #famBadge's tint+text color track whichever persona is currently active (pre vs post can be a
    different family entirely) — shared by the initial render and the tab-switch handler below so
@@ -1929,10 +1598,10 @@ function renderBook(){
   /* unreg also drops the ตัวตน subnav pill entirely (2026-09-04, per direction "เอา tab ตัวตน
      ออก...ไม่มีข้อมูล tab อื่นให้เลือกอยู่แล้ว") — book2Tabs() already resolves to a single-item list
      for this case, but a 1-choice tab bar has nothing left to switch between, so skip rendering it. */
-  '<main class="scroll fade" style="padding-bottom:var(--sp-stack)">'+
+  '<main class="scroll" style="padding-bottom:var(--sp-stack)">'+
     '<div class="pb-src">'+
     '<div class="b2-panel" data-panel="identity">'+
-      '<section class="hero-sec"><div class="hero-gw">'+heroGlowMarkup()+'<div class="hero-in scroll-reveal">'+
+      '<section class="hero-sec"><div class="hero-gw"><div class="hero-in scroll-reveal">'+
         compareBlock+
         '<div id="b2ident-head">'+identParts(h,unreg).head+'</div>'+
         '<div id="b2ident-detail">'+identParts(h,unreg).rest+'</div>'+
@@ -1988,17 +1657,11 @@ function renderBook(){
   /* Playbook = the downloadable PDF's on-screen twin (2026-09-21, per direction): no app header (logo /
      register / QR) and no bottom tab bar (หน้าหลัก / เดินบูธ / เกมหลัก / โปรไฟล์) — none of it belongs in the PDF. */
   pbBuild(h.th,true);
-  sizeHeroGlow();
   /* #shareCardBtn bound here (not down with klibRow/confPlayBtn2 etc. below) because unreg's own
      copy of this button (unregisteredCtaHTML(), 2026-09-07) needs wiring too, and everything past
      the `if(unreg)return;` a few lines down is skipped entirely for that case — the registered-case
      button still exists further down but this one binding now covers both, so nothing there needs
      to duplicate it. */
-  /* One-time staged reveal after the Character Card animation handed off to us (see PB_INTRO). Placed
-     BEFORE the `if(unreg)return;` below so both the registered and unregistered identity panels get it.
-     Opacity-only cascade (never transform) so it can't fight the .scroll-reveal engine, which owns
-     these same elements' transforms via revealTick(). */
-  if(PB_INTRO){PB_INTRO=false;playIdentityIntro();}
   // Logo bound unconditionally, ABOVE the unreg early-return just below (2026-09-10, per direction
   // "ทำไมกด หน้า Playbook ไม่ได้ ในบางกรณี ต้องการให้กดได้ตลอด") — was skipped entirely for unreg
   // (bindHeaderLogo() used to live only in the !unreg branch further down, alongside mountHeaderQR());
@@ -2008,29 +1671,6 @@ function renderBook(){
   /* unreg: no qr-cta-slot in the header to mount into (see the header markup above) — bindHeaderLogo()
      moved up above the `if(unreg)return;` (2026-09-10) since the logo itself IS clickable in every
      case now; only the QR mount stays gated here since unreg genuinely has nowhere to put it. */
-  initCharts(root);
-  bindAllocHover(root);bindRadarTap(root);
-}
-/* One-time staged reveal of the ตัวตน panel after the Character Card animation (PB_INTRO). Cascades
-   the identity panel's blocks in — the compare/card block first, then each section inside
-   #b2ident-detail (title → description → SKILL/DNA data → …), then the CTA — so content arrives in
-   order AFTER the card is already settled, per the "Playbook Reveal" direction. Opacity-only + inline
-   transition-delay; RM (which also has the global animation/transition kill) skips it and everything
-   just shows. Inline styles are self-cleaning so nothing here lingers to affect later interactions. */
-function playIdentityIntro(){
-  if(RM)return;
-  var hero=root.querySelector('.hero-in');
-  if(!hero)return;
-  var det=hero.querySelector('#b2ident-detail');
-  var seq=[];
-  [].slice.call(hero.children).forEach(function(k){
-    if(k===det)seq=seq.concat([].slice.call(det.children)); // expand the detail block into its own sections for a finer cascade
-    else seq.push(k);
-  });
-  if(!seq.length)return;
-  seq.forEach(function(el,i){el.style.opacity='0';el.style.transition='opacity .5s var(--ease) '+(i*0.12).toFixed(2)+'s';});
-  requestAnimationFrame(function(){requestAnimationFrame(function(){seq.forEach(function(el){el.style.opacity='';});});});
-  setTimeout(function(){seq.forEach(function(el){el.style.transition='';});},900+seq.length*130);
 }
 /* Registration site link (2026-08-19) — this app has no other way back to it once a visitor lands
    here from that site's own link, and that site carries event details this app doesn't duplicate.
@@ -2060,44 +1700,6 @@ function allocBars(){
   var bar=segs.map(function(s,i){return '<div class="alloc-seg viz-bar" data-i="'+i+'" style="--tw:'+s.p+'%;background:color-mix(in srgb,'+s.c+' 55%,var(--white))"></div>';}).join('');
   var legend=segs.map(function(s,i){return '<div class="alloc-row" data-i="'+i+'"><span class="alloc-dot" style="background:'+s.c+'"></span><span class="alloc-l">'+s.l+'</span><span class="alloc-p">'+s.p+'%</span></div>';}).join('');
   return '<div class="alloc-bar">'+bar+'</div><div class="alloc-legend">'+legend+'</div>';
-}
-/* Allocation legend ↔ bar-segment hover pairing (Interaction DNA §10: hover one → highlight it, dim
-   the rest to ~45%). The two lists are separate DOM siblings (stacked bar vs legend rows below it),
-   so they're paired by a shared data-i index rather than a pure-CSS :has() selector. Idempotent per
-   .alloc-bar's parent (guards against double-binding if this were ever called twice on one render). */
-function bindAllocHover(scope){
-  (scope||root).querySelectorAll('.alloc-bar').forEach(function(bar){
-    var wrap=bar.parentElement;if(!wrap||wrap.__allocHover)return;wrap.__allocHover=true;
-    var segs=wrap.querySelectorAll('.alloc-seg'),rows=wrap.querySelectorAll('.alloc-row');
-    function set(i){
-      segs.forEach(function(s){var m=s.dataset.i===i;s.classList.toggle('hi',i!==null&&m);s.classList.toggle('dim',i!==null&&!m);});
-      rows.forEach(function(r){r.classList.toggle('dim',i!==null&&r.dataset.i!==i);});
-    }
-    segs.forEach(function(s){s.addEventListener('mouseenter',function(){set(s.dataset.i);});s.addEventListener('mouseleave',function(){set(null);});});
-    rows.forEach(function(r){r.addEventListener('mouseenter',function(){set(r.dataset.i);});r.addEventListener('mouseleave',function(){set(null);});});
-  });
-}
-/* Radar chart tap/hover pairing (2026-08-29, per direction "ให้มี Interaction") — same
-   dot<->label pairing idea as bindAllocHover above, but click-toggled (not just mouseenter/leave)
-   since a booth tablet/phone has no hover to rely on; hover is layered on top as a bonus preview
-   for the desktop/mouse case. Click is a real toggle (tap again, or tap the already-active point,
-   to clear) rather than a momentary highlight, since a tap has no "leave" event to reset it with. */
-function bindRadarTap(scope){
-  (scope||root).querySelectorAll('.radar-ww').forEach(function(ww){
-    if(ww.__radarTap)return;ww.__radarTap=true;
-    var dots=Array.prototype.slice.call(ww.querySelectorAll('.rk-dot')),labs=Array.prototype.slice.call(ww.querySelectorAll('.rk-lab')),active=null;
-    function set(i){
-      ww.classList.toggle('sel',i!==null);
-      dots.forEach(function(d){d.classList.toggle('rk-act',d.dataset.i===i);});
-      labs.forEach(function(l){l.classList.toggle('rk-act',l.dataset.i===i);});
-    }
-    function tap(i){active=(active===i)?null:i;set(active);}
-    dots.concat(labs).forEach(function(el){
-      el.addEventListener('click',function(){tap(el.dataset.i);});
-      el.addEventListener('mouseenter',function(){if(active===null)set(el.dataset.i);});
-      el.addEventListener('mouseleave',function(){if(active===null)set(null);});
-    });
-  });
 }
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
    (playbook-final-extracted.html — see PLAYBOOK-2026-DATA-BASELINE.md §7): 8 categories, 41 items
@@ -2270,7 +1872,6 @@ function pbBuild(label,cover){
       if(cur&&par===cur.inner&&!cur.inner.children.length){body.removeChild(cur.root);cur=null;}
     }
     function place(node,shell){
-      node.classList.remove('scroll-reveal');
       put(node,shell);
       /* balance: if the sheet is over by <=12%, shrink its blocks a touch (uniformly) to fit rather than
          leaving a near-empty sheet behind; revert if that still doesn't fit */
@@ -2298,7 +1899,6 @@ function pbBuild(label,cover){
       }
     }
     [].slice.call(panel.children).forEach(function(blk){
-      blk.classList.remove('scroll-reveal');
       var sh=shellOf(blk);
       if(sh){
         /* try it whole first; if it can't fit even alone on a fresh sheet (place() had to zoom it), take it back and split into atoms */
@@ -2308,14 +1908,9 @@ function pbBuild(label,cover){
     });
   });
   if(cover)addCover('back');
-  doc.querySelectorAll('.scroll-reveal').forEach(function(e){e.classList.remove('scroll-reveal');e.style.transform='';});
-  /* a document has no scroll-into-view moment: draw every chart full now (bars used to stay at width 0 until scrolled to) */
-  doc.querySelectorAll('.conf-box,.risk-box,.trait-sec,.alloc-sec,.radar-sec').forEach(function(b){b.classList.add('viz-in');});
   src.remove();
   pages.forEach(function(pg,i){pg.querySelector('.pb-pn').textContent='หน้า '+(i+1)+' / '+pages.length;pbDeco(pg,i+1);});
 }
-/* charts only fill when scrolled into view — force them full before print/PDF */
-window.addEventListener('beforeprint',function(){document.querySelectorAll('.conf-box,.risk-box,.trait-sec,.alloc-sec,.radar-sec').forEach(function(b){b.classList.add('viz-in');});});
 /* per-asset heading art (2026-09-22, per direction): 3 of the "เจาะรายสินทรัพย์" headings swap their
    lucide glyph for real icon art, keyed by asset label since the same lucide id (lc-pie-chart etc.)
    is shared across every persona's asset list. */
