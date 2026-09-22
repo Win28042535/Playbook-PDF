@@ -15,6 +15,9 @@
 @font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-100-500.ttf) format('truetype');font-weight:100 500;font-style:normal;font-display:swap;}
 @font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-600-900.ttf) format('truetype');font-weight:600 900;font-style:normal;font-display:swap;}
 @font-face{font-family:'Baskervville';src:url(assets/baskervville-400-700.ttf) format('truetype');font-weight:400 700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Sarabun';src:url(assets/sarabun-400.ttf) format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Sarabun';src:url(assets/sarabun-500.ttf) format('truetype');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Sarabun';src:url(assets/sarabun-700.ttf) format('truetype');font-weight:700;font-style:normal;font-display:swap;}
 /* ── BetterTrade 2026 · Design DNA v2.0 (editorial) ─────────── */
 :root{
   --ink:#111318; --muted:#687078;
@@ -130,6 +133,13 @@
                            breathing room than the narrow phone frame. */
   --font:'FC Minimal','Noto Sans Thai','Thonburi','DB Helvethaica X',system-ui,-apple-system,'Segoe UI',sans-serif;
   --serif:'Baskervville','Bodoni MT','Didot',Georgia,'Times New Roman',serif; /* Editorial display serif — matches the printed character-card art. English display + numerals ONLY; Thai stays on --font (FC Minimal). Baskervville embedded (OFL, variable font — one @font-face covers weight 400–700); Bodoni MT = local-first fallback */
+  /* --font-read (2026-09-22, per direction): a looped Thai text face ("font มีหัว") for the document's
+     heaviest reading — library articles, glossary definitions, the AI Insight paragraphs — swapped in
+     ONLY there, not on title/subtitle/caption, since --font's own Thai glyphs already come from an
+     un-embedded system fallback (FC Minimal itself is Latin-only) and this is the one place long
+     unbroken Thai prose actually needs the readability. Sarabun embedded at 400/500/700 (OFL, static
+     per-weight files — see the 3 @font-face rules above), same Thai/system fallback chain as --font. */
+  --font-read:'Sarabun','Noto Sans Thai','Thonburi','DB Helvethaica X',system-ui,-apple-system,'Segoe UI',sans-serif;
   /* --mono retired (2026-08-12, per direction) — every former mono site (topbar count, opt-key,
      eyebrow labels, side/route numerals, card-back stat rows) now sets font-family:var(--font)
      directly; there is no longer a second UI typeface in this app, only --font (UI) + --serif
@@ -151,7 +161,7 @@
      everything else held. This narrows the h2(24)↔sub/body(22) gap to 2px and widens sub/body(22)↔
      bodysm(18) to 4px, breaking the "ratios preserved" pattern the v2/v3 passes kept — a deliberate,
      isolated bump per this direction, not a full re-scale. */
-  --fs-title:36px; --fs-heading:28px; --fs-h2:24px; --fs-sub:22px;
+  --fs-title:36px; --fs-heading:28px; --fs-h2:24px; --fs-sub:22px; --fs-subtitle:20px;
   --fs-body:22px; --fs-bodysm:18px; --fs-label:16px; --fs-eyebrow:14px; --fs-meta:14px;
   /* Icon scale v2 (2026-08-15, per Icon System audit review) — sm/md stepped up a rung (12→16,
      16→20), lg held at 24. Hero-tier icons (the single dominant icon on a screen) still stay
@@ -490,7 +500,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .s-ey{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;color:var(--muted);margin-bottom:var(--sp-glue);display:flex;align-items:center;gap:var(--sp-glue);}
 .s-ey svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
 .s-h{font-size:var(--fs-heading);font-weight:var(--w-label);letter-spacing:0;color:var(--ink);margin-bottom:4px;}
-.s-sub{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
+.s-sub{font-size:var(--fs-subtitle);font-weight:var(--w-label);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
 /* Stepped down from --r2 to --r1 (2026-08-15, per Card & Section review "09") — this panel sits
    nested inside a --r2 .card, so it was matching its own parent's radius instead of reading as a
    smaller nested surface; .next-card (same nesting depth, same card) was already --r1. */
@@ -507,7 +517,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .risk-tag{font-size:var(--fs-label);font-weight:var(--w-label);color:var(--ink);flex:1;}
 .risk-match{display:inline-flex;align-items:center;gap:var(--sp-glue);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);padding:var(--sp-stack-tight) 0;}
 .risk-match .ld{width:6px;height:6px;}
-.risk-desc{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
+.risk-desc{font-family:var(--font-read);font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
 .risk-slbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0;margin-bottom:var(--sp-list);text-transform:uppercase;}
 .risk-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
 .risk-row{display:flex;align-items:center;gap:var(--sp-inline);}
@@ -544,7 +554,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .conf-tr{flex:1;height:calc(var(--bar-h)/var(--pbz,1));background:var(--line-soft);position:relative;border-radius:var(--rpill);} /* 3px + rounded, same as .risk-tr and the SKILL bars */
 .conf-fi{height:calc(var(--bar-h)/var(--pbz,1));background:var(--ink);position:absolute;left:0;top:0;border-radius:var(--rpill);}
 .conf-vl{width:50px;text-align:right;font-size:var(--fs-meta);font-weight:var(--w-head);color:var(--ink);font-family:var(--serif);}
-.conf-note{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-stack);}
+.conf-note{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-stack);}
 /* "เล่นเกม 6 ด้าน" CTA (2026-08-26, per direction — the confidence card should route people on to
    the 6 main games, not dead-end once they've read their score). First tried as a small inline
    .btn-primary next to the note, then per follow-up direction ("button style และ layout เดียวกับ"
@@ -770,7 +780,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-art{padding:0 0 var(--sp-stack);border-bottom:1px solid var(--line-soft);}
 .pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .pb-art-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
-.pb-art-p{font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
+.pb-art-p{font-family:var(--font-read);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
 .pb-note{margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-eyebrow);line-height:1.5;}
 .pb-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:2px;}
 .pb-note-ex{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green-text);}
@@ -782,7 +792,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .gl-gn{font-weight:var(--w-body);color:var(--muted);font-size:var(--fs-eyebrow);}
 .gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;border-top:1px solid var(--line-soft);}
 .gl-term{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
-.gl-def{font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;}
+.gl-def{font-family:var(--font-read);font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;}
 @page{size:A4;margin:0;}
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
