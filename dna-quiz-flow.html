@@ -524,7 +524,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .risk-slbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0;margin-bottom:var(--sp-list);text-transform:uppercase;}
 .risk-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
 .risk-row{display:flex;align-items:center;gap:var(--sp-inline);}
-.risk-rl{width:86px;flex-shrink:0;font-size:var(--fs-label);font-weight:var(--w-body);color:var(--muted);}
+.risk-rl{width:86px;flex-shrink:0;font-size:var(--fs-label);font-weight:var(--w-body);color:var(--ink);}
 /* Bumped 1px→3px to match .prog-track/.prog-fill (2026-08-15, per Component System review) — the
    two other single-fill bars in the app (.conf-tr/.conf-fi included) read as noticeably thinner
    than the Book page's own top progress bar despite the same "one bar, one fill" idea. */
@@ -533,7 +533,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* The actual risk numbers (8, 6.3) were the smallest text in the whole box (--fs-meta, 12px) despite
    being the data point this section exists to show — bumped to a real stat-number size/weight, same
    serif-numeral language as .conf-sc just below it in the same card. */
-.risk-vl{width:50px;text-align:right;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);font-family:var(--serif);}
+.risk-vl{width:50px;text-align:right;font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);font-family:var(--serif);}
 /* confidence highlight — the soft blue wash moved here from the identity card (it read poorly overlapping the card art); a quiet radial glow behind the score corner only */
 .conf-box{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r1);padding:var(--sp-stack) var(--sp-stack);position:relative;overflow:hidden;}
 .conf-glow{position:absolute;top:-45%;right:-15%;width:60%;height:150%;background:radial-gradient(closest-side,rgba(101,152,255,0.18),rgba(101,152,255,0) 70%);pointer-events:none;z-index:0;}
@@ -553,10 +553,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .conf-su{font-size:var(--fs-sub);font-weight:var(--w-head);color:var(--muted);font-family:var(--font);}
 .conf-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
 .conf-row{display:flex;align-items:center;gap:var(--sp-inline);}
-.conf-rl{width:86px;flex-shrink:0;font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);}
+.conf-rl{width:86px;flex-shrink:0;font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);}
 .conf-tr{flex:1;height:calc(var(--bar-h)/var(--pbz,1));background:var(--line-soft);position:relative;border-radius:var(--rpill);} /* 3px + rounded, same as .risk-tr and the SKILL bars */
 .conf-fi{height:calc(var(--bar-h)/var(--pbz,1));background:var(--ink);position:absolute;left:0;top:0;border-radius:var(--rpill);}
-.conf-vl{width:50px;text-align:right;font-size:var(--fs-meta);font-weight:var(--w-head);color:var(--ink);font-family:var(--serif);}
+.conf-vl{width:50px;text-align:right;font-size:var(--fs-bodysm);font-weight:var(--w-head);color:var(--ink);font-family:var(--serif);}
 .conf-note{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-stack);}
 /* "เล่นเกม 6 ด้าน" CTA (2026-08-26, per direction — the confidence card should route people on to
    the 6 main games, not dead-end once they've read their score). First tried as a small inline
@@ -1473,7 +1473,7 @@ function insightHTML(r,h,matchOk){
      identical inline copy in renderBook() (Book v1) keeps its own padding-bottom:0 since THAT one
      has more sections following inside the same card — this copy has nothing after it. */
   return '<section class="card scroll-reveal"><div class="s-pad">'+
-    '<div class="s-ey" style="font-weight:var(--w-label)">AI Insight</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
+    '<div class="s-ey">AI Insight</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?('<span class="ld" style="background:var(--cyan)"></span>ตรงกัน'):('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
