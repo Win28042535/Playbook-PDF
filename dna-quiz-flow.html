@@ -439,7 +439,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    redeem-note's "บัตร Explorer..." line right above it, WITHOUT touching the plain .hero-note used
    elsewhere (e.g. the hero-sec's own "ตัวตนนี้สรุปจากคำตอบ..." note) — was --sp-inline (12px)/--ic-sm
    (16px), now matches --sp-card-pad-sm (16px)/--ic-lg (24px) exactly like .redeem-note. */
-.hero-note.skill-note{padding:var(--sp-inline);background:none;justify-content:center;text-align:center;} /* 3rd: the quietest block; no fill, no icon, centered per direction */
+.hero-note.skill-note{padding:var(--sp-inline);background:none;justify-content:center;text-align:center;font-size:var(--fs-label);} /* 3rd: the quietest block; no fill, no icon, centered per direction; +2px over the base --fs-eyebrow */
 /* .hero-ev-tabs (the pre/post-event in-card picker inside Book v1's hero card) removed 2026-08-30
    along with คู่มือ 1 itself — see the removal note near BOOK2_TAB. */
 .ev-empty{text-align:center;padding:24px var(--sp-inline);border:1px dashed var(--line-strong);border-radius:var(--r1);}
@@ -505,9 +505,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    'จริง' text weight 700 และสีเดียวกับ สูง - สอดคล้องดี") — reverses the small-label demotion this
    rule got in the 2026-08-15 hierarchy pass above; .risk-match right next to it keeps its own
    already-matching w-label/ink styling, so the two now read at the same weight. */
-.risk-tag{font-size:var(--fs-label);font-weight:var(--w-label);color:var(--ink);flex:1;}
+.risk-tag{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);flex:1;}
 .risk-match{display:inline-flex;align-items:center;gap:var(--sp-glue);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);padding:var(--sp-stack-tight) 0;}
-.risk-match .ld{width:6px;height:6px;}
 .risk-desc{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
 .risk-slbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0;margin-bottom:var(--sp-list);text-transform:uppercase;}
 .risk-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
@@ -532,7 +531,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    all-caps "CONFIDENCE SCORE" it read as too loose; same fix pattern as .str-hd's own tracking
    removal (2026-08-28), just for this label instead. */
 .conf-ml{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);margin-bottom:2px;text-transform:uppercase;}
-.conf-mv{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
+.conf-mv{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
 /* Was a bare nested span with a 32px/12px size jump and zero gap — read as two colliding numbers
    stuck together rather than one score. inline-flex + baseline align + a small gap fixes the
    collision; narrowing the size ratio (12px→16px) keeps "/100" legible as part of the same figure
@@ -544,16 +543,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .conf-rl{width:86px;flex-shrink:0;font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);}
 .conf-tr{flex:1;height:calc(var(--bar-h)/var(--pbz,1));background:var(--line-soft);position:relative;border-radius:var(--rpill);} /* 3px + rounded, same as .risk-tr and the SKILL bars */
 .conf-fi{height:calc(var(--bar-h)/var(--pbz,1));background:var(--ink);position:absolute;left:0;top:0;border-radius:var(--rpill);}
-.conf-vl{width:50px;text-align:right;font-size:var(--fs-bodysm);font-weight:var(--w-head);color:var(--ink);font-family:var(--serif);}
-.conf-note{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-stack);}
-/* "เล่นเกม 6 ด้าน" CTA (2026-08-26, per direction — the confidence card should route people on to
-   the 6 main games, not dead-end once they've read their score). First tried as a small inline
-   .btn-primary next to the note, then per follow-up direction ("button style และ layout เดียวกับ"
-   the full-width "แชร์ภาพการ์ด" share button) restyled to that same .hero-acts/.hero-share-btn
-   shape: note on its own line, full-width dark pill button below. */
-.conf-foot{margin-top:var(--sp-stack);}
-.conf-foot .conf-note{margin-top:0;margin-bottom:var(--sp-stack);}
-.conf-foot .btn-primary{width:100%;}
+.conf-vl{width:50px;text-align:right;font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);font-family:var(--serif);}
+.conf-note{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:0;margin-bottom:var(--sp-stack);} /* sits right after conf-hd, before conf-bars — same slot risk-desc holds in .risk-box */
 .radar-sec{padding:var(--sp-block) var(--sp-card-pad);}
 .radar-ww{display:flex;justify-content:center;margin-top:var(--sp-stack);}
 /* radar's own closing "Insight" line (Radar Chart DNA §2 Visual Structure) — fades in AFTER the
@@ -778,8 +769,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-page.pb-unframed :is(.s-pad,.sides-hd,.radar-sec,.trait-sec,.alloc-sec,.risk-box,.conf-box,.route-steps,.radar-insight){padding-left:0;padding-right:0;}
 .pb-page.pb-unframed .list-row.side-row{padding-left:0;padding-right:0;}
 /* section dividers: the same 2px #c4c5c7 hairline as sheet 2 */
-.pb-page.pb-unframed :is(.trait-sec,.alloc-sec,.dd-asset,.side-item,.gl-row){border-top:var(--rule-w) solid var(--rule);}
-.pb-page.pb-unframed .pb-art{border-bottom-color:var(--rule);} /* pb-art's own divider is a trailing (border-bottom) rule, not leading — same --rule hairline, opposite edge */
+.pb-page.pb-unframed :is(.trait-sec,.alloc-sec,.dd-asset,.side-item){border-top:var(--rule-w) solid var(--rule);}
 .pb-page.pb-unframed .risk-box+.conf-box{border-top:var(--rule-w) solid var(--rule);padding-top:var(--sp-stack);margin-top:var(--sp-stack);}
 .pb-page.pb-unframed .pb-body>.card~.card{border-top:var(--rule-w) solid var(--rule);padding-top:var(--sp-stack);}
 .pb-page.pb-unframed .dd-asset:first-child,.pb-page.pb-unframed .card>.side-item:first-child,.pb-page.pb-unframed .card>:is(.trait-sec,.alloc-sec):first-child{border-top:none;}
@@ -789,8 +779,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-cat-hd svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);flex:0 0 auto;}
 .pb-cat-hd img{width:var(--ic-lg);height:var(--ic-lg);object-fit:contain;flex:0 0 auto;}
 .pb-cat-t{flex:1;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
-.pb-art{padding:0 0 var(--sp-stack);border-bottom:1px solid var(--line-soft);}
-.pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
+.pb-art{padding:0 0 var(--sp-stack);}
+.pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);}
 .pb-art-s{font-family:var(--font-read);font-size:var(--fs-folio);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
 .pb-art-p{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
 .pb-note{font-family:var(--font-read);margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-folio);font-weight:var(--w-body);line-height:1.5;}
@@ -802,7 +792,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .gl-grp{margin-top:var(--sp-stack);}
 .gl-gt{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);padding-bottom:var(--sp-list);}
 .gl-gn{font-weight:var(--w-body);color:var(--muted);font-size:var(--fs-eyebrow);}
-.gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;border-top:1px solid var(--line-soft);}
+.gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;}
 .gl-term{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .gl-def{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
 @page{size:A4;margin:0;}
@@ -856,6 +846,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .side-bi{padding:0 20px var(--sp-card-pad-sm) 56px;}
 .side-dl{background:var(--spectrum-v) left/2px 100% no-repeat;padding-left:var(--sp-inline);}
 .side-dl p{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);}
+.side-dl b{font-weight:var(--w-body);} /* per direction: no 700 bold mixed into the "6 ด้าน" body copy, every word stays 500 */
 /* ══ SPLASH / ATTRACT ══ two-tone headline · drifting brand assets · card carousel */
 /* overflow-x only (never -y): the CTA must NEVER be unreachable. overflow:hidden on both axes
    used to CLIP (not scroll-hide) anything past the fold whenever content ran taller than the
@@ -1448,14 +1439,14 @@ function insightHTML(r,h,matchOk){
      has more sections following inside the same card — this copy has nothing after it. */
   return '<section class="card scroll-reveal"><div class="s-pad">'+
     '<div class="s-ey">AI Insight</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
-    '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?('<span class="ld" style="background:var(--cyan)"></span>ตรงกัน'):('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
+    '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
       '<div class="risk-bars"><div class="risk-row"><span class="risk-rl">ความเสี่ยงที่บอก</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.declared*10)+'%;background:var(--muted)"></div></div><span class="risk-vl">'+r.declared+'</span></div>'+
       '<div class="risk-row"><span class="risk-rl" style="color:var(--ink)">ความเสี่ยงจริง</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.revealed*10)+'%"></div></div><span class="risk-vl">'+r.revealed+'</span></div></div></div>'+
     '<div class="conf-box"><div class="conf-glow"></div><div class="conf-hd"><div><div class="conf-ml">Confidence Score</div><div class="conf-mv">'+cf.level+'</div></div><div class="conf-sc">'+cf.conf+'<span class="conf-su">/100</span></div></div>'+
-      '<div class="conf-bars">'+confRow('ความรู้',cf.subs.knowledge,35)+confRow('รู้จักตัวเอง',cf.subs.self,25)+confRow('ลงมือ',cf.subs.action,25)+confRow('ความกว้าง',cf.subs.breadth,15)+'</div>'+
-      '<div class="conf-foot"><p class="conf-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p></div></div>'+
+      '<p class="conf-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p>'+
+      '<div class="conf-bars">'+confRow('ความรู้',cf.subs.knowledge,35)+confRow('รู้จักตัวเอง',cf.subs.self,25)+confRow('ลงมือ',cf.subs.action,25)+confRow('ความกว้าง',cf.subs.breadth,15)+'</div></div>'+
     '</div></section>';
 }
 /* fam-badge + signature/assets/strengths-watchouts + legend — everything the compare-reveal slider's
