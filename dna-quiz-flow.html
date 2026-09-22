@@ -734,12 +734,12 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-toc{padding:0;border:0;background:var(--white) url(assets/room1.jpg) no-repeat 48% center;background-size:cover;position:relative;overflow:clip;isolation:isolate;}
 .pb-toc::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(255,255,255,.64);}
 .toc-in{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding:var(--pb-pad-top) var(--pb-pad-x) var(--pb-pad-bottom);}
-.toc-hd{flex:0 0 auto;margin-bottom:var(--sp-block);}
-.toc-h{font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1.1;}
+.toc-h{font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1.1;margin:var(--sp-block) 0 var(--sp-block);}
 .toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
-.toc-ch{font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:var(--sp-inline) 0 var(--sp-hairline);}
-.toc-ch:first-child{margin-top:0;}
-.toc-row{display:flex;align-items:baseline;gap:var(--sp-list);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
+/* divider lives on the category label, not between individual rows — one rule per chapter, not per item */
+.toc-ch{font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:var(--sp-inline) 0 var(--sp-hairline);padding-top:var(--sp-inline);border-top:var(--rule-w) solid var(--rule);}
+.toc-ch:first-child{margin-top:0;padding-top:0;border-top:none;}
+.toc-row{display:flex;align-items:baseline;gap:var(--sp-list);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
 .toc-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);}
 .toc-dot{flex:1 1 auto;border-bottom:1px dotted var(--line-strong);transform:translateY(-3px);}
 .toc-n{font-family:var(--serif);font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);flex:0 0 auto;}
@@ -1967,7 +1967,7 @@ function pbTOC(doc,pages,label){
   });
   var fit=document.createElement('div');fit.className='pb-fit';
   var pg=document.createElement('div');pg.className='pb-page pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
-  pg.innerHTML='<div class="toc-in"><div class="toc-hd"><div class="s-ey">Investor Playbook · Better Trade 2026</div><h2 class="toc-h">สารบัญ</h2></div><div class="toc-list">'+out+'</div></div>';
+  pg.innerHTML='<div class="toc-in"><div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span></div><h2 class="toc-h">สารบัญ</h2><div class="toc-list">'+out+'</div></div>';
   fit.appendChild(pg);
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
