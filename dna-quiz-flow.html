@@ -377,7 +377,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    the box's own padding edge, but these list rows sit flush at that padding edge instead, one full
    icon-width to the left of where the title reads. Indents them to line up under the title's own
    text start, at every breakpoint (not just mobile) since the ask covers pc/tablet/mobile alike. */
-.str-li{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--ink);line-height:1.5;margin-bottom:var(--sp-stack-tight);margin-left:calc(var(--ic-lg) + var(--sp-inline));}
+.str-li{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-stack-tight);margin-left:calc(var(--ic-lg) + var(--sp-inline));}
 /* สินทรัพย์ที่ถนัด — the one thing this whole card exists to tell the customer ("what you're
    suited for"), so the whole block is its own tinted panel (background+border in the persona's
    accent color, applied inline via h.accent) instead of just sitting bare on the card surface —
@@ -508,7 +508,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    already-matching w-label/ink styling, so the two now read at the same weight. */
 .risk-tag{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);flex:1;}
 .risk-match{display:inline-flex;align-items:center;gap:var(--sp-glue);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);padding:var(--sp-stack-tight) 0;}
-.risk-desc{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
+.risk-desc{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
 .risk-slbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0;margin-bottom:var(--sp-list);text-transform:uppercase;}
 .risk-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
 .risk-row{display:flex;align-items:center;gap:var(--sp-inline);}
@@ -545,7 +545,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .conf-tr{flex:1;height:calc(var(--bar-h)/var(--pbz,1));background:var(--line-soft);position:relative;border-radius:var(--rpill);} /* 3px + rounded, same as .risk-tr and the SKILL bars */
 .conf-fi{height:calc(var(--bar-h)/var(--pbz,1));background:var(--ink);position:absolute;left:0;top:0;border-radius:var(--rpill);}
 .conf-vl{width:50px;text-align:right;font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);font-family:var(--serif);}
-.conf-note{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;margin-top:0;margin-bottom:var(--sp-stack);} /* sits right after conf-hd, before conf-bars — same slot risk-desc holds in .risk-box */
+.conf-note{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:0;margin-bottom:var(--sp-stack);} /* sits right after conf-hd, before conf-bars — same slot risk-desc holds in .risk-box */
 .radar-sec{padding:var(--sp-block) var(--sp-card-pad);}
 .radar-ww{display:flex;justify-content:center;margin-top:var(--sp-stack);}
 /* radar's own closing "Insight" line (Radar Chart DNA §2 Visual Structure) — fades in AFTER the
@@ -555,7 +555,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    หัวข้อ") — this callout's sentence wraps to 2 lines on the app's mobile-scaled type, so centering
    the icon against the WHOLE wrapped block (old behavior) drifted it below where the sentence
    actually starts; top-aligning keeps it level with that first line regardless of wrap length. */
-.radar-insight{display:flex;align-items:flex-start;gap:var(--sp-inline);margin-top:var(--sp-stack);padding:var(--sp-stack-tight) var(--sp-stack);border-radius:var(--r1);border:1px solid var(--line-soft);font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--ink);line-height:1.5;}
+.radar-insight{display:flex;align-items:flex-start;gap:var(--sp-inline);margin-top:var(--sp-stack);padding:var(--sp-stack-tight) var(--sp-stack);border-radius:var(--r1);border:1px solid var(--line-soft);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;}
 /* margin-top nudge (2026-08-29, per direction "ให้ไอคอน alignment top กับ text") — align-items:
    flex-start above already box-top-aligns the icon with the text span, but at font-size:18px/
    line-height:1.5 the first line's actual glyph-top sits ~4px below its own line-box top (leading
@@ -574,7 +574,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .int-bar-tr{grid-column:1/-1;height:calc(var(--bar-h-lg)/var(--pbz,1));border-radius:var(--rpill);background:var(--accent);overflow:hidden;}
 .int-bar-fi{height:100%;border-radius:var(--rpill);background:var(--violet);}
 .int-bar-row.muted .int-bar-fi{background:color-mix(in srgb,var(--violet) 32%,var(--white));}
-.int-bar-note{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;margin-top:var(--sp-list);}
+.int-bar-note{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-list);}
 /* "เปิดหน้า efin AI" icon (2026-08-20) — ported directly from the actual efinAI Orb reference build
    (efin AI Sourcecode/efinAI-orb/index.html: .orb/.orb::before + @property --angle), not a
    from-scratch approximation — first pass (a hand-rolled single conic-gradient in the app's generic
@@ -626,7 +626,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .trait-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--rpill);font-size:var(--fs-eyebrow);font-weight:var(--w-label);background:var(--accent);color:var(--muted);}
 .trait-chip svg{width:var(--ic-xs,14px);height:var(--ic-xs,14px);flex:0 0 auto;}
 .trait-chip.done{background:color-mix(in srgb,var(--green-text) 12%,var(--white));color:var(--green-text);}
-.trait-note{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;margin-top:var(--sp-list);}
+.trait-note{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-list);}
 
 /* recommended allocation — 4 buckets summing to 100%, a stacked bar + legend */
 .alloc-bar{display:flex;height:calc(var(--bar-h-lg)/var(--pbz,1));border-radius:var(--r1);overflow:hidden;margin:var(--sp-stack) 0 var(--sp-inline);}
@@ -654,7 +654,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* font-weight reverted 700->500 (2026-08-29, per follow-up direction "text weight 500") — the
    earlier 700 bump (same session) read too heavy for this longer-running body copy; --w-body is
    this file's normal paragraph weight everywhere else. */
-.dd-li{display:flex;align-items:flex-start;gap:var(--sp-inline);font-family:var(--font-read);font-size:var(--fs-eyebrow);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);font-weight:400;}
+.dd-li{display:flex;align-items:flex-start;gap:var(--sp-inline);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);font-weight:var(--w-body);}
 .dd-li svg{width:var(--ic-sm);height:var(--ic-sm);flex-shrink:0;margin-top:2px;color:var(--violet);}
 
 /* shared list-row base — one clickable row: leading marker → text block → optional trailing bit. klib-row/side-row/rs each add only what makes them different (column count, padding, divider). */
@@ -790,7 +790,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .gl-gt{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);padding-bottom:var(--sp-list);}
 .gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;align-items:baseline;}
 .gl-term{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
-.gl-def{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;}
+.gl-def{font-family:var(--font);font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
 @page{size:A4;margin:0;}
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
@@ -841,7 +841,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .side-body.show{max-height:400px;}
 .side-bi{padding:0 20px var(--sp-card-pad-sm) 56px;}
 .side-dl{background:var(--spectrum-v) left/2px 100% no-repeat;padding-left:var(--sp-inline);}
-.side-dl p{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);}
+.side-dl p{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);}
 .side-dl b{font-weight:var(--w-body);} /* per direction: no 700 bold mixed into the "6 ด้าน" body copy, every word stays 500 */
 /* ══ SPLASH / ATTRACT ══ two-tone headline · drifting brand assets · card carousel */
 /* overflow-x only (never -y): the CTA must NEVER be unreachable. overflow:hidden on both axes
