@@ -661,8 +661,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .list-row{display:grid;align-items:center;gap:var(--sp-inline);cursor:pointer;}
 /* ══ LIBRARY (คลังความรู้ sub-screen) ══ real category names/counts, accordion-per-category */
 .lib-num{font-family:var(--serif);}
-.lib-stub{display:flex;gap:var(--sp-list);align-items:flex-start;padding:var(--sp-list) 0;border-radius:var(--r1);background:var(--paper);font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--muted);line-height:1.5;}
-.lib-stub svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:1px;}
 /* ══ A4 EBOOK PAGES (2026-09-21, per direction "อ้างอิงตามสัดส่วน 2480*3508 ... ebook หรือ pdf file") ══
    The Playbook (ผลลัพธ์ + คลังความรู้ + ศัพท์) is laid out as fixed A4 sheets, ratio 2480:3508 (= A4 @300dpi).
    Each sheet is authored at 794 x 1123.1 CSS px (A4 @96dpi — same ratio) and uniformly scaled with --pbs
@@ -1714,14 +1712,12 @@ var LIBRARY_CATS=[
   {t:'ต้นทุนและผลตอบแทน',icon:'lc-trending-up',img:'assets/coinbaht.png'},
   {t:'กลลวงและการป้องกันตัว',icon:'lc-shield',img:'assets/shieldcheck.png'},
   {t:'วางแผนชีวิตและสุขภาพการเงิน',icon:'lc-heart',img:'assets/ICON_HEALTH_PNG.webp'},
-  {t:'ความเสี่ยงและการอ่านตัวเอง',icon:'lc-alert-triangle',img:'assets/warning.png'},
-  {t:'ภาษีและกฎเกณฑ์',icon:'lc-file-text',img:'assets/document.png'},
-  {t:'เครื่องมือและการติดตาม',icon:'lc-sliders',img:'assets/ICON_COMPASS_PNG.png'}
+  {t:'ความเสี่ยงและการอ่านตัวเอง',icon:'lc-alert-triangle',img:'assets/warning.png'}
 ];
 /* n (2026-09-21) — now counted from window.LIB_ITEMS (js/library-data.js: 71 real articles from the
-   BT2026 Dry-run's knowledge.js, each tagged c = index into this array) instead of hardcoded. The
-   source has only 6 categories, so ภาษีและกฎเกณฑ์ / เครื่องมือและการติดตาม legitimately count 0 and
-   render a "กำลังจัดทำ" stub — the 8-category shell is kept per direction, never padded with filler. */
+   BT2026 Dry-run's knowledge.js, each tagged c = index into this array) instead of hardcoded.
+   ภาษีและกฎเกณฑ์ / เครื่องมือและการติดตาม were dropped 2026-09-22 (no source articles exist yet and
+   a real Playbook shouldn't show a "coming soon" stub) — this is now a straight 6-category shelf. */
 var LIB_ITEMS=window.LIB_ITEMS||[],GLOSSARY=window.GLOSSARY||[];
 LIBRARY_CATS.forEach(function(c,i){c.n=LIB_ITEMS.filter(function(a){return a.c===i;}).length;});
 function libTotal(){return LIB_ITEMS.length;}
@@ -1736,15 +1732,11 @@ function pbArtHTML(a){
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
 function libraryBlocksHTML(h){
-  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 8 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
-  var empty=[];
+  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
   LIBRARY_CATS.forEach(function(c,i){
-    if(!c.n){empty.push(c.t);return;}
     out+='<div class="pb-plain pb-cat-hd pb-keep">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="pb-cat-t">'+c.t+'</span></div>';
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
   });
-  /* 8-category shell kept: categories with no source articles yet share one "กำลังจัดทำ" note */
-  if(empty.length)out+='<div class="lib-stub">'+ic('lc-info')+'<span><b>กำลังจัดทำ</b> '+empty.join(' · ')+' — 2 หมวดนี้ยังไม่มีบทความ</span></div>';
   return out;
 }
 function glossaryBlocksHTML(){
