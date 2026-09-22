@@ -771,6 +771,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 #b2ident-detail .ast-block,#b2ident-detail .str-box,#b2ident-detail .conf-box{padding-left:0;padding-right:0;} /* unframed: text lines up with the ends of the dividers */
 #b2ident-detail>*{margin-top:0!important;margin-bottom:0!important;}
 #b2ident-detail .str-grid{gap:var(--sp-stack);margin:0;align-items:stretch;}
+/* DCA test (pbArtExPitHTML): same unframed, backgroundless str-box treatment, reused outside #b2ident-detail */
+.pb-art .str-box{background:none;border:none;border-radius:0;padding:0;}
+.pb-art .str-grid{gap:var(--sp-stack);align-items:stretch;}
 .orn-h{height:var(--rule-w);background:var(--rule);margin:var(--sp-stack) 0;}
 .orn-v{display:flex;flex-direction:column;align-items:center;gap:var(--sp-inline);flex:0 0 auto;align-self:stretch;margin:var(--sp-stack) 0;} /* margin pulls the line in from the section rules above/below */
 .orn-v i{flex:1;width:var(--rule-w);min-height:var(--ic-lg);}
@@ -1760,11 +1763,26 @@ LIBRARY_CATS.forEach(function(c,i){c.n=LIB_ITEMS.filter(function(a){return a.c==
 function libTotal(){return LIB_ITEMS.length;}
 function libEsc(t){return String(t==null?'':t).replace(/[&<>]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[m];});}
 /* Static (always-expanded) article block for the A4 ebook — see pbBuild(). */
+/* DCA (id 'dca') is a one-article test of a redesigned ตัวอย่างสมมติ/คนมักเข้าใจผิด layout — side by
+   side, no card background, reusing the exact .str-grid/.str-box/.str-hd/ORN_V recipe ความแข็งแกร่ง/
+   สิ่งที่ต้องระวัง already uses (2026-09-22, per direction). Scoped to this one article until the
+   direction confirms it for all 71 — every other article still gets the original stacked
+   .pb-note-ex/.pb-note-pit boxes below. */
+function pbArtExPitHTML(a){
+  if(a.id==='dca'){
+    if(!a.x&&!a.p)return '';
+    return '<div class="str-grid" style="margin-top:var(--sp-stack)">'+
+      (a.x?'<div class="str-box"><div class="str-hd">'+ic('lc-check-circle')+'ตัวอย่างสมมติ</div><div class="str-li">'+libEsc(a.x.replace(/^ตัวอย่างสมมติ:?\s*/,''))+'</div></div>':'')+
+      (a.x&&a.p?ORN_V:'')+
+      (a.p?'<div class="str-box wn"><div class="str-hd">'+ic('lc-alert-triangle')+'คนมักเข้าใจผิด</div><div class="str-li">'+libEsc(a.p)+'</div></div>':'')+
+      '</div>';
+  }
+  return (a.x?'<div class="pb-note pb-note-ex">'+ic('lc-check-circle')+'<span>'+libEsc(a.x)+'</span></div>':'')+
+    (a.p?'<div class="pb-note pb-note-pit">'+ic('lc-alert-triangle')+'<span><b>คนมักเข้าใจผิด:</b> '+libEsc(a.p)+'</span></div>':'');
+}
 function pbArtHTML(a){
   return '<article class="pb-art"><div class="pb-art-t">'+libEsc(a.t)+'</div><div class="pb-art-s">'+libEsc(a.s)+'</div>'+
-    '<p class="pb-art-p">'+libEsc(a.b)+'</p>'+
-    (a.x?'<div class="pb-note pb-note-ex">'+ic('lc-check-circle')+'<span>'+libEsc(a.x)+'</span></div>':'')+
-    (a.p?'<div class="pb-note pb-note-pit">'+ic('lc-alert-triangle')+'<span><b>คนมักเข้าใจผิด:</b> '+libEsc(a.p)+'</span></div>':'')+
+    '<p class="pb-art-p">'+libEsc(a.b)+'</p>'+pbArtExPitHTML(a)+
     '</article>';
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
