@@ -586,13 +586,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .radar-insight b{font-weight:var(--w-label);}
 .int-bar-list{display:flex;flex-direction:column;gap:var(--sp-stack);margin-top:var(--sp-stack);}
 .int-bar-row{display:grid;grid-template-columns:1fr auto;gap:var(--sp-glue) 10px;align-items:center;}
-.int-bar-l{font-size:var(--fs-bodysm);color:var(--ink);font-weight:var(--w-label);}
+.int-bar-l{font-size:var(--fs-bodysm);color:var(--ink);font-weight:var(--w-body);}
 .int-bar-v{font-family:var(--serif);font-size:var(--fs-bodysm);color:var(--ink);font-weight:var(--w-label);}
-/* font-weight override dropped (2026-08-29, per direction "text weight 700") — the untouched/muted
-   rows (e.g. ต่างประเทศ/กองทุน before that zone's been visited) were dropping to --w-body(500) on
-   top of the color dim, so they read lighter AND grayer than the touched rows; color alone already
-   carries "not yet visited" here, weight now stays --w-label(700) for every row regardless. */
-.int-bar-row.muted .int-bar-l,.int-bar-row.muted .int-bar-v{color:var(--muted);}
+/* muted-row text color dropped (2026-09-22, per direction "ตัวเลข % ทั้งหมด text สีดำ" / labels all
+   black too) — every row's label + value now stays --ink regardless of touched state; only the bar
+   fill itself (below) still fades for an untouched zone. */
 .int-bar-tr{grid-column:1/-1;height:calc(var(--bar-h-lg)/var(--pbz,1));border-radius:var(--rpill);background:var(--accent);overflow:hidden;}
 .int-bar-fi{height:100%;border-radius:var(--rpill);background:var(--violet);}
 .int-bar-row.muted .int-bar-fi{background:color-mix(in srgb,var(--violet) 32%,var(--white));}
@@ -637,7 +635,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .trait-list{display:flex;flex-direction:column;gap:var(--sp-stack);margin-top:var(--sp-stack);}
 .trait-row{display:grid;grid-template-columns:1fr auto;gap:var(--sp-glue) 10px;align-items:center;}
 /* font-weight 700 (2026-08-29, per direction) — matches .alloc-l/.dd-li's own bump. */
-.trait-l{font-size:var(--fs-bodysm);color:var(--ink);font-weight:var(--w-label);}
+.trait-l{font-size:var(--fs-bodysm);color:var(--ink);font-weight:var(--w-body);}
 .trait-v{font-family:var(--serif);font-size:var(--fs-bodysm);color:var(--muted);}
 .trait-v b{color:var(--ink);}
 .trait-tr{grid-column:1/-1;height:calc(var(--bar-h)/var(--pbz,1));border-radius:var(--rpill);background:var(--accent);overflow:hidden;}
@@ -661,8 +659,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    same 3px) onto one consistent value. */
 .alloc-dot{width:9px;height:9px;border-radius:4px;flex-shrink:0;}
 /* font-weight 700 (2026-08-29, per direction) — matches .trait-l/.dd-li's own bump just below. */
-.alloc-l{flex:1;color:var(--ink);font-weight:var(--w-label);}
-.alloc-p{font-family:var(--serif);color:var(--ink);}
+.alloc-l{flex:1;color:var(--ink);font-weight:var(--w-body);}
+.alloc-p{font-family:var(--serif);color:var(--ink);font-weight:var(--w-label);}
 
 /* ══ CHART RENDERING (static) ══ every chart on the page (confidence/risk/trait/allocation bars,
    radar) draws straight at its real final value — a printed document has no scroll-into-view or
@@ -1263,7 +1261,7 @@ function skillCardHTML(h){
       '<span class="conf-vl skc-vl">'+v+'/10</span></div>';}).join('');
   /* chip — reuses .sc/.sc.act verbatim, the exact pill component sidesHTML() uses for
      "เสร็จ"/"รอทำ"/"ล็อก" on the 6-ด้าน page (2026-08-31, earlier direction, unchanged this pass). */
-  var chip=h.motto?'<div class="skc-chiprow"><span class="sc act">คำประจำตัว: '+h.motto+'</span></div>':'';
+  var chip=h.motto?'<div class="skc-chiprow"><span class="sc act">คำประจำตัว '+h.motto+'</span></div>':'';
   /* "ยังขาด" badge (2026-08-31) removed 2026-09-01 per direction "เอา badge ออก (ไม่ต้องมีการ
      แสดงผล)" — the .trait-hd flex wrapper it shared with .skc-t only existed to lay out title+badge
      side by side, so it's gone too now that there's nothing to sit beside; .skc-t goes back to its
@@ -1435,7 +1433,7 @@ function radarInsight(h){
   return '<div class="radar-insight" style="background:rgba('+h.rgb+',0.08);border-color:rgba('+h.rgb+',0.28)"><span class="radar-insight-ic" style="color:'+h.accent+'">'+ic('lc-sparkles')+'</span><span>จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[maxI]+'</b> ('+maxV+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</span></div>';
 }
 function radarInterestHTML(h,r){
-  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์ความสนใจ</div><span class="ex-tag">ตัวอย่าง</span></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ✦ ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
+  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์ความสนใจ</div><span class="ex-tag">ตัวอย่าง</span></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
 } // demo quota numbers for the "แลกรับการ์ดตัวจริง" card below
 /* Expanded "แลกรับการ์ดตัวจริง" card (2026-08-19, per direction — present in the design mockup but
    missing from the app until now). The existing on/locked message (already live in Book v1, since
@@ -1768,7 +1766,7 @@ function pbArtHTML(a){
   return '<article class="pb-art"><div class="pb-art-t">'+libEsc(a.t)+'</div><div class="pb-art-s">'+libEsc(a.s)+'</div>'+
     '<p class="pb-art-p">'+libEsc(a.b)+'</p>'+
     (a.x?'<div class="pb-note pb-note-ex">'+ic('lc-check-circle')+'<span>'+libEsc(a.x)+'</span></div>':'')+
-    (a.p?'<div class="pb-note pb-note-pit">'+ic('lc-alert-triangle')+'<span><b>คนมักเข้าใจผิด:</b> '+libEsc(a.p)+'</span></div>':'')+
+    (a.p?'<div class="pb-note pb-note-pit">'+ic('lc-alert-triangle')+'<span><b>คนมักเข้าใจผิด</b> '+libEsc(a.p)+'</span></div>':'')+
     '</article>';
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
@@ -1781,7 +1779,7 @@ function libraryBlocksHTML(h){
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
   });
   /* 8-category shell kept: categories with no source articles yet share one "กำลังจัดทำ" note */
-  if(empty.length)out+='<div class="lib-stub">'+ic('lc-info')+'<span><b>กำลังจัดทำ:</b> '+empty.join(' · ')+' — 2 หมวดนี้ยังไม่มีบทความ</span></div>';
+  if(empty.length)out+='<div class="lib-stub">'+ic('lc-info')+'<span><b>กำลังจัดทำ</b> '+empty.join(' · ')+' — 2 หมวดนี้ยังไม่มีบทความ</span></div>';
   return out;
 }
 function glossaryBlocksHTML(){
@@ -2078,12 +2076,12 @@ function sidesHTML(r){
   var gapTxt=r.gap>0?('+'+r.gap):(''+r.gap);
   /* Copy taken verbatim from the sample Playbook PDF (pages 2–3): the six measured sides of "ราชันนักปราชญ์". */
   var sides=[
-   {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'ความเสี่ยง: ที่คิด vs ที่ทำจริง',s:'ที่คุณบอกไว้ 2 · ที่คุณทำจริง 2 — สอดคล้อง (Aligned)',show:true,body:'<p>ที่คุณบอกไว้ <b>2</b> · ที่คุณทำจริง <b>2</b> — <b>สอดคล้อง (Aligned)</b></p><p>ถ้าคุณทำแบบเดิมทุกวิกฤต พอร์ตจะฟื้นได้ 0/100 — ขายที่จุดต่ำสุดทั้งสองครั้ง จึงไม่ได้ร่วมขาขึ้นเลย</p>'},
+   {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'ความเสี่ยง ที่คิด vs ที่ทำจริง',s:'ที่คุณบอกไว้ 2 · ที่คุณทำจริง 2 — สอดคล้อง (Aligned)',show:true,body:'<p>ที่คุณบอกไว้ <b>2</b> · ที่คุณทำจริง <b>2</b> — <b>สอดคล้อง (Aligned)</b></p><p>ถ้าคุณทำแบบเดิมทุกวิกฤต พอร์ตจะฟื้นได้ 0/100 — ขายที่จุดต่ำสุดทั้งสองครั้ง จึงไม่ได้ร่วมขาขึ้นเลย</p>'},
    {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'เลนส์ที่คุณใช้ตัดสินใจ',s:'เลนส์หลักของคุณคือ สายเทคนิค',show:true,body:'<p>เลนส์หลักของคุณคือ <b>สายเทคนิค</b> — วัดจากลำดับที่คุณเปิดเครื่องมือวิเคราะห์ ไม่ใช่จากที่คุณบอก</p><p>พื้นฐาน (VI) 38% · เทคนิค (กราฟ) 63% · ปันผล (Yield) 0% · DCA / กองทุน 0%</p>'},
-   {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'กับดัก FOMO และกลลวง',s:'ต้านได้ทั้งสองกับดัก · 2/2',show:true,body:'<p><b>ต้านได้ทั้งสองกับดัก · 2/2</b></p><p>หุ้นพุ่งพุ่ง คนแห่ซื้อ: ไม่ตามฝูง · ข้อความชวนลงทุน: ไม่โอน</p><p>กฎที่คุณเลือกพกติดตัว: <b>ถ้ามันเร่งให้รีบ = สัญญาณอันตราย</b></p><p>วัดจาก 2 สถานการณ์เท่านั้น — นี่คือ “คุณในวันนี้” ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน</p>'},
+   {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'กับดัก FOMO และกลลวง',s:'ต้านได้ทั้งสองกับดัก · 2/2',show:true,body:'<p><b>ต้านได้ทั้งสองกับดัก · 2/2</b></p><p>หุ้นพุ่งพุ่ง คนแห่ซื้อ ไม่ตามฝูง · ข้อความชวนลงทุน ไม่โอน</p><p>กฎที่คุณเลือกพกติดตัว <b>ถ้ามันเร่งให้รีบ = สัญญาณอันตราย</b></p><p>วัดจาก 2 สถานการณ์เท่านั้น — นี่คือ “คุณในวันนี้” ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน</p>'},
    {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'เป้าหมายเงินของคุณ ตามช่วงวัย',s:'สิ่งที่คุณเลือกให้ตัวเองในแต่ละช่วงชีวิต — ไม่มีคำตอบถูกผิด',show:true,body:'<p>อายุ 25 สมดุล · อายุ 35 รักษาเงินต้น · อายุ 50 ลดเสี่ยงตามอายุ · อายุ 65 สร้างกระแสเงินสด</p><p>เป้าหมายของคุณ<b>เปลี่ยนไปตามวัย</b> (4 แบบใน 4 ช่วง)</p>'},
    {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'สินทรัพย์ที่ ๙ — สุขภาพ',s:'Health-Wealth 5.5/10',show:true,body:'<p>Health-Wealth <b>5.5</b>/10</p>'},
-   {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'ก้าวแรกของคุณ',s:'กำแพงที่คุณบอกว่าขวางอยู่: ไม่รู้จะเริ่มยังไง',show:true,body:'<p>กำแพงที่คุณบอกว่าขวางอยู่: <b>ไม่รู้จะเริ่มยังไง</b></p><p>3 ขั้น: เปิดบัญชี → เลือกตัวเลือกแรกที่เข้าใจและกระจายความเสี่ยงในตัว → ตั้งอัตโนมัติ</p><p>สิ่งที่คุณบอกว่าจะทำ: <b>จดรายรับ-รายจ่าย 7 วัน</b></p>'}
+   {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'ก้าวแรกของคุณ',s:'กำแพงที่คุณบอกว่าขวางอยู่ ไม่รู้จะเริ่มยังไง',show:true,body:'<p>กำแพงที่คุณบอกว่าขวางอยู่ <b>ไม่รู้จะเริ่มยังไง</b></p><p>3 ขั้น เปิดบัญชี → เลือกตัวเลือกแรกที่เข้าใจและกระจายความเสี่ยงในตัว → ตั้งอัตโนมัติ</p><p>สิ่งที่คุณบอกว่าจะทำ <b>จดรายรับ-รายจ่าย 7 วัน</b></p>'}
   ];
   var items='';
   sides.forEach(function(sd,i){items+='<article class="side-item"'+(i===5?' style="border-bottom:none"':'')+'><div class="list-row side-row"><div class="side-num '+sd.cc+'">'+sd.num+'</div><div class="side-cx"><div class="side-t">'+sd.t+'</div><div class="side-s">'+sd.s+'</div></div><div class="side-r"><span class="sc '+sd.cc+'">'+sd.chip+'</span>'+ic('lc-chevron-down','s-cv'+(sd.show?' open':''))+'</div></div><div class="side-body'+(sd.show?' show':'')+'"><div class="side-bi"><div class="side-dl">'+sd.body+'</div></div></div></article>';});
@@ -2331,7 +2329,7 @@ var MINIGAME_Q=[
      insight:'ความกลัวตกขบวนทำให้เราซื้อเพราะ "คนอื่นซื้อ" ไม่ใช่เพราะเข้าใจของ'},
     {icon:'lc-alert-triangle',img:'warning',q:'มีคนทักมาบอกว่า "**การันตีผลตอบแทน 30.00% ต่อเดือน** ไม่มีขาดทุน วันนี้วันสุดท้าย รีบโอนเลย"',
      opts:['โอนเลย กลัวที่นั่งเต็ม','เช็คก่อน ว่าบริษัทมีใบอนุญาตจาก ก.ล.ต. ไหม','ปฏิเสธทันที และเตือนคนอื่นด้วย'],
-     insight:'สัญญาณหลอกลงทุน 3 อย่าง: การันตีผลตอบแทน · เร่งให้รีบตัดสินใจ · ไม่มีใบอนุญาต'},
+     insight:'สัญญาณหลอกลงทุน 3 อย่าง การันตีผลตอบแทน · เร่งให้รีบตัดสินใจ · ไม่มีใบอนุญาต'},
     {icon:'lc-check-circle',img:'checkcircle',q:'เลือกกฎที่คุณจะ**พกติดตัวไว้เตือนตัวเอง**',
      opts:['กฎ 24 ชั่วโมง หยุดคิด 1 วันก่อนตัดสินใจ','ถ้ามีใครเร่งให้รีบ ให้ถือว่าอันตราย','เช็คใบอนุญาตจาก ก.ล.ต. ก่อนเสมอ']}
   ]},
