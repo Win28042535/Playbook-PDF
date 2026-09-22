@@ -774,6 +774,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* DCA test (pbArtExPitHTML): same unframed, backgroundless str-box treatment, reused outside #b2ident-detail */
 .pb-art .str-box{background:none;border:none;border-radius:0;padding:0;}
 .pb-art .str-grid{gap:var(--sp-stack);align-items:stretch;}
+.pb-art .str-hd,.pb-art .str-li{font-size:var(--fs-eyebrow);} /* back to .pb-note's original label/body size — .str-hd/.str-li's own default (fs-bodysm) read too big here */
+.orn-v-plain{flex:0 0 auto;align-self:stretch;width:var(--rule-w);background:var(--rule);margin:var(--sp-stack) 0;}
 .orn-h{height:var(--rule-w);background:var(--rule);margin:var(--sp-stack) 0;}
 .orn-v{display:flex;flex-direction:column;align-items:center;gap:var(--sp-inline);flex:0 0 auto;align-self:stretch;margin:var(--sp-stack) 0;} /* margin pulls the line in from the section rules above/below */
 .orn-v i{flex:1;width:var(--rule-w);min-height:var(--ic-lg);}
@@ -1496,6 +1498,7 @@ function insightHTML(r,h,matchOk){
 var ORN_STAR='<svg class="orn-star" viewBox="-11 -11 22 22" aria-hidden="true"><path d="M0-11C1.7-4.2 4.2-1.7 11 0 4.2 1.7 1.7 4.2 0 11-1.7 4.2-4.2 1.7-11 0-4.2-1.7-1.7-4.2 0-11Z"/></svg>';
 var ORN_H='<div class="orn-h" aria-hidden="true"></div>'; // plain hairline: no star, no gap
 var ORN_V='<div class="orn-v" aria-hidden="true"><i></i>'+ORN_STAR+'<i></i></div>';
+var ORN_V_PLAIN='<div class="orn-v-plain" aria-hidden="true"></div>'; // plain vertical hairline: no star, for pbArtExPitHTML's DCA test
 /* ORN_HS (2026-09-22, per direction — sheet 1): ORN_V's own hairline+star+hairline glyph laid out
    horizontally instead of stacked, for the divider between the persona name line and the "ค่า SKILL
    บนการ์ด" note under it (see the shellOf() hero-sec reorder below, where sk gets inserted). */
@@ -1773,7 +1776,7 @@ function pbArtExPitHTML(a){
     if(!a.x&&!a.p)return '';
     return '<div class="str-grid" style="margin-top:var(--sp-stack)">'+
       (a.x?'<div class="str-box"><div class="str-hd">'+ic('lc-check-circle')+'ตัวอย่างสมมติ</div><div class="str-li">'+libEsc(a.x.replace(/^ตัวอย่างสมมติ:?\s*/,''))+'</div></div>':'')+
-      (a.x&&a.p?ORN_V:'')+
+      (a.x&&a.p?ORN_V_PLAIN:'')+
       (a.p?'<div class="str-box wn"><div class="str-hd">'+ic('lc-alert-triangle')+'คนมักเข้าใจผิด</div><div class="str-li">'+libEsc(a.p)+'</div></div>':'')+
       '</div>';
   }
