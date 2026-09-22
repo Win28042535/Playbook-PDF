@@ -161,7 +161,7 @@
      everything else held. This narrows the h2(24)↔sub/body(22) gap to 2px and widens sub/body(22)↔
      bodysm(18) to 4px, breaking the "ratios preserved" pattern the v2/v3 passes kept — a deliberate,
      isolated bump per this direction, not a full re-scale. */
-  --fs-title:36px; --fs-heading:28px; --fs-h2:24px; --fs-sub:22px; --fs-subtitle:20px;
+  --fs-title:36px; --fs-heading:28px; --fs-h2:24px; --fs-sub:22px; --fs-subtitle:16px;
   --fs-body:22px; --fs-bodysm:18px; --fs-label:16px; --fs-eyebrow:14px; --fs-meta:14px;
   /* Icon scale v2 (2026-08-15, per Icon System audit review) — sm/md stepped up a rung (12→16,
      16→20), lg held at 24. Hero-tier icons (the single dominant icon on a screen) still stay
@@ -500,7 +500,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .s-ey{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;color:var(--muted);margin-bottom:var(--sp-glue);display:flex;align-items:center;gap:var(--sp-glue);}
 .s-ey svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
 .s-h{font-size:var(--fs-heading);font-weight:var(--w-label);letter-spacing:0;color:var(--ink);margin-bottom:4px;}
-.s-sub{font-size:var(--fs-subtitle);font-weight:var(--w-label);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
+.s-sub{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
 /* Stepped down from --r2 to --r1 (2026-08-15, per Card & Section review "09") — this panel sits
    nested inside a --r2 .card, so it was matching its own parent's radius instead of reading as a
    smaller nested surface; .next-card (same nesting depth, same card) was already --r1. */
@@ -554,7 +554,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .conf-tr{flex:1;height:calc(var(--bar-h)/var(--pbz,1));background:var(--line-soft);position:relative;border-radius:var(--rpill);} /* 3px + rounded, same as .risk-tr and the SKILL bars */
 .conf-fi{height:calc(var(--bar-h)/var(--pbz,1));background:var(--ink);position:absolute;left:0;top:0;border-radius:var(--rpill);}
 .conf-vl{width:50px;text-align:right;font-size:var(--fs-meta);font-weight:var(--w-head);color:var(--ink);font-family:var(--serif);}
-.conf-note{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-stack);}
+.conf-note{font-family:var(--font-read);font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-stack);}
 /* "เล่นเกม 6 ด้าน" CTA (2026-08-26, per direction — the confidence card should route people on to
    the 6 main games, not dead-end once they've read their score). First tried as a small inline
    .btn-primary next to the note, then per follow-up direction ("button style และ layout เดียวกับ"
@@ -724,7 +724,23 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-hd b{font-weight:var(--w-label);color:var(--ink);}
 .pb-body{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:var(--pb-gap);padding-top:var(--pb-gap);}
 .pb-body>*{flex:0 0 auto;margin:0;}
-.pb-ft{flex:0 0 auto;display:flex;justify-content:space-between;gap:var(--sp-stack);padding-top:var(--sp-inline);border-top:1px solid var(--line-soft);font-size:var(--fs-folio);color:var(--muted);}
+.pb-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;gap:var(--sp-stack);padding-top:var(--sp-inline);border-top:1px solid var(--line-soft);font-size:var(--fs-folio);color:var(--muted);}
+/* "กลับไปสารบัญ" — bottom-right of every sheet, in the slot the folio used to hold */
+.pb-toc-back{display:inline-flex;align-items:center;gap:var(--sp-glue);text-decoration:none;color:var(--muted);font-weight:var(--w-label);}
+.pb-toc-back svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;}
+/* ── สารบัญ: the consent screen's backdrop DNA (room1.jpg under a flat white wash), not paper + frame ── */
+.pb-toc{padding:0;border:0;background:var(--white) url(assets/room1.jpg) no-repeat 48% center;background-size:cover;position:relative;overflow:clip;isolation:isolate;}
+.pb-toc::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(255,255,255,.64);}
+.toc-in{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding:var(--pb-pad-top) var(--pb-pad-x) var(--pb-pad-bottom);}
+.toc-hd{flex:0 0 auto;margin-bottom:var(--sp-block);}
+.toc-h{font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1.1;}
+.toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
+.toc-ch{font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:var(--sp-inline) 0 var(--sp-hairline);}
+.toc-ch:first-child{margin-top:0;}
+.toc-row{display:flex;align-items:baseline;gap:var(--sp-list);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
+.toc-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);}
+.toc-dot{flex:1 1 auto;border-bottom:1px dotted var(--line-strong);transform:translateY(-3px);}
+.toc-n{font-family:var(--serif);font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);flex:0 0 auto;}
 /* accordions are always expanded on a page (a fixed sheet can't grow when a row opens; print needs it all) */
 .pb-page .side-body{max-height:none;overflow:visible;}
 .pb-page .side-row{cursor:default;}
@@ -780,7 +796,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-art{padding:0 0 var(--sp-stack);border-bottom:1px solid var(--line-soft);}
 .pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .pb-art-s{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
-.pb-art-p{font-family:var(--font-read);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
+.pb-art-p{font-family:var(--font-read);font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
 .pb-note{margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-eyebrow);line-height:1.5;}
 .pb-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:2px;}
 .pb-note-ex{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green-text);}
@@ -792,7 +808,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .gl-gn{font-weight:var(--w-body);color:var(--muted);font-size:var(--fs-eyebrow);}
 .gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;border-top:1px solid var(--line-soft);}
 .gl-term{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
-.gl-def{font-family:var(--font-read);font-size:var(--fs-bodysm);color:var(--muted);line-height:1.5;}
+.gl-def{font-family:var(--font-read);font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
 @page{size:A4;margin:0;}
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
@@ -1835,7 +1851,8 @@ function pbBuild(label,cover){
   function newPage(sect){
     var fit=document.createElement('div');fit.className='pb-fit';
     var pg=document.createElement('div');pg.className='pb-page'+(/^(analysis|portfolio|journey|library)$/.test(sect)?' pb-unframed':'');pg.dataset.sect=sect;
-    pg.innerHTML='<div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span></div><div class="pb-body"></div><div class="pb-ft"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span><span class="pb-pn"></span></div>';
+    /* folio at the TOP right, "กลับไปสารบัญ" where the folio used to sit (2026-09-22, per direction) */
+    pg.innerHTML='<div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pb-pn"></span></div><div class="pb-body"></div><div class="pb-ft"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span><a class="pb-toc-back" href="#pb-toc">'+ic('lc-book-open')+'สารบัญ</a></div>';
     pbFrame(pg); // the cover's frame ornament + #F7F8F7 paper on every content sheet
     fit.appendChild(pg);doc.appendChild(fit);pages.push(pg);
     return pg.querySelector('.pb-body');
@@ -1919,7 +1936,40 @@ function pbBuild(label,cover){
   });
   if(cover)addCover('back');
   src.remove();
-  pages.forEach(function(pg,i){pg.querySelector('.pb-pn').textContent='หน้า '+(i+1)+' / '+pages.length;pbDeco(pg,i+1);});
+  pages.forEach(function(pg,i){pg.id='pb-p'+(i+1);pg.querySelector('.pb-pn').textContent='หน้า '+(i+1)+' / '+pages.length;pbDeco(pg,i+1);});
+  pbTOC(doc,pages,label);
+}
+/* สารบัญ (2026-09-22, per direction) — built AFTER pagination, from the sheets themselves, so every
+   row's page number is the real one; inserted right before sheet 1 (after the front cover). Each row
+   jumps to its sheet, and every sheet's footer carries a .pb-toc-back link the other way. The page
+   borrows the consent screen's own backdrop DNA from the pre-Playbook app (room1.jpg under a flat
+   white wash, see .pb-toc's CSS) rather than the content sheets' paper + frame ornament. */
+function pbTOC(doc,pages,label){
+  /* one row per sheet that OPENS something: the first heading on it that hasn't been used yet.
+     Continuation sheets (no new heading of their own) fold into the row above them. */
+  var seen={},rows=[];
+  pages.forEach(function(pg,i){
+    var n=i+1,t='';
+    var h=pg.querySelector('.s-h,.pb-cat-t,.gl-gt');
+    if(h){var c=h.cloneNode(true),n2=c.querySelector('.gl-gn');if(n2)n2.remove();t=(c.textContent||'').trim();} // .gl-gt carries a long sub-note span the folio row doesn't want
+    else if(pg.querySelector('.fam-badge'))t=label||'ตัวตนนักลงทุนของคุณ';
+    if(!t||seen[t])return;
+    seen[t]=true;rows.push({n:n,t:t,sect:pg.dataset.sect});
+  });
+  var CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'พอร์ต',journey:'เส้นทาง',library:'คลังความรู้'};
+  var out='',lastCh='';
+  rows.forEach(function(r){
+    var ch=CH[r.sect]||'';
+    if(ch&&ch!==lastCh){out+='<div class="toc-ch">'+ch+'</div>';lastCh=ch;}
+    out+='<a class="toc-row" href="#pb-p'+r.n+'"><span class="toc-t">'+r.t+'</span><i class="toc-dot"></i><span class="toc-n">'+r.n+'</span></a>';
+  });
+  var fit=document.createElement('div');fit.className='pb-fit';
+  var pg=document.createElement('div');pg.className='pb-page pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
+  pg.innerHTML='<div class="toc-in"><div class="toc-hd"><div class="s-ey">Investor Playbook · Better Trade 2026</div><h2 class="toc-h">สารบัญ</h2></div><div class="toc-list">'+out+'</div></div>';
+  fit.appendChild(pg);
+  /* after the front cover, before sheet 1 */
+  var first=pages[0]?pages[0].parentNode:null;
+  if(first&&first.parentNode)first.parentNode.insertBefore(fit,first);else doc.appendChild(fit);
 }
 /* per-asset heading art (2026-09-22, per direction): 3 of the "เจาะรายสินทรัพย์" headings swap their
    lucide glyph for real icon art, keyed by asset label since the same lucide id (lc-pie-chart etc.)
