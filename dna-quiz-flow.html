@@ -31,6 +31,7 @@
   --focus:#2b6cff; --popover:rgba(255,255,255,0.96);
   --cyan:#61e8ed; --violet:#9c91ff; --pink:#f178d8; --yellow:#f2ea83;
   --spectrum:linear-gradient(90deg,#61e8ed,#9c91ff,#f178d8,#f2ea83,#61e8ed);
+  --spectrum-v:linear-gradient(180deg,#61e8ed,#9c91ff,#f178d8,#f2ea83,#61e8ed); /* --spectrum's own stops, rotated for vertical rules */
   /* "Gold/amber" status color (2026-08-14) — was the exact same 3-hex combo hand-copied into 5
      separate rules (str-box.wn, redeem-card.on, pass-ic.gold, rt-badge.feat, prof-tier) plus a 6th
      near-miss variant that wasn't even color-identical (booth check-in legend swatch) — named here
@@ -79,9 +80,8 @@
   --shadow-frame:0 30px 70px rgba(17,19,24,0.18); /* the desktop phone-frame preview (.shell) */
   /* ── A4 ebook / PDF sheets (2026-09-21) — one place for every number the sheet layout depends on ── */
   --rule-w:1px;           /* thickness of every divider rule (horizontal + vertical) */
-  --bar-h:4px;            /* thickness of the thin data bars: Confidence Score, risk "บอก" vs "จริง", SKILL ประจำการ์ด */
-  --bar-h-lg:8px;         /* เรดาร์ความสนใจ + คะแนนพฤติกรรม */
-  --bar-h-xl:16px;        /* เวลาตัดสินใจคุณดูอะไรก่อน (stacked allocation bar) */         /* thickness of the heavier bar: คะแนนพฤติกรรม */
+  --bar-h:4px;            /* thickness of the thin data bars: Confidence Score, risk "บอก" vs "จริง", SKILL ประจำการ์ด, คะแนนพฤติกรรม */
+  --bar-h-lg:8px;         /* เรดาร์ความสนใจ, เวลาตัดสินใจคุณดูอะไรก่อน (stacked allocation bar) */
   --pb-frame-inset:30px;  /* page edge -> the frame ornament's line */
   --pb-frame-gap:32px;    /* frame line -> content */
   --pb-pad-x:calc(var(--pb-frame-inset) + var(--pb-frame-gap));
@@ -535,8 +535,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    redeem-note's "บัตร Explorer..." line right above it, WITHOUT touching the plain .hero-note used
    elsewhere (e.g. the hero-sec's own "ตัวตนนี้สรุปจากคำตอบ..." note) — was --sp-inline (12px)/--ic-sm
    (16px), now matches --sp-card-pad-sm (16px)/--ic-lg (24px) exactly like .redeem-note. */
-.hero-note.skill-note{padding:var(--sp-inline);} /* 3rd: the quietest block */
-.hero-note.skill-note svg{width:var(--ic-md);height:var(--ic-md);}
+.hero-note.skill-note{padding:var(--sp-inline);background:none;justify-content:center;text-align:center;} /* 3rd: the quietest block; no fill, no icon, centered per direction */
 /* .hero-ev-tabs (the pre/post-event in-card picker inside Book v1's hero card) removed 2026-08-30
    along with คู่มือ 1 itself — see the removal note near BOOK2_TAB. */
 .ev-empty{text-align:center;padding:24px var(--sp-inline);border:1px dashed var(--line-strong);border-radius:var(--r1);}
@@ -726,7 +725,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .trait-l{font-size:var(--fs-bodysm);color:var(--ink);font-weight:var(--w-label);}
 .trait-v{font-family:var(--serif);font-size:var(--fs-bodysm);color:var(--muted);}
 .trait-v b{color:var(--ink);}
-.trait-tr{grid-column:1/-1;height:calc(var(--bar-h-lg)/var(--pbz,1));border-radius:var(--rpill);background:var(--accent);overflow:hidden;}
+.trait-tr{grid-column:1/-1;height:calc(var(--bar-h)/var(--pbz,1));border-radius:var(--rpill);background:var(--accent);overflow:hidden;}
 .trait-fi{height:100%;border-radius:var(--rpill);background:linear-gradient(90deg,var(--violet),var(--cyan));}
 /* Data-provenance chips (2026-08-26, per direction — the "how we know this" part was missing under
    the 4 bars above). Green = that data source is already collected; a future not-yet-done source
@@ -738,7 +737,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .trait-note{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-list);}
 
 /* recommended allocation — 4 buckets summing to 100%, a stacked bar + legend */
-.alloc-bar{display:flex;height:calc(var(--bar-h-xl)/var(--pbz,1));border-radius:var(--r1);overflow:hidden;margin:var(--sp-stack) 0 var(--sp-inline);}
+.alloc-bar{display:flex;height:calc(var(--bar-h-lg)/var(--pbz,1));border-radius:var(--r1);overflow:hidden;margin:var(--sp-stack) 0 var(--sp-inline);}
 .alloc-seg{height:100%;}
 .alloc-legend{display:flex;flex-direction:column;gap:var(--sp-list);}
 .alloc-row{display:flex;align-items:center;gap:var(--sp-inline);font-size:var(--fs-bodysm);}
@@ -853,7 +852,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-page.pb-unframed .s-h+.dd-asset,.pb-page.pb-unframed .sides-hd+.side-item{border-top:none;padding-top:0;}
 .pb-frame-line{fill:none;stroke:var(--frame-line);stroke-width:1.1;}
 .pb-frame-star{fill:var(--frame-star);}
-.pb-frame-halo{fill:var(--paper);} /* punches the gap in the line behind each star */
+.pb-frame-halo{fill:var(--paper);} /* punches the gap in the line behind each star */
 .pb-page.pb-framed{background:var(--paper);} /* frame line is 30px in, so 62 = 32px between the frame and the content */
 /* body content runs edge to edge inside the frame; only the header / footer text is inset, to stay clear of the rounded corners */
 .pb-page.pb-framed .pb-hd,.pb-page.pb-framed .pb-ft{padding-left:var(--pb-folio-inset);padding-right:var(--pb-folio-inset);} /* #F7F8F7 = --paper, per the supplied swatch */
@@ -871,7 +870,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    curve (a touch larger) so the black corner pixels never show */
 .pb-page .cr2{border-radius:5.8% / 4.15%;}
 .pb-page.pb-framed .hero-in .cr2{max-width:400px;margin-top:var(--sp-list);}
-.pb-page.pb-framed .hero-in .cr2-cap{max-width:420px;margin-top:var(--sp-stack);}
+.pb-page.pb-framed .hero-in .cr2-cap{max-width:420px;margin-top:var(--sp-stack);}
 .pb-hd{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;gap:var(--sp-stack);padding-bottom:var(--sp-inline);border-bottom:1px solid var(--line-soft);font-size:var(--fs-folio);color:var(--muted);}
 .pb-hd b{font-weight:var(--w-label);color:var(--ink);}
 .pb-body{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:var(--pb-gap);padding-top:var(--pb-gap);}
@@ -894,7 +893,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .dd-asset{padding:var(--sp-inline) 0;border-top:1px solid var(--line-soft);}
 .dd-asset:first-child{border-top:none;padding-top:0;}
 .dd-asset-hd{display:flex;align-items:center;gap:var(--sp-list);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);margin-bottom:var(--sp-inline);}
-.dd-asset-hd svg{width:var(--ic-md);height:var(--ic-md);color:var(--violet);flex:0 0 auto;}
+.dd-asset-hd svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);flex:0 0 auto;}
+.dd-asset-hd img{width:var(--ic-lg);height:var(--ic-lg);object-fit:contain;flex:0 0 auto;}
 /* sheet 2: sections are set apart by ornaments, not frames */
 #b2ident-detail .ast-block,#b2ident-detail .str-box,#b2ident-detail .str-box.wn,#b2ident-detail .conf-box{background:none!important;border:none!important;border-radius:0;box-shadow:none;}
 #b2ident-detail .conf-glow{display:none;}
@@ -907,20 +907,25 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .orn-v i:first-child{background:linear-gradient(to bottom,var(--rule-fade),var(--rule-deep));}
 .orn-v i:last-child{background:linear-gradient(to bottom,var(--rule-deep),var(--rule-fade));}
 .orn-star{width:16px;height:16px;flex:0 0 auto;fill:var(--ornament);}
+.orn-hs{display:flex;align-items:center;gap:var(--sp-inline);width:100%;max-width:400px;margin:var(--sp-stack) auto;} /* ORN_V rotated 90deg: same glyph, used as a block divider so it shares .skill-note's own 400px width */
+.orn-hs i{flex:1;height:var(--rule-w);}
+.orn-hs i:first-child{background:linear-gradient(to right,var(--rule-fade),var(--rule-deep));}
+.orn-hs i:last-child{background:linear-gradient(to right,var(--rule-deep),var(--rule-fade));}
 /* ── chapters วิเคราะห์ / พอร์ต / เส้นทาง: unframed ── */
 .pb-page.pb-unframed :is(.card,.risk-box,.conf-box,.ast-block,.radar-insight){background:none!important;border:none;border-radius:0;box-shadow:none;}
 .pb-page.pb-unframed .conf-glow{display:none;}
-.pb-page.pb-unframed :is(.s-pad,.sides-hd,.radar-sec,.trait-sec,.alloc-sec,.risk-box,.conf-box,.route-steps){padding-left:0;padding-right:0;}
+.pb-page.pb-unframed :is(.s-pad,.sides-hd,.radar-sec,.trait-sec,.alloc-sec,.risk-box,.conf-box,.route-steps,.radar-insight){padding-left:0;padding-right:0;}
 .pb-page.pb-unframed .list-row.side-row{padding-left:0;padding-right:0;}
 /* section dividers: the same 2px #c4c5c7 hairline as sheet 2 */
-.pb-page.pb-unframed :is(.trait-sec,.alloc-sec,.dd-asset,.side-item){border-top:var(--rule-w) solid var(--rule);}
+.pb-page.pb-unframed :is(.trait-sec,.alloc-sec,.dd-asset,.side-item,.gl-row){border-top:var(--rule-w) solid var(--rule);}
+.pb-page.pb-unframed .pb-art{border-bottom-color:var(--rule);} /* pb-art's own divider is a trailing (border-bottom) rule, not leading — same --rule hairline, opposite edge */
 .pb-page.pb-unframed .risk-box+.conf-box{border-top:var(--rule-w) solid var(--rule);padding-top:var(--sp-stack);margin-top:var(--sp-stack);}
 .pb-page.pb-unframed .pb-body>.card~.card{border-top:var(--rule-w) solid var(--rule);padding-top:var(--sp-stack);}
 .pb-page.pb-unframed .dd-asset:first-child,.pb-page.pb-unframed .card>.side-item:first-child,.pb-page.pb-unframed .card>:is(.trait-sec,.alloc-sec):first-child{border-top:none;}
 /* library / glossary blocks (static + fully expanded — a page has no accordions) */
 .pb-plain{padding:0;}
 .pb-cat-hd{display:flex;align-items:center;gap:var(--sp-inline);padding:var(--sp-list) 0;border-bottom:var(--rule-w) solid var(--rule);}
-.pb-cat-hd svg{width:var(--ic-md);height:var(--ic-md);color:var(--ink);flex:0 0 auto;}
+.pb-cat-hd svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);flex:0 0 auto;}
 .pb-cat-t{flex:1;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
 .pb-art{padding:0 0 var(--sp-stack);border-bottom:1px solid var(--line-soft);}
 .pb-art-t{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
@@ -958,11 +963,14 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    .side-t's own line" fix as .klib-row got in 2026-08-15; also top-aligns .side-num (the leading
    number/check circle) as a side effect, same as that klib-row precedent did for its own leading
    icon. */
-.side-row{grid-template-columns:34px 1fr auto;padding:var(--sp-stack) 20px;user-select:none;align-items:flex-start;}
-.side-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:var(--fs-meta);font-weight:var(--w-head);flex-shrink:0;font-family:var(--font);}
+.side-row{grid-template-columns:24px 1fr auto;padding:var(--sp-stack) 20px;user-select:none;align-items:flex-start;}
+.side-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:var(--fs-meta);font-weight:var(--w-head);flex-shrink:0;font-family:var(--font);}
 .side-num.done{background:var(--ink);color:var(--cloud);}
 .side-num.act{border:2px solid transparent;background:linear-gradient(var(--white),var(--white)) padding-box,var(--spectrum) border-box;color:var(--ink);}
 .side-num svg{width:var(--ic-sm);height:var(--ic-sm);}
+/* เรื่องที่คุณเข้าใจแล้ว (learnedLedgerHTML): bare icon, no circle fill — matches เจาะรายสินทรัพย์'s own .dd-asset-hd icon language (per direction). */
+.ledger-card .side-num.done{background:none;border-radius:0;}
+.ledger-card .side-num.done svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);}
 .side-cx{min-width:0;}
 /* size/weight matched to .int-bar-l ("หุ้นไทย" etc., เรดาร์ความสนใจ section) — fs-sub/22px+w-head
    (500) -> fs-bodysm/18px+w-label (700) (2026-08-29, per direction). */
@@ -983,8 +991,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .s-cv.open{transform:rotate(180deg);}
 .side-body{max-height:0;overflow:hidden;transition:max-height .28s var(--ease);}
 .side-body.show{max-height:400px;}
-.side-bi{padding:0 20px var(--sp-card-pad-sm) 66px;}
-.side-dl{border-left:1px solid var(--line-soft);padding-left:var(--sp-inline);}
+.side-bi{padding:0 20px var(--sp-card-pad-sm) 56px;}
+.side-dl{background:var(--spectrum-v) left/2px 100% no-repeat;padding-left:var(--sp-inline);}
 .side-dl p{font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);}
 @media(hover:hover) and (pointer:fine){.bp-btn:not(.done):not(.chk):hover{background:var(--cloud);}}
 /* ══ SPLASH / ATTRACT ══ two-tone headline · drifting brand assets · card carousel */
@@ -1274,13 +1282,13 @@ var CARD_BACK_IMG='assets/cardback.jpg';
    event-companion app build, Aug 2026) — the canonical content baseline as of this build.
    strengths/watchouts now live at family level only (matches source's own architecture). */
 var FAM={
- G:{th:'Guardian ✦ ผู้พิทักษ์',icon:'lc-shield',accent:'#61e8ed',rgb:'97,232,237',
+ G:{th:'Guardian ผู้พิทักษ์',icon:'lc-shield',accent:'#61e8ed',rgb:'97,232,237',
    strengths:['ปกป้องเงินต้นได้ดี ไม่โลภตามกระแส','อดทน ถือยาว มีวินัยการออม'],
    watchouts:['ระวังเกินไปจนอาจพลาดโอกาสเติบโต','เงินเฟ้ออาจกัดกินผลตอบแทนถ้าปลอดภัยจัด']},
- N:{th:'Navigator ✦ นักเดินเรือ',icon:'lc-compass',accent:'#9c91ff',rgb:'156,145,255',
+ N:{th:'Navigator นักเดินเรือ',icon:'lc-compass',accent:'#9c91ff',rgb:'156,145,255',
    strengths:['วางแผนทั้งพอร์ต กระจายความเสี่ยงเก่ง','ตัดสินใจบนข้อมูล ไม่ใช้อารมณ์'],
    watchouts:['วิเคราะห์นานจนพลาดจังหวะ (analysis paralysis)','กระจายจนคุมยาก ต้องมีระบบติดตาม']},
- V:{th:'Visionary ✦ ผู้มองการณ์ไกล',icon:'lc-sparkles',accent:'#f178d8',rgb:'241,120,216',
+ V:{th:'Visionary ผู้มองการณ์ไกล',icon:'lc-sparkles',accent:'#f178d8',rgb:'241,120,216',
    strengths:['กล้าได้กล้าเสีย มองหาการเติบโตสูง','จับเทรนด์ใหม่ได้ก่อนตลาด'],
    watchouts:['พอร์ตเหวี่ยงแรง ต้องทนความผันผวนให้ไหว','กระจุกตัวสูง ควรมีแผนจำกัดขาดทุน']}
 };
@@ -1732,7 +1740,7 @@ function radarInterestHTML(h,r){
 /* Playbook = PDF twin: the physical-card redemption / Ultimate-tier banner is gone; only the SKILL note that
    explains the value printed on the card stays (2026-09-21). */
 function skillNoteHTML(){
-  return '<div class="hero-note skill-note">'+ic('lc-zap')+'<span><b style="font-weight:var(--w-label);color:var(--ink)">ค่า SKILL บนการ์ด</b><br>สะท้อนความถนัดในแต่ละสไตล์ ไม่ใช่คำแนะนำการลงทุน</span></div>';
+  return '<div class="hero-note skill-note"><span><b style="font-weight:var(--w-label);color:var(--ink)">ค่า SKILL บนการ์ด</b><br>สะท้อนความถนัดในแต่ละสไตล์ ไม่ใช่คำแนะนำการลงทุน</span></div>';
 }
 /* Book (คู่มือ) — the compare-reveal/tab-display version, driven by a bottom content-nav. Reuses
    shared data helpers (heroDetailBody / insightHTML / radarSVG / traitBars / allocBars / ddTabs /
@@ -1762,7 +1770,7 @@ function insightHTML(r,h,matchOk){
      identical inline copy in renderBook() (Book v1) keeps its own padding-bottom:0 since THAT one
      has more sections following inside the same card — this copy has nothing after it. */
   return '<section class="card scroll-reveal"><div class="s-pad">'+
-    '<div class="s-ey" style="font-weight:var(--w-label)">AI Insight</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">คุณเป็นนักลงทุนแบบไหน</h2>'+
+    '<div class="s-ey" style="font-weight:var(--w-label)">AI Insight</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?('<span class="ld" style="background:var(--cyan)"></span>ตรงกัน'):('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
@@ -1784,6 +1792,10 @@ function insightHTML(r,h,matchOk){
 var ORN_STAR='<svg class="orn-star" viewBox="-11 -11 22 22" aria-hidden="true"><path d="M0-11C1.7-4.2 4.2-1.7 11 0 4.2 1.7 1.7 4.2 0 11-1.7 4.2-4.2 1.7-11 0-4.2-1.7-1.7-4.2 0-11Z"/></svg>';
 var ORN_H='<div class="orn-h" aria-hidden="true"></div>'; // plain hairline: no star, no gap
 var ORN_V='<div class="orn-v" aria-hidden="true"><i></i>'+ORN_STAR+'<i></i></div>';
+/* ORN_HS (2026-09-22, per direction — sheet 1): ORN_V's own hairline+star+hairline glyph laid out
+   horizontally instead of stacked, for the divider between the persona name line and the "ค่า SKILL
+   บนการ์ด" note under it (see the shellOf() hero-sec reorder below, where sk gets inserted). */
+var ORN_HS='<div class="orn-hs" aria-hidden="true"><i></i>'+ORN_STAR+'<i></i></div>';
 /* identParts — book2IdentityDetail() split in two: the family badge + signature line ("Navigator ✦ นักเดินเรือ
    / ให้คุณค่ากับชีวิต…") go to #b2ident-head so they can sit directly under the card on the first sheet; everything
    else (assets, strengths/watch-outs, SKILL) stays in #b2ident-detail. Both are re-filled together when the
@@ -2120,7 +2132,7 @@ function pbArtHTML(a){
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
 function libraryBlocksHTML(h){
-  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 8 หมวด ✦ เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
+  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 8 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
   var empty=[];
   LIBRARY_CATS.forEach(function(c,i){
     if(!c.n){empty.push(c.t);return;}
@@ -2138,19 +2150,19 @@ function glossaryBlocksHTML(){
       return '<div class="pb-plain gl-grp"><div class="gl-gt">'+libEsc(g.g)+(g.n?'<span class="gl-gn"> '+libEsc(g.n)+'</span>':'')+'</div>'+
         g.i.map(function(it){return '<div class="gl-row"><div class="gl-term">'+libEsc(it[0])+'</div><div class="gl-def">'+libEsc(it[1])+'</div></div>';}).join('')+'</div>';
     }).join('');
-}
-/* pbFrame — the cover's page frame as an inline SVG ornament: a square outline with the same rectangle
-   re-drawn with large rounded corners inside it (radius ~13% of the frame width, measured off the
-   reference art), plus a 4-point star centred on the top and bottom edges with a small gap in the line
-   behind it. Stroke/star colours are the reference's greys. The sheet gets extra padding so content
-   sits inside the frame and clear of the rounded corners. */
-function pbFrame(pg){
-  var W=794,H=794*3508/2480,m=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pb-frame-inset'))||30,x0=m,y0=m,x1=W-m,y1=H-m,r=Math.round((x1-x0)*.13),cx=W/2;
-  var star=function(y){return '<rect x="'+(cx-25)+'" y="'+(y-5)+'" width="50" height="10" class="pb-frame-halo"/><path transform="translate('+cx+' '+y+')" class="pb-frame-star" d="M0-12C1.6-4 4-1.6 12 0 4 1.6 1.6 4 0 12-1.6 4-4 1.6-12 0-4-1.6-1.6-4 0-12Z"/>';};
-  var d1='M'+x0+','+y0+'H'+x1+'V'+y1+'H'+x0+'Z';
-  var d2='M'+(x0+r)+','+y0+'H'+(x1-r)+'A'+r+','+r+' 0 0 1 '+x1+','+(y0+r)+'V'+(y1-r)+'A'+r+','+r+' 0 0 1 '+(x1-r)+','+y1+'H'+(x0+r)+'A'+r+','+r+' 0 0 1 '+x0+','+(y1-r)+'V'+(y0+r)+'A'+r+','+r+' 0 0 1 '+(x0+r)+','+y0+'Z';
-  var svg='<svg class="pb-frame" viewBox="0 0 '+W+' '+H.toFixed(2)+'" aria-hidden="true"><g class="pb-frame-line"><path d="'+d1+'"/><path d="'+d2+'"/></g>'+star(y0)+'</svg>'; // top star only (the bottom one was removed, so the bottom rule is one unbroken line)
-  pg.classList.add('pb-framed');pg.insertAdjacentHTML('afterbegin',svg);
+}
+/* pbFrame — the cover's page frame as an inline SVG ornament: a square outline with the same rectangle
+   re-drawn with large rounded corners inside it (radius ~13% of the frame width, measured off the
+   reference art), plus a 4-point star centred on the top and bottom edges with a small gap in the line
+   behind it. Stroke/star colours are the reference's greys. The sheet gets extra padding so content
+   sits inside the frame and clear of the rounded corners. */
+function pbFrame(pg){
+  var W=794,H=794*3508/2480,m=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pb-frame-inset'))||30,x0=m,y0=m,x1=W-m,y1=H-m,r=Math.round((x1-x0)*.13),cx=W/2;
+  var star=function(y){return '<rect x="'+(cx-25)+'" y="'+(y-5)+'" width="50" height="10" class="pb-frame-halo"/><path transform="translate('+cx+' '+y+')" class="pb-frame-star" d="M0-12C1.6-4 4-1.6 12 0 4 1.6 1.6 4 0 12-1.6 4-4 1.6-12 0-4-1.6-1.6-4 0-12Z"/>';};
+  var d1='M'+x0+','+y0+'H'+x1+'V'+y1+'H'+x0+'Z';
+  var d2='M'+(x0+r)+','+y0+'H'+(x1-r)+'A'+r+','+r+' 0 0 1 '+x1+','+(y0+r)+'V'+(y1-r)+'A'+r+','+r+' 0 0 1 '+(x1-r)+','+y1+'H'+(x0+r)+'A'+r+','+r+' 0 0 1 '+x0+','+(y1-r)+'V'+(y0+r)+'A'+r+','+r+' 0 0 1 '+(x0+r)+','+y0+'Z';
+  var svg='<svg class="pb-frame" viewBox="0 0 '+W+' '+H.toFixed(2)+'" aria-hidden="true"><g class="pb-frame-line"><path d="'+d1+'"/><path d="'+d2+'"/></g>'+star(y0)+'</svg>'; // top star only (the bottom one was removed, so the bottom rule is one unbroken line)
+  pg.classList.add('pb-framed');pg.insertAdjacentHTML('afterbegin',svg);
 }
 var PB_ASSET_IMG={candle:'assets/candle.png',gold:'assets/gold.png',bitcoin:'assets/bitcoin.png',card:'assets/card.png',heart:'assets/heart.png',efin:'assets/efin-2.png'};
 /* Sheets 2..last: 1-3 small splash elements each (2026-09-21, per direction; first 2-4, then trimmed), INSIDE the frame, at believable depth. Three planes, as on the
@@ -2193,7 +2205,7 @@ function pbDeco(pg,n){
   pg.insertAdjacentHTML('beforeend',out);
 }
 /* pbSetZoom — the fit-shrink used when a block is a touch too tall for a sheet. It also publishes the factor as --pbz so bar
-   thicknesses (calc(var(--bar-h)/var(--pbz,1))) can cancel it: a bar stays exactly 4 / 8 / 16px however much its block was shrunk. */
+   thicknesses (calc(var(--bar-h)/var(--pbz,1))) can cancel it: a bar stays exactly 4 / 8px however much its block was shrunk. */
 function pbSetZoom(el,k){if(k&&k!==1){el.style.zoom=k;el.style.setProperty('--pbz',k);}else{el.style.zoom='';el.style.removeProperty('--pbz');}}
 function pbBuild(label,cover){
   var main=root.querySelector('main.scroll'),src=main&&main.querySelector('.pb-src');
@@ -2206,7 +2218,7 @@ function pbBuild(label,cover){
   var pages=[];
   function newPage(sect){
     var fit=document.createElement('div');fit.className='pb-fit';
-    var pg=document.createElement('div');pg.className='pb-page'+(/^(analysis|portfolio|journey)$/.test(sect)?' pb-unframed':'');pg.dataset.sect=sect;
+    var pg=document.createElement('div');pg.className='pb-page'+(/^(analysis|portfolio|journey|library)$/.test(sect)?' pb-unframed':'');pg.dataset.sect=sect;
     pg.innerHTML='<div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span></div><div class="pb-body"></div><div class="pb-ft"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span><span class="pb-pn"></span></div>';
     pbFrame(pg); // the cover's frame ornament + #F7F8F7 paper on every content sheet
     fit.appendChild(pg);doc.appendChild(fit);pages.push(pg);
@@ -2232,7 +2244,7 @@ function pbBuild(label,cover){
       var at=[].slice.call(hi.children),cp=at.filter(function(x){return x.classList.contains('cr2-cap')||x.classList.contains('cr2')||x.classList.contains('pb-stage');})[0],hd=at.filter(function(x){return x.id==='b2ident-head';})[0];
       var sk=at.filter(function(x){return x.classList.contains('skill-note');})[0],anchor=cp;
       if(hd&&cp){at.splice(at.indexOf(hd),1);at.splice(at.indexOf(cp)+1,0,hd);anchor=hd;} // the persona's name line sits right under its card
-      if(sk&&anchor){at.splice(at.indexOf(sk),1);at.splice(at.indexOf(anchor)+1,0,sk);} // the SKILL disclaimer is about that same card
+      if(sk&&anchor){at.splice(at.indexOf(sk),1);var hs=document.createElement('div');hs.innerHTML=ORN_HS;hs=hs.firstChild;at.splice(at.indexOf(anchor)+1,0,hs,sk);} // ORN_HS separates the name line from the SKILL disclaimer below it
       return {atoms:at,make:function(){
         var sec=block.cloneNode(false),g=gw.cloneNode(false),h=hi.cloneNode(false);
         [].slice.call(gw.children).forEach(function(c){if(c!==hi)g.appendChild(c.cloneNode(true));});
@@ -2300,10 +2312,15 @@ function pbBuild(label,cover){
 }
 /* charts only fill when scrolled into view — force them full before print/PDF */
 window.addEventListener('beforeprint',function(){document.querySelectorAll('.conf-box,.risk-box,.trait-sec,.alloc-sec,.radar-sec').forEach(function(b){b.classList.add('viz-in');});});
+/* per-asset heading art (2026-09-22, per direction): 3 of the "เจาะรายสินทรัพย์" headings swap their
+   lucide glyph for real icon art, keyed by asset label since the same lucide id (lc-pie-chart etc.)
+   is shared across every persona's asset list. */
+var DD_ASSET_IMG={'กองทุนรวม':'assets/portfolio.png','หุ้นไทย':'assets/ICON_STOCK_TH_PNG.webp','ทองคำ':'assets/ICON_GOLD_PNG.webp'};
 function ddTabs(h){
   /* 2026-09-21, per direction: no tab strip — every asset's detail is laid out in turn (a printed page can't switch tabs) */
   return h.assets.slice(0,4).map(function(a){
-    return '<div class="dd-asset"><div class="dd-asset-hd">'+ic(a.icon)+'<span>'+a.t+'</span></div>'+
+    var icon=DD_ASSET_IMG[a.t]?'<img src="'+DD_ASSET_IMG[a.t]+'" alt="">':ic(a.icon);
+    return '<div class="dd-asset"><div class="dd-asset-hd">'+icon+'<span>'+a.t+'</span></div>'+
       '<div class="dd-li">'+ic('lc-check')+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</div>'+
       '<div class="dd-li">'+ic('lc-check')+'เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</div>'+
       '<div class="dd-li">'+ic('lc-check')+'ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</div>'+
@@ -2739,7 +2756,7 @@ function learnedLedgerHTML(){
       '<div class="list-row side-row" style="cursor:default"><div class="side-num done">'+icon+'</div>'+
       '<div class="side-cx"><div class="side-t">'+l.text+'</div><div class="side-s">จากเกม '+playLabel(l.kind,l.idx)+'</div></div></div></article>';
   }).join('');
-  return '<section class="card scroll-reveal"><div class="sides-hd"><div class="s-ey">สะสมจากการเล่นเกมวันนี้</div><h2 class="s-h">เรื่องที่คุณเข้าใจแล้ว</h2>'+
+  return '<section class="card scroll-reveal ledger-card"><div class="sides-hd"><div class="s-ey">สะสมจากการเล่นเกมวันนี้</div><h2 class="s-h">เรื่องที่คุณเข้าใจแล้ว</h2>'+
     '<p class="s-sub" style="margin-bottom:2px">'+items.length+' เรื่อง · อัปเดตอัตโนมัติทุกครั้งที่เล่นเกมจบ</p></div>'+rows+'</section>';
 }
 
