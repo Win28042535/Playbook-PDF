@@ -728,7 +728,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;gap:var(--sp-stack);padding-top:var(--sp-inline);border-top:1px solid var(--line-soft);font-size:var(--fs-folio);color:var(--muted);}
 /* "กลับไปสารบัญ" — bottom-right of every sheet, in the slot the folio used to hold. Violet pill (icon +
    text both violet) so it reads as a real button, not another line of footer caption text. */
-.pb-toc-back{display:inline-flex;align-items:center;gap:var(--sp-glue);text-decoration:none;color:var(--violet);font-weight:var(--w-label);background:color-mix(in srgb,var(--violet) 12%,var(--white));border-radius:var(--rpill);padding:var(--sp-glue) var(--sp-list);}
+.pb-toc-back{display:inline-flex;align-items:center;gap:var(--sp-glue);text-decoration:none;color:var(--violet);font-weight:var(--w-label);background:color-mix(in srgb,var(--violet) 12%,var(--white));border-radius:var(--rpill);padding:var(--sp-glue) var(--sp-list);pointer-events:auto;}
+/* .pb-page[data-sect="journey"] blanket-disables pointer-events + forces cursor:default!important on
+   its own print-like content below (see that rule) — this is a real link, not print filler, so it
+   opts back in on both counts (needs !important to beat that rule's own !important). */
+.pb-page[data-sect="journey"] .pb-toc-back{cursor:pointer!important;}
 .pb-toc-back svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;color:var(--violet);}
 /* ── สารบัญ: the consent screen's backdrop DNA (room1.jpg under a flat white wash), not paper + frame ── */
 .pb-toc{padding:0;border:0;background:var(--white) url(assets/room1.jpg) no-repeat 48% center;background-size:cover;position:relative;overflow:clip;isolation:isolate;}
