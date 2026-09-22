@@ -739,9 +739,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* divider lives on the category label, not between individual rows — one rule per chapter, not per item */
 .toc-ch{font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:var(--sp-inline) 0 var(--sp-hairline);padding-top:var(--sp-inline);border-top:var(--rule-w) solid var(--rule);}
 .toc-ch:first-child{margin-top:0;padding-top:0;border-top:none;}
-.toc-row{display:flex;align-items:baseline;gap:var(--sp-list);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
+.toc-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-list);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
 .toc-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);}
-.toc-dot{flex:1 1 auto;border-bottom:1px dotted var(--line-strong);transform:translateY(-3px);}
 .toc-n{font-family:var(--serif);font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);flex:0 0 auto;}
 /* accordions are always expanded on a page (a fixed sheet can't grow when a row opens; print needs it all) */
 .pb-page .side-body{max-height:none;overflow:visible;}
@@ -1963,7 +1962,7 @@ function pbTOC(doc,pages,label){
   rows.forEach(function(r){
     var ch=CH[r.sect]||'';
     if(ch&&ch!==lastCh){out+='<div class="toc-ch">'+ch+'</div>';lastCh=ch;}
-    out+='<a class="toc-row" href="#pb-p'+r.n+'"><span class="toc-t">'+r.t+'</span><i class="toc-dot"></i><span class="toc-n">'+r.n+'</span></a>';
+    out+='<a class="toc-row" href="#pb-p'+r.n+'"><span class="toc-t">'+r.t+'</span><span class="toc-n">'+r.n+'</span></a>';
   });
   var fit=document.createElement('div');fit.className='pb-fit';
   var pg=document.createElement('div');pg.className='pb-page pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
