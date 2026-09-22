@@ -1853,6 +1853,8 @@ function pbBuild(label,cover){
   }
   [].slice.call(src.querySelectorAll(':scope>.b2-panel')).forEach(function(panel){
     var sect=panel.dataset.sect||panel.dataset.panel,body=newPage(sect),cur=null,pz=1; // cur = shell currently open on this sheet · pz = this sheet's fit-zoom (1 = none)
+    var noShrink=panel.dataset.panel==='library'; // library articles read at a fixed size everywhere (2026-09-22, per direction) — an
+    // over-height library page pushes its last article to a fresh sheet instead of zoom-shrinking every block on it a few percent
     function put(node,shell){
       if(!shell){cur=null;body.appendChild(node);if(pz<1)pbSetZoom(node,pz);return;}
       if(!cur||cur.shell!==shell){var m=shell.make();body.appendChild(m.root);if(pz<1)pbSetZoom(m.root,pz);cur={shell:shell,root:m.root,inner:m.inner};}
@@ -1866,7 +1868,7 @@ function pbBuild(label,cover){
       put(node,shell);
       /* balance: if the sheet is over by <=12%, shrink its blocks a touch (uniformly) to fit rather than
          leaving a near-empty sheet behind; revert if that still doesn't fit */
-      if(over(body)&&pz===1&&(body.children.length>1||(shell&&cur.inner.children.length>1))){
+      if(!noShrink&&over(body)&&pz===1&&(body.children.length>1||(shell&&cur.inner.children.length>1))){
         var q=body.scrollHeight/body.clientHeight;
         if(q<=1.12){
           var kids=[].slice.call(body.children),z=Math.floor(1000/q)/1000-.004,tries=0;
