@@ -607,7 +607,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    component, not part of this "small badge" family). radius also moved off its own 20px literal
    onto --rpill — renders identically at this size (48>=height/2 either way) but stops it being
    the one pill in the file with a magic-number radius. */
-.ex-tag{display:inline-flex;align-items:center;gap:var(--sp-stack-tight);font-size:var(--fs-eyebrow);font-weight:var(--w-label);letter-spacing:0;color:var(--muted);background:var(--accent);border-radius:var(--rpill);padding:4px var(--sp-inline);text-transform:uppercase;}
 
 /* trait score bars — thicker filled bars (distinct from the hairline risk/confidence bars) */
 .trait-sec,.alloc-sec{padding:var(--sp-block) var(--sp-card-pad);border-top:1px solid var(--line-soft);}
@@ -657,7 +656,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    this file's normal paragraph weight everywhere else. */
 .dd-li{display:flex;align-items:flex-start;gap:var(--sp-inline);font-size:var(--fs-bodysm);color:var(--ink);line-height:1.5;margin-bottom:var(--sp-inline);font-weight:var(--w-body);}
 .dd-li svg{width:var(--ic-sm);height:var(--ic-sm);flex-shrink:0;margin-top:2px;color:var(--violet);}
-.dd-note{font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.5;margin-top:var(--sp-glue);padding-top:var(--sp-inline);border-top:1px solid var(--line-soft);}
 
 /* shared list-row base — one clickable row: leading marker → text block → optional trailing bit. klib-row/side-row/rs each add only what makes them different (column count, padding, divider). */
 .list-row{display:grid;align-items:center;gap:var(--sp-inline);cursor:pointer;}
@@ -1399,7 +1397,7 @@ function radarInsight(h){
   return '<div class="radar-insight" style="background:rgba('+h.rgb+',0.08);border-color:rgba('+h.rgb+',0.28)"><span class="radar-insight-ic" style="color:'+h.accent+'">'+ic('lc-sparkles')+'</span><span>จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[maxI]+'</b> ('+maxV+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</span></div>';
 }
 function radarInterestHTML(h,r){
-  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์ความสนใจ</div><span class="ex-tag">ตัวอย่าง</span></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
+  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์ความสนใจ</div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
 } // demo quota numbers for the "แลกรับการ์ดตัวจริง" card below
 /* Expanded "แลกรับการ์ดตัวจริง" card (2026-08-19, per direction — present in the design mockup but
    missing from the app until now). The existing on/locked message (already live in Book v1, since
@@ -1634,9 +1632,9 @@ function renderBook(){
     (pre?'':(
     '<div class="b2-panel" data-panel="portfolio">'+
       '<section class="card scroll-reveal">'+radarInterestHTML(h,r)+
-        '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนนพฤติกรรม</div><span class="ex-tag">ตัวอย่าง</span></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
-        '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เวลาตัดสินใจคุณดูอะไรก่อน</div><span class="ex-tag">ตัวอย่าง</span></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
-      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey" style="display:flex;justify-content:space-between;align-items:center"><span style="display:inline-flex;align-items:center;gap:var(--sp-glue)">สรุปไว้คุยกับผู้แนะนำการลงทุน</span><span class="ex-tag">ตัวอย่าง</span></div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะรายสินทรัพย์</h2>'+ddTabs(h)+'</div></section>'+
+        '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนนพฤติกรรม</div></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
+        '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เวลาตัดสินใจคุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
+      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะรายสินทรัพย์</h2>'+ddTabs(h)+'</div></section>'+
     '</div>'+
     '<div class="b2-panel" data-panel="journey">'+
       sidesHTML(r)+
@@ -1677,8 +1675,10 @@ function renderBook(){
    pill — see REG_CTA_HTML, near mountHeaderQR(). REG_URL stays a top-level const since that markup
    is the only consumer now. */
 var REG_URL='https://dc1hw.efin.finance/events/better-trade/better-trade2026';
-/* ── deferred Book sections — all populated with EXAMPLE data (booth games + analysis engine
-   don't exist yet); each carries an .ex-tag in the UI so nothing here reads as a real measurement. ── */
+/* ── deferred Book sections — populated with EXAMPLE data (booth games + analysis engine don't
+   exist yet); the .ex-tag "ตัวอย่าง" pill that used to mark these in the UI was dropped 2026-09-22
+   per direction (a real downloaded Playbook isn't sample data), so this comment is the only
+   remaining flag that the numbers below are illustrative, not measured. ── */
 function traitBars(){
   var rows=[{l:'เก็บข้อมูลก่อนตัดสินใจ',v:31,m:35},{l:'ความมีวินัยการลงทุน',v:25,m:25},{l:'การกระจายความเสี่ยง',v:10,m:25},{l:'รับความผันผวนได้',v:11,m:15}];
   var bars='<div class="trait-list">'+rows.map(function(t){return '<div class="trait-row"><span class="trait-l">'+t.l+'</span><span class="trait-v"><b>'+t.v+'</b>/'+t.m+'</span><div class="trait-tr"><div class="trait-fi viz-bar" style="--tw:'+Math.round(t.v/t.m*100)+'%"></div></div></div>';}).join('')+'</div>';
@@ -1957,7 +1957,6 @@ function ddTabs(h){
       '<div class="dd-li">'+ic('lc-check')+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</div>'+
       '<div class="dd-li">'+ic('lc-check')+'เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</div>'+
       '<div class="dd-li">'+ic('lc-check')+'ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</div>'+
-      '<div class="dd-note">* เนื้อหาตัวอย่าง — ฉบับสมบูรณ์จะปรับตามพฤติกรรมจริงของคุณในงาน</div>'+
     '</div>';
   }).join('');
 }
