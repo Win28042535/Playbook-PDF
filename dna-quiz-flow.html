@@ -32,7 +32,10 @@
      around unread. --ring-idle retired the same way once .spec-bd (its only consumer) was deleted
      entirely (see Design DNA review "✦1 ทางเลือก A"). */
   --focus:#2b6cff; --popover:rgba(255,255,255,0.96);
-  --cyan:#61e8ed; --violet:#9c91ff; --pink:#f178d8; --yellow:#f2ea83;
+  --cyan:#61e8ed; --violet:#9c91ff; --pink:#f178d8; --yellow:#f2ea83; --orange:#f5a962; /* orange
+  added 2026-09-23, design-DNA borrow — the marketing site's "โอกาสก็เช่นกัน" hero-text gradient
+  (violet→pink→orange), matched into .txt-grad below. Picked to sit in the same light/pastel
+  lightness family as cyan/violet/pink/yellow above, not the reference's more saturated version. */
   --spectrum:linear-gradient(90deg,#61e8ed,#9c91ff,#f178d8,#f2ea83,#61e8ed);
   --spectrum-v:linear-gradient(180deg,#61e8ed,#9c91ff,#f178d8,#f2ea83,#61e8ed); /* --spectrum's own stops, rotated for vertical rules */
   /* "Gold/amber" status color (2026-08-14) — was the exact same 3-hex combo hand-copied into 5
@@ -494,14 +497,15 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .s-ey .ey-line{flex:1 1 auto;height:var(--rule-w);background:var(--rule);min-width:var(--sp-block);margin-left:2px;}
 .s-h{font-size:var(--fs-heading);font-weight:var(--w-label);letter-spacing:0;color:var(--ink);margin-bottom:4px;}
 /* Page-title word gradient (2026-09-23, design-DNA borrow — same idea as BetterTrade 2026's marketing
-   site highlighting one word/phrase per heading in gradient, e.g. "ทุกโอกาส"). Applied to ONE word per
-   .s-h chosen for meaning, not automatically — see each call site's own comment for why that word.
-   Fixed cyan→violet gradient (2 of the app's own 3 persona-accent hues — pink dropped 2026-09-23,
-   per direction "ให้สีออกโทนน้ำเงิน ฟ้ากว่านี้ ตอนนี้ออกม่วงผสมเทา": pink's stop read as a muddy
-   purple-gray once darkened, and blue naturally sits between cyan and violet on the wheel, so cutting
-   it also pulls the whole gradient toward blue), distinct from .fam-badge span's per-family foil since
-   a page title isn't tied to any one persona. Static, plain background-clip:text. */
-.s-h .txt-grad{background:linear-gradient(135deg,color-mix(in srgb,var(--cyan) 70%,black),color-mix(in srgb,var(--violet) 75%,black));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+   site highlighting one word/phrase per heading in gradient, e.g. "ทุกโอกาส"/"โอกาสก็เช่นกัน"). Applied
+   to ONE word per .s-h chosen for meaning, not automatically — see each call site's own comment for
+   why that word. Went through 2 earlier palettes (violet→pink→cyan, then cyan→violet after pink read
+   muddy once darkened) before landing here: violet→pink→orange (2026-09-23, per direction "ใช้โทนสี
+   gradient ตามรูป", matching the reference "โอกาสก็เช่นกัน" hero text almost exactly) — no darkening
+   this time, the 3 hues are saturated/warm enough on their own; --orange is new, see its own comment
+   at :root. Distinct from .fam-badge span's per-family foil since a page title isn't tied to any one
+   persona. Static, plain background-clip:text. */
+.s-h .txt-grad{background:linear-gradient(90deg,var(--violet),var(--pink) 55%,var(--orange));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
 .s-sub{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
 /* Stepped down from --r2 to --r1 (2026-08-15, per Card & Section review "09") — this panel sits
    nested inside a --r2 .card, so it was matching its own parent's radius instead of reading as a
@@ -833,11 +837,15 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .lib-cat-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-block);margin:var(--sp-stack) 0;}
 .lib-intro-panel .lib-cat-grid{margin:0;} /* the panel's own padding is the spacing now, on every side */
 .ast-grid{margin:0;} /* same reasoning, reused on .ast-block (สินทรัพย์ที่ถนัด) — see heroDetailBody() */
-.lib-cat-card{padding:var(--sp-list) 0;border-top:var(--rule-w) solid var(--rule);}
-.lib-cat-card:nth-child(-n+2){border-top:none;} /* first row: no rule above it */
+/* Row dividers removed entirely (2026-09-23, per direction "เอาเส้นคั่นระหว่างรายการ...ออก / เอาเส้น
+   ด้านบน...ออก") — was border-top on every card + a :nth-child(-n+2) exemption for row 1 only; now no
+   card has a top rule at all, applies to both usages (สินทรัพย์ที่ถนัด's .ast-grid and the library
+   overview's own .lib-cat-grid, same class). column-gap/row gap (the grid's own row-gap, default from
+   the grid's row sizing) is the only separation between cards now. */
+.lib-cat-card{padding:var(--sp-list) 0;}
 .lib-cat-hd{display:flex;align-items:center;gap:var(--sp-glue);}
-.lib-cat-hd svg{width:var(--ic-md);height:var(--ic-md);color:var(--violet);flex:0 0 auto;}
-.lib-cat-hd img{width:var(--ic-md);height:var(--ic-md);object-fit:contain;flex:0 0 auto;}
+.lib-cat-hd svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);flex:0 0 auto;} /* 24px, up from --ic-md/20px (2026-09-23) */
+.lib-cat-hd img{width:var(--ic-lg);height:var(--ic-lg);object-fit:contain;flex:0 0 auto;}
 .lib-cat-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .lib-cat-n{font-size:var(--fs-eyebrow);color:var(--muted);margin-top:2px;margin-left:calc(var(--ic-md) + var(--sp-glue));}
 .pb-art{padding:0 0 calc(var(--sp-stack) + 4px);} /* a touch more room since the divider between articles is gone */
