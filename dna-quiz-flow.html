@@ -754,8 +754,12 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .dd-asset-hd{display:flex;align-items:center;gap:var(--sp-list);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);margin-bottom:var(--sp-inline);}
 .dd-asset-hd svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);flex:0 0 auto;}
 .dd-asset-hd img{width:var(--ic-lg);height:var(--ic-lg);object-fit:contain;flex:0 0 auto;}
-/* sheet 2: sections are set apart by ornaments, not frames */
-#b2ident-detail .ast-block,#b2ident-detail .str-box,#b2ident-detail .str-box.wn,#b2ident-detail .conf-box{background:none!important;border:none!important;border-radius:0;box-shadow:none;}
+/* sheet 2: sections are set apart by ornaments, not frames — EXCEPT .ast-block now (2026-09-23, per
+   direction "ใช้ style พื้นหลังสี นี้ไปใช้งานกับ section สินทรัพย์ที่ถนัด ด้วย"), carved out of this
+   !important override so its own inline background (the --cloud panel, see heroDetailBody()) can
+   actually show — it was being silently forced to background:none by this rule before. str-box/
+   str-box.wn/conf-box keep the ornament-only treatment unchanged. */
+#b2ident-detail .str-box,#b2ident-detail .str-box.wn,#b2ident-detail .conf-box{background:none!important;border:none!important;border-radius:0;box-shadow:none;}
 #b2ident-detail .conf-glow{display:none;}
 #b2ident-detail .ast-block,#b2ident-detail .str-box,#b2ident-detail .conf-box{padding-left:0;padding-right:0;} /* unframed: text lines up with the ends of the dividers */
 #b2ident-detail>*{margin-top:0!important;margin-bottom:0!important;}
@@ -1411,12 +1415,16 @@ function heroDetailBody(hero,previewOnly){
      right after (previously the same hero.accent) switched together — they're one visual unit. */
   var chips=hero.assets.map(function(a){return '<span class="chip" style="background:color-mix(in srgb,var(--violet) 26%,var(--white));color:var(--violet)">'+ic(a.icon)+a.t+'</span>';}).join('');
   var body='<div class="hero-sig-c">'+hero.sig+'</div>'+
-    /* Revised (2026-08-15, per direction "border card สีอิงตาม สีสินทรัพย์ แต่ title เป็นสีดำ และ bg
-       เป็นสีอิงตามสินทรัพย์ แต่ soft") — the neutral --paper/--line-soft version from the same day's
-       earlier pass read as TOO flat next to .str-box/.str-box.wn once those went neutral too; this
-       card gets its color signal back (a soft accent wash + accent border), but the title itself
-       goes to plain --ink instead of hero.accent — color lives in the surface now, not the text. */
-    '<div class="ast-block" style="background:color-mix(in srgb,var(--violet) 8%,var(--white));border:1px solid color-mix(in srgb,var(--violet) 24%,transparent)">'+
+    /* Gray panel (2026-09-23, TRIAL per direction "ต้องการให้ใช้ style พื้นหลังสี นี้ไปใช้งานกับ
+       section สินทรัพย์ที่ถนัด ด้วย ลองทำดูหน่อย" — the .lib-intro-panel treatment from the library
+       overview grid, --cloud fill, no border). NOTE this card's background has flip-flopped before:
+       it started as this same neutral --paper/--line-soft look, was explicitly moved to the violet
+       wash below because neutral read "too flat" once .str-box/.str-box.wn (right after it, same
+       card) also went neutral (2026-08-15) — see the direction quoted in that revision. Trying
+       neutral again now with a different neutral (--cloud, actually distinct from the page's own
+       --white/--paper, unlike the old --paper-on-paper attempt) since the user asked to; the chips
+       inside keep their own violet accent (unchanged) so the section isn't fully colorless. */
+    '<div class="ast-block" style="background:var(--cloud)">'+
       '<div class="ast-lbl">สินทรัพย์ที่ถนัด</div><div class="ast-chips">'+chips+'</div></div>'+
     '<div class="str-grid" style="margin-top:var(--sp-stack)"><div class="str-box"><div class="str-hd">'+ic('lc-check-circle')+'ความแข็งแกร่ง</div>'+strengths+'</div>'+ORN_V+'<div class="str-box wn"><div class="str-hd">'+ic('lc-alert-triangle')+'สิ่งที่ต้องระวัง</div>'+watch+'</div></div>';
   /* previewOnly (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้
