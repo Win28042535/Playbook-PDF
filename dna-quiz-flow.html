@@ -503,7 +503,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    Fixed 3-stop brand gradient (violet→pink→cyan, the app's own 3 persona-accent hues), distinct from
    .fam-badge span's per-family foil since a page title isn't tied to any one persona. Static, plain
    background-clip:text. */
-.s-h .txt-grad{background:linear-gradient(135deg,var(--violet),var(--pink) 55%,var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+.s-h .txt-grad{background:linear-gradient(135deg,color-mix(in srgb,var(--violet) 80%,black),color-mix(in srgb,var(--pink) 75%,black) 55%,color-mix(in srgb,var(--cyan) 65%,black));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
 .s-sub{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
 /* Stepped down from --r2 to --r1 (2026-08-15, per Card & Section review "09") — this panel sits
    nested inside a --r2 .card, so it was matching its own parent's radius instead of reading as a
@@ -1420,7 +1420,7 @@ function radarInsight(h){
   return '<div class="radar-insight" style="background:rgba('+h.rgb+',0.08);border-color:rgba('+h.rgb+',0.28)"><span class="radar-insight-ic" style="color:'+h.accent+'">'+ic('lc-sparkles')+'</span><span>จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[maxI]+'</b> ('+maxV+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</span></div>';
 }
 function radarInterestHTML(h,r){
-  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์<span class="txt-grad">ความสนใจ</span></div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
+  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์ <span class="txt-grad">ความสนใจ</span></div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
 } // demo quota numbers for the "แลกรับการ์ดตัวจริง" card below
 /* Expanded "แลกรับการ์ดตัวจริง" card (2026-08-19, per direction — present in the design mockup but
    missing from the app until now). The existing on/locked message (already live in Book v1, since
@@ -1460,7 +1460,7 @@ function insightHTML(r,h,matchOk){
      identical inline copy in renderBook() (Book v1) keeps its own padding-bottom:0 since THAT one
      has more sections following inside the same card — this copy has nothing after it. */
   return '<section class="card scroll-reveal"><div class="s-pad">'+
-    '<div class="s-ey">AI Insight'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:0">คุณเป็น<span class="txt-grad">นักลงทุน</span>แบบไหน</h2>'+
+    '<div class="s-ey">AI Insight'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:0">คุณเป็น <span class="txt-grad">นักลงทุน</span> แบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
       '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+r.declared+'</div><div class="stat-th">ความเสี่ยงที่บอก</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+r.revealed+'</div><div class="stat-th">ความเสี่ยงจริง</div></div></div>'+
@@ -1664,9 +1664,9 @@ function renderBook(){
     (pre?'':(
     '<div class="b2-panel" data-panel="portfolio">'+
       '<section class="card scroll-reveal">'+radarInterestHTML(h,r)+
-        '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนน<span class="txt-grad">พฤติกรรม</span></div></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
-        '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เวลา<span class="txt-grad">ตัดสินใจ</span>คุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
-      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะราย<span class="txt-grad">สินทรัพย์</span></h2>'+ddTabs(h)+'</div></section>'+
+        '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนน <span class="txt-grad">พฤติกรรม</span></div></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
+        '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เวลา <span class="txt-grad">ตัดสินใจ</span> คุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
+      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะราย <span class="txt-grad">สินทรัพย์</span></h2>'+ddTabs(h)+'</div></section>'+
     '</div>'+
     '<div class="b2-panel" data-panel="journey">'+
       sidesHTML(r)+
@@ -1782,7 +1782,7 @@ function libraryBlocksHTML(h){
 }
 function glossaryBlocksHTML(){
   var n=GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);
-  return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">ศัพท์</span>ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
+  return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">ศัพท์</span> ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
     GLOSSARY.map(function(g){
       return '<div class="pb-plain gl-grp"><div class="gl-gt">'+libEsc(g.g)+'</div>'+
         g.i.map(function(it){return '<div class="gl-row"><div class="gl-term">'+libEsc(it[0])+'</div><div class="gl-def">'+libEsc(it[1])+'</div></div>';}).join('')+'</div>';
@@ -2107,7 +2107,7 @@ function sidesHTML(r){
   ];
   var items='';
   sides.forEach(function(sd,i){items+='<article class="side-item"'+(i===5?' style="border-bottom:none"':'')+'><div class="list-row side-row"><div class="side-num '+sd.cc+'">'+sd.num+'</div><div class="side-cx"><div class="side-t">'+sd.t+'</div><div class="side-s">'+sd.s+'</div></div><div class="side-r"><span class="sc '+sd.cc+'">'+sd.chip+'</span>'+ic('lc-chevron-down','s-cv'+(sd.show?' open':''))+'</div></div><div class="side-body'+(sd.show?' show':'')+'"><div class="side-bi"><div class="side-dl">'+sd.body+'</div></div></div></article>';});
-  return '<section class="card mb-lg scroll-reveal" id="sides-sec"><div class="sides-hd"><div class="s-ey">สิ่งที่ระบบวัดได้จากคุณ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">6 ด้าน</span>ที่วัดได้จากคุณ</h2><p class="s-sub" style="margin-bottom:2px">แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม</p></div>'+items+'</section>';
+  return '<section class="card mb-lg scroll-reveal" id="sides-sec"><div class="sides-hd"><div class="s-ey">สิ่งที่ระบบวัดได้จากคุณ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">6 ด้าน</span> ที่วัดได้จากคุณ</h2><p class="s-sub" style="margin-bottom:2px">แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม</p></div>'+items+'</section>';
 }
 /* tier meta — the 3 tiers the demo panel exposes (from source tierMeta: Explorer/Master Class/
    Ultimate rungs; Visitor/Free omitted since the demo can't select them). Each tier now has its
@@ -2444,7 +2444,7 @@ function learnedLedgerHTML(){
       '<div class="list-row side-row" style="cursor:default"><div class="side-num done">'+icon+'</div>'+
       '<div class="side-cx"><div class="side-t">'+l.text+'</div><div class="side-s">จากเกม '+playLabel(l.kind,l.idx)+'</div></div></div></article>';
   }).join('');
-  return '<section class="card scroll-reveal ledger-card"><div class="sides-hd"><div class="s-ey">สะสมจากการเล่นเกมวันนี้'+ORN_EY+'</div><h2 class="s-h">เรื่องที่คุณ<span class="txt-grad">เข้าใจแล้ว</span></h2>'+
+  return '<section class="card scroll-reveal ledger-card"><div class="sides-hd"><div class="s-ey">สะสมจากการเล่นเกมวันนี้'+ORN_EY+'</div><h2 class="s-h">เรื่องที่คุณ <span class="txt-grad">เข้าใจแล้ว</span></h2>'+
     '<p class="s-sub" style="margin-bottom:2px">'+items.length+' เรื่อง · อัปเดตอัตโนมัติทุกครั้งที่เล่นเกมจบ</p></div>'+rows+'</section>';
 }
 
