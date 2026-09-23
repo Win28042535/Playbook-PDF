@@ -398,13 +398,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    ("สินทรัพย์ที่ถนัด", no icon); renderPlaySummary's result card is the first to put an icon in
    front of it, same icon-header idiom as .str-hd svg (--ic-lg/24px) right above. */
 .ast-lbl svg{width:var(--ic-lg);height:var(--ic-lg);flex:0 0 auto;}
-.ast-chips{display:flex;flex-wrap:wrap;gap:var(--sp-list);}
-/* Solid accent fill (prior pass) read as TOO loud — competing with the character card above it
-   for attention. Back to a tint fill, but a stronger one than .ast-block's own 12% wrapper tint
-   (26%) so the chip still visibly "pops" off that background instead of blending into it; icon +
-   label are solid accent color (not ink) so the chip still reads as clearly on-theme. */
-.chip{display:inline-flex;align-items:center;gap:var(--sp-glue);padding:var(--sp-list) var(--sp-stack);border-radius:var(--rpill);border:none;font-size:var(--fs-bodysm);font-weight:var(--w-label);}
-.chip svg{width:var(--ic-sm);height:var(--ic-sm);}
+/* .ast-chips/.chip removed (2026-09-23) — the asset-chips pill row they styled was replaced by the
+   .lib-cat-grid icon-card layout (see heroDetailBody()'s own comment); nothing renders class="chip"
+   anymore. .ast-lbl above stays, it has other call sites (see its own comment). */
 /* SKILL ประจำการ์ด (2026-08-31, sits right after .str-grid in heroDetailBody) reuses .conf-box/
    .conf-glow/.conf-row/.conf-tr/.conf-fi/.conf-vl wholesale (see skillCardHTML's own comment). All
    the .skc-* modifiers below use COMPOUND selectors (.conf-x.skc-x, not .skc-x alone) — .conf-rl/
@@ -816,6 +812,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .lib-intro-panel{background:var(--cloud);border-radius:var(--r1);padding:var(--sp-stack);}
 .lib-cat-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-block);margin:var(--sp-stack) 0;}
 .lib-intro-panel .lib-cat-grid{margin:0;} /* the panel's own padding is the spacing now, on every side */
+.ast-grid{margin:0;} /* same reasoning, reused on .ast-block (สินทรัพย์ที่ถนัด) — see heroDetailBody() */
 .lib-cat-card{padding:var(--sp-list) 0;border-top:var(--rule-w) solid var(--rule);}
 .lib-cat-card:nth-child(-n+2){border-top:none;} /* first row: no rule above it */
 .lib-cat-hd{display:flex;align-items:center;gap:var(--sp-glue);}
@@ -838,6 +835,16 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .gl-row{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:var(--sp-inline);padding:var(--sp-list) 0;align-items:baseline;}
 .gl-term{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .gl-def{font-family:var(--font);font-size:var(--fs-bodysm);font-weight:var(--w-body);color:var(--muted);line-height:1.5;}
+/* Kicker layout for the "คำอังกฤษที่โผล่ในคำบรรยาย" group only (2026-09-23, design-DNA borrow — the
+   agenda page's "WELCOME SPEECH" (blue uppercase kicker) stacked right above "คุณพรเลิศ..." (plain
+   text)). Term-above-definition instead of the other 3 groups' side-by-side .gl-row columns — reads
+   naturally here since every term in this one group already IS the English word the Thai line right
+   under it explains. .gl-def itself is untouched (stays --muted, same weight as every other group's
+   definitions) — only .gl-term gets the kicker treatment, so the page doesn't gain a second color
+   hierarchy just for one group. --violet, not the reference's blue — this app's one accent hue,
+   already what every other kicker/icon-label moment (.ast-lbl icons, .dd-asset-hd icons) uses. */
+.gl-row-en{display:block;padding:var(--sp-list) 0;}
+.gl-row-en .gl-term{display:block;font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--violet);text-transform:uppercase;letter-spacing:.02em;margin-bottom:2px;}
 @page{size:A4;margin:0;}
 @media print{
   html,body{background:#fff!important;display:block!important;min-height:0!important;height:auto!important;}
@@ -1407,25 +1414,29 @@ function famBadgeStyle(hero){return 'background:linear-gradient(135deg,var(--whi
 function heroDetailBody(hero,previewOnly){
   var strengths=hero.strengths.map(function(s){return '<div class="str-li">'+s+'</div>';}).join('');
   var watch=hero.watchouts.map(function(s){return '<div class="str-li">'+s+'</div>';}).join('');
-  /* Flattened to a single fixed violet (2026-09-09, per direction "ทำให้เหลือสีเดียว violet
-     #9c91ff") — was hero.accent (per-FAMILY: cyan/violet/pink, see FAM), so every persona's assets
-     block used to read as that persona's own family color; now every persona renders identically in
-     var(--violet) (already exactly #9c91ff — the codebase's existing token, not a new hex), so this
-     section no longer signals family at all. Both the chips below AND .ast-block's own wash/border
-     right after (previously the same hero.accent) switched together — they're one visual unit. */
-  var chips=hero.assets.map(function(a){return '<span class="chip" style="background:color-mix(in srgb,var(--violet) 26%,var(--white));color:var(--violet)">'+ic(a.icon)+a.t+'</span>';}).join('');
+  /* Grid cards, not pill chips (2026-09-23, per direction "ปรับ dna ของเนื้อหาการแสดงผลเป็นแบบรูปที่
+     แนบเลย" — the attached reference was this app's OWN .lib-cat-grid screenshot, i.e. "make this
+     section's content match that one exactly"). Reuses .lib-cat-grid/.lib-cat-card/.lib-cat-hd/
+     .lib-cat-t verbatim instead of a parallel set of asset-specific classes — same icon-fallback
+     idiom ddTabs() already uses (DD_ASSET_IMG[name] real art when it exists, else the lucide glyph)
+     so "pulling in the icon style" didn't need new art. No .lib-cat-n line under the name — unlike
+     LIBRARY_CATS, hero.assets carries no count/second fact to show, and inventing one would be fake
+     data; per direction "ตามความเหมาะสม" (as fits), icon+name only reads fine at just 3-4 cards.
+     Replaces the flat-violet pill-chip treatment (2026-09-09) that used to live here. */
+  var chips=hero.assets.map(function(a){
+    return '<div class="lib-cat-card"><div class="lib-cat-hd">'+(DD_ASSET_IMG[a.t]?'<img src="'+DD_ASSET_IMG[a.t]+'" alt="">':ic(a.icon))+'<span class="lib-cat-t">'+a.t+'</span></div></div>';
+  }).join('');
   var body='<div class="hero-sig-c">'+hero.sig+'</div>'+
-    /* Gray panel (2026-09-23, TRIAL per direction "ต้องการให้ใช้ style พื้นหลังสี นี้ไปใช้งานกับ
-       section สินทรัพย์ที่ถนัด ด้วย ลองทำดูหน่อย" — the .lib-intro-panel treatment from the library
-       overview grid, --cloud fill, no border). NOTE this card's background has flip-flopped before:
-       it started as this same neutral --paper/--line-soft look, was explicitly moved to the violet
-       wash below because neutral read "too flat" once .str-box/.str-box.wn (right after it, same
-       card) also went neutral (2026-08-15) — see the direction quoted in that revision. Trying
-       neutral again now with a different neutral (--cloud, actually distinct from the page's own
-       --white/--paper, unlike the old --paper-on-paper attempt) since the user asked to; the chips
-       inside keep their own violet accent (unchanged) so the section isn't fully colorless. */
+    /* Gray panel (2026-09-23, per direction "ต้องการให้ใช้ style พื้นหลังสี นี้ไปใช้งานกับ section
+       สินทรัพย์ที่ถนัด ด้วย" — the .lib-intro-panel treatment from the library overview grid, --cloud
+       fill, no border). NOTE this card's background has flip-flopped before: it started as this same
+       neutral --paper/--line-soft look, was explicitly moved to a violet wash because neutral read
+       "too flat" once .str-box/.str-box.wn (right after it, same card) also went neutral (2026-08-15)
+       — see the direction quoted in that revision. Neutral again now with a different neutral
+       (--cloud, actually distinct from the page's own --white/--paper, unlike the old --paper-on-
+       paper attempt) since the user asked to, twice, and confirmed the icon-grid content DNA to match. */
     '<div class="ast-block" style="background:var(--cloud)">'+
-      '<div class="ast-lbl">สินทรัพย์ที่ถนัด</div><div class="ast-chips">'+chips+'</div></div>'+
+      '<div class="ast-lbl">สินทรัพย์ที่ถนัด</div><div class="lib-cat-grid ast-grid">'+chips+'</div></div>'+
     '<div class="str-grid" style="margin-top:var(--sp-stack)"><div class="str-box"><div class="str-hd">'+ic('lc-check-circle')+'ความแข็งแกร่ง</div>'+strengths+'</div>'+ORN_V+'<div class="str-box wn"><div class="str-hd">'+ic('lc-alert-triangle')+'สิ่งที่ต้องระวัง</div>'+watch+'</div></div>';
   /* previewOnly (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้
      ลงทะเบียน...เห็นแค่ preview card ลงมาจนถึง จุดแข็ง/จุดที่ต้องระวัง เนื้อหาด้านล่างอื่นๆจะไม่แสดง") —
@@ -1842,8 +1853,9 @@ function glossaryBlocksHTML(){
   var n=GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);
   return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">ศัพท์</span> ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
     GLOSSARY.map(function(g){
+      var enKicker=g.g==='คำอังกฤษที่โผล่ในคำบรรยาย'; // this group only, see .gl-row-en's own comment
       return '<div class="pb-plain gl-grp"><div class="gl-gt">'+libEsc(g.g)+'</div>'+
-        g.i.map(function(it){return '<div class="gl-row"><div class="gl-term">'+libEsc(it[0])+'</div><div class="gl-def">'+libEsc(it[1])+'</div></div>';}).join('')+'</div>';
+        g.i.map(function(it){return '<div class="gl-row'+(enKicker?' gl-row-en':'')+'"><div class="gl-term">'+libEsc(it[0])+'</div><div class="gl-def">'+libEsc(it[1])+'</div></div>';}).join('')+'</div>';
     }).join('');
 }
 /* pbFrame — the cover's page frame as an inline SVG ornament: a square outline with the same rectangle
