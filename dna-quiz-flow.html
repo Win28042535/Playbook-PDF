@@ -806,6 +806,17 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-cat-hd svg{width:var(--ic-lg);height:var(--ic-lg);color:var(--violet);flex:0 0 auto;}
 .pb-cat-hd img{width:var(--ic-lg);height:var(--ic-lg);object-fit:contain;flex:0 0 auto;}
 .pb-cat-t{flex:1;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
+/* Category overview grid (2026-09-23, design-DNA borrow — see libraryBlocksHTML()'s own comment).
+   2 columns, hairline between rows only (no vertical rule between columns — the column-gap alone
+   reads as separation, matching the reference's own row-only dividers). */
+.lib-cat-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-block);margin:var(--sp-stack) 0;}
+.lib-cat-card{padding:var(--sp-list) 0;border-top:var(--rule-w) solid var(--rule);}
+.lib-cat-card:nth-child(-n+2){border-top:none;} /* first row: no rule above it */
+.lib-cat-hd{display:flex;align-items:center;gap:var(--sp-glue);}
+.lib-cat-hd svg{width:var(--ic-md);height:var(--ic-md);color:var(--violet);flex:0 0 auto;}
+.lib-cat-hd img{width:var(--ic-md);height:var(--ic-md);object-fit:contain;flex:0 0 auto;}
+.lib-cat-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
+.lib-cat-n{font-size:var(--fs-eyebrow);color:var(--muted);margin-top:2px;margin-left:calc(var(--ic-md) + var(--sp-glue));}
 .pb-art{padding:0 0 calc(var(--sp-stack) + 4px);} /* a touch more room since the divider between articles is gone */
 .pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .pb-art-s{font-family:var(--font);font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
@@ -1785,7 +1796,20 @@ function libraryBlocksHTML(h){
        reader hasn't been told the glossary exists yet at this point in the book (it's 26 sheets
        later), so this doubles as a quiet preview of it. */
     '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+libTotal()+'</div><div class="stat-th">บทความ</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+glossTotal()+'</div><div class="stat-th">ศัพท์</div></div></div>'+
-    '</section>';
+    '</section>'+
+    /* Category overview grid (2026-09-23, design-DNA borrow — the marketing site's dark 2-column topic
+       grid: icon + heading + one-line count per card). Gives the reader a map of all 6 categories
+       before the 26 sheets of full articles that follow — that overview didn't exist before, each
+       category only ever announced itself right where its own articles started (.pb-cat-hd below,
+       unchanged). Reuses each category's own icon/img (already shown on .pb-cat-hd) instead of the
+       reference's plain sparkle bullet — our icons already carry more information than a generic star
+       would. "N บทความ" reuses c.n (computed above LIBRARY_CATS, see its own comment) instead of
+       writing new blurb copy per category. Light/paper theme throughout, not the reference's dark
+       background — this book has no dark section anywhere, and the fixed-size print page count
+       constraint means a whole new theme isn't worth it for one grid. */
+    '<div class="pb-plain lib-cat-grid">'+LIBRARY_CATS.map(function(c){
+      return '<div class="lib-cat-card"><div class="lib-cat-hd">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="lib-cat-t">'+c.t+'</span></div><div class="lib-cat-n">'+c.n+' บทความ</div></div>';
+    }).join('')+'</div>';
   LIBRARY_CATS.forEach(function(c,i){
     out+='<div class="pb-plain pb-cat-hd pb-keep">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="pb-cat-t">'+c.t+'</span></div>';
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
