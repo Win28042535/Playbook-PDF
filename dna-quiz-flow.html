@@ -801,6 +801,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-cat-t{flex:1;font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);}
 .pb-art{padding:0 0 calc(var(--sp-stack) + 4px);} /* a touch more room since the divider between articles is gone */
 .pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
+/* pb-art-t-acc (2026-09-23, TRIAL, page 10 only — see pbArtHTML()'s own comment) — decorative FAQ-
+   accordion header look: title + a fixed "−" glyph at the row's end, hairline underneath. Content
+   itself is untouched/unaffected, this is pure styling. */
+.pb-art-t-acc{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-inline);padding-bottom:var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);}
+.pb-art-acc-ic{width:14px;height:2px;border-radius:1px;background:var(--ink);flex:0 0 auto;}
 .pb-art-s{font-family:var(--font);font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
 .pb-art-p{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
 .pb-note{font-family:var(--font);margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-subtitle);font-weight:var(--w-body);line-height:1.5;}
@@ -1761,8 +1766,16 @@ function libTotal(){return LIB_ITEMS.length;}
 function glossTotal(){return GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);} // mirrors glossaryBlocksHTML's own inline count
 function libEsc(t){return String(t==null?'':t).replace(/[&<>]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[m];});}
 /* Static (always-expanded) article block for the A4 ebook — see pbBuild(). */
-function pbArtHTML(a){
-  return '<article class="pb-art"><div class="pb-art-t">'+libEsc(a.t)+'</div><div class="pb-art-s">'+libEsc(a.s)+'</div>'+
+/* acc param (2026-09-23, TRIAL — per direction "ลองใช้ทางเลือก A กับเฉพาะหน้า 10 ก่อน", see the
+   design-DNA review this session for the "why not a real accordion" reasoning): decorative-only FAQ-
+   accordion look borrowed from the marketing site's FAQ page — a −/+ glyph at the end of the title
+   row + a hairline under it. NOT a real toggle: the article body is exactly as before, always fully
+   visible (this is a print/PDF book, collapsed content wouldn't survive export — see that review).
+   Uses "−" always, never "+", since nothing here is ever actually collapsed — a "+" would falsely
+   imply hidden content. Scoped to just the first 2 articles (= everything on page 10 right now) for
+   this trial; once approved, drop the `acc` gate at the call site to roll it out to all 71. */
+function pbArtHTML(a,acc){
+  return '<article class="pb-art"><div class="pb-art-t'+(acc?' pb-art-t-acc':'')+'">'+libEsc(a.t)+(acc?'<i class="pb-art-acc-ic" aria-hidden="true"></i>':'')+'</div><div class="pb-art-s">'+libEsc(a.s)+'</div>'+
     '<p class="pb-art-p">'+libEsc(a.b)+'</p>'+
     (a.x?'<div class="pb-note pb-note-ex">'+ic('lc-check-circle')+'<span>'+libEsc(a.x)+'</span></div>':'')+
     (a.p?'<div class="pb-note pb-note-pit">'+ic('lc-alert-triangle')+'<span><b>คนมักเข้าใจผิด</b> '+libEsc(a.p)+'</span></div>':'')+
@@ -1778,7 +1791,7 @@ function libraryBlocksHTML(h){
     '</section>';
   LIBRARY_CATS.forEach(function(c,i){
     out+='<div class="pb-plain pb-cat-hd pb-keep">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="pb-cat-t">'+c.t+'</span></div>';
-    out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
+    out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(function(a,j){return pbArtHTML(a,i===0&&j<2);}).join('');
   });
   return out;
 }
