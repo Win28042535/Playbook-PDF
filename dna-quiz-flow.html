@@ -527,10 +527,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .conf-box{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r1);padding:var(--sp-stack) var(--sp-stack);position:relative;overflow:hidden;}
 .conf-glow{position:absolute;top:-45%;right:-15%;width:60%;height:150%;background:radial-gradient(closest-side,rgba(101,152,255,0.18),rgba(101,152,255,0) 70%);pointer-events:none;z-index:0;}
 .conf-box>*:not(.conf-glow){position:relative;z-index:1;}
-.conf-hd{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-inline);margin-bottom:var(--sp-stack);}
-/* stat-div inserted between the level and the score (2026-09-23, design-DNA borrow #2) — space-between
-   now does the job .conf-sc's own margin-left:auto used to (2 real children either side of the fixed-
-   width divider land at the row's start/end either way). */
+.conf-hd{display:flex;align-items:center;gap:var(--sp-inline);margin-bottom:var(--sp-stack);}
 /* letter-spacing dropped 0.08em->normal (2026-08-31, per direction "spacing ของตัวอักษร ดูห่างๆ
    แก้ไขให้ระยะปกติ") — was the standard eyebrow-label tracking, but at this size/weight on an
    all-caps "CONFIDENCE SCORE" it read as too loose; same fix pattern as .str-hd's own tracking
@@ -541,7 +538,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    stuck together rather than one score. inline-flex + baseline align + a small gap fixes the
    collision; narrowing the size ratio (12px→16px) keeps "/100" legible as part of the same figure
    instead of an afterthought. */
-.conf-sc{text-align:right;font-family:var(--serif);font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1;letter-spacing:0;display:inline-flex;align-items:baseline;gap:3px;}
+.conf-sc{margin-left:auto;text-align:right;font-family:var(--serif);font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1;letter-spacing:0;display:inline-flex;align-items:baseline;gap:3px;}
 .conf-su{font-size:var(--fs-sub);font-weight:var(--w-head);color:var(--muted);font-family:var(--font);}
 .conf-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
 .conf-row{display:flex;align-items:center;gap:var(--sp-inline);}
@@ -1459,7 +1456,7 @@ function insightHTML(r,h,matchOk){
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
       '<div class="risk-bars"><div class="risk-row"><span class="risk-rl">ความเสี่ยงที่บอก</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.declared*10)+'%;background:var(--muted)"></div></div><span class="risk-vl">'+r.declared+'</span></div>'+
       '<div class="risk-row"><span class="risk-rl" style="color:var(--ink)">ความเสี่ยงจริง</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.revealed*10)+'%"></div></div><span class="risk-vl">'+r.revealed+'</span></div></div></div>'+
-    '<div class="conf-box"><div class="conf-glow"></div><div class="conf-hd"><div><div class="conf-ml">Confidence Score</div><div class="conf-mv">'+cf.level+'</div></div>'+ORN_STATDIV+'<div class="conf-sc">'+cf.conf+'<span class="conf-su">/100</span></div></div>'+
+    '<div class="conf-box"><div class="conf-glow"></div><div class="conf-hd"><div><div class="conf-ml">Confidence Score</div><div class="conf-mv">'+cf.level+'</div></div><div class="conf-sc">'+cf.conf+'<span class="conf-su">/100</span></div></div>'+
       '<p class="conf-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p>'+
       '<div class="conf-bars">'+confRow('ความรู้',cf.subs.knowledge,35)+confRow('รู้จักตัวเอง',cf.subs.self,25)+confRow('ลงมือ',cf.subs.action,25)+confRow('ความกว้าง',cf.subs.breadth,15)+'</div></div>'+
     '</div></section>';
