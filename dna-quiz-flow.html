@@ -811,7 +811,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    reads as separation, matching the reference's own row-only dividers). */
 .lib-intro-panel{background:var(--cloud);border-radius:var(--r1);padding:var(--sp-stack);}
 .lib-cat-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-block);margin:var(--sp-stack) 0;}
-.lib-intro-panel .lib-cat-grid{margin-bottom:0;} /* the panel's own bottom padding is the trailing space, not this */
+.lib-intro-panel .lib-cat-grid{margin:0;} /* the panel's own padding is the spacing now, on every side */
 .lib-cat-card{padding:var(--sp-list) 0;border-top:var(--rule-w) solid var(--rule);}
 .lib-cat-card:nth-child(-n+2){border-top:none;} /* first row: no rule above it */
 .lib-cat-hd{display:flex;align-items:center;gap:var(--sp-glue);}
@@ -1793,14 +1793,7 @@ function pbArtHTML(a){
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
 function libraryBlocksHTML(h){
-  /* Intro panel (2026-09-23, design-DNA borrow — the marketing site's stats section sits on a light
-     gray panel to separate it from the white sections around it; per direction "ตอนนี้ดูกลืนๆ กับ
-     เนื้อหาด้านล่าง" after the category grid was added below). Wraps the intro copy+stat-row AND the
-     category grid together in one --cloud panel, so the whole "overview" reads as one distinct block
-     before .pb-cat-hd/the articles start (unchanged, still plain white). --cloud (not --paper) since
-     library/glossary sheets are .pb-unframed (base .pb-page background is --white, not --paper — see
-     pbBuild's newPage()), so --cloud is the one already-defined shade that actually contrasts here. */
-  var out='<div class="pb-plain lib-intro-panel"><section class="pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num txt-grad">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p>'+
+  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num txt-grad">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p>'+
     /* library/glossary overview stat pair (2026-09-23, design-DNA borrow #2, 3rd application) — the
        reader hasn't been told the glossary exists yet at this point in the book (it's 26 sheets
        later), so this doubles as a quiet preview of it. */
@@ -1815,8 +1808,12 @@ function libraryBlocksHTML(h){
        would. "N บทความ" reuses c.n (computed above LIBRARY_CATS, see its own comment) instead of
        writing new blurb copy per category. Light/paper theme throughout, not the reference's dark
        background — this book has no dark section anywhere, and the fixed-size print page count
-       constraint means a whole new theme isn't worth it for one grid. */
-    '<div class="lib-cat-grid">'+LIBRARY_CATS.map(function(c){
+       constraint means a whole new theme isn't worth it for one grid.
+       Gray .lib-intro-panel (2026-09-23, follow-up direction: "พื้นหลังสี คลุมเฉพาะ ข้อมูล 6 หัวข้อ
+       (ไม่ต้องถึงหัวข้อ page ด้านบนขึ้นไป)") wraps ONLY this grid, not the intro <section> above it —
+       an earlier pass wrapped both together and was corrected back apart. .pb-intro stays a direct
+       child of .pb-body (plain white, its own .pb-body>.pb-intro margin-bottom rule applies again). */
+    '<div class="pb-plain lib-intro-panel"><div class="lib-cat-grid">'+LIBRARY_CATS.map(function(c){
       return '<div class="lib-cat-card"><div class="lib-cat-hd">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="lib-cat-t">'+c.t+'</span></div><div class="lib-cat-n">'+c.n+' บทความ</div></div>';
     }).join('')+'</div></div>';
   LIBRARY_CATS.forEach(function(c,i){
