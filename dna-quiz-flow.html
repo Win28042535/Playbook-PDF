@@ -779,6 +779,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .stat-row{display:flex;align-items:stretch;gap:var(--sp-block);margin:var(--sp-stack) 0;}
 .stat-item{flex:1 1 0;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;gap:2px;}
 .stat-num{font-family:var(--serif);font-size:var(--fs-heading);font-weight:var(--w-label);color:var(--ink);line-height:1;}
+/* stat-num-was (2026-09-23, design-DNA borrow — the ticket-price card's crossed-out "2,500 บาท" next
+   to the bold real price "1,750 บาท") — applied ONLY to the risk declared/revealed pair, where
+   "declared" (what you said) vs "revealed" (what's actually true) is genuinely a claim-vs-reality
+   comparison, same shape as an old-price-vs-real-price. Smaller + muted + struck through so
+   "revealed" (left at the plain .stat-num style) reads as the one number that matters. NOT applied to
+   the library/glossary count pair — those 2 numbers are independent, not a before/after correction. */
+.stat-num-was{font-size:var(--fs-sub);font-weight:var(--w-body);color:var(--muted);text-decoration:line-through;}
 .stat-th{font-size:var(--fs-label);font-weight:var(--w-body);color:var(--ink);margin-top:2px;}
 .stat-div{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto;align-self:stretch;}
 .stat-div i{flex:1;width:var(--rule-w);background:var(--rule);}
@@ -1465,7 +1472,10 @@ function insightHTML(r,h,matchOk){
     '<div class="s-ey">AI Insight'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:0">คุณเป็น <span class="txt-grad">นักลงทุน</span> แบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
-      '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+r.declared+'</div><div class="stat-th">ความเสี่ยงที่บอก</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+r.revealed+'</div><div class="stat-th">ความเสี่ยงจริง</div></div></div>'+
+      /* stat-num-was only when the two numbers actually differ (2026-09-23) — the sample persona is
+         seeded with declared===revealed (gap 0, matches the reference PDF's sample), and crossing out
+         a number right next to an identical bold one reads as broken, not "corrected". */
+      '<div class="stat-row"><div class="stat-item"><div class="stat-num'+(r.declared!==r.revealed?' stat-num-was':'')+'">'+r.declared+'</div><div class="stat-th">ความเสี่ยงที่บอก</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+r.revealed+'</div><div class="stat-th">ความเสี่ยงจริง</div></div></div>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
     '</div>'+
     '<div class="conf-box"><div class="conf-glow"></div><div class="conf-hd"><div><div class="conf-ml">Confidence Score</div><div class="conf-mv">'+cf.level+'</div></div><div class="conf-sc">'+cf.conf+'<span class="conf-su">/100</span></div></div>'+
