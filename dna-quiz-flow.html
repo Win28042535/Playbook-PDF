@@ -1974,6 +1974,18 @@ function pbTOC(doc,pages,label){
   var pg=document.createElement('div');pg.className='pb-page pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
   pg.innerHTML='<div class="toc-in"><div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span></div><h2 class="toc-h">สารบัญ</h2><div class="toc-list">'+out+'</div></div>';
   pbFrame(pg); // same rounded-corner + star ornament every other content sheet gets
+  /* สารบัญ's own sparse brand-asset scatter (2026-09-23, per direction — same DNA as sheet 1's
+     splash elements, composed lightly enough not to compete with the list). pbDeco() itself assumes
+     .pb-body/.pb-ft (the numbered-sheet skeleton), which สารบัญ doesn't have, so this hand-places the
+     SAME 2 pieces a typical numbered sheet would get: 2 FAR pieces (18px, faint) in the frame↔content
+     margin strip, one each side at different heights, plus 1 MID piece (28px) in the header row's
+     empty right end — สารบัญ carries no .pb-pn badge there, so that whole strip is free, same spot
+     pbDeco reserves on every 4th numbered sheet. No NEAR (large) piece — the list already runs close
+     to the page's bottom edge (see the shrink note above), there's no safe empty block under it. */
+  pg.insertAdjacentHTML('beforeend',
+    pbDecoHTML('gold','far',18,-6,'left:35px;top:22%')+
+    pbDecoHTML('card','far',18,9,'right:35px;top:68%')+
+    pbDecoHTML('bitcoin','mid',28,8,'right:116px;top:62px'));
   fit.appendChild(pg);
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
