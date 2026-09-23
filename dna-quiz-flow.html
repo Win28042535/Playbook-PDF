@@ -1937,6 +1937,16 @@ function pbTOC(doc,pages,label){
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
   if(first&&first.parentNode)first.parentNode.insertBefore(fit,first);else doc.appendChild(fit);
+  /* สารบัญ is one fixed page with no fallback sheet to spill onto (unlike pbBuild's paginated
+     content), so if the row/chapter count ever makes .toc-list taller than the space left under
+     toc-h, shrink its rows uniformly to fit — same zoom-balance idiom place() uses elsewhere —
+     rather than letting the last rows run into the page's bottom padding/frame (2026-09-23, found
+     after bumping .toc-t/.toc-ch: 16 rows no longer fit unshrunk at the larger sizes). */
+  var list=pg.querySelector('.toc-list');
+  if(list.scrollHeight>list.clientHeight+1){
+    var kids=[].slice.call(list.children),q=list.scrollHeight/list.clientHeight,z=Math.floor(1000/q)/1000-.004,tries=0;
+    do{kids.forEach(function(c){pbSetZoom(c,z);});tries++;z-=.01;}while(list.scrollHeight>list.clientHeight+1&&tries<9);
+  }
 }
 /* per-asset heading art (2026-09-22, per direction): 3 of the "เจาะรายสินทรัพย์" headings swap their
    lucide glyph for real icon art, keyed by asset label since the same lucide id (lc-pie-chart etc.)
