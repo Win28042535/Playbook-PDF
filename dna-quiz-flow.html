@@ -757,8 +757,16 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    str-box.wn/conf-box keep the ornament-only treatment unchanged. */
 #b2ident-detail .str-box,#b2ident-detail .str-box.wn,#b2ident-detail .conf-box{background:none!important;border:none!important;border-radius:0;box-shadow:none;}
 #b2ident-detail .conf-glow{display:none;}
-#b2ident-detail .ast-block,#b2ident-detail .str-box,#b2ident-detail .conf-box{padding-left:0;padding-right:0;} /* unframed: text lines up with the ends of the dividers */
-#b2ident-detail>*{margin-top:0!important;margin-bottom:0!important;}
+#b2ident-detail .str-box,#b2ident-detail .conf-box{padding-left:0;padding-right:0;} /* unframed: text lines up with the ends of the dividers */
+/* .ast-block carved out of both blanket rules above too (2026-09-23, per direction "เว้นระยะ
+   spacing...เว้น padding ซ้าย-ขวา ของเนื้อหาด้านในพื้นสี") — now that it's a real card (the --cloud
+   panel), its content needs real left/right padding again (the "unframed" rule above zeroed it, which
+   only looked right when the card had no visible background to run content flush against), and it
+   needs its own margin-bottom so the divider after it (.orn-h, next sibling) doesn't sit flush on the
+   panel's bottom edge — #b2ident-detail>*{margin:0!important} otherwise zeroes every direct child's
+   margin unconditionally (the "ornaments, not frames" spacing model), so this needs matching
+   specificity+!important to win over it. str-box/conf-box keep zero left/right padding, unchanged. */
+#b2ident-detail>.ast-block{padding-left:var(--sp-card-pad-sm)!important;padding-right:var(--sp-card-pad-sm)!important;margin-bottom:var(--sp-stack)!important;}
 #b2ident-detail .str-grid{gap:var(--sp-stack);margin:0;align-items:stretch;}
 .orn-h{height:var(--rule-w);background:var(--rule);margin:var(--sp-stack) 0;}
 .orn-v{display:flex;flex-direction:column;align-items:center;gap:var(--sp-inline);flex:0 0 auto;align-self:stretch;margin:var(--sp-stack) 0;} /* margin pulls the line in from the section rules above/below */
