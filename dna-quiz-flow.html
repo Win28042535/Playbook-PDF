@@ -1698,7 +1698,12 @@ function renderBook(){
     '<div class="b2-panel" data-panel="portfolio">'+
       '<section class="card scroll-reveal">'+radarInterestHTML(h,r)+
         '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนน <span class="txt-grad">พฤติกรรม</span></div></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
-        '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เวลา <span class="txt-grad">ตัดสินใจ</span> คุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
+        /* Text size matched to .dd-asset-hd's own "กองทุนรวม" span, หน้า 6 (2026-09-23, per direction
+           "ใช้ text dna เดียวกับ กองทุนรวม (หน้า 6) แต่ไม่ต้องมีไอคอนด้านหน้าคำ") — .dd-asset-hd is
+           --fs-sub(22px)/--w-label(700)/--ink; this .s-h already matched weight+color, only the size
+           differed (--fs-heading, 28px), so just that's overridden inline. No icon added — .dd-asset-
+           hd normally pairs its span with an img, this heading stays icon-less as asked. */
+        '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0;font-size:var(--fs-sub)">เวลา <span class="txt-grad">ตัดสินใจ</span> คุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
       '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะราย <span class="txt-grad">สินทรัพย์</span></h2>'+ddTabs(h)+'</div></section>'+
     '</div>'+
     '<div class="b2-panel" data-panel="journey">'+
