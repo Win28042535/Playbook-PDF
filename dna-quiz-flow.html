@@ -527,7 +527,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .conf-box{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r1);padding:var(--sp-stack) var(--sp-stack);position:relative;overflow:hidden;}
 .conf-glow{position:absolute;top:-45%;right:-15%;width:60%;height:150%;background:radial-gradient(closest-side,rgba(101,152,255,0.18),rgba(101,152,255,0) 70%);pointer-events:none;z-index:0;}
 .conf-box>*:not(.conf-glow){position:relative;z-index:1;}
-.conf-hd{display:flex;align-items:center;gap:var(--sp-inline);margin-bottom:var(--sp-stack);}
+.conf-hd{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-inline);margin-bottom:var(--sp-stack);}
+/* stat-div inserted between the level and the score (2026-09-23, design-DNA borrow #2) — space-between
+   now does the job .conf-sc's own margin-left:auto used to (2 real children either side of the fixed-
+   width divider land at the row's start/end either way). */
 /* letter-spacing dropped 0.08em->normal (2026-08-31, per direction "spacing ของตัวอักษร ดูห่างๆ
    แก้ไขให้ระยะปกติ") — was the standard eyebrow-label tracking, but at this size/weight on an
    all-caps "CONFIDENCE SCORE" it read as too loose; same fix pattern as .str-hd's own tracking
@@ -538,7 +541,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    stuck together rather than one score. inline-flex + baseline align + a small gap fixes the
    collision; narrowing the size ratio (12px→16px) keeps "/100" legible as part of the same figure
    instead of an afterthought. */
-.conf-sc{margin-left:auto;text-align:right;font-family:var(--serif);font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1;letter-spacing:0;display:inline-flex;align-items:baseline;gap:3px;}
+.conf-sc{text-align:right;font-family:var(--serif);font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1;letter-spacing:0;display:inline-flex;align-items:baseline;gap:3px;}
 .conf-su{font-size:var(--fs-sub);font-weight:var(--w-head);color:var(--muted);font-family:var(--font);}
 .conf-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
 .conf-row{display:flex;align-items:center;gap:var(--sp-inline);}
@@ -761,6 +764,20 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .orn-hs i{flex:1;height:var(--rule-w);}
 .orn-hs i:first-child{background:linear-gradient(to right,var(--rule-fade),var(--rule-deep));}
 .orn-hs i:last-child{background:linear-gradient(to right,var(--rule-deep),var(--rule-fade));}
+/* Stat block (2026-09-23, design-DNA borrow #2 from BetterTrade 2026's marketing site — "20 Sessions /
+   24+ Exhibitions" paired-number rows, hairline+diamond between them). .stat-row/.stat-item are the
+   generic paired-number component for NEW stat pairs (risk declared/revealed, library/glossary
+   counts); ORN_STATDIV is its divider, same star glyph as ORN_EY/ORN_HS but sized down and stretched
+   to the row's own height instead of ORN_V's fixed card-height min, so it never forces a short stat
+   row taller than its content. */
+.stat-row{display:flex;align-items:stretch;gap:var(--sp-block);margin:var(--sp-stack) 0;}
+.stat-item{flex:1 1 0;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;gap:2px;}
+.stat-num{font-family:var(--serif);font-size:var(--fs-heading);font-weight:var(--w-label);color:var(--ink);line-height:1;}
+.stat-th{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--ink);margin-top:2px;}
+.stat-en{font-size:11px;font-weight:var(--w-body);color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+.stat-div{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto;align-self:stretch;}
+.stat-div i{flex:1;width:var(--rule-w);background:var(--rule);}
+.stat-div svg.orn-star{width:9px;height:9px;}
 /* ── chapters วิเคราะห์ / พอร์ต / เส้นทาง: unframed ── */
 .pb-page.pb-unframed :is(.card,.risk-box,.conf-box,.ast-block,.radar-insight){background:none!important;border:none;border-radius:0;box-shadow:none;}
 .pb-page.pb-unframed .conf-glow{display:none;}
@@ -1438,10 +1455,11 @@ function insightHTML(r,h,matchOk){
     '<div class="s-ey">AI Insight'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
+      '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+r.declared+'</div><div class="stat-th">ความเสี่ยงที่บอก</div><div class="stat-en">Declared</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+r.revealed+'</div><div class="stat-th">ความเสี่ยงจริง</div><div class="stat-en">Revealed</div></div></div>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
       '<div class="risk-bars"><div class="risk-row"><span class="risk-rl">ความเสี่ยงที่บอก</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.declared*10)+'%;background:var(--muted)"></div></div><span class="risk-vl">'+r.declared+'</span></div>'+
       '<div class="risk-row"><span class="risk-rl" style="color:var(--ink)">ความเสี่ยงจริง</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.revealed*10)+'%"></div></div><span class="risk-vl">'+r.revealed+'</span></div></div></div>'+
-    '<div class="conf-box"><div class="conf-glow"></div><div class="conf-hd"><div><div class="conf-ml">Confidence Score</div><div class="conf-mv">'+cf.level+'</div></div><div class="conf-sc">'+cf.conf+'<span class="conf-su">/100</span></div></div>'+
+    '<div class="conf-box"><div class="conf-glow"></div><div class="conf-hd"><div><div class="conf-ml">Confidence Score</div><div class="conf-mv">'+cf.level+'</div></div>'+ORN_STATDIV+'<div class="conf-sc">'+cf.conf+'<span class="conf-su">/100</span></div></div>'+
       '<p class="conf-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p>'+
       '<div class="conf-bars">'+confRow('ความรู้',cf.subs.knowledge,35)+confRow('รู้จักตัวเอง',cf.subs.self,25)+confRow('ลงมือ',cf.subs.action,25)+confRow('ความกว้าง',cf.subs.breadth,15)+'</div></div>'+
     '</div></section>';
@@ -1467,6 +1485,9 @@ var ORN_HS='<div class="orn-hs" aria-hidden="true"><i></i>'+ORN_STAR+'<i></i></d
    as a tail on .s-ey instead of a standalone block — appended after the label text, before .s-ey's
    closing tag, at each of the file's .s-ey call sites. */
 var ORN_EY=ORN_STAR+'<i class="ey-line" aria-hidden="true"></i>';
+/* ORN_STATDIV (2026-09-23, design-DNA borrow #2) — the short vertical hairline+star used between two
+   .stat-item numbers in a .stat-row (see its CSS for why it's a separate class from ORN_V). */
+var ORN_STATDIV='<div class="stat-div" aria-hidden="true"><i></i>'+ORN_STAR+'<i></i></div>';
 /* identParts — book2IdentityDetail() split in two: the family badge + signature line ("Navigator ✦ นักเดินเรือ
    / ให้คุณค่ากับชีวิต…") go to #b2ident-head so they can sit directly under the card on the first sheet; everything
    else (assets, strengths/watch-outs, SKILL) stays in #b2ident-detail. Both are re-filled together when the
@@ -1728,6 +1749,7 @@ var LIBRARY_CATS=[
 var LIB_ITEMS=window.LIB_ITEMS||[],GLOSSARY=window.GLOSSARY||[];
 LIBRARY_CATS.forEach(function(c,i){c.n=LIB_ITEMS.filter(function(a){return a.c===i;}).length;});
 function libTotal(){return LIB_ITEMS.length;}
+function glossTotal(){return GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);} // mirrors glossaryBlocksHTML's own inline count
 function libEsc(t){return String(t==null?'':t).replace(/[&<>]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[m];});}
 /* Static (always-expanded) article block for the A4 ebook — see pbBuild(). */
 function pbArtHTML(a){
@@ -1739,7 +1761,12 @@ function pbArtHTML(a){
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
 function libraryBlocksHTML(h){
-  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
+  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p>'+
+    /* library/glossary overview stat pair (2026-09-23, design-DNA borrow #2, 3rd application) — the
+       reader hasn't been told the glossary exists yet at this point in the book (it's 26 sheets
+       later), so this doubles as a quiet preview of it. */
+    '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+libTotal()+'</div><div class="stat-th">บทความ</div><div class="stat-en">Articles</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+glossTotal()+'</div><div class="stat-th">ศัพท์</div><div class="stat-en">Terms</div></div></div>'+
+    '</section>';
   LIBRARY_CATS.forEach(function(c,i){
     out+='<div class="pb-plain pb-cat-hd pb-keep">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="pb-cat-t">'+c.t+'</span></div>';
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
