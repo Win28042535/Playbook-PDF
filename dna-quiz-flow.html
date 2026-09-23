@@ -1986,18 +1986,27 @@ function pbTOC(doc,pages,label){
   var pg=document.createElement('div');pg.className='pb-page pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
   pg.innerHTML='<div class="toc-in"><div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span></div><h2 class="toc-h">สารบัญ</h2><div class="toc-list">'+out+'</div></div>';
   pbFrame(pg); // same rounded-corner + star ornament every other content sheet gets
-  /* สารบัญ's own sparse brand-asset scatter (2026-09-23, per direction — same DNA as sheet 1's
-     splash elements, composed lightly enough not to compete with the list). pbDeco() itself assumes
-     .pb-body/.pb-ft (the numbered-sheet skeleton), which สารบัญ doesn't have, so this hand-places the
-     SAME 2 pieces a typical numbered sheet would get: 2 FAR pieces (18px, faint) in the frame↔content
-     margin strip, one each side at different heights, plus 1 MID piece (28px) in the header row's
-     empty right end — สารบัญ carries no .pb-pn badge there, so that whole strip is free, same spot
-     pbDeco reserves on every 4th numbered sheet. No NEAR (large) piece — the list already runs close
-     to the page's bottom edge (see the shrink note above), there's no safe empty block under it. */
+  /* สารบัญ's own brand-asset scatter (2026-09-23, per direction — first pass leaned on pbDeco()'s
+     small numbered-sheet sizing (18-28px), which read as page-2-onward's sparse style rather than
+     sheet 1's own richer composition; re-tuned per direction "อยากให้การกระจาย...อิงตามหน้าที่ 1
+     กว่านี้"). pbDeco()/pbScatter (sheet 1's own array, see renderBook) both assume containers สารบัญ
+     doesn't have, so this still hand-places pieces, but now sized/weighted like sheet 1's actual
+     3-plane mix (FAR 56-58px, NEAR 76-118px near-full opacity — see pbScatter above) rather than
+     pbDeco's page-2+ miniatures:
+     - 1 NEAR piece (candle, 64px, sharp/strong shadow — same 'near' plane sheet 1's own candle uses)
+       in the wide empty stretch beside the short "สารบัญ" title (text itself only runs to ~x150; the
+       title row has space out to the content's right edge, x~730). Picked candle specifically for its
+       1:1 aspect ratio — the header↔list vertical gap here is only ~84px (measured at runtime), and
+       bitcoin/card's 1.29 ratio rendered taller than that band even at a modest width; candle (and
+       efin, 0.96) are the only 2 of the 6 assets square/wide enough to fit it without a size tradeoff.
+     - 2 FAR pieces (gold/card, 30px — up from 18px, closer to sheet 1's 56-58px FAR relative to this
+       page's narrower gutters) in the frame↔content margin strip, one each side at different heights.
+     Still no piece sits over the list itself — it runs close to the page's bottom edge (see the shrink
+     note above), so nothing large goes there. */
   pg.insertAdjacentHTML('beforeend',
-    pbDecoHTML('gold','far',18,-6,'left:35px;top:22%')+
-    pbDecoHTML('card','far',18,9,'right:35px;top:68%')+
-    pbDecoHTML('bitcoin','mid',28,8,'right:116px;top:62px'));
+    pbDecoHTML('candle','near',64,-8,'right:120px;top:104px')+
+    pbDecoHTML('gold','far',30,-6,'left:32px;top:20%')+
+    pbDecoHTML('card','far',30,9,'right:32px;top:70%'));
   fit.appendChild(pg);
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
