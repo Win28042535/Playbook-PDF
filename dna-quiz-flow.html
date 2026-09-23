@@ -500,10 +500,12 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* Page-title word gradient (2026-09-23, design-DNA borrow — same idea as BetterTrade 2026's marketing
    site highlighting one word/phrase per heading in gradient, e.g. "ทุกโอกาส"). Applied to ONE word per
    .s-h chosen for meaning, not automatically — see each call site's own comment for why that word.
-   Fixed 3-stop brand gradient (violet→pink→cyan, the app's own 3 persona-accent hues), distinct from
-   .fam-badge span's per-family foil since a page title isn't tied to any one persona. Static, plain
-   background-clip:text. */
-.s-h .txt-grad{background:linear-gradient(135deg,color-mix(in srgb,var(--violet) 80%,black),color-mix(in srgb,var(--pink) 75%,black) 55%,color-mix(in srgb,var(--cyan) 65%,black));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+   Fixed cyan→violet gradient (2 of the app's own 3 persona-accent hues — pink dropped 2026-09-23,
+   per direction "ให้สีออกโทนน้ำเงิน ฟ้ากว่านี้ ตอนนี้ออกม่วงผสมเทา": pink's stop read as a muddy
+   purple-gray once darkened, and blue naturally sits between cyan and violet on the wheel, so cutting
+   it also pulls the whole gradient toward blue), distinct from .fam-badge span's per-family foil since
+   a page title isn't tied to any one persona. Static, plain background-clip:text. */
+.s-h .txt-grad{background:linear-gradient(135deg,color-mix(in srgb,var(--cyan) 70%,black),color-mix(in srgb,var(--violet) 75%,black));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
 .s-sub{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
 /* Stepped down from --r2 to --r1 (2026-08-15, per Card & Section review "09") — this panel sits
    nested inside a --r2 .card, so it was matching its own parent's radius instead of reading as a
