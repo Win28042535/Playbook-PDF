@@ -491,6 +491,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    to .pass-ey/.ns-ey below. */
 .s-ey{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);text-transform:uppercase;color:var(--muted);margin-bottom:var(--sp-glue);display:flex;align-items:center;gap:var(--sp-glue);}
 .s-ey svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
+.s-ey .ey-line{flex:1 1 auto;height:var(--rule-w);background:var(--rule);min-width:var(--sp-block);margin-left:2px;}
 .s-h{font-size:var(--fs-heading);font-weight:var(--w-label);letter-spacing:0;color:var(--ink);margin-bottom:4px;}
 .s-sub{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
 /* Stepped down from --r2 to --r1 (2026-08-15, per Card & Section review "09") — this panel sits
@@ -1434,7 +1435,7 @@ function insightHTML(r,h,matchOk){
      identical inline copy in renderBook() (Book v1) keeps its own padding-bottom:0 since THAT one
      has more sections following inside the same card — this copy has nothing after it. */
   return '<section class="card scroll-reveal"><div class="s-pad">'+
-    '<div class="s-ey">AI Insight</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
+    '<div class="s-ey">AI Insight'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
@@ -1460,6 +1461,12 @@ var ORN_V='<div class="orn-v" aria-hidden="true"><i></i>'+ORN_STAR+'<i></i></div
    horizontally instead of stacked, for the divider between the persona name line and the "ค่า SKILL
    บนการ์ด" note under it (see the shellOf() hero-sec reorder below, where sk gets inserted). */
 var ORN_HS='<div class="orn-hs" aria-hidden="true"><i></i>'+ORN_STAR+'<i></i></div>';
+/* ORN_EY (2026-09-23, per direction — "1 ก่อน" from the BetterTrade 2026 marketing site's design-DNA
+   review): that site closes every section eyebrow with a small star + trailing hairline ("TICKET
+   PRICE ✦ ————"). Same ORN_STAR glyph our frame corners/section dividers already use, just laid out
+   as a tail on .s-ey instead of a standalone block — appended after the label text, before .s-ey's
+   closing tag, at each of the file's .s-ey call sites. */
+var ORN_EY=ORN_STAR+'<i class="ey-line" aria-hidden="true"></i>';
 /* identParts — book2IdentityDetail() split in two: the family badge + signature line ("Navigator ✦ นักเดินเรือ
    / ให้คุณค่ากับชีวิต…") go to #b2ident-head so they can sit directly under the card on the first sheet; everything
    else (assets, strengths/watch-outs, SKILL) stays in #b2ident-detail. Both are re-filled together when the
@@ -1631,7 +1638,7 @@ function renderBook(){
       '<section class="card scroll-reveal">'+radarInterestHTML(h,r)+
         '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนนพฤติกรรม</div></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
         '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เวลาตัดสินใจคุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
-      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะรายสินทรัพย์</h2>'+ddTabs(h)+'</div></section>'+
+      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะรายสินทรัพย์</h2>'+ddTabs(h)+'</div></section>'+
     '</div>'+
     '<div class="b2-panel" data-panel="journey">'+
       sidesHTML(r)+
@@ -1732,7 +1739,7 @@ function pbArtHTML(a){
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
 function libraryBlocksHTML(h){
-  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
+  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p></section>';
   LIBRARY_CATS.forEach(function(c,i){
     out+='<div class="pb-plain pb-cat-hd pb-keep">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="pb-cat-t">'+c.t+'</span></div>';
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
@@ -1741,7 +1748,7 @@ function libraryBlocksHTML(h){
 }
 function glossaryBlocksHTML(){
   var n=GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);
-  return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ</div><h2 class="s-h">ศัพท์ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
+  return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ'+ORN_EY+'</div><h2 class="s-h">ศัพท์ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
     GLOSSARY.map(function(g){
       return '<div class="pb-plain gl-grp"><div class="gl-gt">'+libEsc(g.g)+'</div>'+
         g.i.map(function(it){return '<div class="gl-row"><div class="gl-term">'+libEsc(it[0])+'</div><div class="gl-def">'+libEsc(it[1])+'</div></div>';}).join('')+'</div>';
@@ -2054,7 +2061,7 @@ function sidesHTML(r){
   ];
   var items='';
   sides.forEach(function(sd,i){items+='<article class="side-item"'+(i===5?' style="border-bottom:none"':'')+'><div class="list-row side-row"><div class="side-num '+sd.cc+'">'+sd.num+'</div><div class="side-cx"><div class="side-t">'+sd.t+'</div><div class="side-s">'+sd.s+'</div></div><div class="side-r"><span class="sc '+sd.cc+'">'+sd.chip+'</span>'+ic('lc-chevron-down','s-cv'+(sd.show?' open':''))+'</div></div><div class="side-body'+(sd.show?' show':'')+'"><div class="side-bi"><div class="side-dl">'+sd.body+'</div></div></div></article>';});
-  return '<section class="card mb-lg scroll-reveal" id="sides-sec"><div class="sides-hd"><div class="s-ey">สิ่งที่ระบบวัดได้จากคุณ</div><h2 class="s-h">6 ด้านที่วัดได้จากคุณ</h2><p class="s-sub" style="margin-bottom:2px">แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม</p></div>'+items+'</section>';
+  return '<section class="card mb-lg scroll-reveal" id="sides-sec"><div class="sides-hd"><div class="s-ey">สิ่งที่ระบบวัดได้จากคุณ'+ORN_EY+'</div><h2 class="s-h">6 ด้านที่วัดได้จากคุณ</h2><p class="s-sub" style="margin-bottom:2px">แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม</p></div>'+items+'</section>';
 }
 /* tier meta — the 3 tiers the demo panel exposes (from source tierMeta: Explorer/Master Class/
    Ultimate rungs; Visitor/Free omitted since the demo can't select them). Each tier now has its
@@ -2391,7 +2398,7 @@ function learnedLedgerHTML(){
       '<div class="list-row side-row" style="cursor:default"><div class="side-num done">'+icon+'</div>'+
       '<div class="side-cx"><div class="side-t">'+l.text+'</div><div class="side-s">จากเกม '+playLabel(l.kind,l.idx)+'</div></div></div></article>';
   }).join('');
-  return '<section class="card scroll-reveal ledger-card"><div class="sides-hd"><div class="s-ey">สะสมจากการเล่นเกมวันนี้</div><h2 class="s-h">เรื่องที่คุณเข้าใจแล้ว</h2>'+
+  return '<section class="card scroll-reveal ledger-card"><div class="sides-hd"><div class="s-ey">สะสมจากการเล่นเกมวันนี้'+ORN_EY+'</div><h2 class="s-h">เรื่องที่คุณเข้าใจแล้ว</h2>'+
     '<p class="s-sub" style="margin-bottom:2px">'+items.length+' เรื่อง · อัปเดตอัตโนมัติทุกครั้งที่เล่นเกมจบ</p></div>'+rows+'</section>';
 }
 
