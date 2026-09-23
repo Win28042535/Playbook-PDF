@@ -497,6 +497,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .s-ey svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
 .s-ey .ey-line{flex:1 1 auto;height:var(--rule-w);background:var(--rule);min-width:var(--sp-block);margin-left:2px;}
 .s-h{font-size:var(--fs-heading);font-weight:var(--w-label);letter-spacing:0;color:var(--ink);margin-bottom:4px;}
+/* Page-title word gradient (2026-09-23, design-DNA borrow — same idea as BetterTrade 2026's marketing
+   site highlighting one word/phrase per heading in gradient, e.g. "ทุกโอกาส"). Applied to ONE word per
+   .s-h chosen for meaning, not automatically — see each call site's own comment for why that word.
+   Fixed 3-stop brand gradient (violet→pink→cyan, the app's own 3 persona-accent hues), distinct from
+   .fam-badge span's per-family foil since a page title isn't tied to any one persona. Static, plain
+   background-clip:text. */
+.s-h .txt-grad{background:linear-gradient(135deg,var(--violet),var(--pink) 55%,var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
 .s-sub{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-card-pad-sm);}
 /* Stepped down from --r2 to --r1 (2026-08-15, per Card & Section review "09") — this panel sits
    nested inside a --r2 .card, so it was matching its own parent's radius instead of reading as a
@@ -514,19 +521,15 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .risk-tag{font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);flex:1;}
 .risk-match{display:inline-flex;align-items:center;gap:var(--sp-glue);font-size:var(--fs-sub);font-weight:var(--w-label);color:var(--ink);padding:var(--sp-stack-tight) 0;}
 .risk-desc{font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-bottom:var(--sp-stack);}
-.risk-slbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0;margin-bottom:var(--sp-list);text-transform:uppercase;}
-.risk-bars{display:flex;flex-direction:column;gap:var(--sp-list);}
-.risk-row{display:flex;align-items:center;gap:var(--sp-inline);}
-.risk-rl{width:86px;flex-shrink:0;font-size:var(--fs-label);font-weight:var(--w-body);color:var(--ink);}
-/* Bumped 1px→3px to match .prog-track/.prog-fill (2026-08-15, per Component System review) — the
-   two other single-fill bars in the app (.conf-tr/.conf-fi included) read as noticeably thinner
-   than the Book page's own top progress bar despite the same "one bar, one fill" idea. */
-.risk-tr{flex:1;height:calc(var(--bar-h)/var(--pbz,1));background:var(--line-soft);overflow:visible;position:relative;border-radius:var(--rpill);}
-.risk-fi{height:calc(var(--bar-h)/var(--pbz,1));background:var(--ink);position:absolute;left:0;top:0;border-radius:var(--rpill);}
-/* The actual risk numbers (8, 6.3) were the smallest text in the whole box (--fs-meta, 12px) despite
-   being the data point this section exists to show — bumped to a real stat-number size/weight, same
-   serif-numeral language as .conf-sc just below it in the same card. */
-.risk-vl{width:50px;text-align:right;font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);font-family:var(--serif);}
+/* centered (2026-09-23, per direction) — was left-aligned to sit flush above its own .risk-bars,
+   which is gone now (see below); centered reads better as the sole line under the stat-row. */
+.risk-slbl{font-family:var(--font);font-size:var(--fs-eyebrow);font-weight:var(--w-head);color:var(--muted);letter-spacing:0;margin-bottom:var(--sp-list);text-transform:uppercase;text-align:center;}
+/* .risk-bars/.risk-row/.risk-rl/.risk-tr/.risk-fi/.risk-vl removed (2026-09-23, per direction "เอา
+   visualize ออก เพราะมีบล็อคข้อมูลทำหน้าที่เสนอข้อมูลแทนแล้ว") — the declared/revealed bar chart is
+   gone now that the .stat-row pair above already shows those two numbers; --bar-h/fs-sub etc. those
+   rules set are still referenced by name in .conf-tr.skc-tr/.conf-fi.skc-fi/.conf-vl's own comments
+   above/below (the SKILL card's bars/value text were sized to match this chart's), left as history —
+   that sizing itself is baked into their own rules, not dependent on these dead ones still existing. */
 /* confidence highlight — the soft blue wash moved here from the identity card (it read poorly overlapping the card art); a quiet radial glow behind the score corner only */
 .conf-box{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r1);padding:var(--sp-stack) var(--sp-stack);position:relative;overflow:hidden;}
 .conf-glow{position:absolute;top:-45%;right:-15%;width:60%;height:150%;background:radial-gradient(closest-side,rgba(101,152,255,0.18),rgba(101,152,255,0) 70%);pointer-events:none;z-index:0;}
@@ -774,7 +777,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .stat-row{display:flex;align-items:stretch;gap:var(--sp-block);margin:var(--sp-stack) 0;}
 .stat-item{flex:1 1 0;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;gap:2px;}
 .stat-num{font-family:var(--serif);font-size:var(--fs-heading);font-weight:var(--w-label);color:var(--ink);line-height:1;}
-.stat-th{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--ink);margin-top:2px;}
+.stat-th{font-size:var(--fs-label);font-weight:var(--w-body);color:var(--ink);margin-top:2px;}
 .stat-div{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto;align-self:stretch;}
 .stat-div i{flex:1;width:var(--rule-w);background:var(--rule);}
 .stat-div svg.orn-star{width:9px;height:9px;}
@@ -1417,7 +1420,7 @@ function radarInsight(h){
   return '<div class="radar-insight" style="background:rgba('+h.rgb+',0.08);border-color:rgba('+h.rgb+',0.28)"><span class="radar-insight-ic" style="color:'+h.accent+'">'+ic('lc-sparkles')+'</span><span>จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[maxI]+'</b> ('+maxV+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</span></div>';
 }
 function radarInterestHTML(h,r){
-  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์ความสนใจ</div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
+  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์<span class="txt-grad">ความสนใจ</span></div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
 } // demo quota numbers for the "แลกรับการ์ดตัวจริง" card below
 /* Expanded "แลกรับการ์ดตัวจริง" card (2026-08-19, per direction — present in the design mockup but
    missing from the app until now). The existing on/locked message (already live in Book v1, since
@@ -1457,13 +1460,12 @@ function insightHTML(r,h,matchOk){
      identical inline copy in renderBook() (Book v1) keeps its own padding-bottom:0 since THAT one
      has more sections following inside the same card — this copy has nothing after it. */
   return '<section class="card scroll-reveal"><div class="s-pad">'+
-    '<div class="s-ey">AI Insight'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
+    '<div class="s-ey">AI Insight'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:0">คุณเป็น<span class="txt-grad">นักลงทุน</span>แบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
       '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+r.declared+'</div><div class="stat-th">ความเสี่ยงที่บอก</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+r.revealed+'</div><div class="stat-th">ความเสี่ยงจริง</div></div></div>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
-      '<div class="risk-bars"><div class="risk-row"><span class="risk-rl">ความเสี่ยงที่บอก</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.declared*10)+'%;background:var(--muted)"></div></div><span class="risk-vl">'+r.declared+'</span></div>'+
-      '<div class="risk-row"><span class="risk-rl" style="color:var(--ink)">ความเสี่ยงจริง</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.revealed*10)+'%"></div></div><span class="risk-vl">'+r.revealed+'</span></div></div></div>'+
+    '</div>'+
     '<div class="conf-box"><div class="conf-glow"></div><div class="conf-hd"><div><div class="conf-ml">Confidence Score</div><div class="conf-mv">'+cf.level+'</div></div><div class="conf-sc">'+cf.conf+'<span class="conf-su">/100</span></div></div>'+
       '<p class="conf-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p>'+
       '<div class="conf-bars">'+confRow('ความรู้',cf.subs.knowledge,35)+confRow('รู้จักตัวเอง',cf.subs.self,25)+confRow('ลงมือ',cf.subs.action,25)+confRow('ความกว้าง',cf.subs.breadth,15)+'</div></div>'+
@@ -1662,9 +1664,9 @@ function renderBook(){
     (pre?'':(
     '<div class="b2-panel" data-panel="portfolio">'+
       '<section class="card scroll-reveal">'+radarInterestHTML(h,r)+
-        '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนนพฤติกรรม</div></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
-        '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เวลาตัดสินใจคุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
-      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะรายสินทรัพย์</h2>'+ddTabs(h)+'</div></section>'+
+        '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนน<span class="txt-grad">พฤติกรรม</span></div></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
+        '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เวลา<span class="txt-grad">ตัดสินใจ</span>คุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
+      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะราย<span class="txt-grad">สินทรัพย์</span></h2>'+ddTabs(h)+'</div></section>'+
     '</div>'+
     '<div class="b2-panel" data-panel="journey">'+
       sidesHTML(r)+
@@ -1766,7 +1768,7 @@ function pbArtHTML(a){
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
 function libraryBlocksHTML(h){
-  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p>'+
+  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num txt-grad">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p>'+
     /* library/glossary overview stat pair (2026-09-23, design-DNA borrow #2, 3rd application) — the
        reader hasn't been told the glossary exists yet at this point in the book (it's 26 sheets
        later), so this doubles as a quiet preview of it. */
@@ -1780,7 +1782,7 @@ function libraryBlocksHTML(h){
 }
 function glossaryBlocksHTML(){
   var n=GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);
-  return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ'+ORN_EY+'</div><h2 class="s-h">ศัพท์ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
+  return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">ศัพท์</span>ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
     GLOSSARY.map(function(g){
       return '<div class="pb-plain gl-grp"><div class="gl-gt">'+libEsc(g.g)+'</div>'+
         g.i.map(function(it){return '<div class="gl-row"><div class="gl-term">'+libEsc(it[0])+'</div><div class="gl-def">'+libEsc(it[1])+'</div></div>';}).join('')+'</div>';
@@ -2093,7 +2095,7 @@ function sidesHTML(r){
   ];
   var items='';
   sides.forEach(function(sd,i){items+='<article class="side-item"'+(i===5?' style="border-bottom:none"':'')+'><div class="list-row side-row"><div class="side-num '+sd.cc+'">'+sd.num+'</div><div class="side-cx"><div class="side-t">'+sd.t+'</div><div class="side-s">'+sd.s+'</div></div><div class="side-r"><span class="sc '+sd.cc+'">'+sd.chip+'</span>'+ic('lc-chevron-down','s-cv'+(sd.show?' open':''))+'</div></div><div class="side-body'+(sd.show?' show':'')+'"><div class="side-bi"><div class="side-dl">'+sd.body+'</div></div></div></article>';});
-  return '<section class="card mb-lg scroll-reveal" id="sides-sec"><div class="sides-hd"><div class="s-ey">สิ่งที่ระบบวัดได้จากคุณ'+ORN_EY+'</div><h2 class="s-h">6 ด้านที่วัดได้จากคุณ</h2><p class="s-sub" style="margin-bottom:2px">แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม</p></div>'+items+'</section>';
+  return '<section class="card mb-lg scroll-reveal" id="sides-sec"><div class="sides-hd"><div class="s-ey">สิ่งที่ระบบวัดได้จากคุณ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">6 ด้าน</span>ที่วัดได้จากคุณ</h2><p class="s-sub" style="margin-bottom:2px">แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม</p></div>'+items+'</section>';
 }
 /* tier meta — the 3 tiers the demo panel exposes (from source tierMeta: Explorer/Master Class/
    Ultimate rungs; Visitor/Free omitted since the demo can't select them). Each tier now has its
@@ -2430,7 +2432,7 @@ function learnedLedgerHTML(){
       '<div class="list-row side-row" style="cursor:default"><div class="side-num done">'+icon+'</div>'+
       '<div class="side-cx"><div class="side-t">'+l.text+'</div><div class="side-s">จากเกม '+playLabel(l.kind,l.idx)+'</div></div></div></article>';
   }).join('');
-  return '<section class="card scroll-reveal ledger-card"><div class="sides-hd"><div class="s-ey">สะสมจากการเล่นเกมวันนี้'+ORN_EY+'</div><h2 class="s-h">เรื่องที่คุณเข้าใจแล้ว</h2>'+
+  return '<section class="card scroll-reveal ledger-card"><div class="sides-hd"><div class="s-ey">สะสมจากการเล่นเกมวันนี้'+ORN_EY+'</div><h2 class="s-h">เรื่องที่คุณ<span class="txt-grad">เข้าใจแล้ว</span></h2>'+
     '<p class="s-sub" style="margin-bottom:2px">'+items.length+' เรื่อง · อัปเดตอัตโนมัติทุกครั้งที่เล่นเกมจบ</p></div>'+rows+'</section>';
 }
 
