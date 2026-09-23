@@ -758,15 +758,27 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 #b2ident-detail .str-box,#b2ident-detail .str-box.wn,#b2ident-detail .conf-box{background:none!important;border:none!important;border-radius:0;box-shadow:none;}
 #b2ident-detail .conf-glow{display:none;}
 #b2ident-detail .str-box,#b2ident-detail .conf-box{padding-left:0;padding-right:0;} /* unframed: text lines up with the ends of the dividers */
-/* .ast-block carved out of both blanket rules above too (2026-09-23, per direction "เว้นระยะ
-   spacing...เว้น padding ซ้าย-ขวา ของเนื้อหาด้านในพื้นสี") — now that it's a real card (the --cloud
-   panel), its content needs real left/right padding again (the "unframed" rule above zeroed it, which
-   only looked right when the card had no visible background to run content flush against), and it
-   needs its own margin-bottom so the divider after it (.orn-h, next sibling) doesn't sit flush on the
-   panel's bottom edge — #b2ident-detail>*{margin:0!important} otherwise zeroes every direct child's
-   margin unconditionally (the "ornaments, not frames" spacing model), so this needs matching
-   specificity+!important to win over it. str-box/conf-box keep zero left/right padding, unchanged. */
-#b2ident-detail>.ast-block{padding-left:var(--sp-card-pad-sm)!important;padding-right:var(--sp-card-pad-sm)!important;margin-bottom:var(--sp-stack)!important;}
+#b2ident-detail>*{margin-top:0!important;margin-bottom:0!important;} /* accidentally dropped in a
+   previous edit here (2026-09-23) and restored — this is the actual rule the comments below refer to;
+   without it every child's own natural margin (plus .orn-h's own 16px) applies instead of the explicit
+   per-element overrides below, which is what was happening just now. */
+/* .ast-sec (2026-09-23, per direction "เว้นระยะ spacing ระหว่าง section ให้เท่ากับ...ความแข็งแกร่ง
+   กับ SKILL" + "ดึง[หัวข้อ]ออกมาจากพื้นสี") — .ast-block's title + panel are now wrapped together in
+   this ONE div, which is the actual #b2ident-detail direct child (.ast-block itself moved one level
+   deeper, no longer a direct child). That's what makes the two asks work at once: .ast-sec gets
+   exactly the same ORN_H-divider-only spacing every other section here gets automatically (no custom
+   margin rule needed — "equal to ความแข็งแกร่ง↔SKILL" falls out of using the SAME mechanism, not a
+   hand-matched number), while the title→panel gap INSIDE .ast-sec is normal unforced CSS (set inline
+   on the heading) since neither it nor .ast-block is a direct child of #b2ident-detail anymore. First
+   pass here (title as its own direct-child .ast-h) put a full divider between title and content and
+   needed two separate !important overrides to fight — both removed, this replaces them. .ast-block's
+   own padding-left/right (16px, --sp-card-pad-sm, all 4 sides) is just its unmodified base rule now —
+   no override needed either, it was only ever zeroed by selectors that no longer match it. One catch:
+   .ast-block's own base margin-bottom (--sp-stack) isn't zeroed anymore either (only DIRECT children
+   of #b2ident-detail are), and since .ast-sec has no padding/border of its own, that margin escapes
+   and collapses through .ast-sec's bottom edge — measured adding an extra 16px .ast-sec↔str-grid
+   didn't have. Zeroed below so .ast-sec's real outer edge is what the ORN_H spacing measures from. */
+.ast-sec .ast-block{margin-bottom:0;}
 #b2ident-detail .str-grid{gap:var(--sp-stack);margin:0;align-items:stretch;}
 .orn-h{height:var(--rule-w);background:var(--rule);margin:var(--sp-stack) 0;}
 .orn-v{display:flex;flex-direction:column;align-items:center;gap:var(--sp-inline);flex:0 0 auto;align-self:stretch;margin:var(--sp-stack) 0;} /* margin pulls the line in from the section rules above/below */
@@ -1435,16 +1447,25 @@ function heroDetailBody(hero,previewOnly){
     return '<div class="lib-cat-card"><div class="lib-cat-hd">'+(DD_ASSET_IMG[a.t]?'<img src="'+DD_ASSET_IMG[a.t]+'" alt="">':ic(a.icon))+'<span class="lib-cat-t">'+a.t+'</span></div></div>';
   }).join('');
   var body='<div class="hero-sig-c">'+hero.sig+'</div>'+
-    /* Gray panel (2026-09-23, per direction "ต้องการให้ใช้ style พื้นหลังสี นี้ไปใช้งานกับ section
-       สินทรัพย์ที่ถนัด ด้วย" — the .lib-intro-panel treatment from the library overview grid, --cloud
-       fill, no border). NOTE this card's background has flip-flopped before: it started as this same
-       neutral --paper/--line-soft look, was explicitly moved to a violet wash because neutral read
-       "too flat" once .str-box/.str-box.wn (right after it, same card) also went neutral (2026-08-15)
-       — see the direction quoted in that revision. Neutral again now with a different neutral
-       (--cloud, actually distinct from the page's own --white/--paper, unlike the old --paper-on-
-       paper attempt) since the user asked to, twice, and confirmed the icon-grid content DNA to match. */
+    /* Title pulled OUT of the gray panel (2026-09-23, per direction "คำว่า สินทรัพย์ที่ถนัด ดึงออกมา
+       จากพื้นสี และใช้ dna เดียวกับ คุณเป็นนักลงทุนแบบไหน (หน้า 3)") — was .ast-lbl, INSIDE .ast-block;
+       now a real .s-h (same class/size/weight the AI-Insight "คุณเป็น<span txt-grad>นักลงทุน</span>
+       แบบไหน" heading uses), same txt-grad-one-word treatment as every other .s-h in the book.
+       Wrapped together with the panel in ONE new .ast-sec (2026-09-23, 2nd pass — the first pass made
+       the heading its own #b2ident-detail direct child, same level as .ast-block/.str-grid/.conf-box,
+       which put a FULL ORN_H divider between the title and its own content — wrong, and fighting that
+       needed !important overrides on both. Grouping them under one wrapper instead means only .ast-
+       sec is a direct child, so it gets the exact same ORN_H-only spacing everything else already
+       gets, no custom margin rules needed anywhere here — "เท่ากับของ section อื่นๆ" is automatic,
+       not hand-tuned. Inside .ast-sec, the title→panel gap is normal (unforced) CSS since neither is
+       a direct child of #b2ident-detail anymore.) .ast-block (padding/radius, shared with .ev-empty-s.
+       ast-block elsewhere — see its own comment) is now the inner gray box only, not the outer layout
+       — the padding-left/right override 2 sections up is now dead (ast-block isn't a #b2ident-detail
+       direct child anymore either) but left in place since it's harmless and still correctly-commented
+       history; remove it if this ever gets refactored again. */
+    '<div class="ast-sec"><h2 class="s-h" style="margin-bottom:var(--sp-inline)">สินทรัพย์ที่ <span class="txt-grad">ถนัด</span></h2>'+
     '<div class="ast-block" style="background:var(--cloud)">'+
-      '<div class="ast-lbl">สินทรัพย์ที่ถนัด</div><div class="lib-cat-grid ast-grid">'+chips+'</div></div>'+
+      '<div class="lib-cat-grid ast-grid">'+chips+'</div></div></div>'+
     '<div class="str-grid" style="margin-top:var(--sp-stack)"><div class="str-box"><div class="str-hd">'+ic('lc-check-circle')+'ความแข็งแกร่ง</div>'+strengths+'</div>'+ORN_V+'<div class="str-box wn"><div class="str-hd">'+ic('lc-alert-triangle')+'สิ่งที่ต้องระวัง</div>'+watch+'</div></div>';
   /* previewOnly (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้
      ลงทะเบียน...เห็นแค่ preview card ลงมาจนถึง จุดแข็ง/จุดที่ต้องระวัง เนื้อหาด้านล่างอื่นๆจะไม่แสดง") —
