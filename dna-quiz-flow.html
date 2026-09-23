@@ -331,6 +331,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    updated live on tab switch, see renderBook/heroPanelBody call sites) since they depend on
    whichever persona is currently showing, not a fixed value. */
 .fam-badge{display:flex;width:fit-content;align-items:center;gap:var(--sp-glue);font-family:var(--font);font-size:var(--fs-h2);font-weight:var(--w-label);letter-spacing:0;margin:0 auto var(--sp-inline);padding:var(--sp-list) var(--sp-block);border-radius:var(--rpill);} /* 1st in the reading order: the persona's name pill, the largest text of the trio */
+/* fam-badge text foil (2026-09-23, design-DNA borrow #3 — see famBadgeStyle()'s own comment for why
+   this overrides the badge's earlier "stays neutral" rule). Static (no animation/shimmer), plain
+   background-clip:text — renders fine to print/PDF. */
+.fam-badge span{background:linear-gradient(135deg,color-mix(in srgb,var(--fam-accent) 35%,white) 0%,var(--fam-accent) 55%,color-mix(in srgb,var(--fam-accent) 70%,black) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
 /* h.famIcon (2026-08-15, per Icon System audit review "ปรับให้เข้ากับ token ที่มี") — every persona
    already carries this (copied from FAM[fam].icon: lc-shield/lc-compass/lc-sparkles) but nothing
    rendered it, so the badge showed text only. Now shown at --ic-sm, tinted via currentColor so it
@@ -1355,11 +1359,16 @@ function radarSVG(vals,hue){
 /* #famBadge's tint+text color track whichever persona is currently active (pre vs post can be a
    different family entirely) — shared by the initial render and the tab-switch handler below so
    the two never drift apart. */
-/* Desaturated to white/gray/black per direction ("อยากให้ส่วนนี้เป็นโทนสี ขาว เทา ดำแทน") — was
-   tinted to the persona's own family accent (cyan/violet/pink), which is now the one deliberate
-   colored moment saved for the card's asset chips (.chip) instead; this badge stays neutral for
-   all 12 personas. hero param no longer used for color but kept for call-site compatibility. */
-function famBadgeStyle(hero){return 'background:linear-gradient(135deg,var(--white),var(--cloud));color:var(--ink);';}
+/* Was desaturated to white/gray/black per direction ("อยากให้ส่วนนี้เป็นโทนสี ขาว เทา ดำแทน", 2026-08-xx)
+   — the family accent tint moved to the card's asset chips (.chip) as the one deliberate colored
+   moment. That rule is explicitly superseded now (2026-09-23, per direction, after being told this
+   spot was intentionally neutral and asked to override it anyway) — design-DNA borrow #3 from
+   BetterTrade 2026's marketing site (a gradient/foil fill on the book's one biggest-text moment,
+   the persona-name pill) puts a SECOND colored moment back on this badge, as text foil instead of a
+   flat tint. Still derived from the same --fam-accent (one of 3: Guardian cyan/Navigator violet/
+   Visionary pink) so it doesn't introduce a color outside the family's own signature. Do not revert
+   this to neutral again citing the older comment above — that direction was intentionally reversed. */
+function famBadgeStyle(hero){return 'background:linear-gradient(135deg,var(--white),var(--cloud));color:var(--ink);--fam-accent:'+hero.accent+';';}
 /* Shared by both hero-sec tab panels (renderBook's pre-event one and evoPanelHTML's post-event
    one) so the two are structurally guaranteed to stay in lockstep — card viewer → signature →
    asset chips → strengths/watchouts, same order, same classes, just fed a different persona +
