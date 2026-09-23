@@ -783,6 +783,17 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    and collapses through .ast-sec's bottom edge — measured adding an extra 16px .ast-sec↔str-grid
    didn't have. Zeroed below so .ast-sec's real outer edge is what the ORN_H spacing measures from. */
 .ast-sec .ast-block{margin-bottom:0;}
+/* Spacing widened again (2026-09-23, 3rd pass on this exact question) — per direction "เพิ่ม spacing
+   ระหว่าง section...ให้ spacing ในหน้านี้...อิงตามหน้า 3": the 1px ORN_H-divider-only gap the previous
+   pass matched (correctly, to how ความแข็งแกร่ง↔SKILL already worked) read as too tight once seen — the
+   user wants real breathing room instead, sized to match หน้า 3's own section-to-section gap (measured
+   live: .risk-box↔.conf-box there is a plain 16px margin, --sp-stack, no divider element at all).
+   Rather than drop the .orn-h dividers here too (a bigger, unasked-for architecture change — this
+   page's own signature is "ornaments mark section breaks"), this keeps them but adds real margin
+   around them: .ast-sec and .str-grid both get an explicit margin-bottom (need the same #b2ident-
+   detail>* !important fight as everything else here). .conf-box (SKILL) is last, nothing follows it
+   in this scope, so it doesn't need one. */
+#b2ident-detail>.ast-sec,#b2ident-detail>.str-grid{margin-bottom:var(--sp-stack)!important;}
 #b2ident-detail .str-grid{gap:var(--sp-stack);margin:0;align-items:stretch;}
 .orn-h{height:var(--rule-w);background:var(--rule);margin:var(--sp-stack) 0;}
 .orn-v{display:flex;flex-direction:column;align-items:center;gap:var(--sp-inline);flex:0 0 auto;align-self:stretch;margin:var(--sp-stack) 0;} /* margin pulls the line in from the section rules above/below */
