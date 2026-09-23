@@ -775,7 +775,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .stat-item{flex:1 1 0;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;gap:2px;}
 .stat-num{font-family:var(--serif);font-size:var(--fs-heading);font-weight:var(--w-label);color:var(--ink);line-height:1;}
 .stat-th{font-size:var(--fs-eyebrow);font-weight:var(--w-body);color:var(--ink);margin-top:2px;}
-.stat-en{font-size:11px;font-weight:var(--w-body);color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
 .stat-div{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto;align-self:stretch;}
 .stat-div i{flex:1;width:var(--rule-w);background:var(--rule);}
 .stat-div svg.orn-star{width:9px;height:9px;}
@@ -1461,7 +1460,7 @@ function insightHTML(r,h,matchOk){
     '<div class="s-ey">AI Insight'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:0">คุณเป็นนักลงทุนแบบไหน</h2>'+
     '<div class="risk-box"><div class="risk-hd"><span class="risk-tag">ความเสี่ยง "บอก" vs "จริง"</span><span class="risk-match">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
       '<p class="risk-desc">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
-      '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+r.declared+'</div><div class="stat-th">ความเสี่ยงที่บอก</div><div class="stat-en">Declared</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+r.revealed+'</div><div class="stat-th">ความเสี่ยงจริง</div><div class="stat-en">Revealed</div></div></div>'+
+      '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+r.declared+'</div><div class="stat-th">ความเสี่ยงที่บอก</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+r.revealed+'</div><div class="stat-th">ความเสี่ยงจริง</div></div></div>'+
       '<div class="risk-slbl">ระดับความเสี่ยง 1–10</div>'+
       '<div class="risk-bars"><div class="risk-row"><span class="risk-rl">ความเสี่ยงที่บอก</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.declared*10)+'%;background:var(--muted)"></div></div><span class="risk-vl">'+r.declared+'</span></div>'+
       '<div class="risk-row"><span class="risk-rl" style="color:var(--ink)">ความเสี่ยงจริง</span><div class="risk-tr"><div class="risk-fi viz-bar" style="--tw:'+(r.revealed*10)+'%"></div></div><span class="risk-vl">'+r.revealed+'</span></div></div></div>'+
@@ -1771,7 +1770,7 @@ function libraryBlocksHTML(h){
     /* library/glossary overview stat pair (2026-09-23, design-DNA borrow #2, 3rd application) — the
        reader hasn't been told the glossary exists yet at this point in the book (it's 26 sheets
        later), so this doubles as a quiet preview of it. */
-    '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+libTotal()+'</div><div class="stat-th">บทความ</div><div class="stat-en">Articles</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+glossTotal()+'</div><div class="stat-th">ศัพท์</div><div class="stat-en">Terms</div></div></div>'+
+    '<div class="stat-row"><div class="stat-item"><div class="stat-num">'+libTotal()+'</div><div class="stat-th">บทความ</div></div>'+ORN_STATDIV+'<div class="stat-item"><div class="stat-num">'+glossTotal()+'</div><div class="stat-th">ศัพท์</div></div></div>'+
     '</section>';
   LIBRARY_CATS.forEach(function(c,i){
     out+='<div class="pb-plain pb-cat-hd pb-keep">'+(c.img?'<img src="'+c.img+'" alt="">':ic(c.icon))+'<span class="pb-cat-t">'+c.t+'</span></div>';
