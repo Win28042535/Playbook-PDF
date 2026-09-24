@@ -1519,7 +1519,10 @@ function radarInterestHTML(h,r){
      differed (--fs-heading, 28px) — same "just override the one differing property" pattern as the
      earlier "เวลาตัดสินใจคุณดูอะไรก่อน" ↔ "กองทุนรวม" match. Gradient on "ความสนใจ" kept — wasn't asked
      to go, and .conf-mv itself has no gradient to compare against either way. */
-  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0;font-size:var(--fs-sub)">เรดาร์ <span class="txt-grad">ความสนใจ</span></div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
+  /* txt-grad on "ความสนใจ" removed (2026-09-24, per direction) — this heading now has no gradient
+     word, matching เวลาตัดสินใจคุณดูอะไรก่อน's own earlier reversal. Space between เรดาร์/ความสนใจ
+     kept (wasn't asked to go this time, and reads fine as 2 words either way). */
+  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0;font-size:var(--fs-sub)">เรดาร์ ความสนใจ</div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
 } // demo quota numbers for the "แลกรับการ์ดตัวจริง" card below
 /* Expanded "แลกรับการ์ดตัวจริง" card (2026-08-19, per direction — present in the design mockup but
    missing from the app until now). The existing on/locked message (already live in Book v1, since
