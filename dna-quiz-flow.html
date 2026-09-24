@@ -1509,7 +1509,14 @@ function radarInsight(h){
   return '<div class="radar-insight" style="background:rgba('+h.rgb+',0.08);border-color:rgba('+h.rgb+',0.28)"><span class="radar-insight-ic" style="color:'+h.accent+'">'+ic('lc-sparkles')+'</span><span>จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[maxI]+'</b> ('+maxV+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</span></div>';
 }
 function radarInterestHTML(h,r){
-  return '<div class="radar-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์ <span class="txt-grad">ความสนใจ</span></div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
+  /* .s-ey eyebrow added (2026-09-24, per direction "เรดาร์ความสนใจ text title ใช้ dna เดียวกับ
+     text title section อื่นๆ เช่น คุณเป็นนักลงทุนแบบไหน") — the .s-h/txt-grad styling already matched
+     exactly (same class, same gradient), the actual gap was that most other section titles in the
+     book are preceded by an .s-ey+ORN_EY eyebrow and this one wasn't. "พอร์ตลงทุนที่ถนัด" is this
+     section's own original pre-merge name (see the comment where radarInterestHTML() is called —
+     the radar used to be its own card by that name before merging into this one), reused as the
+     eyebrow rather than inventing new copy; also matches its data-panel="portfolio" chapter. */
+  return '<div class="radar-sec"><div class="s-ey">พอร์ตลงทุนที่ถนัด'+ORN_EY+'</div><div class="trait-hd"><div class="s-h" style="margin-bottom:0">เรดาร์ <span class="txt-grad">ความสนใจ</span></div></div><p class="s-sub" style="margin:4px 0 0">ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น</p><div class="radar-ww">'+radarSVG(h.radar,h.rgb)+'</div>'+radarInsight(h)+interestsHTML(r)+'</div>';
 } // demo quota numbers for the "แลกรับการ์ดตัวจริง" card below
 /* Expanded "แลกรับการ์ดตัวจริง" card (2026-08-19, per direction — present in the design mockup but
    missing from the app until now). The existing on/locked message (already live in Book v1, since
