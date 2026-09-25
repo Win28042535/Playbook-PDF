@@ -496,11 +496,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    "next size/weight up" idiom already used for the glossary kicker and elsewhere this session).
    Applies to every .s-ey in the book at once — this is the shared eyebrow class, not a one-off.
    Follow-up (2026-09-25, "เรื่อง หัวข้อหลัก ใช้ทางเลือก A" — option A from the size-vs-.s-h analysis):
-   color darkened --muted→--ink for more contrast/prominence, size left at 16px on purpose — still
-   clearly smaller than .s-h's 28px, so it can never read as more prominent than the page's actual
-   title. If this alone still isn't enough, option B (a modest size bump, e.g. to --fs-sig/20px) was
-   the next lever discussed, not applied here. */
-.s-ey{font-family:var(--font);font-size:var(--fs-label);font-weight:var(--w-label);text-transform:uppercase;color:var(--ink);margin-bottom:var(--sp-glue);display:flex;align-items:center;gap:var(--sp-glue);}
+   color darkened --muted→--ink for more contrast/prominence. Then option B added too ("เพิ่มทางเลือก
+   B เข้าไปปรับด้วย") — size bumped --fs-label(16px)→--fs-sig(20px), the exact token the analysis
+   named for this lever. 20px is still comfortably under .s-h's 28px (71% ratio) — deliberately not
+   pushed any closer, so the eyebrow can never read as more prominent than the page's actual title. */
+.s-ey{font-family:var(--font);font-size:var(--fs-sig);font-weight:var(--w-label);text-transform:uppercase;color:var(--ink);margin-bottom:var(--sp-glue);display:flex;align-items:center;gap:var(--sp-glue);}
 .s-ey svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
 .s-ey .ey-line{flex:1 1 auto;height:var(--rule-w);background:var(--rule);min-width:var(--sp-block);margin-left:2px;}
 .s-h{font-size:var(--fs-heading);font-weight:var(--w-label);letter-spacing:0;color:var(--ink);margin-bottom:4px;}
