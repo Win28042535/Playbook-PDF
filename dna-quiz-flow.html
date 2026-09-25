@@ -499,8 +499,14 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    color darkened --muted→--ink for more contrast/prominence. Then option B added too ("เพิ่มทางเลือก
    B เข้าไปปรับด้วย") — size bumped --fs-label(16px)→--fs-sig(20px), the exact token the analysis
    named for this lever. 20px is still comfortably under .s-h's 28px (71% ratio) — deliberately not
-   pushed any closer, so the eyebrow can never read as more prominent than the page's actual title. */
-.s-ey{font-family:var(--font);font-size:var(--fs-sig);font-weight:var(--w-label);text-transform:uppercase;color:var(--ink);margin-bottom:var(--sp-glue);display:flex;align-items:center;gap:var(--sp-glue);}
+   pushed any closer, so the eyebrow can never read as more prominent than the page's actual title.
+   margin-bottom widened --sp-glue(6px)→--sp-inline(12px), same day, per direction ("spacing ระหว่าง
+   หัวข้อหลัก และ หัวข้อไฮไลท์...ห่างกันมากกว่านี้อีกหน่อย") — 6px (สาว "one glued unit" per --sp-glue's
+   own definition) read as too tight once หัวข้อหลัก got bigger/bolder; --sp-inline is the token this
+   file already uses for "two distinct-but-related items", which is exactly what these two read as
+   now. Note: this is margin-bottom only — the internal gap (star icon ↔ text ↔ .ey-line, still
+   var(--sp-glue)) is untouched, still meant to read as one glued eyebrow unit. */
+.s-ey{font-family:var(--font);font-size:var(--fs-sig);font-weight:var(--w-label);text-transform:uppercase;color:var(--ink);margin-bottom:var(--sp-inline);display:flex;align-items:center;gap:var(--sp-glue);}
 .s-ey svg{width:var(--ic-sm);height:var(--ic-sm);color:var(--ink);}
 .s-ey .ey-line{flex:1 1 auto;height:var(--rule-w);background:var(--rule);min-width:var(--sp-block);margin-left:2px;}
 .s-h{font-size:var(--fs-heading);font-weight:var(--w-label);letter-spacing:0;color:var(--ink);margin-bottom:4px;}
