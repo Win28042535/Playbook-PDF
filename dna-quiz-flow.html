@@ -44,9 +44,8 @@
      once so "the one gold across the app" (already the stated intent in 3 of those rules' own
      comments) is actually one definition, not five+ copies that can drift apart independently. */
   --amber-bg:#fef4e2; --amber-border:#f3daa0; --amber-text:#8a5a00;
-  /* "Gray" callout tone (2026-09-22, per direction — .pb-note-pit switched off amber) — same 3-token
-     bg/border/text shape as amber, just neutral instead of warm. */
-  --gray-bg:#f3f4f6; --gray-border:#d1d5db; --gray-text:#4b5563;
+  /* --gray-bg/-border/-text (2026-09-22 → 2026-09-25) removed — was .pb-note-pit's neutral tone,
+     switched back to amber (see .pb-note-pit's own comment); had no other consumers. */
   /* --green-text is the one surviving piece of the "good/green" status color named 2026-08-15 —
      --green-bg/--green-border (the wash/border pair) were retired again the same day once .str-box
      went neutral (see .str-box, "3 card นี้ยังดูแข่งๆ กัน"); --green-text still colors .str-hd's
@@ -870,8 +869,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-note{font-family:var(--font);margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-subtitle);font-weight:var(--w-body);line-height:1.5;}
 .pb-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:2px;}
 .pb-note-ex{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green-text);}
-.pb-note-pit{background:var(--gray-bg);border:1px solid var(--gray-border);color:var(--gray-text);}
-.pb-note-pit b{color:var(--gray-text);font-weight:var(--w-body);}
+/* Back to amber (2026-09-25, per direction "หน้า 10-35...แถบสีข้อความ...เปลี่ยนเป็นโทนสีเหลือง เพื่อ
+   ให้ดูเป็นคำเตือนยิ่งขึ้น") — .pb-note-pit ("คนมักเข้าใจผิด", the pitfall callout on every library
+   article, pages 10-35) was switched OFF amber to a neutral gray on 2026-09-22; reversed back to
+   amber now since the user specifically wants the warning read amber gave it. --gray-bg/-border/-text
+   had no other consumers, removed (see :root, where they used to sit next to --amber-*). */
+.pb-note-pit{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber-text);}
+.pb-note-pit b{color:var(--amber-text);font-weight:var(--w-body);}
 /* Glossary (ศัพท์ในเล่มนี้) — term/definition rows grouped by kind */
 .gl-grp{margin-top:var(--sp-stack);}
 .gl-gt{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);padding-bottom:var(--sp-list);}
