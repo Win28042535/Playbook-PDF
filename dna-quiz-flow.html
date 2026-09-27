@@ -26,7 +26,7 @@
   /* System border intensity halved (2026-08-11, per direction "สีอ่อน 50%") — every card/chip/input/
      divider border in the app inherits from these 4 tokens, so lightening them here softens boundary
      lines app-wide in one place rather than per-component. */
-  --line:rgba(17,19,24,0.09); --line-soft:rgba(17,19,24,0.08); --line-strong:rgba(17,19,24,0.17); --line-header:rgba(17,19,24,0.06);
+  --line:rgba(16,20,24,0.08); --line-soft:rgba(16,20,24,0.08); --line-strong:rgba(16,20,24,0.16); --line-header:rgba(16,20,24,0.08);
   /* 2026-08-15, per Color DNA review — --shadow-cta-ink (previously here) had zero consumers
      anywhere in the file despite its own comment claiming one use-site; deleted rather than kept
      around unread. --ring-idle retired the same way once .spec-bd (its only consumer) was deleted
@@ -74,7 +74,7 @@
      (tooltip, focus ring, map caption, route badge) — named rather than left as 4 independent
      "6px" literals that could drift apart. Below the 8/16/48 ladder on purpose (micro-chrome
      tier, not a new rung in the main ladder). */
-  --r0:6px; --r1:8px; --r2:16px; --rpill:48px;
+  --r0:8px; --r1:6px; --r2:16px; --rpill:48px;
   --shadow-action:0 1px 4px rgba(17,19,24,0.10);
   --shadow-primary:0 1px 4px rgba(17,19,24,0.24);
   --shadow-md:0 6px 18px rgba(17,19,24,0.14);
@@ -90,13 +90,13 @@
   --rule-w:1px;           /* thickness of every divider rule (horizontal + vertical) */
   --bar-h:4px;            /* thickness of the thin data bars: Confidence Score, risk "บอก" vs "จริง", SKILL ประจำการ์ด, คะแนนพฤติกรรม */
   --bar-h-lg:8px;         /* เรดาร์ความสนใจ, เวลาตัดสินใจคุณดูอะไรก่อน (stacked allocation bar) */
-  --pb-frame-inset:30px;  /* page edge -> the frame ornament's line */
+  --pb-frame-inset:32px;  /* page edge -> the frame ornament's line */
   --pb-frame-gap:32px;    /* frame line -> content */
   --pb-pad-x:calc(var(--pb-frame-inset) + var(--pb-frame-gap));
-  --pb-pad-top:68px; --pb-pad-bottom:64px;
-  --pb-gap:20px;          /* gap between blocks on a sheet — its own value, NOT --sp-section (which grows on tablet/pc; a sheet must lay out identically everywhere) */
-  --pb-folio-inset:18px;  /* extra inset of the header/footer text so it clears the frame's rounded corners */
-  --fs-folio:12px;        /* header / footer text on a sheet */
+  --pb-pad-top:64px; --pb-pad-bottom:64px;
+  --pb-gap:24px;          /* gap between blocks on a sheet — its own value, NOT --sp-section (which grows on tablet/pc; a sheet must lay out identically everywhere) */
+  --pb-folio-inset:24px;  /* extra inset of the header/footer text so it clears the frame's rounded corners */
+  --fs-folio:14px;        /* header / footer text on a sheet */
   /* ── rules & ornaments (read off the reference art) ── */
   --rule:#c4c5c7;         /* 2px section divider */
   --rule-fade:#d4d3d7; --rule-deep:#55535c; /* the vertical divider's gradient (light at the ends, deep next to the star) */
@@ -166,8 +166,8 @@
      everything else held. This narrows the h2(24)↔sub/body(22) gap to 2px and widens sub/body(22)↔
      bodysm(18) to 4px, breaking the "ratios preserved" pattern the v2/v3 passes kept — a deliberate,
      isolated bump per this direction, not a full re-scale. */
-  --fs-title:36px; --fs-heading:28px; --fs-h2:24px; --fs-sub:22px; --fs-sig:20px; --fs-subtitle:16px;
-  --fs-body:22px; --fs-bodysm:18px; --fs-label:16px; --fs-eyebrow:14px; --fs-meta:14px;
+  --fs-title:40px; --fs-heading:32px; --fs-h2:26px; --fs-sub:24px; --fs-sig:22px; --fs-subtitle:16px;
+  --fs-body:24px; --fs-bodysm:18px; --fs-label:16px; --fs-eyebrow:14px; --fs-meta:14px;
   /* Icon scale v2 (2026-08-15, per Icon System audit review) — sm/md stepped up a rung (12→16,
      16→20), lg held at 24. Hero-tier icons (the single dominant icon on a screen) still stay
      sized per-context within roughly 32-44px rather than one fixed token — a reveal splash icon
@@ -182,10 +182,10 @@
      front/back now share a token wherever they show the same kind of content. Deliberately its own
      scale, not folded into --fs-*: this is the card's own signature art, not app UI chrome. */
   --pc-fs-1:24px;  /* display name (EN) — pcE-en, pcb-en */
-  --pc-fs-2:13px;  /* secondary name (TH) — pcE-th2, pcb-th */
-  --pc-fs-3:11px;  /* reading copy — pcE-def, pcb-li, pcb-leg — plus the decorative sparkle pcE-spk */
-  --pc-fs-4:10px;  /* eyebrow / section head / stat row — pcb-ey, pcb-hd, pcb-stl, pcb-stv */
-  --pc-fs-5:8.5px; /* smallest — edition number, tag label, list/tag bullets */
+  --pc-fs-2:14px;  /* secondary name (TH) — pcE-th2, pcb-th */
+  --pc-fs-3:12px;  /* reading copy — pcE-def, pcb-li, pcb-leg — plus the decorative sparkle pcE-spk */
+  --pc-fs-4:12px;  /* eyebrow / section head / stat row — pcb-ey, pcb-hd, pcb-stl, pcb-stv */
+  --pc-fs-5:8px;   /* smallest — edition number, tag label, list/tag bullets */
   /* Weight scale v2 (2026-08-15) — --w-body merged into --w-head's value (500) per direction
      ("ให้ในระบบเหลือใช้แค่ 500, 700") — the system now genuinely has 2 rendered weights, not 3.
      Both tokens are kept (rather than deleting --w-body) since ~30 selectors still reference it
