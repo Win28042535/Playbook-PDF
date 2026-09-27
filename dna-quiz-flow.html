@@ -1947,7 +1947,7 @@ function pbFrame(pg){
   var svg='<svg class="pb-frame" viewBox="0 0 '+W+' '+H.toFixed(2)+'" aria-hidden="true"><g class="pb-frame-line"><path d="'+d1+'"/><path d="'+d2+'"/></g>'+star(y0)+'</svg>'; // top star only (the bottom one was removed, so the bottom rule is one unbroken line)
   pg.classList.add('pb-framed');pg.insertAdjacentHTML('afterbegin',svg);
 }
-var PB_ASSET_IMG={candle:'assets/candle.png',gold:'assets/gold.png',bitcoin:'assets/bitcoin.png',card:'assets/card.png',heart:'assets/heart.png',efin:'assets/efin-2.png'};
+var PB_ASSET_IMG={candle:'assets/candle.png',gold:'assets/gold.png',bitcoin:'assets/bitcoin.webp',card:'assets/card.webp',heart:'assets/heart.png',efin:'assets/efin-2.png'};
 /* Sheets 2..last: 1-3 small splash elements each (2026-09-21, per direction; first 2-4, then trimmed), INSIDE the frame, at believable depth. Three planes, as on the
    splash: FAR = tiny, faint, blurred; MID = small, softer; NEAR = large, sharp, strong shadow. Placement is measured per sheet:
    - two FAR pieces in the strip between the frame line and the content (left + right, at different heights);
@@ -2008,11 +2008,12 @@ function pbBuild(label,cover){
     fit.appendChild(pg);doc.appendChild(fit);pages.push(pg);
     return pg.querySelector('.pb-body');
   }
-  /* front / back cover (2026-09-21): full-bleed A4 images (assets/playbook-cover-*.jpg, 842x1191 = A4), not counted in the page numbers */
+  /* front / back cover (2026-09-21): full-bleed A4 images (assets/playbook-cover-*.webp, 842x1191 = A4, converted from
+     .jpg 2026-09-27 for weight — 349K/311K -> 27K/19K at libwebp q82, visually identical), not counted in the page numbers */
   function addCover(which){
     var fit=document.createElement('div');fit.className='pb-fit';
     var pg=document.createElement('div');pg.className='pb-page pb-cover';pg.dataset.sect='cover';
-    pg.style.backgroundImage='url(assets/playbook-cover-'+which+'.jpg)';
+    pg.style.backgroundImage='url(assets/playbook-cover-'+which+'.webp)';
     pg.setAttribute('role','img');pg.setAttribute('aria-label',which==='front'?'ปกหน้า Investor Playbook · Better Trade 2026':'ปกหลัง Investor Playbook');
     fit.appendChild(pg);doc.appendChild(fit);
   }
