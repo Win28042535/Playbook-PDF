@@ -202,11 +202,8 @@ html{font-size:16px;}
    ink/spectrum everywhere else). :focus-visible only shows for keyboard/switch nav, so touch/mouse
    users on the kiosk never see it — this doesn't compete with the touch-first visual language. */
 :focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
-/* Liquid Metal Button's own <button> sets outline:none inline (unconditionally, as part of its base
-   cssText) — an inline style always beats an external rule's specificity regardless of pseudo-class,
-   so the global :focus-visible rule above can't reach it without !important. Same --focus color/
-   token as everywhere else in the app (it happens to equal the kit's own README-specified #2b6cff). */
-.lmb button:focus-visible{outline:2px solid var(--focus) !important;outline-offset:3px !important;}
+/* .lmb button:focus-visible override removed 2026-09-27 — its target (Liquid Metal Button) is no
+   longer loaded on this page, see the script-tag removal note near js/liquid-metal-cta.js. */
 /* min-height declared twice on purpose: 100vh first (universal fallback), 100dvh second (real mobile
    browsers report 100vh as the LARGEST possible viewport — address bar collapsed — so a page sized to
    100vh is actually TALLER than what's visible whenever the address bar is showing, pushing the CTA/
@@ -218,7 +215,7 @@ html{font-size:16px;}
    Every selector that already sets its own line-height (display 0.96-1.2, body 1.3-1.65) is unaffected. */
 /* 2026-09-21 line-height exceptions to body 1.5 (user-approved): headings 1.2, chips/pills/badges/tags 1.1,
    buttons inherit (UA resets them to normal). :where() = 0 specificity, so any rule that sets its own line-height still wins. */
-:where(.tb-title,.prog-val,.s-h,.quote-h,.pe-vlbl,.pe-track-lbl,.stub-t,.prof-name,.conf-sc,.consent-h,.ev-empty-t){line-height:1.2;}
+:where(.s-h,.conf-sc,.ev-empty-t){line-height:1.2;} /* trimmed 2026-09-27 (asset-weight audit): .tb-title/.prog-val/.quote-h/.pe-vlbl/.pe-track-lbl/.stub-t/.prof-name/.consent-h had no emitter left anywhere in the file */
 :where([class*="-pill"],[class*="-chip"],[class*="-badge"],[class*="-tag"]){line-height:1.1;}
 :where(button){line-height:inherit;}
 body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weight:var(--w-body);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;min-height:100dvh;display:flex;justify-content:flex-start;}
@@ -270,12 +267,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .btn-primary{flex:1;background:var(--ink);color:var(--cloud);border-color:var(--ink);box-shadow:var(--shadow-primary);}
 /* .shimmer-violet (2026-09-22, motion removed per direction) — flat violet text, no sweep. */
 .ev-empty-t.shimmer-violet{color:var(--violet);}
-/* Shimmer removed from the consent screen's own "รู้จัก ตัวคุณ?" headline (2026-08-20, per direction
-   "คำว่า รู้จัก ตัวคุณ? เอา shimmer ออก") — scoped to :not(.reveal-h) so the reveal screen's
-   .consent-h.reveal-h ("ตัวตนนักลงทุนของคุณ / กำลังจะปรากฏ...") keeps its shimmer untouched; only
-   this screen's plain heading reverts to flat, static color (falls back to the .ch-1/.ch-2 `color`
-   declared above, same as before the shimmer treatment existed). */
-.consent-h:not(.reveal-h) .ch-1,.consent-h:not(.reveal-h) .ch-2{animation:none;background-image:none;-webkit-background-clip:initial;background-clip:initial;-webkit-text-fill-color:initial;}
+/* .consent-h:not(.reveal-h) .ch-1/.ch-2 rule removed 2026-09-27 (asset-weight audit) — the consent
+   screen it targeted (.consent-h/.reveal-h/.ch-1/.ch-2) has no emitter left anywhere in the file. */
 
 /* ── BOOK — scene-based: hairlines, not shadows ── */
 /* Book section rhythm: ONE uniform gap between every top-level block via flex `gap`, instead of each
@@ -842,7 +835,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* ── chapters วิเคราะห์ / พอร์ต / เส้นทาง: unframed ── */
 .pb-page.pb-unframed :is(.card,.risk-box,.conf-box,.ast-block,.radar-insight){background:none!important;border:none;border-radius:0;box-shadow:none;}
 .pb-page.pb-unframed .conf-glow{display:none;}
-.pb-page.pb-unframed :is(.s-pad,.sides-hd,.radar-sec,.trait-sec,.alloc-sec,.risk-box,.conf-box,.route-steps,.radar-insight){padding-left:0;padding-right:0;}
+.pb-page.pb-unframed :is(.s-pad,.sides-hd,.radar-sec,.trait-sec,.alloc-sec,.risk-box,.conf-box,.radar-insight){padding-left:0;padding-right:0;} /* .route-steps dropped 2026-09-27 — no emitter left */
 .pb-page.pb-unframed .list-row.side-row{padding-left:0;padding-right:0;}
 /* section dividers: the same 2px #c4c5c7 hairline as sheet 2 */
 .pb-page.pb-unframed :is(.trait-sec,.alloc-sec,.dd-asset,.side-item){border-top:var(--rule-w) solid var(--rule);}
@@ -988,7 +981,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    "bitcoin" to the ONE band that actually has wide, genuine side margins on a narrow phone: level
    with .sp-sub, which measures ~73px of clear space on each side (vs. single-digit margins
    everywhere else content stacks near-full-width). */
-#cta-slot{min-height:56px;}
+/* #cta-slot{min-height:56px;} removed 2026-09-27 — no element with this id is ever created any
+   more (the Liquid Metal CTA slot it reserved space for), see the script-tag removal note near
+   js/liquid-metal-cta.js. */
 
 /* ══ COLLECTIBLE PERSONA CARD ══ full-bleed dark art · overlays · flip back
    Ink-on-card scale (2026-08-12) — deliberately literal, not CSS vars: this is the card's own
@@ -1130,23 +1125,14 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 
 <div class="shell" id="root"></div>
 
-<!-- Liquid Metal CTA (ported from the BetterTrade 2026 kit — see js/liquid-metal-cta.js) — module
-     scripts always execute after the document finishes parsing, i.e. AFTER the classic <script>
-     below has already run its first synchronous render(). So this can't just self-mount on load
-     like the kit's original standalone version did; instead it exposes mountLiquidMetalCta (the
-     splash hero button) and mountLiquidMetalButtonInto (every other Liquid Metal button — header
-     QR pill, in-content secondary CTAs; takes an explicit slot selector + 'hero'|'compact' preset)
-     on window, and the app calls whichever one applies from inside each screen's render function,
-     every time that screen puts a fresh slot on screen. The second inline module is the bridge —
-     it's what makes those exports reachable from the classic (non-module) script below, since
-     module scope and classic-script scope don't share globals. -->
-<script type="module" src="js/liquid-metal-cta.js"></script>
-<script type="module">
-  import { mountLiquidMetalCta, mountLiquidMetalButtonInto } from './js/liquid-metal-cta.js';
-  window.mountLiquidMetalCta = mountLiquidMetalCta;
-  window.mountLiquidMetalButtonInto = mountLiquidMetalButtonInto;
-  window.dispatchEvent(new Event('lmb:ready'));
-</script>
+<!-- Liquid Metal CTA module loading removed 2026-09-27 (asset-weight audit) — mountLiquidMetalCta/
+     mountLiquidMetalButtonInto were exposed on window but never called anywhere in the classic
+     script below (verified: zero call sites for either name, and #cta-slot/.lmb never get a real
+     element). Was costing every real page load an unconditional fetch+parse of js/liquid-metal-cta.js
+     (6.5K) + its js/liquid-metal-button.js import (14.6K) for a feature with no consumer. Removing
+     the script tags does not touch js/liquid-metal-*.js themselves (left in place, just unreferenced
+     from here) in case a future screen wants them back — see the corresponding CSS removal note at
+     .lmb / #cta-slot for the same reasoning. -->
 <script src="js/library-data.js"></script>
 
 <script>
@@ -2284,33 +2270,18 @@ function curTier(){var s=document.getElementById('demoTier');var n=(s&&s.value)|
    convention as most apps/sites. Bound once per render call right after appHeader()/renderBook's
    own header is injected — see mountHeaderQR's sibling calls and renderBook's own binding. */
 function bindHeaderLogo(){var el=root.querySelector('#hdLogo');if(el)el.onclick=function(){if(st.phase==='home')return;st.phase='home';render();};}
-/* Registration-site link (2026-08-19) — moved here from a 6th bottom-nav item (see git history)
-   into the header, to the LEFT of the QR pill (per direction "ปุ่มลงทะเบียนไว้ด้านซ้าย"). Rendered as
-   plain static markup (REG_CTA_HTML below, spliced directly into the header string) rather than a
-   mounted Liquid Metal button — per direction "style เดียวกับปุ่ม เริ่มทำแบบทดสอบ (หน้าที่ 2)", which
-   is a real .btn.btn-primary (see renderConsent's #startBtn), not this app's Liquid Metal component.
-   Sized down from that button's own full 48px/24px-padding dimensions via .reg-cta (own rule below)
-   to fit this 54px header alongside the QR pill, while keeping the exact same fill/color/weight/
-   shape .btn-primary already carries everywhere else. Opens in a new tab (not a st.phase switch) —
-   this SPA's quiz/profile state lives only in memory, with no persistence to survive navigating away. */
-var REG_CTA_HTML='<a class="btn btn-primary reg-cta" href="'+REG_URL+'" target="_blank" rel="noopener">'+ic('lc-globe')+'ลงทะเบียน</a>';
+/* REG_CTA_HTML (registration-site header link) removed 2026-09-27 (asset-weight audit) — defined
+   but never spliced into any live output; renderBook's real header markup doesn't reference it.
+   REG_URL itself stays (still used directly elsewhere). */
 /* ══ BOOTH / PASSPORT TAB ══ content ported from Playbook Final's Passport screen (BOOTHS/ZONES/
    ZONE_BOOTHS + hero-route builder). Check-in/activity is real (toggled locally) so the top progress
    bars and grand-prize gate react; the floorplan (MAP_IMG) is the real event floor plan asset. */
-var CHECKIN_NEED=5,ACTIVITY_NEED=5;
-var BOOTH_CHK={},BOOTH_ACT={},BOOTH_HOWTO=false,DRAW_JOINED=false; // BOOTH_CHK[assetIdx]=Set(companyIdx); BOOTH_ACT[assetIdx]=bool; DRAW_JOINED=tapped "ร่วมลุ้นรางวัล"
-/* EFIN_CHECKED_IN (2026-09-17, per direction) — เกมหลัก's own copy has always promised "เช็คอินที่
-   บูธ efin.finance...เพื่อปลดล็อกทั้ง 6 เกม" (see renderGames' pre-event empty state), but that was
-   only ever shown pre-event; nothing enforced it once the event went live — every game was openable
-   with zero gate, same "promised in copy, never wired" gap the booth check-in gate had before its
-   own 2026-09-09 fix. This is a SEPARATE physical check-in point from the 10 asset booths (confirmed
-   with user) — not a BOOTH_CHK index, its own flag. Set true via the scan modal's SCAN.bi==='efin'
-   branch (see confirmScan) — the header's "สแกน QR" button opens that branch specifically while on
-   the games tab and not yet checked in (see mountHeaderQR). Defaults true — GAME_PLAYED below
-   already defaults to 2 games played, which couldn't have happened without this being true first;
-   reset to false alongside GAME_PLAYED/BOOTH_CHK at every "fresh arrival"/reset point instead. */
-var EFIN_CHECKED_IN=true;
-var BOOTH_ANSWERS={};
+var ACTIVITY_NEED=5; // CHECKIN_NEED (sibling constant) removed 2026-09-27 — never read anywhere
+var BOOTH_CHK={},BOOTH_ACT={}; // BOOTH_CHK[assetIdx]=Set(companyIdx); BOOTH_ACT[assetIdx]=bool
+/* BOOTH_HOWTO/DRAW_JOINED (booth-howto/lucky-draw flags) and EFIN_CHECKED_IN/BOOTH_ANSWERS removed
+   2026-09-27 (asset-weight audit) — all 4 were only ever written (declared here, reassigned in
+   seedPersonaResult), never read anywhere in the file. Leftover state from the pre-Playbook booth/
+   games screens; BOOTH_CHK/BOOTH_ACT above are the ones still live (read by confidenceScore() etc). */
 /* 10 booths — asset / gamified game name / icon (Material→Lucide) — verbatim from BOOTHS. */
 var BOOTHS=[
   {asset:'หุ้นไทย',game:'สังเวียนเลือกหุ้น',icon:'lc-trending-up',zone:0},
@@ -2554,7 +2525,7 @@ var MINIGAME_Q=[
      insight:'ทองไม่สร้างรายได้ระหว่างถือ จึงมักใช้เป็นส่วนหนึ่งของภาพรวม ไม่ใช่ทั้งหมด'}
   ]}
 ];
-var GAME_PLAYED={0:true,1:true},GAME_OPEN=null;
+var GAME_PLAYED={0:true,1:true}; // GAME_OPEN (sibling) removed 2026-09-27 — never read anywhere
 var GAME_ANSWERS={};
 function gamesPlayedCount(){return SIDES.reduce(function(n,_,i){return n+(GAME_PLAYED[i]?1:0);},0);}
 function playSet(kind,idx){return kind==='game'?MINIGAME_Q[idx]:BOOTH_Q[idx];}
@@ -2647,14 +2618,14 @@ function seedPersonaResult(key){
   RESULT={hero:h,heroKey:key,declared:h.riskLevel,revealed:Math.max(1,Math.min(10,h.riskLevel+simGap)),gap:simGap,
     conf:74,confLevel:'สูง - สอดคล้องดี',
     subs:{identity:16,behavior:16,riskAlign:18,discipline:15},knowledge:'intermediate',horizon:'mid',votes:{},interests:[0,2,4]};
-  GAME_PLAYED={0:true,1:true,2:true,3:true};GAME_ANSWERS={};BOOTH_CHK={0:new Set([0])};BOOTH_ACT={0:true};BOOTH_ANSWERS={};EFIN_CHECKED_IN=true;
+  GAME_PLAYED={0:true,1:true,2:true,3:true};GAME_ANSWERS={};BOOTH_CHK={0:new Set([0])};BOOTH_ACT={0:true};
 }
 
 /* Default demo state (2026-09-10, per direction): "ทำแบบทดสอบตัวตนแล้ว" out of the box — seed a
    RESULT before the very first render/buildDemo so DEMO.eventPhase:'on''s render() gate (which
    redirects splash/quiz/etc. to 'book' once RESULT exists, else 'home') lands on the Book page
    immediately instead of the empty "no identity yet" state. Booth check-in/activity start at
-   seedPersonaResult's own baseline (booth 0 only) — below CHECKIN_NEED/ACTIVITY_NEED — so the
+   seedPersonaResult's own baseline (booth 0 only) — below ACTIVITY_NEED — so the
    Booth tab's draw-status card genuinely (not forced) reads "ยังขาด" by default too. */
 seedPersonaResult('sage');
 RESULT.revealed=RESULT.declared;RESULT.gap=0; // the PDF sample reads "สอดคล้อง (Aligned)": what they said = what they did
