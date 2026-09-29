@@ -1967,8 +1967,15 @@ function pbDeco(pg,n){
   // Toned down (2026-09-21, per direction: fewer + smaller): 1-3 pieces per sheet.
   // FAR (18px): one per sheet, alternating side, in the strip between the frame line and the content
   out+=pbDecoHTML(K(0),'far',18,(n*7)%20-10,(n%2?'left':'right')+':35px;top:'+(24+(n*13)%46)+'%');
-  // MID (28px): every 4th sheet, empty right end of the header row
-  if(n%4===0)out+=pbDecoHTML(K(4),'mid',28,8,'right:116px;top:62px');
+  // MID (28px): every 4th sheet, in the header row's real empty gap — between the fixed-width
+  // brand text (ends ~x287, same on every page) and the folio's own right-aligned .pb-pn text
+  // (right edge pinned at the folio inset, left edge shifts with digit count: ~x647-655 across
+  // "หน้า 4/40".."หน้า 40/40"). 2026-09-29 fix: the old right:116px put this UNDER .pb-pn (the
+  // author's "empty right end of the header row" was true before the folio moved into the header,
+  // per the frame-folio 2026-09-22 change — never updated after). Measured live: this landed the
+  // decoration on top of the page number on every 4th sheet (10 of 40). right:180px sits safely
+  // inside the ~362px gap with margin to spare even against the widest folio text.
+  if(n%4===0)out+=pbDecoHTML(K(4),'mid',28,8,'right:180px;top:62px');
   // NEAR (max 76px): only where there is generous empty space under the content (>=220px)
   if(free>=220){var sz=Math.min(76,Math.floor(free-70));out+=pbDecoHTML(K(1),'near',sz,(n%2?10:-8),'right:'+(80+(n*9)%40)+'px;top:'+Math.round(lastBottom+(free-sz)/2-8)+'px');}
   pg.insertAdjacentHTML('beforeend',out);
