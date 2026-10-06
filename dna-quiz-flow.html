@@ -821,6 +821,19 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-dd{padding:0 0 32px;}
 .pbx-dd-l{max-width:var(--read-measure);margin:var(--sp-stack) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
 .pbx-dd-l li+li{margin-top:var(--sp-list);}
+/* analysis: risk comparison as two big numerals under hairlines; Confidence Score header = level as the
+   heading with the big score beside it */
+.pbx-open .pbx-risk{max-width:var(--read-measure);margin-top:56px;}
+.pbx-pair{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-block);margin-top:var(--sp-block);}
+.pbx-pair>div{display:flex;flex-direction:column;gap:6px;border-top:var(--rule-w) solid var(--rule);padding-top:var(--sp-inline);}
+.pbx-big{font-size:56px;font-weight:var(--w-label);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;}
+.pbx-big.pbx-was{color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px;}
+.pbx-pair span{font-size:var(--fs-label);line-height:1.4;color:var(--muted);}
+.pbx-conf-hd{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--sp-block);max-width:var(--read-measure);padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);}
+.pbx-conf-hd .pbx-kicker{margin-bottom:var(--sp-list);}
+.pbx-score{white-space:nowrap;font-size:var(--fs-label);color:var(--muted);}
+.pbx-score b{font-size:56px;font-weight:var(--w-label);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;}
+.pbx-conf .pbx-data-note{margin-top:var(--sp-stack);}
 .pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:var(--sp-stack) 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
 .pbx-ft-brand{text-transform:uppercase;letter-spacing:.14em;} /* Latin only — Thai has no case and tracking hurts it */
 .pbx-ft-brand b{font-weight:var(--w-label);color:var(--ink);}
@@ -1682,6 +1695,22 @@ function insightHTML(r,h,matchOk){
       '<div class="conf-bars">'+confRow('ความรู้',cf.subs.knowledge,35)+confRow('รู้จักตัวเอง',cf.subs.self,25)+confRow('ลงมือ',cf.subs.action,25)+confRow('ความกว้าง',cf.subs.breadth,15)+'</div></div>'+
     '</div></section>';
 }
+/* Ver.2 analysis: chapter opener whose lower half holds the risk comparison as two big numerals (the
+   declared one struck through only when they differ, as in v1), then Confidence Score as a data block —
+   big score, level as its heading, the 4 parts as ruled rows (value/max, share as a thin ink rule).
+   Same texts as insightHTML(); no boxes, glow or coloured bars. */
+function pbxAnalysisHTML(r,h,matchOk){
+  var cf=confidenceScore(r);
+  var risk='<div class="pbx-risk"><div class="pbx-side-hd"><div class="pbx-side-t">ความเสี่ยง "บอก" vs "จริง"</div><span class="pbx-side-st">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
+    '<p class="pbx-side-b">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
+    '<div class="pbx-pair"><div><b class="pbx-big'+(r.declared!==r.revealed?' pbx-was':'')+'">'+r.declared+'</b><span>ความเสี่ยงที่บอก</span></div><div><b class="pbx-big">'+r.revealed+'</b><span>ความเสี่ยงจริง</span></div></div>'+
+    '<p class="pbx-data-note">ระดับความเสี่ยง 1–10</p></div>';
+  var parts=[['ความรู้',cf.subs.knowledge,35],['รู้จักตัวเอง',cf.subs.self,25],['ลงมือ',cf.subs.action,25],['ความกว้าง',cf.subs.breadth,15]];
+  var conf='<section class="pbx-block pbx-conf"><div class="pbx-conf-hd"><div><div class="pbx-kicker">Confidence Score</div><h3 class="pbx-blk-t">'+cf.level+'</h3></div><div class="pbx-score"><b>'+cf.conf+'</b><span>/100</span></div></div>'+
+    '<p class="pbx-data-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p>'+
+    '<div class="pbx-data">'+parts.map(function(c){return pbxRow(c[0],'<b>'+c[1]+'</b>/'+c[2],Math.round(c[1]/c[2]*100));}).join('')+'</div></section>';
+  return pbxOpenHTML('AI Insight','คุณเป็น <span>นักลงทุน</span> แบบไหน','',risk)+conf;
+}
 /* fam-badge + signature/assets/strengths-watchouts + legend — everything the compare-reveal slider's
    "which persona is currently showing" should drive (2026-08-16, per direction "ถ้าได้ character card
    คนละตัวกัน ต้องการให้ข้อมูลทั้งหมด ใน section preview นี้เปลี่ยนตาม card ที่ active อยู่"). Kept as
@@ -1868,7 +1897,7 @@ function renderBook(){
          direction calls for holding this specific promo back until the event opens regardless.
          bindEfinBanner(h) below stays unconditional — its #efinCopyBtn/#efinOpenBtn lookups are
          already null-safe when the banner isn't in the DOM. */
-      insightHTML(r,h,matchOk)+
+      (pbxOn('analysis')?pbxAnalysisHTML(r,h,matchOk):insightHTML(r,h,matchOk))+
     '</div>'+
     /* radar (was here as its own "พอร์ตลงทุนที่ถนัด" card) moved into the merged radarInterestHTML()
        below, 2026-08-19 per direction — the "วิเคราะห์" tab now ends with just AI Insight. */
@@ -2165,7 +2194,7 @@ function pbSetZoom(el,k){if(k&&k!==1){el.style.zoom=k;el.style.setProperty('--pb
    time: a panel not listed here builds exactly as before (byte-identical sheets). `?pbx=glossary` /
    `?pbx=glossary,library` / `?pbx=all` previews panels on the new templates without changing the
    default build. */
-var PBX_DEFAULT=['glossary','library','journey'];
+var PBX_DEFAULT=['glossary','library','journey','portfolio'];
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 var PBX=(function(){var s={},q=(location.search.match(/[?&]pbx=([^&]*)/)||[])[1];
   PBX_DEFAULT.forEach(function(p){s[p]=1;});
