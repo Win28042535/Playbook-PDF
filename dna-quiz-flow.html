@@ -97,6 +97,11 @@
   --pb-gap:24px;          /* gap between blocks on a sheet — its own value, NOT --sp-section (which grows on tablet/pc; a sheet must lay out identically everywhere) */
   --pb-folio-inset:24px;  /* extra inset of the header/footer text so it clears the frame's rounded corners */
   --fs-folio:14px;        /* header / footer text on a sheet */
+  /* Ver.2 reading column (Minimalism-book DNA): long-form text sits in a column narrower than the
+     content width / its own hairline (~59% of the sheet), so lines land near 60 chars instead of ~89. */
+  --read-measure:470px;
+  --read-fs:16px;
+  --read-lh:1.7;
   /* ── rules & ornaments (read off the reference art) ── */
   --rule:#c4c5c7;         /* 2px section divider */
   --rule-fade:#d4d3d7; --rule-deep:#55535c; /* the vertical divider's gradient (light at the ends, deep next to the star) */
@@ -866,12 +871,19 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .lib-cat-hd img{width:var(--ic-lg);height:var(--ic-lg);object-fit:contain;flex:0 0 auto;}
 .lib-cat-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
 .lib-cat-n{font-size:var(--fs-eyebrow);color:var(--muted);margin-top:2px;margin-left:calc(var(--ic-md) + var(--sp-glue));}
-.pb-art{padding:0 0 calc(var(--sp-stack) + 4px);} /* a touch more room since the divider between articles is gone */
-.pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);}
-.pb-art-s{font-family:var(--font);font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-hairline);}
-.pb-art-p{font-family:var(--font-read);font-size:var(--fs-eyebrow);font-weight:400;color:var(--ink);line-height:1.5;margin:var(--sp-inline) 0 0;}
-.pb-note{font-family:var(--font);margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-subtitle);font-weight:var(--w-body);line-height:1.5;}
+/* Article stack (Ver.2, Minimalism-book DNA): title hangs from a full-width hairline; everything under
+   it reads in the narrower --read-measure column, so the rule is wider than the text it introduces. */
+.pb-art{padding:0 0 var(--sp-block);}
+.pb-art-t{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);padding-bottom:var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);}
+.pb-art-s{font-family:var(--font);font-size:var(--fs-subtitle);font-weight:var(--w-body);color:var(--muted);line-height:1.5;margin-top:var(--sp-inline);max-width:var(--read-measure);}
+.pb-art-p{font-family:var(--font-read);font-size:var(--read-fs);font-weight:400;color:var(--ink);line-height:var(--read-lh);margin:var(--sp-stack) 0 0;max-width:var(--read-measure);text-wrap:pretty;}
+.pb-note{max-width:var(--read-measure);font-family:var(--font);margin-top:var(--sp-inline);display:flex;align-items:flex-start;gap:var(--sp-list);padding:var(--sp-list) var(--sp-inline);border-radius:var(--r1);font-size:var(--fs-subtitle);font-weight:var(--w-body);line-height:1.5;}
 .pb-note svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;margin-top:2px;}
+/* example + pitfall side by side across the hairline's full width (the DNA's split row); a lone note
+   stays in the reading column */
+.pb-art-notes{display:flex;align-items:stretch;gap:var(--sp-inline);margin-top:var(--sp-stack);}
+.pb-art-notes>.pb-note{flex:1 1 0;margin-top:0;max-width:none;}
+.pb-art-notes>.pb-note:only-child{flex:0 1 auto;max-width:var(--read-measure);}
 .pb-note-ex{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green-text);}
 /* Back to amber (2026-09-25, per direction "หน้า 10-35...แถบสีข้อความ...เปลี่ยนเป็นโทนสีเหลือง เพื่อ
    ให้ดูเป็นคำเตือนยิ่งขึ้น") — .pb-note-pit ("คนมักเข้าใจผิด", the pitfall callout on every library
@@ -1876,8 +1888,10 @@ function libEsc(t){return String(t==null?'':t).replace(/[&<>]/g,function(m){retu
 function pbArtHTML(a){
   return '<article class="pb-art"><div class="pb-art-t">'+libEsc(a.t)+'</div><div class="pb-art-s">'+libEsc(a.s)+'</div>'+
     '<p class="pb-art-p">'+libEsc(a.b)+'</p>'+
-    (a.x?'<div class="pb-note pb-note-ex">'+ic('lc-check-circle')+'<span>'+libEsc(a.x)+'</span></div>':'')+
-    (a.p?'<div class="pb-note pb-note-pit">'+ic('lc-alert-triangle')+'<span><b>คนมักเข้าใจผิด</b> '+libEsc(a.p)+'</span></div>':'')+
+    ((a.x||a.p)?'<div class="pb-art-notes">'+
+      (a.x?'<div class="pb-note pb-note-ex">'+ic('lc-check-circle')+'<span>'+libEsc(a.x)+'</span></div>':'')+
+      (a.p?'<div class="pb-note pb-note-pit">'+ic('lc-alert-triangle')+'<span><b>คนมักเข้าใจผิด</b> '+libEsc(a.p)+'</span></div>':'')+
+    '</div>':'')+
     '</article>';
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
