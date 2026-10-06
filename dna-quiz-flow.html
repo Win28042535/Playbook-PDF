@@ -758,6 +758,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-kicker{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);color:var(--ink);line-height:1.4;margin-bottom:var(--sp-block);}
 .pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);padding-bottom:var(--sp-inline);border-bottom:5px solid var(--pbx-accent);}
 .pbx-lede{max-width:var(--read-measure);margin-top:56px;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+/* opener extras: a one-line meta and a plain ruled list in the lower half (library opener) */
+.pbx-meta{margin-top:var(--sp-inline);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
+.pbx-meta b{font-weight:var(--w-label);color:var(--ink);}
+.pbx-cats{max-width:var(--read-measure);margin-top:48px;border-top:var(--rule-w) solid var(--rule);}
+.pbx-cats>div{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:var(--sp-inline) 0;border-bottom:var(--rule-w) solid var(--rule);font-size:var(--fs-label);line-height:1.4;}
+.pbx-cats>div>span:first-child{font-weight:var(--w-label);color:var(--ink);}
+.pbx-cats>div>span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
 /* text page: heading hangs from a full-width hairline; rows read in a term | definition grid whose
    definition column is the reading measure (148 + 24 + 470 = the 642px content width) */
 .pbx .pbx-gt{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);padding:44px 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);margin-bottom:var(--sp-list);}
@@ -1957,7 +1964,16 @@ function pbArtHTML(a){
 }
 /* Library as page blocks: intro, then per category a header (kept with its first article) + one block per article. */
 function libraryBlocksHTML(h){
-  var out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num txt-grad">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p>'+
+  var out;
+  if(pbxOn('library'))
+    /* Ver.2 library opener: same opener as the glossary; the stat pair becomes one small meta line and
+       the 6-category grid a plain ruled list (name | N บทความ) in the opener's lower half — same texts,
+       no images, no grey panel. */
+    out=pbxOpenHTML('สำหรับ '+libEsc(h.th),'<span>'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน','จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน',
+      '<p class="pbx-meta"><b>'+libTotal()+'</b> <span>บทความ</span> <span>·</span> <b>'+glossTotal()+'</b> <span>ศัพท์</span></p>'+
+      '<div class="pbx-cats">'+LIBRARY_CATS.map(function(c){return '<div><span>'+c.t+'</span><span>'+c.n+' บทความ</span></div>';}).join('')+'</div>');
+  else
+  out='<section class="pb-plain pb-intro"><div class="s-ey">สำหรับ '+libEsc(h.th)+ORN_EY+'</div><h2 class="s-h"><span class="lib-num txt-grad">'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน</h2><p class="s-sub">จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</p>'+
     /* library/glossary overview stat pair (2026-09-23, design-DNA borrow #2, 3rd application) — the
        reader hasn't been told the glossary exists yet at this point in the book (it's 26 sheets
        later), so this doubles as a quiet preview of it. */
@@ -1992,8 +2008,8 @@ function libraryBlocksHTML(h){
 /* Ver.2 opener (Minimalism-book "SECTION 1" page): a sheet of its own (.pbx-solo); the accent tab
    hanging off the top edge is drawn by the sheet (see .pb-page.pbx:has(.pbx-open)). Title keeps .s-h so
    สารบัญ still picks it up. kicker / title / lede are plain text — no ornament, no gradient. */
-function pbxOpenHTML(kicker,titleHTML,lede){
-  return '<section class="pbx-open pbx-solo"><div class="pbx-kicker">'+kicker+'</div><h2 class="s-h pbx-open-t">'+titleHTML+'</h2>'+(lede?'<p class="pbx-lede">'+lede+'</p>':'')+'</section>';
+function pbxOpenHTML(kicker,titleHTML,lede,extra){
+  return '<section class="pbx-open pbx-solo"><div class="pbx-kicker">'+kicker+'</div><h2 class="s-h pbx-open-t">'+titleHTML+'</h2>'+(lede?'<p class="pbx-lede">'+lede+'</p>':'')+(extra||'')+'</section>';
 }
 function glossaryBlocksHTML(){
   var n=GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);
@@ -2080,7 +2096,7 @@ function pbSetZoom(el,k){if(k&&k!==1){el.style.zoom=k;el.style.setProperty('--pb
    time: a panel not listed here builds exactly as before (byte-identical sheets). `?pbx=glossary` /
    `?pbx=glossary,library` / `?pbx=all` previews panels on the new templates without changing the
    default build. */
-var PBX_DEFAULT=['glossary'];
+var PBX_DEFAULT=['glossary','library'];
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 var PBX=(function(){var s={},q=(location.search.match(/[?&]pbx=([^&]*)/)||[])[1];
   PBX_DEFAULT.forEach(function(p){s[p]=1;});
