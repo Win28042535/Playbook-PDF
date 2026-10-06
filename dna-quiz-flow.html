@@ -112,7 +112,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:0;left:var(--pbx-tab-x);width:var(--pbx-tab-w);height:var(--pbx-tab-h);background:var(--pbx-accent);}
 .pbx .pbx-open{padding:calc(var(--pbx-open-y) - var(--pbx-pad-top)) 0 0 calc(var(--pbx-col-x) - var(--pbx-pad-x));}
 .pbx-kicker{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);color:var(--ink);line-height:1.4;margin-bottom:var(--sp-block);}
-.pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);padding-bottom:var(--sp-inline);border-bottom:5px solid var(--pbx-accent);}
+.pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);position:relative;padding-bottom:var(--sp-inline);border-bottom:5px solid transparent;} /* the 5px stays as layout space; the underline itself is the hand-drawn brush below */
+.pbx .pbx-open-t::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:13px;background:url(assets/hand-underline.svg) left center/100% 100% no-repeat;pointer-events:none;} /* tapered orange brush stroke, stretched to the title width */
 .pbx-lede{max-width:var(--read-measure);margin-top:56px;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 /* opener extras: a one-line meta and a plain ruled list in the lower half (library opener) */
 .pbx-meta{margin-top:var(--sp-inline);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
