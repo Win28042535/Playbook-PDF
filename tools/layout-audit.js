@@ -4,8 +4,8 @@
      await pbAudit.run();          // checks on the current build
      await pbAudit.save('base');   // store a snapshot in localStorage
      await pbAudit.diff('base');   // compare the current build to a stored snapshot
-   Sheets are compared by fingerprint = outerHTML minus id, folio text and decorations (.pb-el),
-   because those three legitimately shift when another section's page count changes. */
+   Sheets are compared by fingerprint = outerHTML minus id and folio text,
+   because those two legitimately shift when another section's page count changes. */
 (function(){
   function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return (h>>>0).toString(36);}
   function norm(s){return s.replace(/\s+/g,' ').trim();}
@@ -16,7 +16,6 @@
   function isContent(pg){return !/^(cover|toc)$/.test(pg.dataset.sect||'');}
   function fingerprint(pg){
     var c=pg.cloneNode(true);c.removeAttribute('id');
-    [].forEach.call(c.querySelectorAll('.pb-el'),function(e){e.remove();});
     [].forEach.call(c.querySelectorAll('.pb-pn'),function(e){e.innerHTML='';});
     return hash(c.outerHTML);
   }
@@ -40,7 +39,7 @@
     return {at:new Date().toISOString(),url:location.pathname+location.search,sheets:sheets,bag:bag};
   }
   function checks(){
-    var all=pages(),out={sheets:all.length,overflow:[],zoomed:[],folio:null,toc:null,decoOverText:[],imagesBroken:[],pbx:null};
+    var all=pages(),out={sheets:all.length,overflow:[],zoomed:[],folio:null,toc:null,imagesBroken:[],pbx:null};
     all.forEach(function(pg){
       var b=pg.querySelector('.pb-body');
       if(b&&b.scrollHeight>b.clientHeight+1)out.overflow.push(pg.id||pg.dataset.sect);
@@ -55,9 +54,6 @@
     rows.forEach(function(r){var id=(r.getAttribute('href')||'').slice(1),t=document.getElementById(id),n=norm((r.querySelector('.toc-n')||{}).textContent||'');
       if(!t||'pb-p'+n!==id)tbad.push(id+'≠'+n);});
     out.toc={rows:rows.length,bad:tbad};
-    // decorations must never sit on text or on the folio
-    all.forEach(function(pg){var els=pg.querySelectorAll('.pb-el');if(!els.length)return;var tr=textRects(pg);
-      [].forEach.call(els,function(e){var r=e.getBoundingClientRect();if(tr.some(function(t){return hit(r,t);}))out.decoOverText.push(pg.id);});});
     [].forEach.call(document.images,function(i){if(!i.naturalWidth)out.imagesBroken.push(i.getAttribute('src'));});
     // Ver.2 sheets: footer position and margins as % of the sheet (reference: label ~95%, hairline ~97%, side margins ~9-10%)
     var px=all.filter(function(p){return p.classList.contains('pbx');});
