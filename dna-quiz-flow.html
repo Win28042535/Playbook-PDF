@@ -857,20 +857,18 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-ft-brand b{font-weight:var(--w-label);color:var(--ink);}
 .pbx-ft-r{display:flex;align-items:baseline;gap:var(--sp-stack);}
 .pb-page .pbx-ft .pb-pn{color:inherit;text-decoration:none;pointer-events:auto;cursor:pointer!important;} /* out-ranks the journey sheets' print-like cursor:default!important */
-/* ── สารบัญ: the consent screen's backdrop DNA (room1.jpg under a flat white wash), not paper + frame ── */
-/* background lifted from better-trade-2026.vercel.app's own .cta__panel (2026-09-22, per direction):
-   a flat #f5f5f5 base + two radial glows — pale blue top-left, the app's own violet bottom-right. */
-.pb-toc{padding:0;border:0;position:relative;overflow:clip;isolation:isolate;}
-.pb-page.pb-toc{background-color:#f5f5f5;background-image:radial-gradient(circle at 18% 0%,rgba(234,242,255,.72) 0%,rgba(0,0,0,0) 34%),radial-gradient(circle at 92% 100%,rgba(114,45,244,.12) 0%,rgba(0,0,0,0) 34%);} /* .pb-page.pb-framed{background:var(--paper)} (2 classes) would otherwise outrank a bare .pb-toc (1 class) */
-.toc-in{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding:var(--pb-pad-top) var(--pb-pad-x) var(--pb-pad-bottom);}
-.toc-h{font-size:var(--fs-title);font-weight:var(--w-label);color:var(--ink);line-height:1.1;margin:var(--sp-block) 0 var(--sp-block);}
+/* ── สารบัญ (Ver.2 reset step 9): a Ver.2 text page — white sheet, no frame / glow / decorations, the
+   same footer as every other sheet. Title hangs from a full-width hairline; each chapter is one row of
+   the glossary's grid (chapter name in the narrow left column, its entries in the reading column),
+   set apart by a hairline — type and rules only. ── */
+.pbx .pbx-toc-t{margin:0 0 var(--sp-block);padding-bottom:var(--sp-inline);font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
 .toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
-/* divider lives on the category label, not between individual rows — one rule per chapter, not per item */
-.toc-ch{font-size:var(--fs-label);font-weight:var(--w-head);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:var(--sp-inline) 0 var(--sp-hairline);padding-top:var(--sp-inline);border-top:var(--rule-w) solid var(--rule);}
-.toc-ch:first-child{margin-top:0;padding-top:0;border-top:none;}
-.toc-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-list);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
-.toc-t{font-size:var(--fs-sig);font-weight:var(--w-body);}
-.toc-n{font-family:var(--serif);font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);flex:0 0 auto;}
+.toc-grp{display:grid;grid-template-columns:148px minmax(0,var(--read-measure));column-gap:var(--sp-block);align-items:baseline;padding:var(--sp-list) 0;border-bottom:var(--rule-w) solid var(--rule);}
+.toc-ch{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
+.toc-rows{display:flex;flex-direction:column;}
+.toc-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-stack);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
+.toc-t{font-size:var(--fs-label);font-weight:var(--w-body);line-height:1.5;}
+.toc-n{font-size:var(--fs-label);color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto;}
 /* accordions are always expanded on a page (a fixed sheet can't grow when a row opens; print needs it all) */
 .pb-page .side-body{max-height:none;overflow:visible;}
 .pb-page .side-row{cursor:default;}
@@ -2231,7 +2229,7 @@ function pbSetZoom(el,k){if(k&&k!==1){el.style.zoom=k;el.style.setProperty('--pb
    time: a panel not listed here builds exactly as before (byte-identical sheets). `?pbx=glossary` /
    `?pbx=glossary,library` / `?pbx=all` previews panels on the new templates without changing the
    default build. */
-var PBX_DEFAULT=['glossary','library','journey','portfolio','analysis'];
+var PBX_DEFAULT=['glossary','library','journey','portfolio','analysis','identity'];
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 var PBX=(function(){var s={},q=(location.search.match(/[?&]pbx=([^&]*)/)||[])[1];
   PBX_DEFAULT.forEach(function(p){s[p]=1;});
@@ -2364,9 +2362,8 @@ function pbBuild(label,cover){
 }
 /* สารบัญ (2026-09-22, per direction) — built AFTER pagination, from the sheets themselves, so every
    row's page number is the real one; inserted right before sheet 1 (after the front cover). Each row
-   jumps to its sheet, and every sheet's footer carries a .pb-toc-back link the other way. The page
-   borrows the consent screen's own backdrop DNA from the pre-Playbook app (room1.jpg under a flat
-   white wash, see .pb-toc's CSS) rather than the content sheets' paper + frame ornament. */
+   jumps to its sheet, and every sheet's folio links the other way. Since Ver.2 reset step 9 the page
+   is a Ver.2 text page (see .pbx-toc-t's CSS): no frame, backdrop glow or decorations. */
 function pbTOC(doc,pages,label){
   /* one row per sheet that OPENS something: the first heading on it that hasn't been used yet.
      Continuation sheets (no new heading of their own) fold into the row above them. */
@@ -2380,37 +2377,18 @@ function pbTOC(doc,pages,label){
     seen[t]=true;rows.push({n:n,t:t,sect:pg.dataset.sect});
   });
   var CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'พอร์ต',journey:'เส้นทาง',library:'คลังความรู้'};
-  var out='',lastCh='';
+  /* one .toc-grp per chapter: its name in the left column, its rows in the reading column */
+  var out='',lastCh=null;
   rows.forEach(function(r){
     var ch=CH[r.sect]||'';
-    if(ch&&ch!==lastCh){out+='<div class="toc-ch">'+ch+'</div>';lastCh=ch;}
+    if(lastCh===null||(ch&&ch!==lastCh)){out+=(lastCh===null?'':'</div></div>')+'<div class="toc-grp"><div class="toc-ch">'+ch+'</div><div class="toc-rows">';lastCh=ch;}
     out+='<a class="toc-row" href="#pb-p'+r.n+'"><span class="toc-t">'+r.t+'</span><span class="toc-n">'+r.n+'</span></a>';
   });
+  if(lastCh!==null)out+='</div></div>';
   var fit=document.createElement('div');fit.className='pb-fit';
-  var pg=document.createElement('div');pg.className='pb-page pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
-  pg.innerHTML='<div class="toc-in"><div class="pb-hd"><span><b>BetterTrade 2026</b> · Personalized Playbook</span></div><h2 class="toc-h">สารบัญ</h2><div class="toc-list">'+out+'</div></div>';
-  pbFrame(pg); // same rounded-corner + star ornament every other content sheet gets
-  /* สารบัญ's own brand-asset scatter (2026-09-23, per direction — first pass leaned on pbDeco()'s
-     small numbered-sheet sizing (18-28px), which read as page-2-onward's sparse style rather than
-     sheet 1's own richer composition; re-tuned per direction "อยากให้การกระจาย...อิงตามหน้าที่ 1
-     กว่านี้"). pbDeco()/pbScatter (sheet 1's own array, see renderBook) both assume containers สารบัญ
-     doesn't have, so this still hand-places pieces, but now sized/weighted like sheet 1's actual
-     3-plane mix (FAR 56-58px, NEAR 76-118px near-full opacity — see pbScatter above) rather than
-     pbDeco's page-2+ miniatures:
-     - 1 NEAR piece (candle, 64px, sharp/strong shadow — same 'near' plane sheet 1's own candle uses)
-       in the wide empty stretch beside the short "สารบัญ" title (text itself only runs to ~x150; the
-       title row has space out to the content's right edge, x~730). Picked candle specifically for its
-       1:1 aspect ratio — the header↔list vertical gap here is only ~84px (measured at runtime), and
-       bitcoin/card's 1.29 ratio rendered taller than that band even at a modest width; candle (and
-       efin, 0.96) are the only 2 of the 6 assets square/wide enough to fit it without a size tradeoff.
-     - 2 FAR pieces (gold/card, 30px — up from 18px, closer to sheet 1's 56-58px FAR relative to this
-       page's narrower gutters) in the frame↔content margin strip, one each side at different heights.
-     Still no piece sits over the list itself — it runs close to the page's bottom edge (see the shrink
-     note above), so nothing large goes there. */
-  pg.insertAdjacentHTML('beforeend',
-    pbDecoHTML('candle','near',64,-8,'right:120px;top:104px')+
-    pbDecoHTML('gold','far',30,-6,'left:32px;top:20%')+
-    pbDecoHTML('card','far',30,9,'right:32px;top:70%'));
+  var pg=document.createElement('div');pg.className='pb-page pbx pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
+  /* same footer as the content sheets, minus the folio (สารบัญ itself is not numbered) */
+  pg.innerHTML='<div class="pb-body"><h2 class="pbx-toc-t">สารบัญ</h2><div class="toc-list">'+out+'</div></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span></span></div>';
   fit.appendChild(pg);
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
@@ -2421,7 +2399,7 @@ function pbTOC(doc,pages,label){
      rather than letting the last rows run into the page's bottom padding/frame (2026-09-23, found
      after bumping .toc-t/.toc-ch: 16 rows no longer fit unshrunk at the larger sizes). */
   var list=pg.querySelector('.toc-list');
-  if(list.scrollHeight>list.clientHeight+1){
+  if(list.scrollHeight>list.clientHeight+1){ // 19 rows end at ~84% today, so this is only the overflow guard
     var kids=[].slice.call(list.children),q=list.scrollHeight/list.clientHeight,z=Math.floor(1000/q)/1000-.004,tries=0;
     do{kids.forEach(function(c){pbSetZoom(c,z);});tries++;z-=.01;}while(list.scrollHeight>list.clientHeight+1&&tries<9);
   }
