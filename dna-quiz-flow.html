@@ -785,11 +785,25 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-art-notes>.pbx-note:only-child{max-width:var(--read-measure);}
 .pbx-note{border-top:var(--rule-w) solid var(--rule);padding-top:var(--sp-list);font-size:14px;line-height:1.6;color:var(--muted);text-wrap:pretty;}
 .pbx-note b{font-weight:var(--w-label);color:var(--ink);}
+/* journey: measured sides (text-page items) + section heading + ruled ledger rows */
+.pbx-side{padding:0 0 36px;}
+.pbx-side-hd{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);}
+.pbx-side-t{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.35;color:var(--ink);}
+.pbx-side-st{font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);white-space:nowrap;}
+.pbx-side-b{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+.pbx-side-b p+p{margin-top:var(--sp-inline);}
+.pbx-side-b b{font-weight:700;}
+.pbx .pbx-sec{padding:0 0 28px;}
+.pbx .pbx-sec-t{margin:0;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.2;color:var(--ink);}
+.pbx-sec-sub{margin-top:var(--sp-inline);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
+.pbx-led-row{padding:var(--sp-inline) 0;border-top:var(--rule-w) solid var(--rule);}
+.pbx-led-t{max-width:var(--read-measure);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+.pbx-led-s{margin-top:2px;font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);}
 .pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:var(--sp-stack) 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
 .pbx-ft-brand{text-transform:uppercase;letter-spacing:.14em;} /* Latin only — Thai has no case and tracking hurts it */
 .pbx-ft-brand b{font-weight:var(--w-label);color:var(--ink);}
 .pbx-ft-r{display:flex;align-items:baseline;gap:var(--sp-stack);}
-.pbx-ft .pb-pn{color:inherit;text-decoration:none;pointer-events:auto;cursor:pointer!important;}
+.pb-page .pbx-ft .pb-pn{color:inherit;text-decoration:none;pointer-events:auto;cursor:pointer!important;} /* out-ranks the journey sheets' print-like cursor:default!important */
 /* ── สารบัญ: the consent screen's backdrop DNA (room1.jpg under a flat white wash), not paper + frame ── */
 /* background lifted from better-trade-2026.vercel.app's own .cta__panel (2026-09-22, per direction):
    a flat #f5f5f5 base + two radial glows — pale blue top-left, the app's own violet bottom-right. */
@@ -2096,7 +2110,7 @@ function pbSetZoom(el,k){if(k&&k!==1){el.style.zoom=k;el.style.setProperty('--pb
    time: a panel not listed here builds exactly as before (byte-identical sheets). `?pbx=glossary` /
    `?pbx=glossary,library` / `?pbx=all` previews panels on the new templates without changing the
    default build. */
-var PBX_DEFAULT=['glossary','library'];
+var PBX_DEFAULT=['glossary','library','journey'];
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 var PBX=(function(){var s={},q=(location.search.match(/[?&]pbx=([^&]*)/)||[])[1];
   PBX_DEFAULT.forEach(function(p){s[p]=1;});
@@ -2395,6 +2409,19 @@ function sidesHTML(r){
    {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'สินทรัพย์ที่ ๙ — สุขภาพ',s:'Health-Wealth 5.5/10',show:true,body:'<p>Health-Wealth <b>5.5</b>/10</p>'},
    {num:ic('lc-check'),chip:'เสร็จ',cc:'done',t:'ก้าวแรกของคุณ',s:'กำแพงที่คุณบอกว่าขวางอยู่ ไม่รู้จะเริ่มยังไง',show:true,body:'<p>กำแพงที่คุณบอกว่าขวางอยู่ <b>ไม่รู้จะเริ่มยังไง</b></p><p>3 ขั้น เปิดบัญชี → เลือกตัวเลือกแรกที่เข้าใจและกระจายความเสี่ยงในตัว → ตั้งอัตโนมัติ</p><p>สิ่งที่คุณบอกว่าจะทำ <b>จดรายรับ-รายจ่าย 7 วัน</b></p>'}
   ];
+  if(pbxOn('journey')){
+    /* Ver.2: chapter opener from the section's own heading, then each side as a text-page item — title
+       on a hairline, status as a small label on the right, body in the reading column. Icons/chevrons
+       dropped. A summary line identical to the body's first paragraph is not repeated (it printed twice
+       before, since every side is shown expanded). */
+    var plain=function(h){var d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim();};
+    return pbxOpenHTML('สิ่งที่ระบบวัดได้จากคุณ','<span>6 ด้าน</span> ที่วัดได้จากคุณ','แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม')+
+      sides.map(function(sd){
+        var first=(sd.body.match(/<p>([\s\S]*?)<\/p>/)||[])[1]||'',dup=plain(first)===plain(sd.s);
+        return '<article class="pbx-side"><div class="pbx-side-hd"><div class="pbx-side-t">'+sd.t+'</div><span class="pbx-side-st">'+sd.chip+'</span></div>'+
+          (dup?'':'<div class="pbx-art-s">'+sd.s+'</div>')+'<div class="pbx-side-b">'+sd.body+'</div></article>';
+      }).join('');
+  }
   var items='';
   sides.forEach(function(sd,i){items+='<article class="side-item"'+(i===5?' style="border-bottom:none"':'')+'><div class="list-row side-row"><div class="side-num '+sd.cc+'">'+sd.num+'</div><div class="side-cx"><div class="side-t">'+sd.t+'</div><div class="side-s">'+sd.s+'</div></div><div class="side-r"><span class="sc '+sd.cc+'">'+sd.chip+'</span>'+ic('lc-chevron-down','s-cv'+(sd.show?' open':''))+'</div></div><div class="side-body'+(sd.show?' show':'')+'"><div class="side-bi"><div class="side-dl">'+sd.body+'</div></div></div></article>';});
   return '<section class="card mb-lg scroll-reveal" id="sides-sec"><div class="sides-hd"><div class="s-ey">สิ่งที่ระบบวัดได้จากคุณ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">6 ด้าน</span> ที่วัดได้จากคุณ</h2><p class="s-sub" style="margin-bottom:2px">แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม</p></div>'+items+'</section>';
@@ -2548,6 +2575,12 @@ function learnedInsights(inProgress){
 function learnedLedgerHTML(){
   var items=learnedInsights();
   if(!items.length)return '';
+  if(pbxOn('journey'))
+    /* Ver.2: section heading on a fresh sheet (kept with its first row), then one block per insight —
+       plain ruled rows, the source game as a small line under it; no icons. */
+    return '<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สะสมจากการเล่นเกมวันนี้</div><h2 class="s-h pbx-sec-t">เรื่องที่คุณ <span>เข้าใจแล้ว</span></h2>'+
+      '<p class="pbx-sec-sub">'+items.length+' เรื่อง · อัปเดตอัตโนมัติทุกครั้งที่เล่นเกมจบ</p></section>'+
+      items.map(function(l){return '<div class="pbx-led-row"><div class="pbx-led-t">'+l.text+'</div><div class="pbx-led-s">จากเกม '+playLabel(l.kind,l.idx)+'</div></div>';}).join('');
   var rows=items.map(function(l,i){
     var icon=l.kind==='game'?ic(SIDES[l.idx].icon):ic(BOOTHS[l.idx].icon);
     return '<article class="side-item"'+(i===items.length-1?' style="border-bottom:none"':'')+'>'+
