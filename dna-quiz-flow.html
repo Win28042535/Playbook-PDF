@@ -19,10 +19,13 @@
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-700.ttf) format('truetype');font-weight:700;font-style:normal;font-display:swap;}
 /* ── BetterTrade 2026 Playbook · Ver.2 (Minimalism-book DNA) ── */
 :root{
-  --ink:#111318; --muted:#687078;
+  --ink:#111318; --muted:#5a6168;
   --paper:#f7f8f7; --white:#ffffff;
+  --sheet:#f2eadb;             /* the printed sheet: warm parchment, lighter than the cover's #e5ded5 centre so text stays easy to read */
+  --sheet-ink:139,105,58;      /* r,g,b of the tan used for the edge shade (the cover's edge reads #c9b6a1) */
+  --pbx-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .33 0 0 0 0 .18 .27 0 0 0 -.095'/%3E%3C/filter%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .22 0 0 0 0 .1 .5 0 0 0 -.21'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23m)'/%3E%3Crect width='360' height='360' filter='url(%23g)'/%3E%3C/svg%3E");  /* seamless 360px tile: a mottled fibre layer + fine grain, both feTurbulence */
   --line:rgba(16,20,24,0.08);  /* hairline track under the data rules; the screen sheet's outline */
-  --rule:#c4c5c7;              /* every divider rule */
+  --rule:#c9bda5;              /* every divider rule: a warm hairline on the parchment */
   --rule-w:1px;
   --focus:#2b6cff;             /* keyboard focus ring */
   --orange:#f5a962;
@@ -80,6 +83,27 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-body>*{flex:0 0 auto;margin:0;}
 /* ── sheet chrome ── */
 .pb-page.pbx{padding:var(--pbx-pad-top) var(--pbx-pad-x) var(--pbx-pad-bottom);}
+/* paper (reference: "The Adversary"): parchment with a soft vignette, a mottled fibre layer and fine grain.
+   The texture is one inline SVG tile (feTurbulence, seamless), so it costs no asset. Gutter shade alternates
+   with the page number: odd sheets are right-hand pages (spine on the left), even ones left-hand (spine on
+   the right); the cover is child 1 and the สารบัญ child 2, so sheet 1 is child 3. */
+.pb-page.pbx{isolation:isolate;background-color:var(--sheet);}
+.pb-fit:nth-child(odd)>.pb-page.pbx{background-image:linear-gradient(to right,rgba(var(--sheet-ink),.26) 0,rgba(var(--sheet-ink),.09) 3.5%,rgba(var(--sheet-ink),0) 11%),
+  radial-gradient(ellipse 88% 82% at 50% 46%,rgba(var(--sheet-ink),0) 58%,rgba(var(--sheet-ink),.16) 100%),var(--pbx-grain);background-size:100% 100%,100% 100%,360px 360px;}
+.pb-fit:nth-child(even)>.pb-page.pbx{background-image:linear-gradient(to left,rgba(var(--sheet-ink),.26) 0,rgba(var(--sheet-ink),.09) 3.5%,rgba(var(--sheet-ink),0) 11%),
+  radial-gradient(ellipse 88% 82% at 50% 46%,rgba(var(--sheet-ink),0) 58%,rgba(var(--sheet-ink),.16) 100%),var(--pbx-grain);background-size:100% 100%,100% 100%,360px 360px;}
+/* running header: the chapter name, small and centred, between two short hairlines (reference: Maguss) */
+.pbx-hd{position:absolute;top:42px;left:var(--pbx-pad-x);right:var(--pbx-pad-x);display:flex;justify-content:center;align-items:center;gap:14px;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
+.pbx-hd:not(:has(span:not(:empty))){display:none;}
+.pbx-hd::before,.pbx-hd::after{content:'';width:44px;height:var(--rule-w);background:var(--rule);}
+/* corner sprigs (feature sheets + สารบัญ only), mirrored left/right */
+.pbx-cn{display:none;position:absolute;top:22px;width:118px;height:90px;background:url(assets/orn-corner.svg) center/contain no-repeat;pointer-events:none;}
+.pbx-cn.r{right:28px;}
+.pbx-cn.l{left:28px;transform:scaleX(-1);}
+.pb-page.pbx:has(.pbx-feat)>.pbx-cn,.pb-toc>.pbx-cn{display:block;}
+.pb-page.pbx:has(.pbx-open)>.pbx-cn.r{display:block;}
+/* contour lines (reference: "Chapter Three"): a faint ink field behind the top of opener, feature and สารบัญ sheets */
+.pb-page.pbx:has(.pbx-open)::after,.pb-page.pbx:has(.pbx-feat)::after,.pb-toc::after{content:'';position:absolute;left:0;right:0;top:0;height:46%;z-index:-1;background:url(assets/topo.svg) center top/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);}
 /* opener */
 .pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:0;left:var(--pbx-tab-x);width:var(--pbx-tab-w);height:var(--pbx-tab-h);background:var(--pbx-accent);}
 .pbx .pbx-open{padding:calc(var(--pbx-open-y) - var(--pbx-pad-top)) 0 0 calc(var(--pbx-col-x) - var(--pbx-pad-x));}
@@ -177,7 +201,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx .pbx-split{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-block);}
 .pbx-list{margin:var(--sp-inline) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
 .pbx-list li+li{margin-top:var(--sp-list);}
-.pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:var(--sp-stack) 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
+.pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);position:relative;padding:var(--sp-stack) 0 calc(var(--sp-list) + var(--rule-w));font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
+.pbx-ft::before,.pbx-ft::after{content:'';position:absolute;bottom:0;height:var(--rule-w);width:calc(50% - 26px);background:var(--rule);}
+.pbx-ft::before{left:0;}
+.pbx-ft::after{right:0;}
+.pbx-ft-r::after{content:'';position:absolute;left:50%;bottom:-5px;width:34px;height:11px;transform:translateX(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 11'%3E%3Cg fill='none' stroke='%23111318' stroke-opacity='.62'%3E%3Cpath d='M17 1.5 22 5.5 17 9.5 12 5.5Z'/%3E%3C/g%3E%3Cg fill='%23111318' fill-opacity='.62'%3E%3Ccircle cx='6' cy='5.5' r='1'/%3E%3Ccircle cx='28' cy='5.5' r='1'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;}
 .pbx-ft-brand{text-transform:uppercase;letter-spacing:.14em;} /* Latin only — Thai has no case and tracking hurts it */
 .pbx-ft-brand b{font-weight:var(--w-label);color:var(--ink);}
 .pbx-ft-r{display:flex;align-items:baseline;gap:var(--sp-stack);}
@@ -584,6 +612,8 @@ function glossaryBlocksHTML(){
 }
 /* pbSetZoom — the fit-shrink for a block taller than a whole sheet (never needed by today's content). */
 function pbSetZoom(el,k){el.style.zoom=k&&k!==1?k:'';}
+var PBX_CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'พอร์ต',journey:'เส้นทาง',library:'คลังความรู้'}; // chapter labels: สารบัญ's group names and each sheet's running header
+var PBX_ORN='<i class="pbx-cn l" aria-hidden="true"></i><i class="pbx-cn r" aria-hidden="true"></i>'; // corner sprigs; CSS shows them only on feature sheets and the สารบัญ
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 function pbBuild(){
   var main=root.querySelector('main.scroll'),src=main&&main.querySelector('.pb-src');
@@ -601,7 +631,7 @@ function pbBuild(){
     var fit=document.createElement('div');fit.className='pb-fit';
     var pg=document.createElement('div');
     pg.className='pb-page pbx';pg.dataset.sect=sect;pg.dataset.panel=pnl;
-    pg.innerHTML='<div class="pb-body"></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span><a class="pb-pn" href="#pb-toc"></a></span></div>';
+    pg.innerHTML=PBX_ORN+'<div class="pbx-hd" aria-hidden="true"><span>'+(PBX_CH[sect]||'')+'</span></div><div class="pb-body"></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span><a class="pb-pn" href="#pb-toc"></a></span></div>';
     pg.__pbPanel=pnl; // expando, not an attribute — lets tools/layout-audit.js group sheets without changing the DOM
     fit.appendChild(pg);doc.appendChild(fit);pages.push(pg);
     return pg.querySelector('.pb-body');
@@ -666,7 +696,7 @@ function pbTOC(doc,pages){
     if(!t||seen[t])return;
     seen[t]=true;rows.push({n:n,t:t,sect:pg.dataset.sect});
   });
-  var CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'พอร์ต',journey:'เส้นทาง',library:'คลังความรู้'};
+  var CH=PBX_CH;
   /* one .toc-grp per chapter: its name in the left column, its rows in the reading column */
   var out='',lastCh=null;
   rows.forEach(function(r){
@@ -678,7 +708,7 @@ function pbTOC(doc,pages){
   var fit=document.createElement('div');fit.className='pb-fit';
   var pg=document.createElement('div');pg.className='pb-page pbx pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
   /* same footer as the content sheets, minus the folio (สารบัญ itself is not numbered) */
-  pg.innerHTML='<div class="pb-body"><h2 class="pbx-toc-t">สารบัญ</h2><div class="toc-list">'+out+'</div></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span></span></div>';
+  pg.innerHTML=PBX_ORN+'<div class="pb-body"><h2 class="pbx-toc-t">สารบัญ</h2><div class="toc-list">'+out+'</div></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span></span></div>';
   fit.appendChild(pg);
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
