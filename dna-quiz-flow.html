@@ -118,6 +118,10 @@
   --pbx-open-y:354px;
   --pbx-fs-open:44px;
   --pbx-fs-kicker:13px;
+  /* feature page ("MINIMALISM BOOK MOCKUP"): title from ~14% down, full-width hairline at ~41% */
+  --pbx-feat-y:157px;
+  --pbx-feat-rule:460px;
+  --pbx-fs-feat:56px;
   /* ── rules & ornaments (read off the reference art) ── */
   --rule:#c4c5c7;         /* 2px section divider */
   --rule-fade:#d4d3d7; --rule-deep:#55535c; /* the vertical divider's gradient (light at the ends, deep next to the star) */
@@ -834,6 +838,20 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-score{white-space:nowrap;font-size:var(--fs-label);color:var(--muted);}
 .pbx-score b{font-size:56px;font-weight:var(--w-label);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;}
 .pbx-conf .pbx-data-note{margin-top:var(--sp-stack);}
+/* identity feature page: lighter, larger title than the openers (the reference's light display vs its heavy
+   section title); the title box runs down to the hairline so the rule lands at ~41% whatever the line count;
+   split row = narrow text column (262px ≈ 33%) + the card (the reference's photo), flat, no shadow */
+.pbx .pbx-feat{padding-top:calc(var(--pbx-feat-y) - var(--pbx-pad-top));}
+.pbx .pbx-feat-t{box-sizing:border-box;margin:0;min-height:calc(var(--pbx-feat-rule) - var(--pbx-feat-y));font-size:var(--pbx-fs-feat);font-weight:var(--w-body);line-height:1.1;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);text-wrap:balance;}
+.pbx-feat-row{display:grid;grid-template-columns:262px minmax(0,1fr);column-gap:var(--sp-block);align-items:start;margin-top:var(--sp-stack);}
+.pbx-feat-fam{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
+.pbx-feat-sig{margin-top:var(--sp-inline);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+.pbx-card img{display:block;width:100%;height:auto;border-radius:5.8% / 4.15%;}
+/* identity follow-up blocks */
+.pbx-block .pbx-cats{margin-top:var(--sp-stack);}
+.pbx .pbx-split{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-block);}
+.pbx-list{margin:var(--sp-inline) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
+.pbx-list li+li{margin-top:var(--sp-list);}
 .pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:var(--sp-stack) 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
 .pbx-ft-brand{text-transform:uppercase;letter-spacing:.14em;} /* Latin only — Thai has no case and tracking hurts it */
 .pbx-ft-brand b{font-weight:var(--w-label);color:var(--ink);}
@@ -1753,6 +1771,25 @@ function book2IdentityDetail(hero,previewOnly){
   return '<div class="fam-badge" style="'+famBadgeStyle(hero)+'"><span>'+hero.famTh+'</span></div>'+
     heroDetailBody(hero,previewOnly);
 }
+/* Ver.2 identity — the reference's feature page ("MINIMALISM BOOK MOCKUP"): the persona's name as the big
+   title from ~14% down to a full-width hairline at ~41%, then a split row: a narrow text column (family +
+   signature) beside the card, which plays the reference's photo. The rest follows on text pages:
+   preferred assets as a ruled list, strengths | watch-outs as two columns, SKILL as data rows + its note.
+   No brand-asset scatter, icons, grey panel, boxes or coloured bars. The title keeps .s-h, and its text
+   is the same persona name สารบัญ already used for this sheet. Registered visitors only (see renderBook). */
+function pbxIdentityHTML(h,key){
+  var card=REAL_CARD_IMG[key]?'<img src="'+REAL_CARD_IMG[key]+'" alt="การ์ด '+h.en+'">':pcFrontInner(key);
+  var feat='<section class="pbx-feat pbx-solo"><h2 class="s-h pbx-feat-t">'+h.th+'</h2>'+
+    '<div class="pbx-feat-row"><div><div class="pbx-feat-fam">'+h.famTh+'</div><p class="pbx-feat-sig">'+h.sig+'</p></div><div class="pbx-card">'+card+'</div></div></section>';
+  var assets='<section class="pbx-block"><h2 class="s-h pbx-blk-t">สินทรัพย์ที่ <span>ถนัด</span></h2><div class="pbx-cats">'+
+    h.assets.map(function(a){return '<div><span>'+a.t+'</span></div>';}).join('')+'</div></section>';
+  var col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
+  var str='<section class="pbx-block pbx-split">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</section>';
+  var skill='<section class="pbx-block"><h3 class="pbx-blk-t">SKILL ประจำการ์ด</h3>'+(h.motto?'<p class="pbx-sec-sub">คำประจำตัว '+h.motto+'</p>':'')+
+    '<div class="pbx-data">'+SKC_ROWS.map(function(l,i){var v=h.skills[i];return pbxRow(l,'<b>'+v+'</b>/10',v*10);}).join('')+'</div>'+
+    '<p class="pbx-data-note"><b>ค่า SKILL บนการ์ด</b> สะท้อนความถนัดในแต่ละสไตล์ ไม่ใช่คำแนะนำการลงทุน</p></section>';
+  return (feat+assets+str+skill).replace(/\s*—\s*/g,' '); // no em dashes on a sheet, same as identParts()
+}
 /* Unregistered-quiz-taker CTA (2026-09-04, per direction — see renderBook's `unreg` branch) — takes
    over right where the identity tab gets cut short (after จุดแข็ง/จุดที่ต้องระวัง), reusing Games'
    pre-event "Coming soon" .ev-empty recipe (icon → shimmer headline → ev-empty-s body → tinted
@@ -1869,7 +1906,7 @@ function renderBook(){
      for this case, but a 1-choice tab bar has nothing left to switch between, so skip rendering it. */
   '<main class="scroll" style="padding-bottom:var(--sp-stack)">'+
     '<div class="pb-src">'+
-    '<div class="b2-panel" data-panel="identity">'+
+    '<div class="b2-panel" data-panel="identity">'+(pbxOn('identity')&&!unreg?pbxIdentityHTML(h,r.heroKey):(
       '<section class="hero-sec"><div class="hero-gw"><div class="hero-in scroll-reveal">'+
         compareBlock+
         '<div id="b2ident-head">'+identParts(h,unreg).head+'</div>'+
@@ -1885,7 +1922,7 @@ function renderBook(){
              (pre/on-event) since renderBook never branches this button on `pre`. */
           ''
         ))+
-      '</div></div></section>'+
+      '</div></div></section>'))+
     '</div>'+
     (unreg?'':(
     '<div class="b2-panel" data-panel="analysis">'+
@@ -2194,7 +2231,7 @@ function pbSetZoom(el,k){if(k&&k!==1){el.style.zoom=k;el.style.setProperty('--pb
    time: a panel not listed here builds exactly as before (byte-identical sheets). `?pbx=glossary` /
    `?pbx=glossary,library` / `?pbx=all` previews panels on the new templates without changing the
    default build. */
-var PBX_DEFAULT=['glossary','library','journey','portfolio'];
+var PBX_DEFAULT=['glossary','library','journey','portfolio','analysis'];
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 var PBX=(function(){var s={},q=(location.search.match(/[?&]pbx=([^&]*)/)||[])[1];
   PBX_DEFAULT.forEach(function(p){s[p]=1;});
