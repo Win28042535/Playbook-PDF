@@ -102,8 +102,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* the persona card as a plate: a double hairline frame around it (reference: Maguss' framed illustration) */
 .pbx-card{position:relative;}
 .pbx-card::before,.pbx-card::after{content:'';position:absolute;border:var(--rule-w) solid var(--rule);pointer-events:none;}
-.pbx-card::before{inset:-9px;}
-.pbx-card::after{inset:-13px;}
+.pbx-card::before{inset:-16px;}
+.pbx-card::after{inset:-22px;}
+.pb-page.pbx:has(.pbx-card) .pb-body{overflow:visible;} /* the frame reaches 22px past the column; sheet fit is still measured by scrollHeight */
 .pb-page.pbx:has(.pbx-feat)>.pbx-cn,.pb-toc>.pbx-cn{display:block;}
 /* contour lines (reference: "Chapter Three"): a faint ink field behind the top of opener, feature and สารบัญ sheets */
 .pb-page.pbx:has(.pbx-open)::after,.pb-page.pbx:has(.pbx-feat)::after,.pb-toc::after{content:'';position:absolute;left:0;right:0;top:0;height:46%;z-index:-1;background:url(assets/topo.svg) center top/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);}
@@ -194,7 +195,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    split row = narrow text column (262px ≈ 33%) + the card (the reference's photo), flat, no shadow */
 .pbx .pbx-feat{padding-top:calc(var(--pbx-feat-y) - var(--pbx-pad-top));}
 .pbx .pbx-feat-t{box-sizing:border-box;margin:0;min-height:calc(var(--pbx-feat-rule) - var(--pbx-feat-y));font-size:var(--pbx-fs-feat);font-weight:var(--w-body);line-height:1.1;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);text-wrap:balance;}
-.pbx-feat-row{display:grid;grid-template-columns:262px minmax(0,1fr);column-gap:var(--sp-block);align-items:start;margin-top:var(--sp-stack);}
+.pbx-feat-row{display:grid;grid-template-columns:262px minmax(0,1fr);column-gap:38px;align-items:start;margin-top:34px;} /* the gap and top margin leave room for the card's double frame (-22px) clear of the text column and the title hairline */
 .pbx-feat-fam{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .pbx-feat-sig{margin-top:var(--sp-inline);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-card img{display:block;width:100%;height:auto;border-radius:5.8% / 4.15%;}
@@ -223,8 +224,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .toc-ch{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .toc-rows{display:flex;flex-direction:column;}
 .toc-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-stack);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
-.toc-t{font-size:var(--fs-label);font-weight:var(--w-body);line-height:1.5;}
-.toc-n{font-size:var(--fs-label);color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto;}
+.toc-t{font-size:var(--pbx-fs-kicker);font-weight:var(--w-body);line-height:1.5;}
+.toc-n{font-size:var(--pbx-fs-kicker);color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto;}
 /* หน้า "เส้นทาง" (journey) is print-like: nothing on it reacts to hover / tap */
 .pb-page[data-sect="journey"]{pointer-events:none;}
 .pb-page[data-sect="journey"] *{cursor:default!important;}
