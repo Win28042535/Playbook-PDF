@@ -109,6 +109,15 @@
   --pbx-pad-bottom:34px;
   --pbx-fs-ft:11px;
   --pbx-accent:var(--orange);
+  /* opener ("SECTION 1" page), % of the 794 x 1123 sheet: tab 14.6% from the left, 7% wide, 20% tall;
+     text column starts 19.7% from the left and is ~59% wide (= --read-measure); kicker at ~31.5% down. */
+  --pbx-tab-x:116px;
+  --pbx-tab-w:56px;
+  --pbx-tab-h:225px;
+  --pbx-col-x:156px;
+  --pbx-open-y:354px;
+  --pbx-fs-open:44px;
+  --pbx-fs-kicker:13px;
   /* ── rules & ornaments (read off the reference art) ── */
   --rule:#c4c5c7;         /* 2px section divider */
   --rule-fade:#d4d3d7; --rule-deep:#55535c; /* the vertical divider's gradient (light at the ends, deep next to the star) */
@@ -742,7 +751,20 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-toc-back svg{width:var(--ic-sm);height:var(--ic-sm);flex:0 0 auto;color:var(--violet);}
 /* ── Ver.2 (pbx) sheet chrome — every rule scoped to .pbx so unmigrated sheets are untouched ── */
 .pb-page.pbx{background:var(--white);padding:var(--pbx-pad-top) var(--pbx-pad-x) var(--pbx-pad-bottom);}
-.pb-page.pbx .pb-body{padding-top:0;}
+.pb-page.pbx .pb-body{padding-top:0;gap:0;} /* Ver.2 templates own their vertical rhythm (padding, since .pb-body>* margins are zeroed) */
+/* opener */
+.pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:0;left:var(--pbx-tab-x);width:var(--pbx-tab-w);height:var(--pbx-tab-h);background:var(--pbx-accent);}
+.pbx .pbx-open{padding:calc(var(--pbx-open-y) - var(--pbx-pad-top)) 0 0 calc(var(--pbx-col-x) - var(--pbx-pad-x));}
+.pbx-kicker{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);color:var(--ink);line-height:1.4;margin-bottom:var(--sp-block);}
+.pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);padding-bottom:var(--sp-inline);border-bottom:5px solid var(--pbx-accent);}
+.pbx-lede{max-width:var(--read-measure);margin-top:56px;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+/* text page: heading hangs from a full-width hairline; rows read in a term | definition grid whose
+   definition column is the reading measure (148 + 24 + 470 = the 642px content width) */
+.pbx .pbx-gt{font-size:var(--fs-bodysm);font-weight:var(--w-label);color:var(--ink);padding:44px 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);margin-bottom:var(--sp-list);}
+.pbx .pb-body>.pbx-gt:first-child{padding-top:0;}
+.pbx-gl-row{display:grid;grid-template-columns:148px minmax(0,var(--read-measure));column-gap:var(--sp-block);padding:var(--sp-inline) 0;align-items:baseline;}
+.pbx-gl-term{font-size:var(--fs-label);font-weight:var(--w-label);color:var(--ink);line-height:1.4;}
+.pbx-gl-def{font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:var(--sp-stack) 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
 .pbx-ft-brand{text-transform:uppercase;letter-spacing:.14em;} /* Latin only — Thai has no case and tracking hurts it */
 .pbx-ft-brand b{font-weight:var(--w-label);color:var(--ink);}
@@ -1940,8 +1962,23 @@ function libraryBlocksHTML(h){
   });
   return out;
 }
+/* Ver.2 opener (Minimalism-book "SECTION 1" page): a sheet of its own (.pbx-solo); the accent tab
+   hanging off the top edge is drawn by the sheet (see .pb-page.pbx:has(.pbx-open)). Title keeps .s-h so
+   สารบัญ still picks it up. kicker / title / lede are plain text — no ornament, no gradient. */
+function pbxOpenHTML(kicker,titleHTML,lede){
+  return '<section class="pbx-open pbx-solo"><div class="pbx-kicker">'+kicker+'</div><h2 class="s-h pbx-open-t">'+titleHTML+'</h2>'+(lede?'<p class="pbx-lede">'+lede+'</p>':'')+'</section>';
+}
 function glossaryBlocksHTML(){
   var n=GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);
+  if(pbxOn('glossary'))
+    /* Ver.2 text page: one block per row so a long group flows across sheets at one type size (the old
+       one-block-per-group got zoom-shrunk when a group outgrew a sheet); the group title travels with
+       its first row (.pb-keep) and keeps .gl-gt for สารบัญ. */
+    return pbxOpenHTML('อ่านเล่มนี้ให้เข้าใจ','<span>ศัพท์</span> ในเล่มนี้',n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน')+
+      GLOSSARY.map(function(g){
+        return '<div class="gl-gt pbx-gt pb-keep">'+libEsc(g.g)+'</div>'+
+          g.i.map(function(it){return '<div class="pbx-gl-row"><div class="pbx-gl-term">'+libEsc(it[0])+'</div><div class="pbx-gl-def">'+libEsc(it[1])+'</div></div>';}).join('');
+      }).join('');
   return '<section class="pb-plain"><div class="s-ey">อ่านเล่มนี้ให้เข้าใจ'+ORN_EY+'</div><h2 class="s-h"><span class="txt-grad">ศัพท์</span> ในเล่มนี้</h2><p class="s-sub">'+n+' คำที่โผล่ในเล่ม — อธิบายให้อ่านเล่มนี้เข้าใจ ไม่ใช่คำแนะนำการลงทุน</p></section>'+
     GLOSSARY.map(function(g){
       var enKicker=g.g==='คำอังกฤษที่โผล่ในคำบรรยาย'; // this group only, see .gl-row-en's own comment

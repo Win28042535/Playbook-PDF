@@ -74,6 +74,18 @@
       });
       var rng=function(a){return a.length?[+Math.min.apply(0,a).toFixed(1),+Math.max.apply(0,a).toFixed(1)]:null;};
       out.pbx={sheets:px.length,footLinePct:rng(m.footLine),footLabelPct:rng(m.footLabel),marginLPct:rng(m.marginL),marginRPct:rng(m.marginR),textOutsideMargins:m.textOutside};
+      // openers vs the reference "SECTION 1" page (tab 14.6% / 7% / 20%, kicker ~31.5%, underline ~42%,
+      // body ~47%, column from 19.7% and ~59% wide)
+      out.pbx.openers=px.filter(function(pg){return pg.querySelector('.pbx-open');}).map(function(pg){
+        var pr=pg.getBoundingClientRect(),W=pr.width,H=pr.height,s=W/794,b=getComputedStyle(pg,'::before');
+        var y=function(el,edge){return el?+(((el.getBoundingClientRect()[edge])-pr.top)/H*100).toFixed(1):null;};
+        var k=pg.querySelector('.pbx-kicker'),t=pg.querySelector('.pbx-open-t'),l=pg.querySelector('.pbx-lede');
+        var tr=t.getBoundingClientRect();
+        return {id:pg.id,tabXPct:+(parseFloat(b.left)/794*100).toFixed(1),tabWPct:+(parseFloat(b.width)/794*100).toFixed(1),tabHPct:+(parseFloat(b.height)/(794*3508/2480)*100).toFixed(1),
+          kickerTopPct:y(k,'top'),titleTopPct:y(t,'top'),underlinePct:y(t,'bottom'),ledeTopPct:y(l,'top'),ledeBottomPct:y(l,'bottom'),
+          colXPct:+((tr.left-pr.left)/W*100).toFixed(1),colWPct:l?+(l.getBoundingClientRect().width/W*100).toFixed(1):null,
+          titleLines:Math.round(tr.height/(parseFloat(getComputedStyle(t).lineHeight)*s))};
+      });
     }
     return out;
   }
