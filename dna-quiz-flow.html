@@ -42,11 +42,8 @@
   --pbx-pad-top:96px;
   --pbx-pad-bottom:34px;
   --pbx-fs-ft:11px;
-  /* opener ("SECTION 1" page): tab 14.6% from the left, 7% wide, 20% tall; text column starts 19.7%
-     from the left and is ~59% wide (= --read-measure); kicker at ~31.5% down */
-  --pbx-tab-x:116px;
-  --pbx-tab-w:56px;
-  --pbx-tab-h:225px;
+  /* opener ("SECTION 1" page): text column starts 19.7% from the left and is ~59% wide (= --read-measure);
+     kicker at ~31.5% down */
   --pbx-col-x:156px;
   --pbx-open-y:354px;
   --pbx-fs-open:44px;
@@ -94,7 +91,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-hd{position:absolute;top:42px;left:var(--pbx-pad-x);right:var(--pbx-pad-x);display:flex;justify-content:center;align-items:center;gap:14px;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
 .pbx-hd:not(:has(span:not(:empty))){display:none;}
 .pbx-hd::before,.pbx-hd::after{content:'';width:44px;height:var(--rule-w);background:var(--rule);}
-/* corner sprigs (feature sheets + สารบัญ), mirrored left/right; openers carry their chapter drawing there instead */
+/* corner sprigs, mirrored left/right: both on feature sheets and the สารบัญ; on openers only the left one (the right corner holds the chapter drawing) */
 .pbx-cn{display:none;position:absolute;top:22px;width:118px;height:90px;background:url(assets/orn-corner.svg) center/contain no-repeat;pointer-events:none;}
 .pbx-cn.r{right:28px;}
 .pbx-cn.l{left:28px;transform:scaleX(-1);}
@@ -110,10 +107,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-card::after{inset:-22px;}
 .pb-page.pbx:has(.pbx-card) .pb-body{overflow:visible;} /* the frame reaches 22px past the column; sheet fit is still measured by scrollHeight */
 .pb-page.pbx:has(.pbx-feat)>.pbx-cn,.pb-toc>.pbx-cn{display:block;}
+.pb-page.pbx:has(.pbx-open)>.pbx-cn.l{display:block;}
 /* contour lines (reference: "Chapter Three"): a faint ink field behind the top of opener, feature and สารบัญ sheets */
 .pb-page.pbx:has(.pbx-open)::after,.pb-page.pbx:has(.pbx-feat)::after,.pb-toc::after{content:'';position:absolute;left:0;right:0;top:0;height:46%;z-index:-1;background:url(assets/topo.svg) center top/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);}
 /* opener */
-.pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:0;left:var(--pbx-tab-x);width:var(--pbx-tab-w);height:var(--pbx-tab-h);box-sizing:border-box;border:var(--rule-w) solid rgba(17,19,24,.78);border-top:0;background:url(assets/hatch-tab.svg) 0 0/6px 6px repeat,url(assets/hatch-tab-x.svg) right 0 top 0/14px 6px repeat-y,var(--sheet);} /* engraved tab: single-ink hatch, light from the upper left so the right edge is cross-hatched */
 .pbx .pbx-open{padding:calc(var(--pbx-open-y) - var(--pbx-pad-top)) 0 0 calc(var(--pbx-col-x) - var(--pbx-pad-x));}
 .pbx .pbx-open:has(.pbx-lock){padding-top:calc(var(--pbx-open-y) - var(--pbx-pad-top) - var(--pbx-lock-h));} /* the lockup takes the room above the kicker, so the title stays where it was */
 .pbx-lock{display:block;height:var(--pbx-lock-h);}
@@ -624,8 +621,7 @@ function libraryBlocksHTML(h){
   });
   return out;
 }
-/* Ver.2 opener (Minimalism-book "SECTION 1" page): a sheet of its own (.pbx-solo); the accent tab
-   hanging off the top edge is drawn by the sheet (see .pb-page.pbx:has(.pbx-open)). Title keeps .s-h so
+/* Ver.2 opener (Minimalism-book "SECTION 1" page): a sheet of its own (.pbx-solo). Title keeps .s-h so
    สารบัญ still picks it up. kicker / title / lede are plain text — no ornament, no gradient. */
 function pbxOpenHTML(kicker,titleHTML,lede,extra){
   /* kicker may be [text,[CAPS,Script]]: the pair is drawn as a two-line lockup above the kicker (sample English words) */
@@ -645,11 +641,11 @@ function glossaryBlocksHTML(){
 /* pbSetZoom — the fit-shrink for a block taller than a whole sheet (never needed by today's content). */
 function pbSetZoom(el,k){el.style.zoom=k&&k!==1?k:'';}
 var PBX_CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'พอร์ต',journey:'เส้นทาง',library:'คลังความรู้'}; // chapter labels: สารบัญ's group names and each sheet's running header
-var PBX_ORN='<i class="pbx-cn l" aria-hidden="true"></i><i class="pbx-cn r" aria-hidden="true"></i>'; // corner sprigs; CSS shows them only on feature sheets and the สารบัญ
+var PBX_ORN='<i class="pbx-cn l" aria-hidden="true"></i><i class="pbx-cn r" aria-hidden="true"></i>'; // corner sprigs; CSS decides which show on which kind of sheet
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 /* Line-art illustrations (round 2, steps 3-4): placed AFTER pagination as absolutely positioned marks in
    space a sheet already has free, so no text moves and the page count never changes.
-   - opener sheets: the chapter's drawing in the upper right, opposite the hatched tab;
+   - opener sheets: the chapter's drawing in the upper right, opposite the corner sprig;
    - the identity feature sheet: the compass between the persona name and the hairline, when there is room;
    - the last sheet of a section with room under its text: a fleuron tailpiece just below the text. */
 var PBX_ILL={identity:'compass',analysis:'scale',portfolio:'chart',journey:'path',library:'book',glossary:'quill'};
