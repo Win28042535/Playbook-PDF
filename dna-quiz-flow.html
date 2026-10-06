@@ -21,12 +21,11 @@
 :root{
   --ink:#111318; --muted:#5a6168;
   --paper:#f7f8f7; --white:#ffffff;
-  --sheet:#f2eadb;             /* the printed sheet: warm parchment, lighter than the cover's #e5ded5 centre so text stays easy to read */
-  --sheet-ink:139,105,58;      /* r,g,b of the tan used for the edge shade (the cover's edge reads #c9b6a1) */
-  --pbx-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .33 0 0 0 0 .18 .27 0 0 0 -.095'/%3E%3C/filter%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .22 0 0 0 0 .1 .5 0 0 0 -.21'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23m)'/%3E%3Crect width='360' height='360' filter='url(%23g)'/%3E%3C/svg%3E");  /* seamless 360px tile: a mottled fibre layer + fine grain, both feTurbulence */
-  --pbx-grain-cool:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .34 0 0 0 0 .42 .12 0 0 0 -.043'/%3E%3C/filter%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .26 .23 0 0 0 -.095'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23m)'/%3E%3Crect width='360' height='360' filter='url(%23g)'/%3E%3C/svg%3E");  /* the same tile tinted blue-grey, for the cool paper */
+  --sheet:#fafafc;             /* the printed sheet: near-white cool grey (reference: Torino) */
+  --sheet-ink:78,92,118;       /* r,g,b of the blue-grey used for the edge vignette */
+  --pbx-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .34 0 0 0 0 .42 .12 0 0 0 -.043'/%3E%3C/filter%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .26 .23 0 0 0 -.095'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23m)'/%3E%3Crect width='360' height='360' filter='url(%23g)'/%3E%3C/svg%3E");  /* seamless 360px tile: a faint blue-grey fibre mottle + fine grain, both feTurbulence */
   --line:rgba(16,20,24,0.08);  /* hairline track under the data rules; the screen sheet's outline */
-  --rule:#c9bda5;              /* every divider rule: a warm hairline on the parchment */
+  --rule:#bcc2cc;              /* every divider rule: a cool hairline */
   --rule-w:1px;
   --focus:#2b6cff;             /* keyboard focus ring */
   --orange:#f5a962;
@@ -84,18 +83,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-body>*{flex:0 0 auto;margin:0;}
 /* ── sheet chrome ── */
 .pb-page.pbx{padding:var(--pbx-pad-top) var(--pbx-pad-x) var(--pbx-pad-bottom);}
-/* paper (reference: "The Adversary"): parchment with a soft vignette, a mottled fibre layer and fine grain.
-   The texture is one inline SVG tile (feTurbulence, seamless), so it costs no asset. Gutter shade alternates
-   with the page number: odd sheets are right-hand pages (spine on the left), even ones left-hand (spine on
-   the right); the cover is child 1 and the สารบัญ child 2, so sheet 1 is child 3. */
-.pb-page.pbx{isolation:isolate;background-color:var(--sheet);}
-/* cool grey paper (reference: Torino), trial on the contents page: only variables change, so every rule that
-   reads them (vignette, spine shade, grain, hairlines) follows */
-.pb-page.pb-toc{--sheet:#fafafc;--sheet-ink:78,92,118;--pbx-grain:var(--pbx-grain-cool);--rule:#bcc2cc;}
-.pb-fit:nth-child(odd)>.pb-page.pbx{background-image:linear-gradient(to right,rgba(var(--sheet-ink),.26) 0,rgba(var(--sheet-ink),.09) 3.5%,rgba(var(--sheet-ink),0) 11%),
-  radial-gradient(ellipse 88% 82% at 50% 46%,rgba(var(--sheet-ink),0) 58%,rgba(var(--sheet-ink),.16) 100%),var(--pbx-grain);background-size:100% 100%,100% 100%,360px 360px;}
-.pb-fit:nth-child(even)>.pb-page.pbx{background-image:linear-gradient(to left,rgba(var(--sheet-ink),.26) 0,rgba(var(--sheet-ink),.09) 3.5%,rgba(var(--sheet-ink),0) 11%),
-  radial-gradient(ellipse 88% 82% at 50% 46%,rgba(var(--sheet-ink),0) 58%,rgba(var(--sheet-ink),.16) 100%),var(--pbx-grain);background-size:100% 100%,100% 100%,360px 360px;}
+/* paper (reference: Torino): near-white cool grey with a soft edge vignette and a faint grain tile. The texture is
+   one inline SVG tile (feTurbulence, seamless), so it costs no asset. No spine shade: every sheet reads the same. */
+.pb-page.pbx{isolation:isolate;background-color:var(--sheet);background-image:radial-gradient(ellipse 88% 82% at 50% 46%,rgba(var(--sheet-ink),0) 58%,rgba(var(--sheet-ink),.16) 100%),var(--pbx-grain);background-size:100% 100%,360px 360px;}
 /* running header: the chapter name, small and centred, between two short hairlines (reference: Maguss) */
 .pbx-hd{position:absolute;top:42px;left:var(--pbx-pad-x);right:var(--pbx-pad-x);display:flex;justify-content:center;align-items:center;gap:14px;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
 .pbx-hd:not(:has(span:not(:empty))){display:none;}
