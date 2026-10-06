@@ -30,7 +30,6 @@
   --rule:#bcc2cc;              /* every divider rule: a cool hairline */
   --rule-w:1px;
   --focus:#2b6cff;             /* keyboard focus ring */
-  --orange:#f5a962;
   --shadow-page:0 6px 24px rgba(17,19,24,0.08);  /* an A4 sheet resting on the screen */
   --cover-paper:#e9e3da;       /* fallback tint behind the cover art */
   /* reading column: long-form text in a ~59%-of-sheet measure, so lines land near 60 characters */
@@ -43,7 +42,6 @@
   --pbx-pad-top:96px;
   --pbx-pad-bottom:34px;
   --pbx-fs-ft:11px;
-  --pbx-accent:var(--orange);  /* decorative only (opener tab, underlines) — never text */
   /* opener ("SECTION 1" page): tab 14.6% from the left, 7% wide, 20% tall; text column starts 19.7%
      from the left and is ~59% wide (= --read-measure); kicker at ~31.5% down */
   --pbx-tab-x:116px;
@@ -115,7 +113,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* contour lines (reference: "Chapter Three"): a faint ink field behind the top of opener, feature and สารบัญ sheets */
 .pb-page.pbx:has(.pbx-open)::after,.pb-page.pbx:has(.pbx-feat)::after,.pb-toc::after{content:'';position:absolute;left:0;right:0;top:0;height:46%;z-index:-1;background:url(assets/topo.svg) center top/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);}
 /* opener */
-.pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:0;left:var(--pbx-tab-x);width:var(--pbx-tab-w);height:var(--pbx-tab-h);background:var(--pbx-accent);}
+.pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:0;left:var(--pbx-tab-x);width:var(--pbx-tab-w);height:var(--pbx-tab-h);box-sizing:border-box;border:var(--rule-w) solid rgba(17,19,24,.78);border-top:0;background:url(assets/hatch-tab.svg) 0 0/6px 6px repeat,url(assets/hatch-tab-x.svg) right 0 top 0/14px 6px repeat-y,var(--sheet);} /* engraved tab: single-ink hatch, light from the upper left so the right edge is cross-hatched */
 .pbx .pbx-open{padding:calc(var(--pbx-open-y) - var(--pbx-pad-top)) 0 0 calc(var(--pbx-col-x) - var(--pbx-pad-x));}
 .pbx .pbx-open:has(.pbx-lock){padding-top:calc(var(--pbx-open-y) - var(--pbx-pad-top) - var(--pbx-lock-h));} /* the lockup takes the room above the kicker, so the title stays where it was */
 .pbx-lock{display:block;height:var(--pbx-lock-h);}
@@ -123,7 +121,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-lock-s{display:block;font-family:var(--font-script);font-weight:400;font-size:52px;line-height:.9;margin:-10px 0 0 40px;color:var(--ink);white-space:nowrap;}
 .pbx-kicker{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);color:var(--ink);line-height:1.4;margin-bottom:var(--sp-block);}
 .pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);position:relative;padding-bottom:var(--sp-inline);border-bottom:5px solid transparent;} /* the 5px stays as layout space; the underline itself is the hand-drawn brush below */
-.pbx .pbx-open-t::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:13px;background:url(assets/hand-underline.svg) left center/100% 100% no-repeat;pointer-events:none;} /* tapered orange brush stroke, stretched to the title width */
+.pbx .pbx-open-t::after{content:'';position:absolute;left:0;right:0;bottom:-1.5px;height:8px;background:url(assets/hand-underline.svg) left center/100% 100% no-repeat;pointer-events:none;} /* tapered ink pen stroke, stretched to the title width */
 .pbx-lede{max-width:var(--read-measure);margin-top:56px;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 /* opener extras: a one-line meta and a plain ruled list in the lower half (library opener) */
 .pbx-meta{margin-top:var(--sp-inline);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
@@ -223,7 +221,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-card img{display:block;width:100%;height:auto;border-radius:5.8% / 4.15%;}
 /* identity follow-up blocks */
 .pbx-block .pbx-cats{margin-top:var(--sp-stack);}
-.pbx-reg-a{display:inline-block;margin-top:var(--sp-block);padding-bottom:var(--sp-glue);border-bottom:3px solid var(--pbx-accent);font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-decoration:none;}
+.pbx-reg-a{display:inline-block;margin-top:var(--sp-block);padding-bottom:12px;background:url(assets/hand-underline.svg) left bottom/100% 8px no-repeat;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-decoration:none;}
 .pbx .pbx-split{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;}
 .pbx-list{margin:var(--sp-inline) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
 .pbx-list li+li{margin-top:var(--sp-list);}
@@ -651,7 +649,7 @@ var PBX_ORN='<i class="pbx-cn l" aria-hidden="true"></i><i class="pbx-cn r" aria
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 /* Line-art illustrations (round 2, steps 3-4): placed AFTER pagination as absolutely positioned marks in
    space a sheet already has free, so no text moves and the page count never changes.
-   - opener sheets: the chapter's drawing in the upper right, opposite the orange tab;
+   - opener sheets: the chapter's drawing in the upper right, opposite the hatched tab;
    - the identity feature sheet: the compass between the persona name and the hairline, when there is room;
    - the last sheet of a section with room under its text: a fleuron tailpiece just below the text. */
 var PBX_ILL={identity:'compass',analysis:'scale',portfolio:'chart',journey:'path',library:'book',glossary:'quill'};
