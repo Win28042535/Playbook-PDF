@@ -799,6 +799,28 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-led-row{padding:var(--sp-inline) 0;border-top:var(--rule-w) solid var(--rule);}
 .pbx-led-t{max-width:var(--read-measure);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-led-s{margin-top:2px;font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);}
+/* data page: blocks separated by air; label | value rows with the share as a thin ink rule on a hairline
+   track (muted = categories not touched yet, the v1 "แท่งสีจาง") */
+.pbx .pbx-block{padding-top:56px;}
+.pbx .pb-body>.pbx-block:first-child{padding-top:0;}
+.pbx .pbx-blk-t{margin:0;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.2;color:var(--ink);}
+.pbx-data{max-width:var(--read-measure);margin-top:var(--sp-stack);}
+.pbx-open .pbx-data{margin-top:40px;}
+.pbx-dr{display:grid;grid-template-columns:1fr auto;column-gap:var(--sp-stack);align-items:baseline;padding:10px 0 6px;}
+.pbx-dl{font-size:var(--fs-label);line-height:1.4;color:var(--ink);}
+.pbx-dv{font-size:var(--fs-label);line-height:1.4;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.pbx-dv b,.pbx-open .pbx-dv,.pbx-dr:not(.muted) .pbx-dv:not(:has(b)){font-weight:var(--w-label);color:var(--ink);}
+.pbx-db{grid-column:1/-1;display:block;height:3px;margin-top:8px;background:linear-gradient(to right,var(--ink) var(--v),var(--line) var(--v));}
+.pbx-dr.muted .pbx-dl{color:var(--muted);}
+.pbx-dr.muted .pbx-db{background:linear-gradient(to right,var(--rule) var(--v),var(--line) var(--v));}
+.pbx-data-cap{max-width:var(--read-measure);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
+.pbx-data-note{max-width:var(--read-measure);margin-top:var(--sp-inline);font-size:14px;line-height:1.6;color:var(--muted);text-wrap:pretty;}
+.pbx-data-note b{font-weight:var(--w-label);color:var(--ink);}
+.pbx-open .pbx-data-note{margin-top:var(--sp-stack);font-size:var(--fs-label);color:var(--ink);}
+/* เจาะรายสินทรัพย์: asset name on a hairline, its three lines in the reading column */
+.pbx-dd{padding:0 0 32px;}
+.pbx-dd-l{max-width:var(--read-measure);margin:var(--sp-stack) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
+.pbx-dd-l li+li{margin-top:var(--sp-list);}
 .pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:var(--sp-stack) 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
 .pbx-ft-brand{text-transform:uppercase;letter-spacing:.14em;} /* Latin only — Thai has no case and tracking hurts it */
 .pbx-ft-brand b{font-weight:var(--w-label);color:var(--ink);}
@@ -1851,7 +1873,7 @@ function renderBook(){
     /* radar (was here as its own "พอร์ตลงทุนที่ถนัด" card) moved into the merged radarInterestHTML()
        below, 2026-08-19 per direction — the "วิเคราะห์" tab now ends with just AI Insight. */
     (pre?'':(
-    '<div class="b2-panel" data-panel="portfolio">'+
+    '<div class="b2-panel" data-panel="portfolio">'+(pbxOn('portfolio')?pbxPortfolioHTML(h,r):(
       '<section class="card scroll-reveal">'+radarInterestHTML(h,r)+
         '<div class="trait-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0">คะแนน <span class="txt-grad">พฤติกรรม</span></div></div><p class="s-sub" style="margin:4px 0 0">วัดจากกิจกรรมในงาน</p>'+traitBars()+'</div>'+
         /* Text size matched to .dd-asset-hd's own "กองทุนรวม" span, หน้า 6 (2026-09-23, per direction
@@ -1863,7 +1885,7 @@ function renderBook(){
            gradient ออก และเวลา ตัดสินใจ ไม่ต้องวรรค") — this is now the one .s-h in the book with NO
            gradient word, by direction; don't re-add either without a fresh explicit ask. */
         '<div class="alloc-sec"><div class="trait-hd"><div class="s-h" style="margin-bottom:0;font-size:var(--fs-sub)">เวลาตัดสินใจคุณดูอะไรก่อน</div></div><p class="s-sub" style="margin:4px 0 0">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+allocBars()+'</div></section>'+
-      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะราย <span class="txt-grad">สินทรัพย์</span></h2>'+ddTabs(h)+'</div></section>'+
+      '<section class="card scroll-reveal"><div class="s-pad"><div class="s-ey">สรุปไว้คุยกับผู้แนะนำการลงทุน'+ORN_EY+'</div><h2 class="s-h" style="margin-bottom:var(--sp-stack)">เจาะราย <span class="txt-grad">สินทรัพย์</span></h2>'+ddTabs(h)+'</div></section>'))+
     '</div>'+
     '<div class="b2-panel" data-panel="journey">'+
       sidesHTML(r)+
@@ -1908,12 +1930,16 @@ var REG_URL='https://dc1hw.efin.finance/events/better-trade/better-trade2026';
    exist yet); the .ex-tag "ตัวอย่าง" pill that used to mark these in the UI was dropped 2026-09-22
    per direction (a real downloaded Playbook isn't sample data), so this comment is the only
    remaining flag that the numbers below are illustrative, not measured. ── */
+/* example data shared by the v1 renderers below and the Ver.2 data page (pbxPortfolioHTML) */
+var TRAIT_ROWS=[{l:'เก็บข้อมูลก่อนตัดสินใจ',v:31,m:35},{l:'ความมีวินัยการลงทุน',v:25,m:25},{l:'การกระจายความเสี่ยง',v:10,m:25},{l:'รับความผันผวนได้',v:11,m:15}];
+var TRAIT_SRC=[{t:'แบบทดสอบตัวตน 7 ข้อ',done:true},{t:'เกมย้อนเวลาพอร์ต',done:true},{t:'เกมบูธ 5/10',done:true}];
+var ALLOC_SEGS=[{l:'สินทรัพย์แกนหลัก (กองทุน/หุ้นใหญ่)',p:40,c:'var(--violet)'},{l:'สินทรัพย์เติบโต',p:30,c:'var(--cyan)'},{l:'สินทรัพย์ทางเลือก / กระจาย',p:20,c:'var(--pink)'},{l:'เงินสด / สภาพคล่อง',p:10,c:'var(--yellow)'}];
 function traitBars(){
-  var rows=[{l:'เก็บข้อมูลก่อนตัดสินใจ',v:31,m:35},{l:'ความมีวินัยการลงทุน',v:25,m:25},{l:'การกระจายความเสี่ยง',v:10,m:25},{l:'รับความผันผวนได้',v:11,m:15}];
+  var rows=TRAIT_ROWS;
   var bars='<div class="trait-list">'+rows.map(function(t){return '<div class="trait-row"><span class="trait-l">'+t.l+'</span><span class="trait-v"><b>'+t.v+'</b>/'+t.m+'</span><div class="trait-tr"><div class="trait-fi viz-bar" style="--tw:'+Math.round(t.v/t.m*100)+'%"></div></div></div>';}).join('')+'</div>';
   /* Which data sources feed the 4 bars above — 3 chips, all "ตัวอย่าง" (example) collected state
      like the bars themselves (2026-08-26, per direction — this row was missing entirely before). */
-  var chips=[{t:'แบบทดสอบตัวตน 7 ข้อ',done:true},{t:'เกมย้อนเวลาพอร์ต',done:true},{t:'เกมบูธ 5/10',done:true}];
+  var chips=TRAIT_SRC;
   var chipsHTML='<div class="trait-chips">'+chips.map(function(c){return '<span class="trait-chip'+(c.done?' done':'')+'">'+(c.done?ic('lc-check-circle'):'')+'<span>'+c.t+'</span></span>';}).join('')+'</div>';
   var note='<p class="trait-note">สีเขียว = เก็บแล้ว · แตะชิปสีเทาเพื่อไปเก็บต่อ · บอกว่าเรารู้จักคุณแค่ไหน ไม่ใช่คำทำนายผลตอบแทน</p>';
   return bars+chipsHTML+note;
@@ -1924,10 +1950,39 @@ function traitBars(){
    dot stays solid (it needs to read clearly at that size) while the segment itself blends 45%
    toward white. */
 function allocBars(){
-  var segs=[{l:'สินทรัพย์แกนหลัก (กองทุน/หุ้นใหญ่)',p:40,c:'var(--violet)'},{l:'สินทรัพย์เติบโต',p:30,c:'var(--cyan)'},{l:'สินทรัพย์ทางเลือก / กระจาย',p:20,c:'var(--pink)'},{l:'เงินสด / สภาพคล่อง',p:10,c:'var(--yellow)'}];
+  var segs=ALLOC_SEGS;
   var bar=segs.map(function(s,i){return '<div class="alloc-seg viz-bar" data-i="'+i+'" style="--tw:'+s.p+'%;background:color-mix(in srgb,'+s.c+' 55%,var(--white))"></div>';}).join('');
   var legend=segs.map(function(s,i){return '<div class="alloc-row" data-i="'+i+'"><span class="alloc-dot" style="background:'+s.c+'"></span><span class="alloc-l">'+s.l+'</span><span class="alloc-p">'+s.p+'%</span></div>';}).join('');
   return '<div class="alloc-bar">'+bar+'</div><div class="alloc-legend">'+legend+'</div>';
+}
+/* Ver.2 data page (the reference has none — designed under its DNA): every chart becomes ruled
+   label | value rows, the value's share drawn as one thin ink rule on a hairline track; no colour, no
+   radar, no chips. Same texts and numbers as the v1 charts. */
+function pbxRow(label,valHTML,pct,muted){
+  return '<div class="pbx-dr'+(muted?' muted':'')+'"><span class="pbx-dl">'+label+'</span><span class="pbx-dv">'+valHTML+'</span><i class="pbx-db" style="--v:'+pct+'%"></i></div>';
+}
+function pbxPortfolioHTML(h,r){
+  // radar: ranked high → low; ties keep axis order, so the top row is the same axis radarInsight() names
+  var ax=h.radar.map(function(v,i){return {i:i,v:v};}).sort(function(a,b){return b.v-a.v||a.i-b.i;});
+  var open=pbxOpenHTML('พอร์ต','เรดาร์ ความสนใจ','ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น',
+    '<div class="pbx-data">'+ax.map(function(a){return pbxRow(RADAR_AXES[a.i],''+a.v,a.v);}).join('')+'</div>'+
+    '<p class="pbx-data-note">จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[ax[0].i]+'</b> ('+ax[0].v+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</p>');
+  // interests: same arithmetic as interestsHTML()
+  var raw=BOOTHS.map(function(b,i){var c=(BOOTH_CHK[i]&&BOOTH_CHK[i].size)||0,a=BOOTH_ACT[i]?1:0;return 2+c*3+a*6;});
+  var sum=raw.reduce(function(a,b){return a+b;},0),pct=roundPct(raw.map(function(v){return v/sum*100;}));
+  var order=S3_OPTS.map(function(o,i){return i;}).sort(function(a,b){return pct[b]-pct[a];});
+  var ints='<section class="pbx-block"><p class="pbx-data-cap">จากเกมและบูธที่คุณทำจริง · รวมทุกแท่ง = 100% ของข้อมูลที่เรามี · แท่งสีจางคือหมวดที่คุณยังไม่ได้แตะวันนี้</p><div class="pbx-data">'+
+    order.map(function(i){var touched=((BOOTH_CHK[i]&&BOOTH_CHK[i].size)>0)||!!BOOTH_ACT[i];return pbxRow(INT_SHORT_L[i],pct[i]+'%',pct[i],!touched);}).join('')+'</div></section>';
+  /* trait note: the v1 "สีเขียว = เก็บแล้ว · แตะชิปสีเทาเพื่อไปเก็บต่อ" part described chip colours and taps
+     that no longer exist here, so only its last clause is kept */
+  var trait='<section class="pbx-block"><h3 class="s-h pbx-blk-t">คะแนน <span>พฤติกรรม</span></h3><p class="pbx-sec-sub">วัดจากกิจกรรมในงาน</p><div class="pbx-data">'+
+    TRAIT_ROWS.map(function(t){return pbxRow(t.l,'<b>'+t.v+'</b>/'+t.m,Math.round(t.v/t.m*100));}).join('')+'</div>'+
+    '<p class="pbx-data-note">'+TRAIT_SRC.map(function(c){return '<span>'+c.t+'</span>';}).join(' · ')+'</p><p class="pbx-data-note">บอกว่าเรารู้จักคุณแค่ไหน ไม่ใช่คำทำนายผลตอบแทน</p></section>';
+  var alloc='<section class="pbx-block"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3><p class="pbx-sec-sub">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p><div class="pbx-data">'+
+    ALLOC_SEGS.map(function(s){return pbxRow(s.l,s.p+'%',s.p);}).join('')+'</div></section>';
+  var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
+    h.assets.slice(0,4).map(function(a){return '<article class="pbx-dd"><div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
+  return open+ints+trait+alloc+dd;
 }
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
    (playbook-final-extracted.html — see PLAYBOOK-2026-DATA-BASELINE.md §7): 8 categories, 41 items
