@@ -152,7 +152,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-art{padding:0 0 40px;}
 .pbx-art-t{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.35;color:var(--ink);padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);}
 .pbx-art-s{max-width:var(--read-measure);margin-top:var(--sp-stack);font-size:14px;font-weight:var(--w-body);line-height:1.6;color:var(--muted);}
-.pbx-art-p{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+/* pull-quote: a big hanging opening mark, ink text in the reading face, a closing mark inline */
+.pbx-art-s.pbx-quote{position:relative;padding-left:36px;font-family:var(--font-read);font-size:calc(var(--read-fs) + 1px);font-weight:var(--w-label);line-height:1.6;color:var(--ink);text-wrap:pretty;}
+.pbx-art-s.pbx-quote::before{content:'\201C';position:absolute;left:-2px;top:-6px;font-family:Georgia,'Times New Roman',serif;font-size:56px;font-weight:400;line-height:1;color:var(--muted);}
+.pbx-art-s.pbx-quote::after{content:'\201D';font-family:Georgia,'Times New Roman',serif;font-weight:400;color:var(--muted);margin-left:2px;}
+.pbx-art-p{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-cols{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;margin-top:var(--sp-stack);}
 .pbx-cols>.pbx-art-p{margin:0;padding-top:var(--sp-list);}
 .pbx-art-side>.pbx-note+.pbx-note{margin-top:var(--sp-inline);}
@@ -162,20 +166,28 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-side-row{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;}
 .pbx-side{padding:0 0 36px;}
 .pbx-side-hd{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);}
-.pbx-side-t{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.35;color:var(--ink);}
+.pbx-side-t{font-family:var(--font-read);font-size:calc(var(--fs-sig) - 2px);font-weight:var(--w-label);line-height:1.35;color:var(--ink);}
 .pbx-side-st{font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);white-space:nowrap;}
 .pbx-side-b{margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+.pbx-side .pbx-side-b{font-size:calc(var(--read-fs) - 2px);}
+.pbx-side .pbx-art-s{font-size:12px;}
+.pbx-side .pbx-side-t{font-size:calc(var(--fs-sig) - 4px);}
+.pbx-side-b ul{margin:var(--sp-inline) 0 0;padding:0 0 0 1.2em;list-style:disc;}
+.pbx-side-b li::marker{color:var(--muted);}
+.pbx-side-b li+li{margin-top:2px;}
+.pbx-side-b p+ul,.pbx-side-b ul+p{margin-top:var(--sp-inline);}
 .pbx-side-b p+p{margin-top:var(--sp-inline);}
 .pbx-side-b b{font-weight:700;}
 .pbx .pbx-sec{padding:0 0 28px;}
 .pbx .pbx-sec-t{margin:0;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.2;color:var(--ink);}
 .pbx-sec-sub{margin-top:var(--sp-inline);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
 .pbx-led-row{padding:var(--sp-inline) 0;border-top:var(--rule-w) solid var(--rule);}
-.pbx-led-t{max-width:var(--read-measure);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+.pbx-led-t{max-width:var(--read-measure);font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-led-s{margin-top:2px;font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);}
 /* data page: blocks separated by air; label | value rows with the share as a thin ink rule on a hairline
    track (muted = categories not touched yet) */
 .pbx .pbx-block{padding-top:56px;}
+.pbx .pbx-ints{padding-left:calc(var(--pbx-col-x) - var(--pbx-pad-x));} /* same column as the radar opener it follows */
 .pbx .pb-body>.pbx-block:first-child{padding-top:0;}
 /* heading tiers: 44px page title (openers, contents) / 32px section head over titled items (library category, journey ledger,
    the "เจาะราย สินทรัพย์" section) / 22px block, article and side heading, always with a 1px hairline under it / 18px sub-group
@@ -197,11 +209,15 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-open .pbx-data-note{margin-top:var(--sp-stack);font-size:var(--fs-label);color:var(--ink);}
 /* เจาะรายสินทรัพย์: asset name on a hairline, its three lines in the reading column */
 .pbx-dd{padding:0 0 32px;}
-.pbx-dd-l{max-width:var(--read-measure);margin:var(--sp-stack) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
+.pbx-dd-l{max-width:var(--read-measure);margin:var(--sp-stack) 0 0;padding:0 0 0 1.2em;list-style:disc;font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);}
+.pbx-dd-l li::marker{color:var(--muted);}
 .pbx-dd-l li+li{margin-top:var(--sp-list);}
 /* analysis: risk comparison as two big numerals under hairlines; Confidence Score header = level as the
    heading with the big score beside it */
-.pbx-open .pbx-risk{max-width:var(--read-measure);margin-top:56px;}
+.pbx-open .pbx-risk{max-width:var(--read-measure);margin-top:32px;}
+.pbx-open .pbx-conf{margin-top:var(--sp-block);}
+.pbx .pbx-open:has(.pbx-conf){padding-bottom:40px;} /* the fit-shrink fills the sheet to the footer, so this keeps the rows off it */
+.pbx-open .pbx-conf .pbx-data{margin-top:var(--sp-stack);} /* the rows sit close under the note, so the group clears the footer */
 .pbx-pair{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-block);margin-top:var(--sp-block);}
 .pbx-pair>div{display:flex;flex-direction:column;gap:6px;border-top:var(--rule-w) solid var(--rule);padding-top:var(--sp-inline);}
 .pbx-big{font-size:56px;font-weight:var(--w-label);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;}
@@ -254,10 +270,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx .pbx-toc-t{margin:0 0 var(--sp-block);padding-bottom:var(--sp-inline);font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
 .toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
 .toc-grp{display:grid;grid-template-columns:148px minmax(0,var(--read-measure));column-gap:var(--sp-block);align-items:baseline;padding:var(--sp-list) 0;border-bottom:var(--rule-w) solid var(--rule);}
-.toc-ch{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
+.toc-ch{font-size:calc(var(--pbx-fs-kicker) + 4px);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .toc-rows{display:flex;flex-direction:column;}
 .toc-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-stack);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
-.toc-t{font-size:var(--pbx-fs-kicker);font-weight:var(--w-body);line-height:1.5;}
+.toc-t{font-size:calc(var(--pbx-fs-kicker) + 4px);font-weight:var(--w-body);line-height:1.5;}
 .toc-n{font-size:var(--pbx-fs-kicker);color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto;}
 /* หน้า "เส้นทาง" (journey) is print-like: nothing on it reacts to hover / tap */
 .pb-page[data-sect="journey"]{pointer-events:none;}
@@ -333,7 +349,7 @@ var FAM={
    watchouts:['ระวังเกินไปจนอาจพลาดโอกาสเติบโต','เงินเฟ้ออาจกัดกินผลตอบแทนถ้าปลอดภัยจัด']},
  N:{th:'Navigator นักเดินเรือ',icon:'lc-compass',accent:'#9c91ff',rgb:'156,145,255',
    strengths:['วางแผนทั้งพอร์ต กระจายความเสี่ยงเก่ง','ตัดสินใจบนข้อมูล ไม่ใช้อารมณ์'],
-   watchouts:['วิเคราะห์นานจนพลาดจังหวะ (analysis paralysis)','กระจายจนคุมยาก ต้องมีระบบติดตาม']},
+   watchouts:['วิเคราะห์นานจนพลาดจังหวะ (analysis paralysis) กระจายจนคุมยาก','ต้องมีระบบติดตาม']},
  V:{th:'Visionary ผู้มองการณ์ไกล',icon:'lc-sparkles',accent:'#f178d8',rgb:'241,120,216',
    strengths:['กล้าได้กล้าเสีย มองหาการเติบโตสูง','จับเทรนด์ใหม่ได้ก่อนตลาด'],
    watchouts:['พอร์ตเหวี่ยงแรง ต้องทนความผันผวนให้ไหว','กระจุกตัวสูง ควรมีแผนจำกัดขาดทุน']}
@@ -485,14 +501,14 @@ function render(){
 function pbxAnalysisHTML(r,h,matchOk){
   var cf=confidenceScore(r);
   var risk='<div class="pbx-risk"><div class="pbx-side-hd"><div class="pbx-side-t">ความเสี่ยง "บอก" vs "จริง"</div><span class="pbx-side-st">'+(matchOk?'ตรงกัน':('ต่างกัน '+(r.gap>0?'+':'')+r.gap))+'</span></div>'+
+    '<p class="pbx-data-note">ระดับความเสี่ยง 1–10</p>'+
     '<p class="pbx-side-b">'+(matchOk?'ความเสี่ยงที่ประเมินตัวเองกับพฤติกรรมจริงไปในทิศทางเดียวกัน':'ความเสี่ยงที่คุณ "บอก" กับพฤติกรรมจริงต่างกันอยู่บ้าง รู้ gap นี้ช่วยให้วางแผนได้แม่นขึ้น')+'</p>'+
-    '<div class="pbx-pair"><div><b class="pbx-big'+(r.declared!==r.revealed?' pbx-was':'')+'">'+r.declared+'</b><span>ความเสี่ยงที่บอก</span></div><div><b class="pbx-big">'+r.revealed+'</b><span>ความเสี่ยงจริง</span></div></div>'+
-    '<p class="pbx-data-note">ระดับความเสี่ยง 1–10</p></div>';
+    '<div class="pbx-pair"><div><b class="pbx-big'+(r.declared!==r.revealed?' pbx-was':'')+'">'+r.declared+'</b><span>ความเสี่ยงที่บอก</span></div><div><b class="pbx-big">'+r.revealed+'</b><span>ความเสี่ยงจริง</span></div></div></div>';
   var parts=[['ความรู้',cf.subs.knowledge,35],['รู้จักตัวเอง',cf.subs.self,25],['ลงมือ',cf.subs.action,25],['ความกว้าง',cf.subs.breadth,15]];
   var conf='<section class="pbx-block pbx-conf"><div class="pbx-conf-hd"><div><div class="pbx-kicker">Confidence Score</div><h3 class="pbx-blk-t">'+cf.level+'</h3></div><div class="pbx-score"><b>'+cf.conf+'</b><span>/100</span></div></div>'+
     '<p class="pbx-data-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p>'+
     '<div class="pbx-data">'+parts.map(function(c){return pbxRow(c[0],'<b>'+c[1]+'</b>/'+c[2],Math.round(c[1]/c[2]*100));}).join('')+'</div></section>';
-  return pbxOpenHTML(['วิเคราะห์',['AI','Insight']],'คุณเป็น <span>นักลงทุน</span> แบบไหน','',risk)+conf;
+  return pbxOpenHTML(['วิเคราะห์',['AI','Insight']],'คุณเป็น <span>นักลงทุน</span> แบบไหน','',risk+conf); // Confidence rides on the same sheet as the risk comparison
 }
 /* Ver.2 identity — the reference's feature page ("MINIMALISM BOOK MOCKUP"): the persona's name as the big
    title from ~14% down to a full-width hairline at ~41%, then a split row: a narrow text column (family +
@@ -590,7 +606,7 @@ function pbxPortfolioHTML(h,r){
   var raw=BOOTHS.map(function(b,i){var c=(BOOTH_CHK[i]&&BOOTH_CHK[i].size)||0,a=BOOTH_ACT[i]?1:0;return 2+c*3+a*6;});
   var sum=raw.reduce(function(a,b){return a+b;},0),pct=roundPct(raw.map(function(v){return v/sum*100;}));
   var order=S3_OPTS.map(function(o,i){return i;}).sort(function(a,b){return pct[b]-pct[a];});
-  var ints='<section class="pbx-block"><p class="pbx-data-cap">จากเกมและบูธที่คุณทำจริง · รวมทุกแท่ง = 100% ของข้อมูลที่เรามี · แท่งสีจางคือหมวดที่คุณยังไม่ได้แตะวันนี้</p><div class="pbx-data">'+
+  var ints='<section class="pbx-block pbx-ints"><p class="pbx-data-cap">จากเกมและบูธที่คุณทำจริง · รวมทุกแท่ง = 100% ของข้อมูลที่เรามี · แท่งสีจางคือหมวดที่คุณยังไม่ได้แตะวันนี้</p><div class="pbx-data">'+
     order.map(function(i){var touched=((BOOTH_CHK[i]&&BOOTH_CHK[i].size)>0)||!!BOOTH_ACT[i];return pbxRow(INT_SHORT_L[i],pct[i]+'%',pct[i],!touched);}).join('')+'</div></section>';
   var trait='<section class="pbx-block"><h3 class="s-h pbx-blk-t">คะแนน <span>พฤติกรรม</span></h3><p class="pbx-sec-sub">วัดจากกิจกรรมในงาน</p><div class="pbx-data">'+
     TRAIT_ROWS.map(function(t){return pbxRow(t.l,'<b>'+t.v+'</b>/'+t.m,Math.round(t.v/t.m*100));}).join('')+'</div>'+
@@ -630,7 +646,7 @@ function pbArtHTML(a){
      the "common mistake" in the right one, split by a vertical rule with a small diamond. An article with
      neither note keeps its body in the reading column. .pbx-unit = at most two per sheet (see pbBuild). */
   var body='<p class="pbx-art-p">'+libEsc(a.b)+'</p>';
-  return '<article class="pbx-art pbx-unit"><div class="pbx-art-t">'+libEsc(a.t)+'</div><div class="pbx-art-s">'+libEsc(a.s)+'</div>'+
+  return '<article class="pbx-art pbx-unit"><div class="pbx-art-t">'+libEsc(a.t)+'</div><div class="pbx-art-s pbx-quote">'+libEsc(a.s)+'</div>'+ // the summary line is a pull-quote
     ((a.x||a.p)?'<div class="pbx-cols pbx-vr">'+body+'<div class="pbx-art-side">'+
       (a.x?'<div class="pbx-note"><span>'+libEsc(a.x)+'</span></div>':'')+
       (a.p?'<div class="pbx-note"><b>คนมักเข้าใจผิด</b> <span>'+libEsc(a.p)+'</span></div>':'')+
@@ -885,9 +901,9 @@ function sidesHTML(r){
   /* Copy taken verbatim from the sample Playbook PDF (pages 2–3): the six measured sides of "ราชันนักปราชญ์". */
   var sides=[
    {chip:'เสร็จ',t:'ความเสี่ยง ที่คิด vs ที่ทำจริง',s:'ที่คุณบอกไว้ 2 · ที่คุณทำจริง 2 — สอดคล้อง (Aligned)',body:'<p>ที่คุณบอกไว้ <b>2</b> · ที่คุณทำจริง <b>2</b> — <b>สอดคล้อง (Aligned)</b></p><p>ถ้าคุณทำแบบเดิมทุกวิกฤต พอร์ตจะฟื้นได้ 0/100 — ขายที่จุดต่ำสุดทั้งสองครั้ง จึงไม่ได้ร่วมขาขึ้นเลย</p>'},
-   {chip:'เสร็จ',t:'เลนส์ที่คุณใช้ตัดสินใจ',s:'เลนส์หลักของคุณคือ สายเทคนิค',body:'<p>เลนส์หลักของคุณคือ <b>สายเทคนิค</b> — วัดจากลำดับที่คุณเปิดเครื่องมือวิเคราะห์ ไม่ใช่จากที่คุณบอก</p><p>พื้นฐาน (VI) 38% · เทคนิค (กราฟ) 63% · ปันผล (Yield) 0% · DCA / กองทุน 0%</p>'},
-   {chip:'เสร็จ',t:'กับดัก FOMO และกลลวง',s:'ต้านได้ทั้งสองกับดัก · 2/2',body:'<p><b>ต้านได้ทั้งสองกับดัก · 2/2</b></p><p>หุ้นพุ่งพุ่ง คนแห่ซื้อ ไม่ตามฝูง · ข้อความชวนลงทุน ไม่โอน</p><p>กฎที่คุณเลือกพกติดตัว <b>ถ้ามันเร่งให้รีบ = สัญญาณอันตราย</b></p><p>วัดจาก 2 สถานการณ์เท่านั้น — นี่คือ “คุณในวันนี้” ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน</p>'},
-   {chip:'เสร็จ',t:'เป้าหมายเงินของคุณ ตามช่วงวัย',s:'สิ่งที่คุณเลือกให้ตัวเองในแต่ละช่วงชีวิต — ไม่มีคำตอบถูกผิด',body:'<p>อายุ 25 สมดุล · อายุ 35 รักษาเงินต้น · อายุ 50 ลดเสี่ยงตามอายุ · อายุ 65 สร้างกระแสเงินสด</p><p>เป้าหมายของคุณ<b>เปลี่ยนไปตามวัย</b> (4 แบบใน 4 ช่วง)</p>'},
+   {chip:'เสร็จ',t:'เลนส์ที่คุณใช้ตัดสินใจ',s:'เลนส์หลักของคุณคือ สายเทคนิค',body:'<p>เลนส์หลักของคุณคือ <b>สายเทคนิค</b><br>วัดจากลำดับที่คุณเปิดเครื่องมือวิเคราะห์ ไม่ใช่จากที่คุณบอก</p><ul><li>พื้นฐาน (VI) 38%</li><li>เทคนิค (กราฟ) 63%</li><li>ปันผล (Yield) 0%</li><li>DCA / กองทุน 0%</li></ul>'},
+   {chip:'เสร็จ',t:'กับดัก FOMO และกลลวง',s:'ต้านได้ทั้งสองกับดัก · 2/2',body:'<p><b>ต้านได้ทั้งสองกับดัก · 2/2</b></p><ul><li>หุ้นพุ่งพุ่ง คนแห่ซื้อ ไม่ตามฝูง</li><li>ข้อความชวนลงทุน ไม่โอน</li></ul><p>กฎที่คุณเลือกพกติดตัว <b>ถ้ามันเร่งให้รีบ = สัญญาณอันตราย</b></p><p>วัดจาก 2 สถานการณ์เท่านั้น — นี่คือ “คุณในวันนี้” ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน</p>'},
+   {chip:'เสร็จ',t:'เป้าหมายเงินของคุณ ตามช่วงวัย',s:'สิ่งที่คุณเลือกให้ตัวเองในแต่ละช่วงชีวิต — ไม่มีคำตอบถูกผิด',body:'<ul><li>อายุ 25 สมดุล</li><li>อายุ 35 รักษาเงินต้น</li><li>อายุ 50 ลดเสี่ยงตามอายุ</li><li>อายุ 65 สร้างกระแสเงินสด</li></ul><p>เป้าหมายของคุณ<b>เปลี่ยนไปตามวัย</b> (4 แบบใน 4 ช่วง)</p>'},
    {chip:'เสร็จ',t:'สินทรัพย์ที่ ๙ — สุขภาพ',s:'Health-Wealth 5.5/10',body:'<p>Health-Wealth <b>5.5</b>/10</p>'},
    {chip:'เสร็จ',t:'ก้าวแรกของคุณ',s:'กำแพงที่คุณบอกว่าขวางอยู่ ไม่รู้จะเริ่มยังไง',body:'<p>กำแพงที่คุณบอกว่าขวางอยู่ <b>ไม่รู้จะเริ่มยังไง</b></p><p>3 ขั้น เปิดบัญชี → เลือกตัวเลือกแรกที่เข้าใจและกระจายความเสี่ยงในตัว → ตั้งอัตโนมัติ</p><p>สิ่งที่คุณบอกว่าจะทำ <b>จดรายรับ-รายจ่าย 7 วัน</b></p>'}
   ];
