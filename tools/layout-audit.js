@@ -83,7 +83,36 @@
           titleLines:Math.round(tr.height/(parseFloat(getComputedStyle(t).lineHeight)*s))};
       });
     }
+    // lettering: the CAPS-over-script lockups and the script words inside titles (canvas ink, not DOM boxes)
+    out.script=scriptChecks();
     return out;
+  }
+  /* lockups: caps and script drawn on two canvases at their real positions -> pixels where both are inked (must be 0),
+     the clearance between the caps' lowest ink and the script's highest ink, and how far each line's ink starts from the axis.
+     titles: every script word's trailing/leading swash overhang, and how many touch a non-space neighbour. */
+  function scriptChecks(){
+    function ink(ctx,w,h){var d=ctx.getImageData(0,0,w,h).data,m=new Uint8Array(w*h),i;for(i=0;i<w*h;i++)m[i]=d[i*4+3]>40?1:0;return m;}
+    var res={lockups:[],titles:null};
+    [].forEach.call(document.querySelectorAll('.pbx-lock'),function(L){
+      var c=L.querySelector('.pbx-lock-c'),s=L.querySelector('.pbx-lock-s'),cs=getComputedStyle(c),ss=getComputedStyle(s),Lr=L.getBoundingClientRect(),W=420,H=110;
+      var ca=document.createElement('canvas'),cb=document.createElement('canvas');ca.width=cb.width=W;ca.height=cb.height=H;
+      var xa=ca.getContext('2d'),xb=cb.getContext('2d'),cr=c.getBoundingClientRect(),sr=s.getBoundingClientRect();
+      xa.font='500 '+cs.fontSize+' Cinzel';if('letterSpacing' in xa)xa.letterSpacing=cs.letterSpacing;var mc=xa.measureText('M');
+      xa.fillText(c.textContent,cr.left-Lr.left,(cr.top-Lr.top)+(parseFloat(cs.lineHeight)-(mc.fontBoundingBoxAscent+mc.fontBoundingBoxDescent))/2+mc.fontBoundingBoxAscent);
+      xb.font='400 '+ss.fontSize+' "Pinyon Script"';var ms=xb.measureText('M');
+      xb.fillText(s.textContent,sr.left-Lr.left,(sr.top-Lr.top)+(parseFloat(ss.lineHeight)-(ms.fontBoundingBoxAscent+ms.fontBoundingBoxDescent))/2+ms.fontBoundingBoxAscent);
+      var A=ink(xa,W,H),B=ink(xb,W,H),both=0,cBot=0,sTop=H,sBot=0,cL=W,sL=W,x,y,i;
+      for(y=0;y<H;y++)for(x=0;x<W;x++){i=y*W+x;if(A[i]&&B[i])both++;if(A[i]){cBot=Math.max(cBot,y);cL=Math.min(cL,x);}if(B[i]){sTop=Math.min(sTop,y);sBot=Math.max(sBot,y);sL=Math.min(sL,x);}}
+      res.lockups.push({lock:c.textContent+' / '+s.textContent,overlapPx:both,clearancePx:sTop-cBot,capsInkLeft:cL,scriptInkLeft:sL,bottomRoomPx:Math.round(Lr.height)-sBot});
+    });
+    var cx=document.createElement('canvas').getContext('2d'),n=0,over2=0,touching=0,maxOver=0,worst=null;
+    [].forEach.call(document.querySelectorAll('.pbx-art-t .pbx-en'),function(sp){
+      var fs=parseFloat(getComputedStyle(sp).fontSize);cx.font='400 '+fs+'px "Pinyon Script"';var m=cx.measureText(sp.textContent),over=Math.max(0,m.actualBoundingBoxRight-m.width);
+      var pv=sp.previousSibling,nx=sp.nextSibling,pt=pv&&pv.nodeType===3?pv.nodeValue:'',nt=nx&&nx.nodeType===3?nx.nodeValue:'';
+      n++;if(over>2)over2++;if(over>2&&nt&&!/^\s/.test(nt))touching++;if(over>maxOver){maxOver=over;worst=sp.textContent;}
+    });
+    res.titles={scriptWords:n,swashOver2px:over2,swashTouchingNextChar:touching,maxSwashOverPx:+maxOver.toFixed(1),worst:worst};
+    return res;
   }
   function diffSnap(a,b){
     var r={sheets:[a.sheets.length,b.sheets.length],identicalFull:false,sects:{},textAdded:{},textRemoved:{}};

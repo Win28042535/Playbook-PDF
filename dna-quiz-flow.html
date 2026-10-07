@@ -115,12 +115,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:0;left:calc(var(--pbx-col-x) - 6px);width:12px;height:var(--pbx-plumb-h);background:linear-gradient(rgba(17,19,24,.62),rgba(17,19,24,.62)) 50% 0/var(--rule-w) calc(100% - 11px) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 .8 11.2 6 6 11.2 .8 6Z' fill='none' stroke='%23111318' stroke-opacity='.7'/%3E%3C/svg%3E") 50% 100%/12px 12px no-repeat;pointer-events:none;}
 .pbx .pbx-open{padding:calc(var(--pbx-open-y) - var(--pbx-pad-top)) 0 0 calc(var(--pbx-col-x) - var(--pbx-pad-x));}
 .pbx .pbx-open:has(.pbx-lock){padding-top:calc(var(--pbx-open-y) - var(--pbx-pad-top) - var(--pbx-lock-h));} /* the lockup takes the room above the kicker, so the title stays where it was */
-.pbx-lock{display:block;height:var(--pbx-lock-h);}
-.pbx-lock-c{display:block;font-family:var(--font-caps);font-weight:500;font-size:17px;letter-spacing:.42em;line-height:1;padding-left:4px;color:var(--ink);}
-.pbx-lock-s{display:block;font-family:var(--font-script);font-weight:400;font-size:52px;line-height:.9;margin:-10px 0 0 40px;color:var(--ink);white-space:nowrap;}
+.pbx-lock{display:block;position:relative;height:var(--pbx-lock-h);}
+.pbx-lock-c,.pbx-lock-s{position:absolute;white-space:nowrap;color:var(--ink);} /* left/top are set inline from measured ink (see pbxLockPos) */
+.pbx-lock-c{font-family:var(--font-caps);font-weight:500;font-size:17px;letter-spacing:.42em;line-height:20px;}
+.pbx-lock-s{font-family:var(--font-script);font-weight:400;font-size:52px;line-height:60px;}
 .pbx-kicker{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);color:var(--ink);line-height:1.4;margin-bottom:var(--sp-block);}
 .pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);position:relative;padding-bottom:var(--sp-inline);border-bottom:5px solid transparent;} /* the 5px stays as layout space; the underline itself is the hand-drawn brush below */
-.pbx .pbx-open-t::after{content:'';position:absolute;left:0;right:0;bottom:-1.5px;height:8px;background:url(assets/hand-underline.svg) left center/100% 100% no-repeat;pointer-events:none;} /* tapered ink pen stroke, stretched to the title width */
+.pbx .pbx-open-t::after{content:'';position:absolute;left:0;right:0;bottom:-1.5px;height:8px;background:url(assets/swell-rule.svg) left center/100% 100% no-repeat;pointer-events:none;} /* engraver's swelled rule: hairline ends, ~2.6px at the centre, stretched to the title width */
 .pbx-lede{max-width:var(--read-measure);margin-top:56px;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 /* opener extras: a one-line meta and a plain ruled list in the lower half (library opener) */
 .pbx-meta{margin-top:var(--sp-inline);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
@@ -220,7 +221,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-card img{display:block;width:100%;height:auto;border-radius:5.8% / 4.15%;}
 /* identity follow-up blocks */
 .pbx-block .pbx-cats{margin-top:var(--sp-stack);}
-.pbx-reg-a{display:inline-block;margin-top:var(--sp-block);padding-bottom:12px;background:url(assets/hand-underline.svg) left bottom/100% 8px no-repeat;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-decoration:none;}
+.pbx-reg-a{display:inline-block;margin-top:var(--sp-block);padding-bottom:12px;background:url(assets/swell-rule.svg) left bottom/100% 8px no-repeat;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-decoration:none;}
 .pbx .pbx-split{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;}
 .pbx-list{margin:var(--sp-inline) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
 .pbx-list li+li{margin-top:var(--sp-list);}
@@ -625,10 +626,26 @@ function libraryBlocksHTML(h){
 }
 /* Ver.2 opener (Minimalism-book "SECTION 1" page): a sheet of its own (.pbx-solo). Title keeps .s-h so
    สารบัญ still picks it up. kicker / title / lede are plain text — no ornament, no gradient. */
+/* Lockup geometry (CAPS over a script word): both lines start on the column axis and the script's highest ink sits
+   LOCK_GAP px under the capitals' baseline whatever the word, so no swash can touch the capitals and every lockup has
+   the same rhythm. Positions come from canvas ink metrics (fonts are loaded before the book is built). */
+var LOCK={capsFs:17,capsLh:20,scrFs:52,scrLh:60,capsBase:12,gap:9,axis:1};
+function pbxLockPos(caps,word){
+  var cx=document.createElement('canvas').getContext('2d');if(!cx||cx.measureText('x').fontBoundingBoxAscent===undefined)return '';
+  cx.font='500 '+LOCK.capsFs+'px Cinzel';if('letterSpacing' in cx)cx.letterSpacing=(.42*LOCK.capsFs)+'px';
+  var mc=cx.measureText(caps),cM=cx.measureText('M');
+  var capsTop=LOCK.capsBase-((LOCK.capsLh-(cM.fontBoundingBoxAscent+cM.fontBoundingBoxDescent))/2+cM.fontBoundingBoxAscent);
+  cx.letterSpacing='0px';cx.font='400 '+LOCK.scrFs+'px "Pinyon Script"';
+  var ms=cx.measureText(word),sM=cx.measureText('M');
+  var scrBase=LOCK.capsBase+LOCK.gap+ms.actualBoundingBoxAscent;
+  var scrTop=scrBase-((LOCK.scrLh-(sM.fontBoundingBoxAscent+sM.fontBoundingBoxDescent))/2+sM.fontBoundingBoxAscent);
+  return {c:'left:'+(mc.actualBoundingBoxLeft+LOCK.axis).toFixed(1)+'px;top:'+capsTop.toFixed(1)+'px',s:'left:'+(ms.actualBoundingBoxLeft+LOCK.axis).toFixed(1)+'px;top:'+scrTop.toFixed(1)+'px'};
+}
 function pbxOpenHTML(kicker,titleHTML,lede,extra){
   /* kicker may be [text,[CAPS,Script]]: the pair is drawn as a two-line lockup above the kicker (sample English words) */
   var lock=Array.isArray(kicker)?kicker[1]:null;if(Array.isArray(kicker))kicker=kicker[0];
-  return '<section class="pbx-open pbx-solo">'+(lock?'<div class="pbx-lock"><span class="pbx-lock-c">'+lock[0]+'</span><span class="pbx-lock-s">'+lock[1]+'</span></div>':'')+'<div class="pbx-kicker">'+kicker+'</div><h2 class="s-h pbx-open-t">'+titleHTML+'</h2>'+(lede?'<p class="pbx-lede">'+lede+'</p>':'')+(extra||'')+'</section>';
+  var pos=lock?pbxLockPos(lock[0],lock[1]):'';
+  return '<section class="pbx-open pbx-solo">'+(lock?'<div class="pbx-lock"><span class="pbx-lock-c"'+(pos?' style="'+pos.c+'"':'')+'>'+lock[0]+'</span><span class="pbx-lock-s"'+(pos?' style="'+pos.s+'"':'')+'>'+lock[1]+'</span></div>':'')+'<div class="pbx-kicker">'+kicker+'</div><h2 class="s-h pbx-open-t">'+titleHTML+'</h2>'+(lede?'<p class="pbx-lede">'+lede+'</p>':'')+(extra||'')+'</section>';
 }
 function glossaryBlocksHTML(){
   /* one block per group (its title keeps .gl-gt for สารบัญ); the entries run in two columns split by a
