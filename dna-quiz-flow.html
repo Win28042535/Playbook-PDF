@@ -151,7 +151,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-vr::after{content:'';position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;transform:rotate(45deg);background:var(--sheet);border:var(--rule-w) solid rgba(17,19,24,.5);box-sizing:border-box;}
 .pbx-art{padding:0 0 40px;}
 .pbx-art-t{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.35;color:var(--ink);padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);}
-.pbx-art-s{max-width:var(--read-measure);margin-top:var(--sp-stack);font-size:15px;font-weight:var(--w-body);line-height:1.6;color:var(--muted);}
+.pbx-art-s{max-width:var(--read-measure);margin-top:var(--sp-stack);font-size:14px;font-weight:var(--w-body);line-height:1.6;color:var(--muted);}
 .pbx-art-p{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-cols{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;margin-top:var(--sp-stack);}
 .pbx-cols>.pbx-art-p{margin:0;padding-top:var(--sp-list);}
@@ -177,7 +177,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    track (muted = categories not touched yet) */
 .pbx .pbx-block{padding-top:56px;}
 .pbx .pb-body>.pbx-block:first-child{padding-top:0;}
-.pbx .pbx-blk-t{margin:0;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.2;color:var(--ink);}
+/* heading tiers: 44px page title (openers, contents) / 32px section head over titled items (library category, journey ledger,
+   the "เจาะราย สินทรัพย์" section) / 22px block, article and side heading, always with a 1px hairline under it / 18px sub-group
+   (glossary group). .pbx-blk-t is the block tier. */
+.pbx .pbx-blk-t{margin:0;padding-bottom:var(--sp-inline);font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.35;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
+.pbx-conf-hd .pbx-blk-t{padding-bottom:0;border-bottom:0;} /* the Confidence header already carries its own hairline */
 .pbx-data{max-width:var(--read-measure);margin-top:var(--sp-stack);}
 .pbx-open .pbx-data{margin-top:40px;}
 .pbx-dr{display:grid;grid-template-columns:1fr auto;column-gap:var(--sp-stack);align-items:baseline;padding:10px 0 6px;}
