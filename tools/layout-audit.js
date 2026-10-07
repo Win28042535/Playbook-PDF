@@ -89,7 +89,7 @@
   }
   /* lockups: caps and script drawn on two canvases at their real positions -> pixels where both are inked (must be 0),
      the clearance between the caps' lowest ink and the script's highest ink, and how far each line's ink starts from the axis.
-     titles: every script word's trailing/leading swash overhang, and how many touch a non-space neighbour. */
+     titles: must contain no script word. */
   function scriptChecks(){
     function ink(ctx,w,h){var d=ctx.getImageData(0,0,w,h).data,m=new Uint8Array(w*h),i;for(i=0;i<w*h;i++)m[i]=d[i*4+3]>40?1:0;return m;}
     var res={lockups:[],titles:null};
@@ -105,13 +105,8 @@
       for(y=0;y<H;y++)for(x=0;x<W;x++){i=y*W+x;if(A[i]&&B[i])both++;if(A[i]){cBot=Math.max(cBot,y);cL=Math.min(cL,x);}if(B[i]){sTop=Math.min(sTop,y);sBot=Math.max(sBot,y);sL=Math.min(sL,x);}}
       res.lockups.push({lock:c.textContent+' / '+s.textContent,overlapPx:both,clearancePx:sTop-cBot,capsInkLeft:cL,scriptInkLeft:sL,bottomRoomPx:Math.round(Lr.height)-sBot});
     });
-    var cx=document.createElement('canvas').getContext('2d'),n=0,over2=0,touching=0,maxOver=0,worst=null;
-    [].forEach.call(document.querySelectorAll('.pbx-art-t .pbx-en'),function(sp){
-      var fs=parseFloat(getComputedStyle(sp).fontSize);cx.font='400 '+fs+'px "Pinyon Script"';var m=cx.measureText(sp.textContent),over=Math.max(0,m.actualBoundingBoxRight-m.width);
-      var pv=sp.previousSibling,nx=sp.nextSibling,pt=pv&&pv.nodeType===3?pv.nodeValue:'',nt=nx&&nx.nodeType===3?nx.nodeValue:'';
-      n++;if(over>2)over2++;if(over>2&&nt&&!/^\s/.test(nt))touching++;if(over>maxOver){maxOver=over;worst=sp.textContent;}
-    });
-    res.titles={scriptWords:n,swashOver2px:over2,swashTouchingNextChar:touching,maxSwashOverPx:+maxOver.toFixed(1),worst:worst};
+    // titles carry no script any more: a script word inside a title is flagged here
+    res.titles={scriptWordsInTitles:document.querySelectorAll('.pbx-art-t .pbx-en').length};
     return res;
   }
   function diffSnap(a,b){

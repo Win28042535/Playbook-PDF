@@ -149,7 +149,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-vr::before{content:'';position:absolute;top:0;bottom:0;left:50%;border-left:var(--rule-w) solid var(--rule);}
 .pbx-vr::after{content:'';position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;transform:rotate(45deg);background:var(--sheet);border:var(--rule-w) solid rgba(17,19,24,.5);box-sizing:border-box;}
 .pbx-art{padding:0 0 40px;}
-.pbx-en{font-family:var(--font-script);font-weight:400;font-size:1.32em;line-height:1;}
 .pbx-art-t{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.35;color:var(--ink);padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);}
 .pbx-art-s{max-width:var(--read-measure);margin-top:var(--sp-stack);font-size:15px;font-weight:var(--w-body);line-height:1.6;color:var(--muted);}
 .pbx-art-p{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
@@ -594,17 +593,12 @@ function libTotal(){return LIB_ITEMS.length;}
 function glossTotal(){return GLOSSARY.reduce(function(a,g){return a+g.i.length;},0);} // mirrors glossaryBlocksHTML's own inline count
 function libEsc(t){return String(t==null?'':t).replace(/[&<>]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[m];});}
 /* Static (always-expanded) article block for the A4 ebook — see pbBuild(). */
-/* English words with lowercase letters (4+ letters) in a title are set in script; acronyms like DCA stay as they are */
-function pbxEnTitle(t){
-  return String(t==null?'':t).split(/([A-Za-z][A-Za-z'’-]*(?: [A-Za-z][A-Za-z'’-]*)*)/).map(function(x,i){
-    return i%2&&/[a-z]/.test(x)&&x.length>=4?'<span class="pbx-en">'+libEsc(x)+'</span>':libEsc(x);}).join('');
-}
 function pbArtHTML(a){
   /* title hangs from a hairline, then the summary; the body sits in the left column and the example and
      the "common mistake" in the right one, split by a vertical rule with a small diamond. An article with
      neither note keeps its body in the reading column. .pbx-unit = at most two per sheet (see pbBuild). */
   var body='<p class="pbx-art-p">'+libEsc(a.b)+'</p>';
-  return '<article class="pbx-art pbx-unit"><div class="pbx-art-t">'+pbxEnTitle(a.t)+'</div><div class="pbx-art-s">'+libEsc(a.s)+'</div>'+
+  return '<article class="pbx-art pbx-unit"><div class="pbx-art-t">'+libEsc(a.t)+'</div><div class="pbx-art-s">'+libEsc(a.s)+'</div>'+
     ((a.x||a.p)?'<div class="pbx-cols pbx-vr">'+body+'<div class="pbx-art-side">'+
       (a.x?'<div class="pbx-note"><span>'+libEsc(a.x)+'</span></div>':'')+
       (a.p?'<div class="pbx-note"><b>คนมักเข้าใจผิด</b> <span>'+libEsc(a.p)+'</span></div>':'')+
