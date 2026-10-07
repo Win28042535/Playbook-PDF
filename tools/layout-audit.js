@@ -85,6 +85,18 @@
     }
     // lettering: the CAPS-over-script lockups and the script words inside titles (canvas ink, not DOM boxes)
     out.script=scriptChecks();
+    // balance: sheets whose content ends before 62% of the page, how many carry the bottom contour field, and whether any field reaches content
+    out.balance=(function(){
+      var H=794*3508/2480,partial=0,fields=0,touching=[];
+      [].forEach.call(document.querySelectorAll('.pb-page.pbx'),function(pg){
+        if(pg.id==='pb-toc')return;var P=pg.getBoundingClientRect(),k=P.width/794,b=pg.querySelector('.pb-body'),end=0,w=document.createTreeWalker(b,NodeFilter.SHOW_TEXT),n,rg=document.createRange(),j,rs;
+        while((n=w.nextNode())){if(!n.nodeValue.trim())continue;rg.selectNodeContents(n);rs=rg.getClientRects();for(j=0;j<rs.length;j++)end=Math.max(end,(rs[j].bottom-P.top)/k);}
+        [].forEach.call(b.querySelectorAll('img,.pbx-db,.pbx-vr,.pbx-card'),function(e){end=Math.max(end,(e.getBoundingClientRect().bottom-P.top)/k);});
+        if(end/H<.62)partial++;
+        var f=pg.querySelector('.pbx-bt');if(f){fields++;if(parseFloat(f.style.top)<end+24)touching.push(pg.id);}
+      });
+      return {partialUnder62:partial,bottomFields:fields,fieldsTouchingContent:touching};
+    })();
     return out;
   }
   /* lockups: caps and script drawn on two canvases at their real positions -> pixels where both are inked (must be 0),

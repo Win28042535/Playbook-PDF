@@ -96,6 +96,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-cn{display:none;position:absolute;top:22px;width:118px;height:90px;background:url(assets/orn-corner.svg) center/contain no-repeat;pointer-events:none;}
 .pbx-cn.r{right:28px;}
 .pbx-cn.l{left:28px;transform:scaleX(-1);}
+/* bottom contour field (see pbxIllustrate): faint lines rising from the bottom edge, fading upward, only where the sheet has room */
+.pbx-bt{position:absolute;left:0;right:0;z-index:-1;background:url(assets/topo-b.svg) center bottom/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to top,#000 22%,transparent 100%);mask-image:linear-gradient(to top,#000 22%,transparent 100%);}
 /* line-art drawings placed by pbxIllustrate() (position + size inline) */
 .pbx-ill{position:absolute;display:block;background:center/contain no-repeat;pointer-events:none;}
 /* two articles on a sheet: a small asterism in the gap above the second (reference: Maguss' section breaks) */
@@ -655,39 +657,39 @@ function pbSetZoom(el,k){el.style.zoom=k&&k!==1?k:'';}
 var PBX_CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'พอร์ต',journey:'เส้นทาง',library:'คลังความรู้'}; // chapter labels: สารบัญ's group names and each sheet's running header
 var PBX_ORN='<i class="pbx-cn l" aria-hidden="true"></i><i class="pbx-cn r" aria-hidden="true"></i>'; // corner sprigs; CSS shows them only on feature sheets and the สารบัญ
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
-/* Line-art illustrations (round 2, steps 3-4): placed AFTER pagination as absolutely positioned marks in
-   space a sheet already has free, so no text moves and the page count never changes.
+/* Line-art illustrations (round 2, steps 3-4) and the bottom contour field (round 6): placed AFTER pagination as absolutely
+   positioned marks in space a sheet already has free, so no text moves and the page count never changes.
    - opener sheets: the chapter's drawing in the upper right, opposite the plumb line;
    - the identity feature sheet: the compass between the persona name and the hairline, when there is room;
-   - the last sheet of a section with room under its text: a fleuron tailpiece just below the text. */
+   - any sheet whose content ends high (>= PBX_BT_ROOM px free under it, 40px margin kept): a faint contour field rising from the
+     bottom edge, fading upward, so a short sheet is weighted at both ends instead of top-heavy (the opener's top has the same lines). */
 var PBX_ILL={identity:'compass',analysis:'scale',portfolio:'chart',journey:'path',library:'book',glossary:'quill'};
+var PBX_BT_ROOM=360;
 function pbxIllustrate(pages){
   function mark(pg,cls,img,x,y,w,h){
     var i=document.createElement('i');i.className='pbx-ill '+cls;i.setAttribute('aria-hidden','true');
     i.style.cssText='left:'+Math.round(x)+'px;top:'+Math.round(y)+'px;width:'+Math.round(w)+'px;height:'+Math.round(h)+'px;background-image:url(assets/'+img+'.svg)';
     pg.appendChild(i);
   }
-  var W=794,PADX=76;
-  pages.forEach(function(pg,n){
+  var W=794,H=794*3508/2480,PADX=76;
+  pages.forEach(function(pg){
     var P=pg.getBoundingClientRect(),k=P.width/W; // sheet px per CSS px (1 unless the view is scaled)
     var y=function(v){return (v-P.top)/k;};
-    var body=pg.querySelector('.pb-body'),first=body.firstElementChild,last=body.lastElementChild,ill=PBX_ILL[pg.dataset.panel];
+    var body=pg.querySelector('.pb-body'),first=body.firstElementChild,ill=PBX_ILL[pg.dataset.panel];
     if(!first)return;
-    if(first.classList.contains('pbx-open')){ // opener: upper right, above the kicker (~31.5%), clear of the tab
+    if(first.classList.contains('pbx-open')){ // opener: upper right, above the kicker (~31.5%)
       if(ill)mark(pg,'head','ill-'+ill,W-PADX-250,104,250,220);
-      return;
-    }
-    if(first.classList.contains('pbx-feat')){ // feature sheet: the compass under the name, right-aligned
+    }else if(first.classList.contains('pbx-feat')){ // feature sheet: the compass under the name, right-aligned
       var t=first.querySelector('.pbx-feat-t'),r=document.createRange();r.selectNodeContents(t);
       var textBottom=y(r.getBoundingClientRect().bottom),rule=y(t.getBoundingClientRect().bottom),free=rule-textBottom;
       if(free>=170){var sz=Math.min(230,free-40);mark(pg,'feat','ill-'+PBX_ILL.identity,W-PADX-sz,textBottom+(free-sz)/2,sz,sz);}
-      return;
     }
-    var next=pages[n+1],nf=next&&next.querySelector('.pb-body').firstElementChild;
-    var sectionEnd=!next||next.dataset.panel!==pg.dataset.panel||(nf&&nf.matches('.pbx-cat,.pbx-sec,.pbx-open,.pbx-feat'));
-    var tr=document.createRange();tr.selectNodeContents(last);var end=y(tr.getBoundingClientRect().bottom); // the text's own end, not its box (an article box can hold half the sheet)
-    var room=y(body.getBoundingClientRect().bottom)-end;
-    if(sectionEnd&&room>=220)mark(pg,'tail','orn-fleuron',(W-170)/2,end+44,170,41);
+    // where the sheet's content really ends: text, images (+ the card's 22px frame), data bars and rule-split containers
+    var end=0,w=document.createTreeWalker(body,NodeFilter.SHOW_TEXT),n,rg=document.createRange(),j,rs;
+    while((n=w.nextNode())){if(!n.nodeValue.trim())continue;rg.selectNodeContents(n);rs=rg.getClientRects();for(j=0;j<rs.length;j++)end=Math.max(end,y(rs[j].bottom));}
+    [].forEach.call(body.querySelectorAll('img,.pbx-db,.pbx-vr,.pbx-card'),function(e){end=Math.max(end,y(e.getBoundingClientRect().bottom)+(e.matches('.pbx-card')?22:0));});
+    var avail=H-(end+40);
+    if(avail>=PBX_BT_ROOM){var hgt=Math.min(520,avail),bt=document.createElement('i');bt.className='pbx-bt';bt.setAttribute('aria-hidden','true');bt.style.cssText='top:'+Math.round(H-hgt)+'px;height:'+Math.round(hgt)+'px';pg.appendChild(bt);}
   });
 }
 function pbBuild(){
