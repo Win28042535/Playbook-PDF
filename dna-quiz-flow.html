@@ -120,8 +120,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-lock-c{font-family:var(--font-caps);font-weight:500;font-size:17px;letter-spacing:.42em;line-height:20px;}
 .pbx-lock-s{font-family:var(--font-script);font-weight:400;font-size:52px;line-height:60px;}
 .pbx-kicker{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);color:var(--ink);line-height:1.4;margin-bottom:var(--sp-block);}
-.pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);position:relative;padding-bottom:var(--sp-inline);border-bottom:5px solid transparent;} /* the 5px stays as layout space; the underline itself is the hand-drawn brush below */
-.pbx .pbx-open-t::after{content:'';position:absolute;left:0;right:0;bottom:-1.5px;height:8px;background:url(assets/swell-rule.svg) left center/100% 100% no-repeat;pointer-events:none;} /* engraver's swelled rule: hairline ends, ~2.6px at the centre, stretched to the title width */
+.pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);padding-bottom:calc(var(--sp-inline) + 5px);} /* 17px under the text: the room the underline used to take, so nothing below moves */
 .pbx-lede{max-width:var(--read-measure);margin-top:56px;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 /* opener extras: a one-line meta and a plain ruled list in the lower half (library opener) */
 .pbx-meta{margin-top:var(--sp-inline);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
@@ -220,7 +219,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-card img{display:block;width:100%;height:auto;border-radius:5.8% / 4.15%;}
 /* identity follow-up blocks */
 .pbx-block .pbx-cats{margin-top:var(--sp-stack);}
-.pbx-reg-a{display:inline-block;margin-top:var(--sp-block);padding-bottom:12px;background:url(assets/swell-rule.svg) left bottom/100% 8px no-repeat;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-decoration:none;}
+.pbx-reg-a{display:inline-block;margin-top:var(--sp-block);padding-bottom:11px;border-bottom:var(--rule-w) solid var(--ink);font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-decoration:none;}
 .pbx .pbx-split{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;}
 .pbx-list{margin:var(--sp-inline) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
 .pbx-list li+li{margin-top:var(--sp-list);}
