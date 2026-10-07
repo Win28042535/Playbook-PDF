@@ -155,7 +155,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* pull-quote: a big hanging opening mark, ink text in the reading face, a closing mark inline */
 .pbx-art-s.pbx-quote{position:relative;padding-left:36px;font-family:var(--font-read);font-size:calc(var(--read-fs) + 1px);font-weight:var(--w-label);line-height:1.6;color:var(--ink);text-wrap:pretty;}
 .pbx-art-s.pbx-quote::before{content:'\201C';position:absolute;left:-2px;top:-6px;font-family:Georgia,'Times New Roman',serif;font-size:56px;font-weight:400;line-height:1;color:var(--muted);}
-.pbx-art-s.pbx-quote::after{content:'\201D';font-family:Georgia,'Times New Roman',serif;font-weight:400;color:var(--muted);margin-left:2px;}
+.pbx-art-s.pbx-quote::after{content:'\201D';font-family:Georgia,'Times New Roman',serif;font-size:40px;font-weight:400;line-height:0;vertical-align:-.28em;color:var(--muted);margin-left:4px;}
 .pbx-art-p{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-cols{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;margin-top:var(--sp-stack);}
 .pbx-cols>.pbx-art-p{margin:0;padding-top:var(--sp-list);}
