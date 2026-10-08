@@ -961,9 +961,11 @@ function sidesHTML(r){
   var plain=function(h){var d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim();};
   return pbxOpenHTML(['สิ่งที่ระบบวัดได้จากคุณ',['THE','Journey']],'<span>6 ด้าน</span> ที่วัดได้จากคุณ','แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม')+
     sides.map(function(sd,i){
-      var first=(sd.body.match(/<p>([\s\S]*?)<\/p>/)||[])[1]||'',dup=plain(first)===plain(sd.s);
+      /* the grey sub-line repeats the body's first paragraph (or its opening words) on most sides — dropped there; where it is
+         new text (life-stage goals) it becomes the body's first paragraph, in the same Sarabun as the rest */
+      var first=(sd.body.match(/<p>([\s\S]*?)<\/p>/)||[])[1]||'',dup=plain(first).indexOf(plain(sd.s))===0;
       var one='<article class="pbx-side"><div class="pbx-side-hd"><div class="pbx-side-t">'+(SIDE_IC[i]?'<img class="pbx-tic" src="'+SIDE_IC[i]+'" alt="">':'')+sd.t+'</div><span class="pbx-side-st">'+sd.chip+'</span></div>'+
-        (dup?'':'<div class="pbx-art-s">'+sd.s+'</div>')+'<div class="pbx-side-b">'+sd.body+'</div></article>';
+        '<div class="pbx-side-b">'+(dup?'':'<p>'+sd.s+'</p>')+sd.body+'</div></article>';
       return i%2?one+'</div>':'<div class="pbx-side-row pbx-vr">'+one; // three rows of two, split by the vertical rule
     }).join('');
 }
