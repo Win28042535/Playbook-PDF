@@ -244,6 +244,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-feat-fam{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .pbx-feat-fam-s{display:block;font-family:var(--font-script);font-weight:400;font-size:52px;line-height:1.05;white-space:nowrap;}
 .pbx-feat-fam-t{display:block;margin-top:2px;}
+.pbx-feat-phase{margin-bottom:var(--sp-inline);font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
+.pbx-feat-row .pbx-data-note{margin-top:var(--sp-stack);}
+/* post-event sheet (pbxPostHTML) */
+.pbx .pbx-post-t{margin:0;padding-bottom:var(--sp-inline);font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
+.pbx-post-row{display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:48px;align-items:start;margin-top:44px;}
+.pbx-post .pbx-tags{margin-top:var(--sp-block);}
+.pbx-post .pbx-split{margin-top:64px;}
 .pbx-feat-sig{margin-top:var(--sp-inline);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-card img{display:block;width:100%;height:auto;border-radius:5.8% / 4.15%;}
 /* identity follow-up blocks */
@@ -533,10 +540,43 @@ function pbxAnalysisHTML(r,h,matchOk){
    is the same persona name สารบัญ already used for this sheet. unreg (a visitor who never registered)
    stops after strengths / watch-outs, as before, and gets the register call instead of SKILL — same
    texts as the old CTA block, as a plain text block with the link underlined in the accent. */
-function pbxIdentityHTML(h,key,unreg){
+/* Pre-event vs post-event card (2026-10-08, per direction: the card from before the event and the one after it may
+   not be the same persona). Restores v1's evoCompute() decision: once there is enough on-event evidence (a game
+   played and 3 of 6 activity signals) AND the declared-vs-revealed risk gap is 2+ points, the persona moves to the
+   G family (did less risk than declared) or V (did more), shown by that family's flagship (EVO_REP). States:
+   'none' (no on-event activity yet: no post-event sheet at all), 'same' (a one-line note on the pre-event sheet),
+   'evolved' (its own post-event sheet after the identity chapter). DEMO.sampleEvolve swaps in an illustrative shift
+   when the real data does not move, tagged "ตัวอย่าง", so the sample book shows the sheet. */
+var EVO_REP={G:'diamondhand',N:'planner',V:'waverider'};
+function pbxEvo(r){
+  var played=gamesPlayedCount(),chk=0,act=boothActivityCount(),k;
+  for(k in BOOTH_CHK)if(BOOTH_CHK[k]&&BOOTH_CHK[k].size)chk++;
+  if(!played&&!chk&&!act)return {state:'none'};
+  var sig=[played>=1,chk>=1,act>=1,(r.interests||[]).length>=1,played>=4,act>=ACTIVITY_NEED].filter(Boolean).length;
+  var fam=r.hero.fam,to=(played>=1&&sig>=3&&Math.abs(r.gap)>=2)?(r.gap>=2?'V':'G'):fam,sample=false;
+  if(to===fam&&DEMO.sampleEvolve){to=fam==='V'?'G':'V';sample=true;}
+  if(to===fam)return {state:'same'};
+  return {state:'evolved',key:EVO_REP[to],hero:HEROES[EVO_REP[to]],up:to==='V',sample:sample};
+}
+function pbxFamHTML(h){return (function(m){return m?'<span class="pbx-feat-fam-s">'+m[1]+'</span><span class="pbx-feat-fam-t">'+m[2]+'</span>':h.famTh;})(h.famTh.match(/^([A-Za-z]+)\s+(.+)$/));}
+/* the post-event sheet: one sheet in the identity chapter, after SKILL — phase kicker, persona name over a hairline,
+   then family / signature / why it moved / preferred assets beside the card, and strengths | watch-outs below */
+function pbxPostHTML(ev){
+  var h=ev.hero,col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
+  return ('<section class="pbx-post pb-keep pbx-break"><div class="pbx-kicker">หลังร่วมงาน (Post-event)'+(ev.sample?' · ตัวอย่าง':'')+'</div><h2 class="s-h pbx-post-t">'+h.th+'</h2>'+
+    '<div class="pbx-post-row"><div><div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+
+      '<p class="pbx-data-note">'+(ev.up?'พฤติกรรมจริงในงานรับความเสี่ยงได้มากกว่าที่คุณตอบไว้':'พฤติกรรมจริงในงานระมัดระวังกว่าที่คุณตอบไว้')+' การ์ดหลังร่วมงานจึงต่างจากก่อนร่วมงาน</p>'+
+      '<ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></div>'+
+    '<div class="pbx-card"><img src="'+REAL_CARD_IMG[ev.key]+'" alt="การ์ด '+h.en+'"></div></div>'+
+    '<div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/\s*—\s*/g,' ');
+}
+function pbxIdentityHTML(h,key,unreg,ev){
   var card='<img src="'+REAL_CARD_IMG[key]+'" alt="การ์ด '+h.en+'">'; // all 12 personas have photographed card art
+  ev=ev||{state:'none'};
   var feat='<section class="pbx-feat pbx-solo"><h2 class="s-h pbx-feat-t">'+h.th+'</h2>'+
-    '<div class="pbx-feat-row"><div><div class="pbx-feat-fam">'+(function(m){return m?'<span class="pbx-feat-fam-s">'+m[1]+'</span><span class="pbx-feat-fam-t">'+m[2]+'</span>':h.famTh;})(h.famTh.match(/^([A-Za-z]+)\s+(.+)$/))+'</div><p class="pbx-feat-sig">'+h.sig+'</p></div><div class="pbx-card">'+card+'</div></div></section>';
+    '<div class="pbx-feat-row"><div><div class="pbx-feat-phase">ก่อนร่วมงาน (Pre-event)</div><div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+
+    (ev.state==='same'?'<p class="pbx-data-note"><b>หลังร่วมงาน (Post-event)</b> ยังเป็นการ์ดใบเดิม พฤติกรรมในงานสอดคล้องกับที่ตอบไว้</p>':'')+
+    '</div><div class="pbx-card">'+card+'</div></div></section>';
   /* rhythm 1 - 2 - 3: the preferred assets as ONE line (names split by small diamonds), strengths | watch-outs in two columns,
      the three SKILL values as three dials; every block opens with the same heading (22px + hairline) */
   var assets='<section class="pbx-block"><div class="pbx-side-hd"><h2 class="s-h pbx-side-t">สินทรัพย์ที่ <span>ถนัด</span></h2></div><ul class="pbx-tags">'+
@@ -550,7 +590,7 @@ function pbxIdentityHTML(h,key,unreg){
     '<p class="pbx-side-b">ร่วมเดินทางต่อในวันงาน กับ <b>10 INVESTMENT EXPERIENCES</b> • <b>6 INVESTMENT GAMES</b> พร้อม efin AI • Speaker ชั้นนำ • PAVILION ZONE</p>'+
     '<p class="pbx-side-b">รับ Playbook การลงทุนส่วนตัว เพื่อสแกนทุกโอกาสการลงทุนในโลกยุคใหม่</p>'+
     '<a class="pbx-reg-a" href="'+REG_URL+'" target="_blank" rel="noopener">ลงทะเบียนเข้าร่วมงาน</a></section>';
-  return (feat+assets+str+(unreg?reg:skill)).replace(/\s*—\s*/g,' '); // no em dashes on a sheet
+  return (feat+assets+str+(unreg?reg:skill)).replace(/\s*—\s*/g,' ')+(ev.state==='evolved'&&!unreg?pbxPostHTML(ev):''); // no em dashes on a sheet
 }
 function renderBook(){
   if(!RESULT){st.phase='splash';render();return;}
@@ -561,7 +601,7 @@ function renderBook(){
   root.innerHTML=
   '<main class="scroll" style="padding-bottom:var(--sp-stack)">'+
     '<div class="pb-src">'+
-    '<div class="b2-panel" data-panel="identity">'+pbxIdentityHTML(h,r.heroKey,unreg)+'</div>'+
+    '<div class="b2-panel" data-panel="identity">'+pbxIdentityHTML(h,r.heroKey,unreg,pre||unreg?null:pbxEvo(r))+'</div>'+
     (unreg?'':(
     '<div class="b2-panel" data-panel="analysis">'+pbxAnalysisHTML(r,h,matchOk)+'</div>'+
     (pre?'':(
@@ -1128,7 +1168,7 @@ function learnedLedgerHTML(){
    ACTIVITY_NEED, so it reads "ยังขาด" out of the box — see the 'auto' branch in renderBooth this
    direction restored). Switching the ช่วงงาน segment to Pre-Event is the one way back to the
    splash/quiz flow (RESULT/quizDone/boothVer aren't touched by that switch, same as before). */
-var DEMO={quizDone:true,draw:'auto',eventPhase:'on',multiTicket:false,boothVer:'v2',registered:true}; // draw: 'auto' (default, real boothCheckinCount()/boothActivityCount() math) | 'ok' (force eligible) | 'need' (force not-eligible) — see renderBooth. registered (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้ลงทะเบียน"): true (default, the real/active state) = the normal full Book; false previews a quiz-taker who never went through the registration site — renderBook locks to just the ตัวตน tab, truncates it at จุดแข็ง/จุดที่ต้องระวัง, and drops the bottom app-tabbar (see renderBook's `unreg` branches + book2Tabs()). boothVer (2026-09-03, per direction "อยากเพิ่ม หน้าเดินบูธ อีกเวอร์ชัน แยก preview ในเดโม"): 'v1' = the shipped booth page (static map image + separate route list, unchanged); 'v2' = a UX-enhancement preview per the Booth Journey spec — the SAME sections/layout/content, but the map gets numbered semantic markers synced 1:1 with the route steps, plus two-way Step↔Map focus. Everything v2 adds is gated on this flag so v1 stays byte-identical. (splashVer removed 2026-09-18, per direction "preview card เอา v1 ออก" — the splash fan carousel's "การ์ดมีชีวิต" build (added 2026-09-09, promoted to shipped default 2026-09-11) is now the only splash preview; v1 the plain static carousel, v3/v5 the "3D Character Card Flow" field and its living-card variant, were all removed the same day/session — see renderSplash's own comment for that full history.) eventPhase default flipped 'on'->'pre' (2026-08-28, per follow-up direction "จำลองเคส...อยากให้ preview default ที่ Pre-Event ก่อน") — see the comment above. multiTicket: false by default (2026-09-02) — the single-ticket case stays the active/real state; see MULTI_TICKET_DEMO. (sumTitleVer — a brief demo-panel toggle comparing 2 title treatments for renderPlaySummary's game-name — removed 2026-09-11, per direction "เลือกแบบ v2 และเอาแบบ v1 ออกได้เลย": v2, the DNA quiz's .q-icon-bare + .q-title header, is now just how renderPlaySummary always renders — see its own comment there.)
+var DEMO={quizDone:true,draw:'auto',eventPhase:'on',multiTicket:false,boothVer:'v2',registered:true,sampleEvolve:true}; // sampleEvolve: see pbxEvo // draw: 'auto' (default, real boothCheckinCount()/boothActivityCount() math) | 'ok' (force eligible) | 'need' (force not-eligible) — see renderBooth. registered (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้ลงทะเบียน"): true (default, the real/active state) = the normal full Book; false previews a quiz-taker who never went through the registration site — renderBook locks to just the ตัวตน tab, truncates it at จุดแข็ง/จุดที่ต้องระวัง, and drops the bottom app-tabbar (see renderBook's `unreg` branches + book2Tabs()). boothVer (2026-09-03, per direction "อยากเพิ่ม หน้าเดินบูธ อีกเวอร์ชัน แยก preview ในเดโม"): 'v1' = the shipped booth page (static map image + separate route list, unchanged); 'v2' = a UX-enhancement preview per the Booth Journey spec — the SAME sections/layout/content, but the map gets numbered semantic markers synced 1:1 with the route steps, plus two-way Step↔Map focus. Everything v2 adds is gated on this flag so v1 stays byte-identical. (splashVer removed 2026-09-18, per direction "preview card เอา v1 ออก" — the splash fan carousel's "การ์ดมีชีวิต" build (added 2026-09-09, promoted to shipped default 2026-09-11) is now the only splash preview; v1 the plain static carousel, v3/v5 the "3D Character Card Flow" field and its living-card variant, were all removed the same day/session — see renderSplash's own comment for that full history.) eventPhase default flipped 'on'->'pre' (2026-08-28, per follow-up direction "จำลองเคส...อยากให้ preview default ที่ Pre-Event ก่อน") — see the comment above. multiTicket: false by default (2026-09-02) — the single-ticket case stays the active/real state; see MULTI_TICKET_DEMO. (sumTitleVer — a brief demo-panel toggle comparing 2 title treatments for renderPlaySummary's game-name — removed 2026-09-11, per direction "เลือกแบบ v2 และเอาแบบ v1 ออกได้เลย": v2, the DNA quiz's .q-icon-bare + .q-title header, is now just how renderPlaySummary always renders — see its own comment there.)
 
 /* synthesize a plausible RESULT for a forced persona and jump to the Book (demo shortcut).
    gap:0 here used to mean the demo persona picker could NEVER show a real post-event difference —
