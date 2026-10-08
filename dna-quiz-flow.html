@@ -170,6 +170,15 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-side-hd{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);}
 .pbx-side-t{font-family:var(--font-read);font-size:calc(var(--fs-sig) - 2px);font-weight:var(--w-label);line-height:1.35;color:var(--ink);}
 .pbx-side-st{font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);white-space:nowrap;}
+/* journey sides: each carries an engraved drawing in the outer page margin (left column off the left edge, right
+   column off the right edge), a quarter of it cut by the page; the text gives way a little on that side */
+.pbx-side{position:relative;}
+.pbx-side-fig{position:absolute;top:52px;width:110px;height:105px;pointer-events:none;}
+.pbx-side.fig-l .pbx-side-fig{left:-105px;}
+.pbx-side.fig-r .pbx-side-fig{right:-105px;}
+.pbx-side.fig-l .pbx-side-b{padding-left:8px;}
+.pbx-side.fig-r .pbx-side-b{padding-right:8px;}
+.pb-page.pbx:has(.pbx-side-fig) .pb-body{overflow:visible;}
 .pbx-side-b{margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-side .pbx-side-b{font-size:calc(var(--read-fs) - 2px);}
 .pbx-side .pbx-art-s{font-size:12px;}
@@ -202,7 +211,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-dr.has-ic{grid-template-columns:26px 1fr auto;align-items:center;}
 .pbx-dic{display:block;width:26px;height:26px;object-fit:contain;}
 .pbx-tic{width:26px;height:26px;object-fit:contain;margin-right:8px;vertical-align:-6px;} /* icon set inline before a title */
-.pbx-side .pbx-tic{width:20px;height:20px;margin-right:6px;vertical-align:-3px;} /* 18px side headings in a 302px column: keeps every title on one line */
 .pbx-dl{font-size:var(--fs-label);line-height:1.4;color:var(--ink);}
 .pbx-dv{font-size:var(--fs-label);line-height:1.4;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
 .pbx-dv b,.pbx-open .pbx-dv,.pbx-dr:not(.muted) .pbx-dv:not(:has(b)){font-weight:var(--w-label);color:var(--ink);}
@@ -214,7 +222,15 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-data-note b{font-weight:var(--w-label);color:var(--ink);}
 .pbx-open .pbx-data-note{margin-top:var(--sp-stack);font-size:var(--fs-label);color:var(--ink);}
 /* เจาะรายสินทรัพย์: asset name on a hairline, its three lines in the reading column */
-.pbx-dd{padding:0 0 32px;}
+.pbx-dd{position:relative;padding:0 0 32px;}
+/* the article's illustration: a line drawing in the margin beside the text, turned a little and cut by the page edge,
+   alternating sides; the text column gives way on that side */
+.pbx-dd.has-fig.r{padding-right:190px;}
+.pbx-dd.has-fig.l{padding-left:190px;}
+.pbx-dd-fig{position:absolute;top:0;object-fit:contain;pointer-events:none;} /* engraved drawings stand upright on their own ground shadow */
+
+/* .pbx-dd-fig side offset (the 77px page margin plus a quarter of the piece, so that quarter is cut by the page edge) is set inline */
+.pb-page.pbx:has(.pbx-dd-fig) .pb-body{overflow:visible;} /* the pieces reach past the column to the page edge; sheet fit is still measured by scrollHeight */
 .pbx-dd-l{max-width:var(--read-measure);margin:var(--sp-stack) 0 0;padding:0 0 0 1.2em;list-style:disc;font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);}
 .pbx-dd-l li::marker{color:var(--muted);}
 .pbx-dd-l li+li{margin-top:var(--sp-list);}
@@ -257,13 +273,15 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-side-hd .s-h{margin:0;}
 .pbx-tags{display:flex;flex-wrap:wrap;align-items:center;list-style:none;padding:0;margin:var(--sp-stack) 0 0;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.5;color:var(--ink);}
 .pbx-tags li+li::before{content:'';display:inline-block;width:6px;height:6px;margin:0 16px;transform:rotate(45deg);border:var(--rule-w) solid rgba(17,19,24,.5);vertical-align:middle;}
-.pbx-dials{display:grid;grid-template-columns:repeat(3,1fr);column-gap:36px;margin-top:var(--sp-block);}
-.pbx-dial{text-align:center;}
-.pbx-dialsvg{display:block;width:100%;max-width:190px;height:auto;margin:0 auto;}
-.pbx-dial-l{margin-top:var(--sp-glue);font-size:var(--fs-label);line-height:1.4;color:var(--ink);}
-.pbx-dial-v{font-size:var(--fs-label);line-height:1.4;color:var(--muted);font-variant-numeric:tabular-nums;}
-.pbx-dial-v b{font-weight:var(--w-label);color:var(--ink);}
-.pbx-dials+.pbx-data-note{max-width:none;margin-top:var(--sp-block);}
+/* SKILL as three 0-10 scales: a hairline with ten ticks, inked up to the value and closed by a small diamond (the book's own ornament) */
+.pbx-sks{max-width:var(--read-measure);margin-top:var(--sp-block);}
+.pbx-sk{padding:12px 0 8px;}
+.pbx-sk-h{display:flex;justify-content:space-between;align-items:baseline;font-size:var(--fs-label);line-height:1.4;color:var(--ink);}
+.pbx-sk-v{color:var(--muted);font-variant-numeric:tabular-nums;}
+.pbx-sk-v b{font-weight:var(--w-label);color:var(--ink);}
+.pbx-sk-s{position:relative;height:16px;margin-top:6px;background:repeating-linear-gradient(to right,rgba(17,19,24,.5) 0 1px,transparent 1px 10%) 0 0/calc(100% + 1px) 7px no-repeat;border-right:1px solid rgba(17,19,24,.5);}
+.pbx-sk-s::before{content:'';position:absolute;left:0;right:0;top:8px;height:1px;background:linear-gradient(to right,var(--ink) var(--v),var(--rule) var(--v));}
+.pbx-sk-s i{position:absolute;left:var(--v);top:8px;width:9px;height:9px;margin:-4px 0 0 -4px;background:var(--ink);transform:rotate(45deg);}
 .pbx-reg-a{display:inline-block;margin-top:var(--sp-block);padding-bottom:11px;border-bottom:var(--rule-w) solid var(--ink);font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-decoration:none;}
 .pbx .pbx-split{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;}
 .pbx-list{margin:var(--sp-inline) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);}
@@ -346,13 +364,16 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    mismatched ₿ stays, matching the source verbatim; only the canvas/proportion got fixed here, not
    the content. */
 var RADAR_AXES=['หุ้นไทย','ต่างปท.','กองทุน','คริปโต','ทอง','สุขภาพ'];
-/* original-colour icons from the v1 asset set: radar rows (sheet 4), "เจาะรายสินทรัพย์" titles by
-   persona asset name (sheet 7), the six journey sides (sidesHTML order, sheet 9) */
+/* original-colour icons from the v1 asset set: radar rows (sheet 4), the six journey sides (sidesHTML order) */
 var pbxIc=function(k){return 'assets/ICON_'+k+'_PNG.webp';};
 var RADAR_IC=['STOCK_TH','STOCK_INTL','FUND','CRYPTO','GOLD','HEALTH'].map(pbxIc);
-var ASSET_IC={'หุ้นไทย':pbxIc('STOCK_TH'),'หุ้นต่างประเทศ':pbxIc('STOCK_INTL'),'กองทุนรวม':pbxIc('FUND'),'ตราสารหนี้':pbxIc('BOND'),
-  'ทองคำ':pbxIc('GOLD'),'อสังหา/REIT':pbxIc('REALESTATE'),'คริปโต':pbxIc('CRYPTO'),'ปันผล':'assets/coinbaht.png','เงินฝาก':'assets/bank.png'};
-var SIDE_IC=['assets/lightning.png','assets/ICON_EYE.png','assets/shieldcheck.png','assets/ICON_COMPASS_PNG.png',pbxIc('HEALTH'),'assets/route.png'];
+/* "เจาะรายสินทรัพย์" illustrations, by persona asset name: a large ink line drawing beside each article (traced from the v1
+   glass art by an edge filter, so the book stays single-ink like the chapter drawings) (w x h drawn box,
+   h defaults to w; the two with only small source art are drawn smaller) */
+var DD_FIG={'หุ้นไทย':{src:'eng-stockth.svg',w:180,h:171},'หุ้นต่างประเทศ':{src:'eng-stockintl.svg',w:180,h:171},'กองทุนรวม':{src:'eng-fund.svg',w:180,h:171},
+  'ตราสารหนี้':{src:'eng-bond.svg',w:180,h:171},'ทองคำ':{src:'eng-gold.svg',w:180,h:171},'อสังหา/REIT':{src:'eng-house.svg',w:180,h:171},
+  'คริปโต':{src:'eng-bitcoin.svg',w:180,h:171},'ปันผล':{src:'eng-coin.svg',w:180,h:171},'เงินฝาก':{src:'eng-bank.svg',w:180,h:171}};
+var SIDE_FIG=['gauge','lens','hook','hourglass','heart','steps']; // engraved drawing per journey side (sidesHTML order): assets/eng-*.svg
 /* 2026-09-04: all 12 personas now have approved final photographed card art (replaces the earlier
    3-card partial set — harvester/diamondhand/waverider — with the full set), so pcFrontInner's CSS
    editorial-mockup branch is unreached for every real persona now; left in place as a safe fallback
@@ -584,7 +605,7 @@ function pbxIdentityHTML(h,key,unreg,ev){
   var col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
   var str='<section class="pbx-block"><div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>';
   var skill='<section class="pbx-block"><div class="pbx-side-hd"><h3 class="pbx-side-t">SKILL ประจำการ์ด</h3></div>'+(h.motto?'<p class="pbx-sec-sub">คำประจำตัว '+h.motto+'</p>':'')+
-    '<div class="pbx-dials">'+SKC_ROWS.map(function(l,i){var v=h.skills[i];return '<div class="pbx-dial">'+pbxDial(v)+'<div class="pbx-dial-l">'+l+'</div><div class="pbx-dial-v"><b>'+v+'</b>/10</div></div>';}).join('')+'</div>'+
+    '<div class="pbx-sks">'+SKC_ROWS.map(function(l,i){var v=h.skills[i];return '<div class="pbx-sk"><div class="pbx-sk-h"><span>'+l+'</span><span class="pbx-sk-v"><b>'+v+'</b>/10</span></div><div class="pbx-sk-s" style="--v:'+v*10+'%" role="img" aria-label="'+v+' / 10"><i></i></div></div>';}).join('')+'</div>'+
     '<p class="pbx-data-note"><b>ค่า SKILL บนการ์ด</b> สะท้อนความถนัดในแต่ละสไตล์ ไม่ใช่คำแนะนำการลงทุน</p></section>';
   var reg='<section class="pbx-block"><div class="pbx-kicker">ผลลัพธ์นี้เป็นเพียง Preview ของ Investment DNA</div><h3 class="pbx-blk-t">Investment DNA ของคุณคือจุดเริ่มต้น</h3>'+
     '<p class="pbx-side-b">ร่วมเดินทางต่อในวันงาน กับ <b>10 INVESTMENT EXPERIENCES</b> • <b>6 INVESTMENT GAMES</b> พร้อม efin AI • Speaker ชั้นนำ • PAVILION ZONE</p>'+
@@ -634,22 +655,6 @@ var ALLOC_SEGS=[{l:'สินทรัพย์แกนหลัก (กอง�
 function pbxRow(label,valHTML,pct,muted,icon){
   return '<div class="pbx-dr'+(muted?' muted':'')+(icon?' has-ic':'')+'">'+(icon?'<img class="pbx-dic" src="'+icon+'" alt="">':'')+'<span class="pbx-dl">'+label+'</span><span class="pbx-dv">'+valHTML+'</span><i class="pbx-db" style="--v:'+pct+'%"></i></div>';
 }
-/* Engraved half-dial for a 0-10 value (SKILL ประจำการ์ด): outer arcs and ticks, a hatched band from 0 up to the value, a needle with a
-   short tail and a hub. The figure itself stays as text under the dial; the svg only draws it. */
-function pbxDial(v){
-  var cx=80,cy=84,R=68,RI=50,rad=Math.PI/180;
-  var P=function(a,r){return [cx+Math.cos(a*rad)*r,cy-Math.sin(a*rad)*r];},ang=function(x){return 180-x/10*180;},f=function(n){return n.toFixed(1);};
-  var line=function(p,q,w,o){return '<path d="M'+f(p[0])+' '+f(p[1])+'L'+f(q[0])+' '+f(q[1])+'" stroke-width="'+w+'" stroke-opacity="'+o+'"/>';};
-  var arc=function(r,w,o){var a=P(180,r),b=P(0,r);return '<path d="M'+f(a[0])+' '+f(a[1])+'A'+r+' '+r+' 0 0 1 '+f(b[0])+' '+f(b[1])+'" stroke-width="'+w+'" stroke-opacity="'+o+'"/>';};
-  var s='<svg class="pbx-dialsvg" viewBox="0 0 160 96" role="img" aria-label="'+v+' / 10"><g fill="none" stroke="#111318" stroke-linecap="round">';
-  s+=arc(R+9,.5,.6)+arc(R,1.5,.85)+arc(RI,.6,.75);
-  s+=line([cx-R-12,cy],[cx+R+12,cy],.9,.75);
-  for(var i=0;i<=20;i++){var a=ang(i/2),major=i%10===0,mid=i%2===0;s+=line(P(a,R+9),P(a,R+(major?17:(mid?14:11.5))),major?1.1:(mid?.7:.45),.8);}
-  for(var a2=180;a2>ang(v)+.1;a2-=3.2)s+=line(P(a2,RI+2.5),P(a2,R-2.5),.55,.9); // the hatched band, 0 up to the value
-  var n=P(ang(v),R-4),t=P(ang(v)+180,11);
-  s+=line(t,n,1.6,.95)+'<circle cx="'+cx+'" cy="'+cy+'" r="5" fill="#fafafc" stroke-width="1.2"/><circle cx="'+cx+'" cy="'+cy+'" r="1.5" fill="#111318" stroke="none"/>';
-  return s+'</g></svg>';
-}
 function pbxPortfolioHTML(h,r){
   // radar: ranked high → low; ties keep axis order
   var ax=h.radar.map(function(v,i){return {i:i,v:v};}).sort(function(a,b){return b.v-a.v||a.i-b.i;});
@@ -669,7 +674,8 @@ function pbxPortfolioHTML(h,r){
   var alloc='<section class="pbx-block"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3><p class="pbx-sec-sub">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p><div class="pbx-data">'+
     ALLOC_SEGS.map(function(s){return pbxRow(s.l,s.p+'%',s.p);}).join('')+'</div></section>';
   var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
-    h.assets.slice(0,4).map(function(a){return '<article class="pbx-dd"><div class="pbx-art-t">'+(ASSET_IC[a.t]?'<img class="pbx-tic" src="'+ASSET_IC[a.t]+'" alt="">':'')+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
+    h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd=i%2?'l':'r'; // illustration alternates right / left, bleeding off the page edge
+      return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-'+Math.round(77+fg.w*.25)+'px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
   return open+ints+trait+alloc+dd;
 }
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
@@ -1004,7 +1010,7 @@ function sidesHTML(r){
       /* the grey sub-line repeats the body's first paragraph (or its opening words) on most sides — dropped there; where it is
          new text (life-stage goals) it becomes the body's first paragraph, in the same Sarabun as the rest */
       var first=(sd.body.match(/<p>([\s\S]*?)<\/p>/)||[])[1]||'',dup=plain(first).indexOf(plain(sd.s))===0;
-      var one='<article class="pbx-side"><div class="pbx-side-hd"><div class="pbx-side-t">'+(SIDE_IC[i]?'<img class="pbx-tic" src="'+SIDE_IC[i]+'" alt="">':'')+sd.t+'</div><span class="pbx-side-st">'+sd.chip+'</span></div>'+
+      var one='<article class="pbx-side fig-'+(i%2?'r':'l')+'"><img class="pbx-side-fig" src="assets/eng-'+SIDE_FIG[i]+'.svg" alt=""><div class="pbx-side-hd"><div class="pbx-side-t">'+sd.t+'</div></div>'+
         '<div class="pbx-side-b">'+(dup?'':'<p>'+sd.s+'</p>')+sd.body+'</div></article>';
       return i%2?one+'</div>':'<div class="pbx-side-row pbx-vr">'+one; // three rows of two, split by the vertical rule
     }).join('');
