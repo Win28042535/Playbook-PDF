@@ -739,14 +739,23 @@ var PBX_FLOAT={journey:[
   {src:'float-heart.png',w:62,h:90,r:170,b:250,a:-10}
 ]};
 /* the same treatment on the last sheet of each library category (the ones whose text ends mid-page), keyed by
-   category index (LIBRARY_CATS order); l = gap from the LEFT edge instead of r, so the clusters alternate sides */
+   category index (LIBRARY_CATS order); l = gap from the LEFT edge instead of r; x/y = absolute page position
+   (for clusters that sit mid-band rather than on the footer). Each category gets its own arrangement:
+   0 hero object centred with satellites, 1 corner bleed, 2 diagonal drift (sizes falling from top left to bottom
+   right), 3 scatter across the band, 4 overlapping stack, 5 balance (small group top right vs one piece low left).
+   Later entries draw on top. */
 var PBX_FLOAT_CAT=[
-  [{src:'float-stock.png',w:230,h:230,l:-90,b:60,a:28},{src:'float-gold.png',w:80,h:120,l:190,b:0,a:-14},{src:'float-heart.png',w:58,h:84,l:170,b:250,a:12}],
+  [{src:'float-book.png',w:280,h:206,x:257,y:590,a:-8},{src:'float-compass.png',w:96,h:96,x:150,y:470,a:14},
+   {src:'float-hourglass.png',w:84,h:84,x:560,y:850,a:-12},{src:'float-gold.png',w:46,h:69,x:592,y:500,a:24}],
   [{src:'float-gold.png',w:150,h:225,r:-50,b:30,a:-20},{src:'float-bitcoin.png',w:100,h:129,r:190,b:10,a:14},{src:'float-stock.png',w:96,h:96,r:150,b:250,a:-30}],
-  [{src:'float-gold.png',w:150,h:225,l:-50,b:30,a:20},{src:'float-bitcoin.png',w:96,h:124,l:200,b:0,a:-12},{src:'float-heart.png',w:62,h:90,l:160,b:250,a:16}],
-  [{src:'float-eye.png',w:240,h:240,r:-80,b:50,a:-14},{src:'float-gold.png',w:70,h:105,r:200,b:0,a:18},{src:'float-heart.png',w:60,h:88,r:190,b:240,a:-12}],
-  [{src:'float-heart.png',w:190,h:277,l:-60,b:20,a:-16},{src:'float-gold.png',w:80,h:120,l:200,b:0,a:16},{src:'float-stock.png',w:90,h:90,l:180,b:250,a:24}],
-  [{src:'float-bitcoin.png',w:190,h:246,r:-70,b:30,a:-18},{src:'float-stock.png',w:120,h:120,r:200,b:0,a:30},{src:'float-heart.png',w:58,h:84,r:180,b:250,a:10}]
+  [{src:'float-gold.png',w:150,h:225,x:110,y:420,a:-18},{src:'float-stock.png',w:130,h:130,x:330,y:600,a:-30},
+   {src:'float-bitcoin.png',w:80,h:104,x:520,y:760,a:14},{src:'coinbaht.png',w:44,h:44,x:650,y:900,a:0}],
+  [{src:'float-shield.png',w:150,h:150,x:470,y:470,a:10},{src:'float-eye.png',w:110,h:110,x:130,y:560,a:-12},
+   {src:'padlock.png',w:62,h:62,x:340,y:720,a:-14},{src:'warning.png',w:66,h:66,x:600,y:800,a:12},{src:'lightning.png',w:56,h:56,x:210,y:880,a:18}],
+  [{src:'float-house.png',w:200,h:200,x:290,y:560,a:-6},{src:'float-hourglass.png',w:96,h:96,x:452,y:585,a:12},
+   {src:'float-heart.png',w:140,h:204,x:215,y:650,a:-14},{src:'coinbaht.png',w:48,h:48,x:440,y:790,a:-8}],
+  [{src:'float-diamond.png',w:120,h:120,x:540,y:440,a:-10},{src:'float-crown.png',w:80,h:80,x:465,y:525,a:14},
+   {src:'lightning.png',w:48,h:48,x:655,y:585,a:20},{src:'float-bitcoin.png',w:170,h:220,x:-40,y:780,a:-16}]
 ];
 function pbxIllustrate(pages){
   function mark(pg,cls,img,x,y,w,h){
@@ -782,10 +791,11 @@ function pbxIllustrate(pages){
       if(cat>=0&&!(nxp&&nxp.dataset.panel==='library'&&!nxp.querySelector('.pb-cat-t')))fl=PBX_FLOAT_CAT[cat]; // last sheet of its category
     }
     if(fl&&ft){
-      var base=y(ft.getBoundingClientRect().top)-24,topMost=Math.min.apply(null,fl.map(function(f){return base-f.b-f.h;}));
-      if(topMost>=end+40)fl.forEach(function(f){
+      var base=y(ft.getBoundingClientRect().top)-24,fTop=function(f){return f.y!=null?f.y:base-f.b-f.h;};
+      var topMost=Math.min.apply(null,fl.map(fTop)),lowest=Math.max.apply(null,fl.map(function(f){return fTop(f)+f.h;}));
+      if(topMost>=end+40&&lowest<=base+24)fl.forEach(function(f){
         var im=document.createElement('img');im.className='pbx-float';im.src='assets/'+f.src;im.alt='';im.setAttribute('aria-hidden','true');
-        im.style.cssText='left:'+(f.l!=null?f.l:W-f.r-f.w)+'px;top:'+(base-f.b-f.h)+'px;width:'+f.w+'px;height:'+f.h+'px;transform:rotate('+f.a+'deg)';
+        im.style.cssText='left:'+(f.x!=null?f.x:f.l!=null?f.l:W-f.r-f.w)+'px;top:'+fTop(f)+'px;width:'+f.w+'px;height:'+f.h+'px;transform:rotate('+f.a+'deg)';
         pg.appendChild(im);
       });
     }
