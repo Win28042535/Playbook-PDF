@@ -144,7 +144,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    top half so the second starts mid-sheet (option B, top half / bottom half) */
 .pbx .pbx-cat{padding:0 0 36px;}
 .pbx .pbx-cat .pb-cat-t{display:block;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.2;color:var(--ink);}
-.pbx-cic{width:34px;height:34px;object-fit:contain;margin-right:10px;vertical-align:-6px;} /* category icon before the 32px header */
+.pbx .pbx-cat{position:relative;}
+.pbx-cic{position:absolute;right:-60px;top:-34px;width:148px;height:141px;pointer-events:none;} /* the category's engraved drawing at the right of its header, whole on the page, lifted between the running head and the first article's title rule (it overlaps no text, so the sheet fit is unchanged) */
+.pb-page.pbx:has(.pbx-cic) .pb-body{overflow:visible;}
 .pbx .pb-body>article.pbx-unit:first-of-type{min-height:50%;}
 /* vertical rule between two equal columns, a small diamond on it (footer ornament's twin); the container
    needs 36px of column gap and position:relative */
@@ -685,13 +687,13 @@ function pbxPortfolioHTML(h,r){
    content-parity gap), so this is a real, correctly-labeled category accordion — counts are real,
    not fabricated — rather than a fake "browse the articles" experience with invented copy. */
 var LIBRARY_CATS=[
-  {t:'พื้นฐานการลงทุน',ic:'assets/ICON_BOOK_PNG.png'},
-  {t:'สินทรัพย์แต่ละประเภท',ic:'assets/portfolio.png'},
-  {t:'ต้นทุนและผลตอบแทน',ic:'assets/coinbaht.png'},
-  {t:'กลลวงและการป้องกันตัว',ic:'assets/shieldcheck.png'},
-  {t:'วางแผนชีวิตและสุขภาพการเงิน',ic:'assets/ICON_HEALTH_PNG.webp'},
-  {t:'ความเสี่ยงและการอ่านตัวเอง',ic:'assets/ICON_COMPASS_PNG.png'}
-]; // ic: original-colour icon on the library opener's category list and on each category's header sheet
+  {t:'พื้นฐานการลงทุน',ic:'assets/eng-cat-basics.svg'},
+  {t:'สินทรัพย์แต่ละประเภท',ic:'assets/eng-cat-assets.svg'},
+  {t:'ต้นทุนและผลตอบแทน',ic:'assets/eng-cat-costs.svg'},
+  {t:'กลลวงและการป้องกันตัว',ic:'assets/eng-cat-scams.svg'},
+  {t:'วางแผนชีวิตและสุขภาพการเงิน',ic:'assets/eng-cat-planning.svg'},
+  {t:'ความเสี่ยงและการอ่านตัวเอง',ic:'assets/eng-cat-risk.svg'}
+]; // ic: engraved drawing (tools/engrave-assets-3.js) at the right of each category's header; the opener's list has none
 /* n (2026-09-21) — now counted from window.LIB_ITEMS (js/library-data.js: 71 real articles from the
    BT2026 Dry-run's knowledge.js, each tagged c = index into this array) instead of hardcoded.
    ภาษีและกฎเกณฑ์ / เครื่องมือและการติดตาม were dropped 2026-09-22 (no source articles exist yet and
@@ -720,9 +722,9 @@ function libraryBlocksHTML(h){
      (name | N บทความ) in its lower half */
   var out=pbxOpenHTML(['สำหรับ '+libEsc(h.th),['THE','Library']],'<span>'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน','จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน',
     '<p class="pbx-meta"><b>'+libTotal()+'</b> <span>บทความ</span> <span>·</span> <b>'+glossTotal()+'</b> <span>ศัพท์</span></p>'+
-    '<div class="pbx-cats">'+LIBRARY_CATS.map(function(c){return '<div><span><img class="pbx-tic" src="'+c.ic+'" alt="">'+c.t+'</span><span>'+c.n+' บทความ</span></div>';}).join('')+'</div>');
+    '<div class="pbx-cats">'+LIBRARY_CATS.map(function(c){return '<div><span>'+c.t+'</span><span>'+c.n+' บทความ</span></div>';}).join('')+'</div>');
   LIBRARY_CATS.forEach(function(c,i){
-    out+='<div class="pbx-cat pb-keep pbx-break"><span class="pb-cat-t"><img class="pbx-cic" src="'+c.ic+'" alt="">'+c.t+'</span></div>'; // every category opens a fresh sheet; .pb-cat-t keeps its สารบัญ row
+    out+='<div class="pbx-cat pb-keep pbx-break c'+i+'"><span class="pb-cat-t">'+c.t+'</span><img class="pbx-cic" src='+JSON.stringify(c.ic)+' alt=""></div>'; // every category opens a fresh sheet; .pb-cat-t keeps its สารบัญ row
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
   });
   return out;
