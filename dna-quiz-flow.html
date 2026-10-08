@@ -260,7 +260,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-reg-a{display:inline-block;margin-top:var(--sp-block);padding-bottom:11px;border-bottom:var(--rule-w) solid var(--ink);font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-decoration:none;}
 .pbx .pbx-split{display:grid;grid-template-columns:1fr 1fr;column-gap:36px;}
 .pbx-list{margin:var(--sp-inline) 0 0;padding:0;list-style:none;font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);}
-.pbx-list li+li{margin-top:var(--sp-list);}
+/* every line of both columns sits on one pitch (line + the old item gap), so rows line up across the rule even when one column wraps */
+.pbx-list li{line-height:calc((var(--read-fs) - 2px) * var(--read-lh) + var(--sp-list));}
 .pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);position:relative;padding:var(--sp-stack) 0 calc(var(--sp-list) + var(--rule-w));font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
 .pbx-ft::before,.pbx-ft::after{content:'';position:absolute;bottom:0;height:var(--rule-w);width:calc(50% - 26px);background:var(--rule);}
 .pbx-ft::before{left:0;}
@@ -344,7 +345,7 @@ var pbxIc=function(k){return 'assets/ICON_'+k+'_PNG.webp';};
 var RADAR_IC=['STOCK_TH','STOCK_INTL','FUND','CRYPTO','GOLD','HEALTH'].map(pbxIc);
 var ASSET_IC={'หุ้นไทย':pbxIc('STOCK_TH'),'หุ้นต่างประเทศ':pbxIc('STOCK_INTL'),'กองทุนรวม':pbxIc('FUND'),'ตราสารหนี้':pbxIc('BOND'),
   'ทองคำ':pbxIc('GOLD'),'อสังหา/REIT':pbxIc('REALESTATE'),'คริปโต':pbxIc('CRYPTO'),'ปันผล':'assets/coinbaht.png','เงินฝาก':'assets/bank.png'};
-var SIDE_IC=['assets/lightning.png','assets/ICON_COMPASS_PNG.png','assets/shieldcheck.png','assets/ICON_HOURGLASS_PNG.png',pbxIc('HEALTH'),'assets/route.png'];
+var SIDE_IC=['assets/lightning.png','assets/ICON_EYE.png','assets/shieldcheck.png','assets/ICON_COMPASS_PNG.png',pbxIc('HEALTH'),'assets/route.png'];
 /* 2026-09-04: all 12 personas now have approved final photographed card art (replaces the earlier
    3-card partial set — harvester/diamondhand/waverider — with the full set), so pcFrontInner's CSS
    editorial-mockup branch is unreached for every real persona now; left in place as a safe fallback
@@ -644,7 +645,7 @@ var LIBRARY_CATS=[
   {t:'กลลวงและการป้องกันตัว',ic:'assets/shieldcheck.png'},
   {t:'วางแผนชีวิตและสุขภาพการเงิน',ic:'assets/ICON_HEALTH_PNG.webp'},
   {t:'ความเสี่ยงและการอ่านตัวเอง',ic:'assets/ICON_COMPASS_PNG.png'}
-]; // ic: original-colour icon on each category's header sheet (not on the opener's list)
+]; // ic: original-colour icon on the library opener's category list and on each category's header sheet
 /* n (2026-09-21) — now counted from window.LIB_ITEMS (js/library-data.js: 71 real articles from the
    BT2026 Dry-run's knowledge.js, each tagged c = index into this array) instead of hardcoded.
    ภาษีและกฎเกณฑ์ / เครื่องมือและการติดตาม were dropped 2026-09-22 (no source articles exist yet and
@@ -673,7 +674,7 @@ function libraryBlocksHTML(h){
      (name | N บทความ) in its lower half */
   var out=pbxOpenHTML(['สำหรับ '+libEsc(h.th),['THE','Library']],'<span>'+libTotal()+'</span> เรื่องที่คุณเก็บได้ตลอดงาน','จัดเป็น 6 หมวด · เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน',
     '<p class="pbx-meta"><b>'+libTotal()+'</b> <span>บทความ</span> <span>·</span> <b>'+glossTotal()+'</b> <span>ศัพท์</span></p>'+
-    '<div class="pbx-cats">'+LIBRARY_CATS.map(function(c){return '<div><span>'+c.t+'</span><span>'+c.n+' บทความ</span></div>';}).join('')+'</div>');
+    '<div class="pbx-cats">'+LIBRARY_CATS.map(function(c){return '<div><span><img class="pbx-tic" src="'+c.ic+'" alt="">'+c.t+'</span><span>'+c.n+' บทความ</span></div>';}).join('')+'</div>');
   LIBRARY_CATS.forEach(function(c,i){
     out+='<div class="pbx-cat pb-keep pbx-break"><span class="pb-cat-t"><img class="pbx-cic" src="'+c.ic+'" alt="">'+c.t+'</span></div>'; // every category opens a fresh sheet; .pb-cat-t keeps its สารบัญ row
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
@@ -737,13 +738,23 @@ var PBX_FLOAT={journey:[
   {src:'float-gold.png',w:96,h:144,r:200,b:10,a:-16},
   {src:'float-heart.png',w:62,h:90,r:170,b:250,a:-10}
 ]};
+/* the same treatment on the last sheet of each library category (the ones whose text ends mid-page), keyed by
+   category index (LIBRARY_CATS order); l = gap from the LEFT edge instead of r, so the clusters alternate sides */
+var PBX_FLOAT_CAT=[
+  [{src:'float-stock.png',w:230,h:230,l:-90,b:60,a:28},{src:'float-gold.png',w:80,h:120,l:190,b:0,a:-14},{src:'float-heart.png',w:58,h:84,l:170,b:250,a:12}],
+  [{src:'float-gold.png',w:150,h:225,r:-50,b:30,a:-20},{src:'float-bitcoin.png',w:100,h:129,r:190,b:10,a:14},{src:'float-stock.png',w:96,h:96,r:150,b:250,a:-30}],
+  [{src:'float-gold.png',w:150,h:225,l:-50,b:30,a:20},{src:'float-bitcoin.png',w:96,h:124,l:200,b:0,a:-12},{src:'float-heart.png',w:62,h:90,l:160,b:250,a:16}],
+  [{src:'float-eye.png',w:240,h:240,r:-80,b:50,a:-14},{src:'float-gold.png',w:70,h:105,r:200,b:0,a:18},{src:'float-heart.png',w:60,h:88,r:190,b:240,a:-12}],
+  [{src:'float-heart.png',w:190,h:277,l:-60,b:20,a:-16},{src:'float-gold.png',w:80,h:120,l:200,b:0,a:16},{src:'float-stock.png',w:90,h:90,l:180,b:250,a:24}],
+  [{src:'float-bitcoin.png',w:190,h:246,r:-70,b:30,a:-18},{src:'float-stock.png',w:120,h:120,r:200,b:0,a:30},{src:'float-heart.png',w:58,h:84,r:180,b:250,a:10}]
+];
 function pbxIllustrate(pages){
   function mark(pg,cls,img,x,y,w,h){
     var i=document.createElement('i');i.className='pbx-ill '+cls;i.setAttribute('aria-hidden','true');
     i.style.cssText='left:'+Math.round(x)+'px;top:'+Math.round(y)+'px;width:'+Math.round(w)+'px;height:'+Math.round(h)+'px;background-image:url(assets/'+img+'.svg)';
     pg.appendChild(i);
   }
-  var W=794,H=794*3508/2480,PADX=76;
+  var W=794,H=794*3508/2480,PADX=76,cat=-1; // cat: the library category the walk is in
   pages.forEach(function(pg){
     var P=pg.getBoundingClientRect(),k=P.width/W; // sheet px per CSS px (1 unless the view is scaled)
     var y=function(v){return (v-P.top)/k;};
@@ -764,12 +775,17 @@ function pbxIllustrate(pages){
     /* floating assets (journey + glossary openers, per the BT2026 site's hero): three original-colour objects
        of very different sizes in the empty lower right, turned at odd angles, the biggest cut by the page edge.
        Anchored to the footer; only when the free band clears the whole cluster. */
-    var fl=PBX_FLOAT[pg.dataset.panel],ft=pg.querySelector('.pbx-ft');
-    if(fl&&first.classList.contains('pbx-open')&&ft){
+    var ft=pg.querySelector('.pbx-ft'),isOpen=first.classList.contains('pbx-open'),fl=isOpen?PBX_FLOAT[pg.dataset.panel]:null;
+    if(pg.dataset.panel==='library'&&!isOpen){
+      var ct=pg.querySelector('.pb-cat-t');if(ct)cat=LIBRARY_CATS.findIndex(function(c){return c.t===ct.textContent.trim();});
+      var nx=pg.parentNode&&pg.parentNode.nextElementSibling,nxp=nx&&nx.querySelector('.pb-page');
+      if(cat>=0&&!(nxp&&nxp.dataset.panel==='library'&&!nxp.querySelector('.pb-cat-t')))fl=PBX_FLOAT_CAT[cat]; // last sheet of its category
+    }
+    if(fl&&ft){
       var base=y(ft.getBoundingClientRect().top)-24,topMost=Math.min.apply(null,fl.map(function(f){return base-f.b-f.h;}));
       if(topMost>=end+40)fl.forEach(function(f){
         var im=document.createElement('img');im.className='pbx-float';im.src='assets/'+f.src;im.alt='';im.setAttribute('aria-hidden','true');
-        im.style.cssText='left:'+(W-f.r-f.w)+'px;top:'+(base-f.b-f.h)+'px;width:'+f.w+'px;height:'+f.h+'px;transform:rotate('+f.a+'deg)';
+        im.style.cssText='left:'+(f.l!=null?f.l:W-f.r-f.w)+'px;top:'+(base-f.b-f.h)+'px;width:'+f.w+'px;height:'+f.h+'px;transform:rotate('+f.a+'deg)';
         pg.appendChild(im);
       });
     }
