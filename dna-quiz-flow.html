@@ -279,6 +279,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
 .toc-grp{display:grid;grid-template-columns:148px minmax(0,var(--read-measure));column-gap:var(--sp-block);align-items:baseline;padding:var(--sp-list) 0;border-bottom:var(--rule-w) solid var(--rule);}
 .toc-ch{font-size:calc(var(--pbx-fs-kicker) + 4px);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
+.toc-ic{width:24px;height:24px;object-fit:contain;margin-right:8px;vertical-align:-6px;}
 .toc-rows{display:flex;flex-direction:column;}
 .toc-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-stack);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
 .toc-t{font-size:calc(var(--pbx-fs-kicker) + 4px);font-weight:var(--w-body);line-height:1.5;}
@@ -738,32 +739,18 @@ var PBX_FLOAT={journey:[
   {src:'float-gold.png',w:96,h:144,r:200,b:10,a:-16},
   {src:'float-heart.png',w:62,h:90,r:170,b:250,a:-10}
 ]};
-/* the same treatment on the last sheet of each library category (the ones whose text ends mid-page), keyed by
-   category index (LIBRARY_CATS order); l = gap from the LEFT edge instead of r; x/y = absolute page position
-   (for clusters that sit mid-band rather than on the footer). Each category gets its own arrangement:
-   0 hero object near the centre with satellites spread to every side, 1 corner bleed, 2 radial burst (a centre piece,
-   the rest flung outward and smaller with distance, turned away from the centre), 3 two flanks bleeding off left and
-   right, set high, 4 two flanks set low, 5 balance (one piece mid right vs one bleeding low left).
-   Later entries draw on top. */
-var PBX_FLOAT_CAT=[
-  [{src:'float-book.png',w:190,h:140,x:302,y:620,a:-8},{src:'float-compass.png',w:96,h:96,x:110,y:430,a:14},
-   {src:'float-gold.png',w:46,h:69,x:650,y:790,a:24},{src:'coinbaht.png',w:52,h:52,x:150,y:860,a:-10}],
-  [{src:'float-gold.png',w:150,h:225,r:-50,b:30,a:-20},{src:'float-bitcoin.png',w:100,h:129,r:190,b:10,a:14},{src:'float-stock.png',w:96,h:96,r:150,b:250,a:-30}],
-  [{src:'float-bitcoin.png',w:150,h:194,x:322,y:603,a:-8},{src:'float-stock.png',w:110,h:110,x:590,y:470,a:32},
-   {src:'float-portfolio.png',w:64,h:64,x:615,y:865,a:14}],
-  [{src:'float-shield.png',w:180,h:180,x:650,y:460,a:10},{src:'lightning.png',w:72,h:72,x:620,y:770,a:18},
-   {src:'float-eye.png',w:130,h:130,x:-40,y:620,a:-12}],
-  [{src:'float-heart.png',w:130,h:189,x:-35,y:690,a:-14},{src:'float-gold.png',w:64,h:96,x:570,y:590,a:18},
-   {src:'float-house.png',w:200,h:200,x:640,y:780,a:-6}],
-  [{src:'float-crown.png',w:100,h:100,x:520,y:520,a:14},{src:'float-bitcoin.png',w:170,h:220,x:-40,y:780,a:-16}]
-];
+/* the contents sheet: two small pieces right of the "สารบัญ" title, above its hairline and clear of the corner
+   sprig (x/y = absolute page position); kept small so the list stays the first read */
+var PBX_FLOAT_TOC=[{src:'float-stock.png',w:72,h:72,x:500,y:78,a:-28},{src:'float-gold.png',w:40,h:60,x:600,y:92,a:20}];
+/* chapter icons beside the contents' chapter names (keyed by PBX_CH label) */
+var TOC_IC={'ตัวตน':'ICON_COMPASS_PNG.png','วิเคราะห์':'ICON_STOCK_TH_PNG.webp','พอร์ต':'portfolio.png','เส้นทาง':'route.png','คลังความรู้':'ICON_BOOK_PNG.png'};
 function pbxIllustrate(pages){
   function mark(pg,cls,img,x,y,w,h){
     var i=document.createElement('i');i.className='pbx-ill '+cls;i.setAttribute('aria-hidden','true');
     i.style.cssText='left:'+Math.round(x)+'px;top:'+Math.round(y)+'px;width:'+Math.round(w)+'px;height:'+Math.round(h)+'px;background-image:url(assets/'+img+'.svg)';
     pg.appendChild(i);
   }
-  var W=794,H=794*3508/2480,PADX=76,cat=-1; // cat: the library category the walk is in
+  var W=794,H=794*3508/2480,PADX=76;
   pages.forEach(function(pg){
     var P=pg.getBoundingClientRect(),k=P.width/W; // sheet px per CSS px (1 unless the view is scaled)
     var y=function(v){return (v-P.top)/k;};
@@ -784,12 +771,7 @@ function pbxIllustrate(pages){
     /* floating assets (journey + glossary openers, per the BT2026 site's hero): three original-colour objects
        of very different sizes in the empty lower right, turned at odd angles, the biggest cut by the page edge.
        Anchored to the footer; only when the free band clears the whole cluster. */
-    var ft=pg.querySelector('.pbx-ft'),isOpen=first.classList.contains('pbx-open'),fl=isOpen?PBX_FLOAT[pg.dataset.panel]:null;
-    if(pg.dataset.panel==='library'&&!isOpen){
-      var ct=pg.querySelector('.pb-cat-t');if(ct)cat=LIBRARY_CATS.findIndex(function(c){return c.t===ct.textContent.trim();});
-      var nx=pg.parentNode&&pg.parentNode.nextElementSibling,nxp=nx&&nx.querySelector('.pb-page');
-      if(cat>=0&&!(nxp&&nxp.dataset.panel==='library'&&!nxp.querySelector('.pb-cat-t')))fl=PBX_FLOAT_CAT[cat]; // last sheet of its category
-    }
+    var ft=pg.querySelector('.pbx-ft'),fl=first.classList.contains('pbx-open')?PBX_FLOAT[pg.dataset.panel]:null;
     if(fl&&ft){
       var base=y(ft.getBoundingClientRect().top)-24,fTop=function(f){return f.y!=null?f.y:base-f.b-f.h;};
       var topMost=Math.min.apply(null,fl.map(fTop)),lowest=Math.max.apply(null,fl.map(function(f){return fTop(f)+f.h;}));
@@ -889,7 +871,7 @@ function pbTOC(doc,pages){
   var out='',lastCh=null;
   rows.forEach(function(r){
     var ch=CH[r.sect]||'';
-    if(lastCh===null||(ch&&ch!==lastCh)){out+=(lastCh===null?'':'</div></div>')+'<div class="toc-grp"><div class="toc-ch">'+ch+'</div><div class="toc-rows">';lastCh=ch;}
+    if(lastCh===null||(ch&&ch!==lastCh)){out+=(lastCh===null?'':'</div></div>')+'<div class="toc-grp"><div class="toc-ch">'+(TOC_IC[ch]?'<img class="toc-ic" src="assets/'+TOC_IC[ch]+'" alt="">':'')+ch+'</div><div class="toc-rows">';lastCh=ch;}
     out+='<a class="toc-row" href="#pb-p'+r.n+'"><span class="toc-t">'+r.t+'</span><span class="toc-n">'+r.n+'</span></a>';
   });
   if(lastCh!==null)out+='</div></div>';
@@ -897,6 +879,11 @@ function pbTOC(doc,pages){
   var pg=document.createElement('div');pg.className='pb-page pbx pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
   /* same footer as the content sheets, minus the folio (สารบัญ itself is not numbered) */
   pg.innerHTML=PBX_ORN+'<div class="pb-body"><h2 class="pbx-toc-t">สารบัญ</h2><div class="toc-list">'+out+'</div></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span></span></div>';
+  PBX_FLOAT_TOC.forEach(function(f){
+    var im=document.createElement('img');im.className='pbx-float';im.src='assets/'+f.src;im.alt='';im.setAttribute('aria-hidden','true');
+    im.style.cssText='left:'+f.x+'px;top:'+f.y+'px;width:'+f.w+'px;height:'+f.h+'px;transform:rotate('+f.a+'deg)';
+    pg.appendChild(im);
+  });
   fit.appendChild(pg);
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
