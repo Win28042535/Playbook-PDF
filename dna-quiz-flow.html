@@ -143,6 +143,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    top half so the second starts mid-sheet (option B, top half / bottom half) */
 .pbx .pbx-cat{padding:0 0 36px;}
 .pbx .pbx-cat .pb-cat-t{display:block;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.2;color:var(--ink);}
+.pbx-cic{width:34px;height:34px;object-fit:contain;margin-right:10px;vertical-align:-6px;} /* category icon before the 32px header */
 .pbx .pb-body>article.pbx-unit:first-of-type{min-height:50%;}
 /* vertical rule between two equal columns, a small diamond on it (footer ornament's twin); the container
    needs 36px of column gap and position:relative */
@@ -197,6 +198,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-data{max-width:var(--read-measure);margin-top:var(--sp-stack);}
 .pbx-open .pbx-data{margin-top:40px;}
 .pbx-dr{display:grid;grid-template-columns:1fr auto;column-gap:var(--sp-stack);align-items:baseline;padding:10px 0 6px;}
+.pbx-dr.has-ic{grid-template-columns:26px 1fr auto;align-items:center;}
+.pbx-dic{display:block;width:26px;height:26px;object-fit:contain;}
+.pbx-tic{width:26px;height:26px;object-fit:contain;margin-right:8px;vertical-align:-6px;} /* icon set inline before a title */
+.pbx-side .pbx-tic{width:20px;height:20px;margin-right:6px;vertical-align:-3px;} /* 18px side headings in a 302px column: keeps every title on one line */
 .pbx-dl{font-size:var(--fs-label);line-height:1.4;color:var(--ink);}
 .pbx-dv{font-size:var(--fs-label);line-height:1.4;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
 .pbx-dv b,.pbx-open .pbx-dv,.pbx-dr:not(.muted) .pbx-dv:not(:has(b)){font-weight:var(--w-label);color:var(--ink);}
@@ -332,6 +337,13 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    mismatched ₿ stays, matching the source verbatim; only the canvas/proportion got fixed here, not
    the content. */
 var RADAR_AXES=['หุ้นไทย','ต่างปท.','กองทุน','คริปโต','ทอง','สุขภาพ'];
+/* original-colour icons from the v1 asset set: radar rows (sheet 4), "เจาะรายสินทรัพย์" titles by
+   persona asset name (sheet 7), the six journey sides (sidesHTML order, sheet 9) */
+var pbxIc=function(k){return 'assets/ICON_'+k+'_PNG.webp';};
+var RADAR_IC=['STOCK_TH','STOCK_INTL','FUND','CRYPTO','GOLD','HEALTH'].map(pbxIc);
+var ASSET_IC={'หุ้นไทย':pbxIc('STOCK_TH'),'หุ้นต่างประเทศ':pbxIc('STOCK_INTL'),'กองทุนรวม':pbxIc('FUND'),'ตราสารหนี้':pbxIc('BOND'),
+  'ทองคำ':pbxIc('GOLD'),'อสังหา/REIT':pbxIc('REALESTATE'),'คริปโต':pbxIc('CRYPTO'),'ปันผล':'assets/coinbaht.png','เงินฝาก':'assets/bank.png'};
+var SIDE_IC=['assets/lightning.png','assets/ICON_COMPASS_PNG.png','assets/shieldcheck.png','assets/ICON_HOURGLASS_PNG.png',pbxIc('HEALTH'),'assets/route.png'];
 /* 2026-09-04: all 12 personas now have approved final photographed card art (replaces the earlier
    3-card partial set — harvester/diamondhand/waverider — with the full set), so pcFrontInner's CSS
    editorial-mockup branch is unreached for every real persona now; left in place as a safe fallback
@@ -350,7 +362,7 @@ var FAM={
    watchouts:['ระวังเกินไปจนอาจพลาดโอกาสเติบโต','เงินเฟ้ออาจกัดกินผลตอบแทนถ้าปลอดภัยจัด']},
  N:{th:'Navigator นักเดินเรือ',icon:'lc-compass',accent:'#9c91ff',rgb:'156,145,255',
    strengths:['วางแผนทั้งพอร์ต กระจายความเสี่ยงเก่ง','ตัดสินใจบนข้อมูล ไม่ใช้อารมณ์'],
-   watchouts:['วิเคราะห์นานจนพลาดจังหวะ (analysis paralysis) กระจายจนคุมยาก','ต้องมีระบบติดตาม']},
+   watchouts:['วิเคราะห์นานจนพลาดจังหวะ (analysis paralysis) กระจายจนคุมยาก ต้องมีระบบติดตาม']},
  V:{th:'Visionary ผู้มองการณ์ไกล',icon:'lc-sparkles',accent:'#f178d8',rgb:'241,120,216',
    strengths:['กล้าได้กล้าเสีย มองหาการเติบโตสูง','จับเทรนด์ใหม่ได้ก่อนตลาด'],
    watchouts:['พอร์ตเหวี่ยงแรง ต้องทนความผันผวนให้ไหว','กระจุกตัวสูง ควรมีแผนจำกัดขาดทุน']}
@@ -577,8 +589,8 @@ var TRAIT_SRC=[{t:'แบบทดสอบตัวตน 7 ข้อ',done:tru
 var ALLOC_SEGS=[{l:'สินทรัพย์แกนหลัก (กองทุน/หุ้นใหญ่)',p:40},{l:'สินทรัพย์เติบโต',p:30},{l:'สินทรัพย์ทางเลือก / กระจาย',p:20},{l:'เงินสด / สภาพคล่อง',p:10}];
 /* Data page (the reference has none — designed under its DNA): every figure is a ruled label | value
    row, its share drawn as one thin ink rule on a hairline track; no colour, no radar, no chips. */
-function pbxRow(label,valHTML,pct,muted){
-  return '<div class="pbx-dr'+(muted?' muted':'')+'"><span class="pbx-dl">'+label+'</span><span class="pbx-dv">'+valHTML+'</span><i class="pbx-db" style="--v:'+pct+'%"></i></div>';
+function pbxRow(label,valHTML,pct,muted,icon){
+  return '<div class="pbx-dr'+(muted?' muted':'')+(icon?' has-ic':'')+'">'+(icon?'<img class="pbx-dic" src="'+icon+'" alt="">':'')+'<span class="pbx-dl">'+label+'</span><span class="pbx-dv">'+valHTML+'</span><i class="pbx-db" style="--v:'+pct+'%"></i></div>';
 }
 /* Engraved half-dial for a 0-10 value (SKILL ประจำการ์ด): outer arcs and ticks, a hatched band from 0 up to the value, a needle with a
    short tail and a hub. The figure itself stays as text under the dial; the svg only draws it. */
@@ -600,7 +612,7 @@ function pbxPortfolioHTML(h,r){
   // radar: ranked high → low; ties keep axis order
   var ax=h.radar.map(function(v,i){return {i:i,v:v};}).sort(function(a,b){return b.v-a.v||a.i-b.i;});
   var open=pbxOpenHTML(['พอร์ต',['YOUR','Portfolio']],'เรดาร์ ความสนใจ','ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น',
-    '<div class="pbx-data">'+ax.map(function(a){return pbxRow(RADAR_AXES[a.i],''+a.v,a.v);}).join('')+'</div>'+
+    '<div class="pbx-data">'+ax.map(function(a){return pbxRow(RADAR_AXES[a.i],''+a.v,a.v,false,RADAR_IC[a.i]);}).join('')+'</div>'+
     '<p class="pbx-data-note">จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[ax[0].i]+'</b> ('+ax[0].v+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</p>');
   /* interests: share of booth check-ins/activity per category (largest-remainder rounded to 100%);
      an untouched category keeps a small base share but reads muted */
@@ -615,7 +627,7 @@ function pbxPortfolioHTML(h,r){
   var alloc='<section class="pbx-block"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3><p class="pbx-sec-sub">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p><div class="pbx-data">'+
     ALLOC_SEGS.map(function(s){return pbxRow(s.l,s.p+'%',s.p);}).join('')+'</div></section>';
   var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
-    h.assets.slice(0,4).map(function(a){return '<article class="pbx-dd"><div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
+    h.assets.slice(0,4).map(function(a){return '<article class="pbx-dd"><div class="pbx-art-t">'+(ASSET_IC[a.t]?'<img class="pbx-tic" src="'+ASSET_IC[a.t]+'" alt="">':'')+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
   return open+ints+trait+alloc+dd;
 }
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
@@ -625,13 +637,13 @@ function pbxPortfolioHTML(h,r){
    content-parity gap), so this is a real, correctly-labeled category accordion — counts are real,
    not fabricated — rather than a fake "browse the articles" experience with invented copy. */
 var LIBRARY_CATS=[
-  {t:'พื้นฐานการลงทุน'},
-  {t:'สินทรัพย์แต่ละประเภท'},
-  {t:'ต้นทุนและผลตอบแทน'},
-  {t:'กลลวงและการป้องกันตัว'},
-  {t:'วางแผนชีวิตและสุขภาพการเงิน'},
-  {t:'ความเสี่ยงและการอ่านตัวเอง'}
-];
+  {t:'พื้นฐานการลงทุน',ic:'assets/ICON_BOOK_PNG.png'},
+  {t:'สินทรัพย์แต่ละประเภท',ic:'assets/portfolio.png'},
+  {t:'ต้นทุนและผลตอบแทน',ic:'assets/coinbaht.png'},
+  {t:'กลลวงและการป้องกันตัว',ic:'assets/shieldcheck.png'},
+  {t:'วางแผนชีวิตและสุขภาพการเงิน',ic:'assets/ICON_HEALTH_PNG.webp'},
+  {t:'ความเสี่ยงและการอ่านตัวเอง',ic:'assets/ICON_COMPASS_PNG.png'}
+]; // ic: original-colour icon on each category's header sheet (not on the opener's list)
 /* n (2026-09-21) — now counted from window.LIB_ITEMS (js/library-data.js: 71 real articles from the
    BT2026 Dry-run's knowledge.js, each tagged c = index into this array) instead of hardcoded.
    ภาษีและกฎเกณฑ์ / เครื่องมือและการติดตาม were dropped 2026-09-22 (no source articles exist yet and
@@ -662,7 +674,7 @@ function libraryBlocksHTML(h){
     '<p class="pbx-meta"><b>'+libTotal()+'</b> <span>บทความ</span> <span>·</span> <b>'+glossTotal()+'</b> <span>ศัพท์</span></p>'+
     '<div class="pbx-cats">'+LIBRARY_CATS.map(function(c){return '<div><span>'+c.t+'</span><span>'+c.n+' บทความ</span></div>';}).join('')+'</div>');
   LIBRARY_CATS.forEach(function(c,i){
-    out+='<div class="pbx-cat pb-keep pbx-break"><span class="pb-cat-t">'+c.t+'</span></div>'; // every category opens a fresh sheet; .pb-cat-t keeps its สารบัญ row
+    out+='<div class="pbx-cat pb-keep pbx-break"><span class="pb-cat-t"><img class="pbx-cic" src="'+c.ic+'" alt="">'+c.t+'</span></div>'; // every category opens a fresh sheet; .pb-cat-t keeps its สารบัญ row
     out+=LIB_ITEMS.filter(function(a){return a.c===i;}).map(pbArtHTML).join('');
   });
   return out;
@@ -916,7 +928,7 @@ function sidesHTML(r){
   return pbxOpenHTML(['สิ่งที่ระบบวัดได้จากคุณ',['THE','Journey']],'<span>6 ด้าน</span> ที่วัดได้จากคุณ','แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม')+
     sides.map(function(sd,i){
       var first=(sd.body.match(/<p>([\s\S]*?)<\/p>/)||[])[1]||'',dup=plain(first)===plain(sd.s);
-      var one='<article class="pbx-side"><div class="pbx-side-hd"><div class="pbx-side-t">'+sd.t+'</div><span class="pbx-side-st">'+sd.chip+'</span></div>'+
+      var one='<article class="pbx-side"><div class="pbx-side-hd"><div class="pbx-side-t">'+(SIDE_IC[i]?'<img class="pbx-tic" src="'+SIDE_IC[i]+'" alt="">':'')+sd.t+'</div><span class="pbx-side-st">'+sd.chip+'</span></div>'+
         (dup?'':'<div class="pbx-art-s">'+sd.s+'</div>')+'<div class="pbx-side-b">'+sd.body+'</div></article>';
       return i%2?one+'</div>':'<div class="pbx-side-row pbx-vr">'+one; // three rows of two, split by the vertical rule
     }).join('');
