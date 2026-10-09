@@ -198,18 +198,18 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    any further " · " clause as a reading line, its game once under it), an asterism, then the rest as numbered notes grouped under
    the game they came from, hanging in the reading column (numerals in a 34px gutter left of it). Each piece is its own block so
    pbBuild can break between notes; group headings are .pb-keep so they never end a sheet. */
-.pbx-lg-q{display:grid;grid-template-columns:calc(var(--pbx-col-x) - var(--pbx-pad-x)) 1fr;padding:12px 0 32px;}
+.pbx-lg-q{display:grid;grid-template-columns:calc(var(--pbx-col-x) - var(--pbx-pad-x)) 1fr;padding:12px 0 26px;}
 .pbx-lg-qn{font-family:var(--font-caps);font-weight:500;font-size:34px;line-height:1;color:var(--ink);padding-top:6px;}
 .pbx-lg-qt{max-width:var(--read-measure);font-size:30px;font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-wrap:balance;}
 .pbx-lg-q2{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
 .pbx-lg-src{margin-top:var(--sp-block);font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);}
 .pbx-lg-src::before{content:'';display:inline-block;width:28px;height:var(--rule-w);background:var(--rule);vertical-align:middle;margin-right:10px;}
-.pbx-lg-br{height:40px;background:url(assets/orn-asterism.svg) center top/60px 14px no-repeat;}
+.pbx-lg-br{height:32px;background:url(assets/orn-asterism.svg) center top/60px 14px no-repeat;}
 .pbx-lg-gt,.pbx-lg-i{width:calc(var(--read-measure) + 34px);margin-left:calc(var(--pbx-col-x) - var(--pbx-pad-x) - 34px)!important;}
-.pbx-lg-gt{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:12px 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
+.pbx-lg-gt{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:10px 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .pbx-lg-gt+.pbx-lg-i{padding-top:var(--sp-stack);}
 .pbx-lg-br+.pbx-lg-gt{padding-top:0;}
-.pbx-lg-gt span{font-weight:var(--w-body);color:var(--muted);}
+.pbx-lg-gt span{font-size:var(--pbx-fs-kicker);font-weight:var(--w-body);color:var(--muted);}
 .pbx-lg-i{display:grid;grid-template-columns:34px 1fr;padding-bottom:10px;}
 .pbx-lg-in{font-family:var(--font-caps);font-weight:500;font-size:12px;line-height:24px;letter-spacing:.06em;color:var(--muted);}
 .pbx-lg-it{font-family:var(--font-read);font-size:15px;line-height:1.6;color:var(--ink);text-wrap:pretty;}
