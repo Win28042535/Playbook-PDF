@@ -379,8 +379,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-dd-l li+li{margin-top:var(--sp-list);}
 /* analysis: risk comparison as two big numerals under hairlines; Confidence Score header = level as the
    heading with the big score beside it */
-.pbx-open .pbx-risk{max-width:var(--read-measure);margin-top:24px;}
-.pbx-open .pbx-conf{margin-top:24px;}
+/* risk comparison | Confidence Score as two columns (rule + diamond between): stacked they ran 113px past the sheet and the opener was zoom-shrunk */
+.pbx-an-split{display:grid;grid-template-columns:1fr 1fr;column-gap:56px;margin-top:24px;}
+.pbx .pbx-an-split .pbx-conf{padding-top:0;}
 .pbx-conf .pbx-dl,.pbx-conf .pbx-dv{font-size:calc(var(--fs-label) + 2px);} /* the sheet is shrunk to fit, so the rows are drawn 2px up to read like the radar rows */
 .pbx .pbx-open:has(.pbx-conf){padding-bottom:32px;} /* the fit-shrink fills the sheet to the footer, so this keeps the rows off it */
 .pbx-open .pbx-conf .pbx-data{margin-top:var(--sp-stack);} /* the rows sit close under the note, so the group clears the footer */
@@ -696,7 +697,7 @@ function pbxAnalysisHTML(r,h,matchOk){
   var conf='<section class="pbx-block pbx-conf"><div class="pbx-conf-hd"><div><div class="pbx-kicker">Confidence Score</div><h3 class="pbx-blk-t">'+cf.level+'</h3></div><div class="pbx-score"><b>'+cf.conf+'</b><span>/100</span></div></div>'+
     '<p class="pbx-data-note">บอกว่าระบบมีหลักฐานมากพอจะอ่านคุณแค่ไหน ไม่ใช่ผลตอบแทน — ยิ่งเล่นเกมและเดินบูธมาก คะแนนยิ่งเต็ม</p>'+
     '<div class="pbx-data">'+parts.map(function(c){return pbxRow(c[0],'<b>'+c[1]+'</b>/'+c[2],Math.round(c[1]/c[2]*100));}).join('')+'</div></section>';
-  return pbxOpenHTML(['วิเคราะห์',['AI','Insight']],'คุณเป็น <span>นักลงทุน</span> แบบไหน','',risk+conf); // Confidence rides on the same sheet as the risk comparison
+  return pbxOpenHTML(['วิเคราะห์',['AI','Insight']],'คุณเป็น <span>นักลงทุน</span> แบบไหน','','<div class="pbx-an-split pbx-vr">'+risk+conf+'</div>'); // risk | Confidence side by side under the title, so the opener fits one sheet unshrunk
 }
 /* Ver.2 identity — the reference's feature page ("MINIMALISM BOOK MOCKUP"): the persona's name as the big
    title from ~14% down to a full-width hairline at ~41%, then a split row: a narrow text column (family +
