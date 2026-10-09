@@ -254,73 +254,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* a category not touched yet: label, numeral, stroke and diamond all in the quiet tone */
 .pbx-ms-r.muted .pbx-ms-l,.pbx-ms-r.muted .pbx-ms-v{color:var(--muted);font-weight:var(--w-body);}
 .pbx-ms-r.muted .pbx-ms-ru::before,.pbx-ms-r.muted .pbx-ms-ru::after{background:var(--rule);}
-/* Asset Knowleges books (pbxAkHTML): text hangs in the reading column (x = --pbx-col-x) with numerals / labels in the gutter left of it */
-.pbx-ak-tag{max-width:var(--read-measure);margin-top:var(--sp-block);font-family:var(--font-read);font-size:var(--read-fs);font-weight:500;line-height:var(--read-lh);color:var(--ink);}
-.pbx-ak-intro{display:grid;grid-template-columns:1fr 1fr;column-gap:72px;}
-.pbx-ak-lab{margin:var(--sp-stack) 0 6px;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
-.pbx-ak-lab:first-child{margin-top:0;}
-.pbx-ak-tx{font-family:var(--font-read);font-size:15px;line-height:1.65;color:var(--ink);text-wrap:pretty;}
-.pbx-ak-tx p+p,.pbx-ak-tx p+ol,.pbx-ak-tx ol+p{margin-top:var(--sp-list);}
-.pbx-ak-tx b{font-weight:700;}
-.pbx-ak-ol,.pbx-ak-ul{margin:0;padding-left:1.3em;font-family:var(--font-read);font-size:15px;line-height:1.65;color:var(--ink);}
-.pbx-ak-ul{list-style:disc;}
-.pbx-ak-ol li+li,.pbx-ak-ul li+li{margin-top:4px;}
-.pbx-ak-ol li::marker,.pbx-ak-ul li::marker{color:var(--muted);}
-.pbx-ak-refs{margin-top:6px;font-size:11px;line-height:1.4;color:var(--muted);letter-spacing:.02em;}
-.pbx .pbx-ak-sh{padding:44px 0 var(--sp-block);}
-.pbx .pb-body>.pbx-ak-sh:first-child{padding-top:0;}
-.pbx-ak-st{margin:0;padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.25;color:var(--ink);text-wrap:balance;}
-.pbx-ak-lb,.pbx-ak-li,.pbx-ak-kv,.pbx-ak-calc,.pbx-ak-fld,.pbx-ak-ck{width:var(--read-measure);margin-left:calc(var(--pbx-col-x) - var(--pbx-pad-x))!important;}
-.pbx-ak-it,.pbx-ak-blk,.pbx-ak-sb,.pbx-ak-step,.pbx-ak-ixr{width:calc(var(--read-measure) + 80px);margin-left:calc(var(--pbx-col-x) - var(--pbx-pad-x) - 80px)!important;}
-.pbx-ak-it{display:grid;grid-template-columns:80px 1fr;padding-bottom:var(--sp-block);}
-.pbx-ak-it .pbx-lg-in{line-height:27px;}
-.pbx-ak-q{margin-bottom:6px;font-size:var(--fs-bodysm);font-weight:var(--w-label);line-height:1.5;color:var(--ink);}
-.pbx-ak-an{margin-top:var(--sp-list);font-family:var(--font-read);font-size:14px;line-height:1.6;color:var(--muted);}
-.pbx-ak-it.flag .pbx-ak-q{padding-top:2px;border-top:2px solid var(--ink);padding-top:8px;}
-.pbx-ak-step{display:grid;grid-template-columns:80px 1fr;align-items:baseline;padding:var(--sp-block) 0 var(--sp-list);border-top:var(--rule-w) solid var(--rule);}
-.pbx-ak-sh+.pbx-ak-step{border-top:0;padding-top:0;}
-.pbx-ak-sn{font-family:var(--font-caps);font-weight:500;font-size:34px;line-height:1;color:var(--ink);}
-.pbx-ak-stt{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.35;color:var(--ink);}
-.pbx-ak-code{margin-top:4px;font-family:var(--font-caps);font-weight:500;font-size:11px;letter-spacing:.24em;color:var(--muted);}
-.pbx-ak-sb{padding:0 0 var(--sp-stack) 80px;}
-.pbx-ak-tool{margin-top:6px;font-family:var(--font-read);font-size:14px;line-height:1.55;color:var(--ink);}
-.pbx-ak-tool b{font-family:var(--font);font-weight:var(--w-label);}
-.pbx-ak-url{font-family:var(--font);font-size:11px;line-height:1.4;color:var(--muted);word-break:break-all;}
-.pbx-ak-pit{margin-top:var(--sp-stack);padding-top:var(--sp-list);border-top:2px solid var(--ink);}
-.pbx-ak-note{margin:0 0 var(--sp-stack);}
-.pbx-ak-mr{display:grid;grid-template-columns:150px 1fr;column-gap:24px;padding:var(--sp-stack) 0;border-top:var(--rule-w) solid var(--rule);}
-.pbx-ak-mt{font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
-.pbx-ak-mg{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-stack) 28px;}
-.pbx-ak-mg .pbx-ak-lab{margin:0 0 4px;color:var(--muted);}
-.pbx-ak-mg .pbx-ak-tx{font-size:14px;line-height:1.6;}
-.pbx-ak-blk{padding-bottom:var(--sp-block);}
-.pbx-ak-blk>.pbx-ak-tx+.pbx-ak-lab{margin-top:var(--sp-block);}
-.pbx-ak-kv{display:grid;grid-template-columns:1fr auto;column-gap:var(--sp-stack);padding:8px 0;border-bottom:var(--rule-w) solid var(--line);font-size:14px;line-height:1.5;color:var(--muted);}
-.pbx-ak-kv b{max-width:240px;text-align:right;font-weight:var(--w-label);color:var(--ink);}
-.pbx-ak-calc{padding:8px 0;border-bottom:var(--rule-w) solid var(--line);font-family:var(--font-read);font-size:14px;line-height:1.6;color:var(--ink);font-variant-numeric:tabular-nums;}
-.pbx-ak-take{font-weight:500;}
-.pbx-ak-fld{padding:10px 0;border-bottom:var(--rule-w) solid var(--line);font-family:var(--font-read);font-size:14px;line-height:2;color:var(--ink);}
-.pbx-ak-bl{display:inline-block;min-width:96px;height:1em;margin:0 4px;border-bottom:1px dotted var(--ink);vertical-align:baseline;}
-.pbx-ak-ck{position:relative;padding:7px 0 7px 28px;font-family:var(--font-read);font-size:14px;line-height:1.55;color:var(--ink);}
-.pbx-ak-ck::before{content:'';position:absolute;left:0;top:11px;width:13px;height:13px;border:1px solid var(--ink);}
-.pbx-ak-fq p{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.45;color:var(--ink);text-wrap:balance;}
-.pbx-ak-src{display:grid;grid-template-columns:36px 1fr;padding:6px 0;border-bottom:var(--rule-w) solid var(--line);font-size:12px;line-height:1.5;color:var(--ink);}
-.pbx-ak-src b{font-weight:var(--w-label);color:var(--muted);font-variant-numeric:tabular-nums;}
-.pbx-ak-src span{color:var(--muted);}
-.pbx .pbx-ak-ixg{padding-top:36px;}
-.pbx .pb-body>.pbx-ak-ixg:first-child{padding-top:0;}
-.pbx-ak-ixg>.pbx-ak-lab{padding-bottom:var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--fs-label);}
-.pbx-ak-ixr{display:grid;grid-template-columns:80px 1fr;padding:10px 0;border-bottom:var(--rule-w) solid var(--line);}
-.pbx-ak-ixr b{display:block;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
-.pbx-ak-ixr div span{display:block;margin-top:2px;font-family:var(--font-read);font-size:13px;line-height:1.5;color:var(--muted);}
-.pbx-ak-lb{padding:var(--sp-inline) 0 6px;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
-.pbx-ak-step+.pbx-ak-lb{padding-top:var(--sp-list);}
-.pbx-ak-li{position:relative;padding-bottom:6px;font-family:var(--font-read);font-size:15px;line-height:1.65;color:var(--ink);text-wrap:pretty;}
-.pbx-ak-li.n,.pbx-ak-li[data-n]:not(.n){padding-left:1.6em;}
-.pbx-ak-li.n::before{content:attr(data-n);position:absolute;left:0;color:var(--muted);font-variant-numeric:tabular-nums;}
-.pbx-ak-li[data-n]:not(.n)::before{content:"";position:absolute;left:.45em;top:.72em;width:5px;height:5px;transform:rotate(45deg);background:var(--muted);}
-.pbx-ak-li.pbx-ak-pit{margin-top:var(--sp-list);padding:var(--sp-list) 0 var(--sp-block);border-top:2px solid var(--ink);}
-.pbx-ak-li.pbx-ak-tool{padding-bottom:var(--sp-list);font-size:14px;line-height:1.55;}
 /* พอร์ต chapter (pbxPortEduHTML): the 5-level table, the 1-year ladder and the 10-year growth line, all in the report idiom of .pbx-ms */
 .pbx-pe-mirror{max-width:var(--read-measure);margin-top:48px;}
 .pbx-open .pbx-ms-fn{max-width:var(--read-measure);margin-top:32px;}
@@ -446,10 +379,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    set apart by a hairline — type and rules only. ── */
 .pbx .pbx-toc-t{margin:0 0 var(--sp-block);padding-bottom:var(--sp-inline);font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
 .toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
-.toc-grp{display:grid;grid-template-columns:148px minmax(0,var(--read-measure));column-gap:var(--sp-block);align-items:baseline;padding:var(--sp-list) 0;border-bottom:var(--rule-w) solid var(--rule);}
+.toc-grp{display:grid;grid-template-columns:148px minmax(0,var(--read-measure));column-gap:var(--sp-block);align-items:baseline;padding:6px 0;border-bottom:var(--rule-w) solid var(--rule);}
 .toc-ch{font-size:calc(var(--pbx-fs-kicker) + 4px);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .toc-rows{display:flex;flex-direction:column;}
-.toc-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-stack);padding:var(--sp-glue) 0;text-decoration:none;color:var(--ink);}
+.toc-row{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-stack);padding:3px 0;text-decoration:none;color:var(--ink);} /* 3px (was 6px) so all 24 rows sit on one sheet, unshrunk */
 .toc-t{font-size:calc(var(--pbx-fs-kicker) + 4px);font-weight:var(--w-body);line-height:1.5;}
 .toc-n{font-size:var(--pbx-fs-kicker);color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto;}
 /* หน้า "เส้นทาง" (journey) is print-like: nothing on it reacts to hover / tap */
@@ -480,7 +413,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
      .lmb / #cta-slot for the same reasoning. -->
 <script src="js/library-data.js"></script>
 <script src="data/app/port/edu.js"></script>
-<script src="data/app/playbooks/index.js"></script><script src="data/app/playbooks/macro.js"></script><script src="data/app/playbooks/stock.js"></script><script src="data/app/playbooks/bond.js"></script><script src="data/app/playbooks/fund.js"></script><script src="data/app/playbooks/dr.js"></script><script src="data/app/playbooks/gold.js"></script><script src="data/app/playbooks/realestate.js"></script><script src="data/app/playbooks/crypto.js"></script><script src="data/app/playbooks/collectible.js"></script><script src="data/app/playbooks/tax.js"></script><script src="data/app/playbooks/insurance.js"></script><script src="data/app/playbooks/longevity.js"></script><script src="data/app/playbooks/ai.js"></script><script src="data/app/playbooks/scam.js"></script><!-- the live app's Asset Knowleges (window.ASSET_PB_INDEX / ASSET_PB_DATA), copied verbatim --><!-- the live app's พอร์ต tab data (window.PORT_EDU_DATA), copied verbatim -->
 
 <script>
 /* Icon asset audit (2026-09-11, per direction "ไอคอน spectrum ทั้งหมดในระบบ audit เรื่อง size, item
@@ -776,8 +708,7 @@ function renderBook(){
     '<div class="b2-panel" data-panel="port">'+pbxPortEduHTML()+'</div>'+
     '<div class="b2-panel" data-panel="journey">'+sidesHTML(r)+learnedLedgerHTML()+'</div>'+
     '<div class="b2-panel" data-panel="library">'+libraryBlocksHTML(h)+'</div>'+
-    '<div class="b2-panel" data-panel="glossary" data-sect="library">'+glossaryBlocksHTML()+'</div>'+
-    '<div class="b2-panel" data-panel="apb">'+pbxAkHTML()+'</div>'
+    '<div class="b2-panel" data-panel="glossary" data-sect="library">'+glossaryBlocksHTML()+'</div>'
     ))
     ))+
   '</div></main>';
@@ -885,73 +816,6 @@ function pbxPortEduHTML(){
     '<p class="pbx-ms-fn">'+pbxFill(T.source,{from:pbxThMonth(H.period.from),to:pbxThMonth(H.period.to)})+'<br>'+T.disclaimer+'</p></section>';
   return open+table+how+ladder+growth;
 }
-/* ══ Asset Knowleges (the live app's ความรู้ → Asset Knowleges sub-tab; printed here with the spelling fixed to "Asset Knowledge") ══ every word comes from ASSET_PB_INDEX / ASSET_PB_DATA
-   (data/app/playbooks/*.js, copied verbatim from the app; section labels are the app's own strings from renderAssetBook).
-   Each book prints in full, in the app's order: opener → who / outcome → คำถามหลัก → ศัพท์พื้นฐาน → 8 ขั้นตอน → ตารางวิธีลงทุน →
-   ตัวอย่างคำนวณ → แผนที่ของฉัน (a printable worksheet) → ที่งานนี้ → สัญญาณอันตราย → แหล่งอ้างอิง. Only book titles go to สารบัญ
-   (.s-h); in-book section heads use .pbx-ak-st. Lists are emitted one item per block (labels .pb-keep with what follows) so pbBuild
-   can break between items and sheets fill. APB_BOOKS can narrow the books printed (null = all). */
-var APB_BOOKS=null; // null = every book in ASSET_PB_INDEX, in the app's order
-var APB_FIG={macro:'eng-lens',stock:'eng-stockth',bond:'eng-bond',fund:'eng-fund',dr:'eng-stockintl',gold:'eng-gold',realestate:'eng-house',crypto:'eng-bitcoin',collectible:'eng-coin',tax:'eng-bank',insurance:'eng-heart',longevity:'eng-hourglass',ai:'eng-gauge',scam:'eng-hook'};
-function pbxEsc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function pbxThDate(iso){var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso||'');return m?(+m[3])+' '+TH_MON[+m[2]-1]+' '+(+m[1]+543):pbxEsc(iso);}
-/* the app's apbTxt: **bold**, and a run of "(1) … (2) …" becomes a numbered list */
-function pbxTxt(s){
-  var t=pbxEsc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>'),parts=t.split(/\s(?=\(\d{1,2}\)\s)/);
-  var fi=/^\(1\)\s/.test(parts[0])?0:(parts.length>1&&/^\(1\)\s/.test(parts[1])?1:-1);
-  if(parts.length>2&&fi>-1)return (fi?'<p>'+parts[0].replace(/\n/g,'<br>')+'</p>':'')+'<ol class="pbx-ak-ol">'+parts.slice(fi).map(function(p){return '<li>'+p.replace(/^\(\d{1,2}\)\s/,'').replace(/\n/g,'<br>')+'</li>';}).join('')+'</ol>';
-  return '<p>'+t.replace(/\n/g,'<br>')+'</p>';
-}
-function pbxInl(s){return pbxTxt(s).replace(/^<p>|<\/p>$/g,'');}
-function pbxRefs(r){return r&&r.length?'<div class="pbx-ak-refs">ที่มา '+r.map(function(x){return String(x).replace(/^S/,'');}).join(' · ')+'</div>':'';}
-function pbxAkHead(ey,title){return '<div class="pbx-ak-sh pb-keep"><div class="pbx-kicker">'+ey+'</div><h3 class="pbx-ak-st">'+title+'</h3></div>';}
-function pbxAkItem(num,head,body,cls){return '<div class="pbx-ak-it'+(cls?' '+cls:'')+'"><span class="pbx-lg-in">'+num+'</span><div><div class="pbx-ak-q">'+head+'</div>'+body+'</div></div>';}
-function pbxAkLab(t){return '<div class="pbx-ak-lb pb-keep">'+t+'</div>';}
-function pbxAkLis(a,ol){return a.map(function(x,i){return '<div class="pbx-ak-li'+(ol?' n':'')+'" data-n="'+(i+1)+'.">'+pbxInl(x)+'</div>';}).join('');}
-function pbxAkBookHTML(D,total){
-  var cap=D.name_en.replace(/\s*PLAYBOOK$/,''),out='';
-  out+=pbxOpenHTML(['เล่ม '+D.n+'/'+total+' · '+pbxEsc(D.group),[cap,'Playbook']],pbxEsc(D.name_th),pbxEsc(D.headline),
-    '<p class="pbx-ak-tag">'+pbxEsc(D.tagline)+'</p><p class="pbx-meta">ข้อมูล ณ <b>'+pbxThDate(D.data_asof)+'</b> · <b>'+D.sources.length+'</b> แหล่งอ้างอิง</p>'+
-    '<p class="pbx-ms-fn">เอกสารเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุนหรือภาษีเฉพาะบุคคล · ข้อมูลที่เปลี่ยนตามเวลาระบุวันที่กำกับไว้</p>').replace('<section class="pbx-open pbx-solo">','<section class="pbx-open pbx-solo" data-ill="'+(APB_FIG[D.id]||'eng-coin')+'">');
-  out+='<section class="pbx-ak-intro pbx-vr"><div><div class="pbx-ak-lab">เหมาะกับใคร</div><div class="pbx-ak-tx">'+pbxTxt(D.who_for)+'</div></div><div><div class="pbx-ak-lab">อ่านจบแล้วได้อะไร</div><div class="pbx-ak-tx">'+pbxTxt(D.outcome)+'</div></div></section>';
-  out+=pbxAkHead('คำถามหลัก','ตอบให้ได้ก่อนลงมือ')+D.key_questions.map(function(k,i){return pbxAkItem(pbxRoman(i+1),pbxEsc(k.q),'<div class="pbx-ak-tx">'+pbxTxt(k.a)+'</div>'+pbxRefs(k.refs));}).join('');
-  out+=pbxAkHead('ศัพท์พื้นฐาน','คำที่จะเจอบนหน้าจอจริง')+D.basics.map(function(b,i){return pbxAkItem(pbxRoman(i+1),pbxEsc(b.term),'<div class="pbx-ak-tx">'+pbxTxt(b.plain)+'</div>'+(b.analogy?'<p class="pbx-ak-an">เปรียบเทียบ: '+pbxEsc(b.analogy)+'</p>':'')+pbxRefs(b.refs),'term');}).join('');
-  out+=pbxAkHead(D.steps.length+' ขั้นตอน','ทำตามลำดับ')+D.steps.map(function(s){
-    return '<div class="pbx-ak-step pb-keep"><span class="pbx-ak-sn">'+s.n+'</span><div><div class="pbx-ak-stt">'+pbxEsc(s.title)+'</div><div class="pbx-ak-code">'+pbxEsc(s.code)+'</div></div></div>'+
-      (s.goal?pbxAkLab('ขั้นนี้ได้อะไร')+'<div class="pbx-ak-li">'+pbxInl(s.goal)+'</div>':'')+
-      (s.actions&&s.actions.length?pbxAkLab('ทำอะไร')+pbxAkLis(s.actions,true):'')+
-      (s.ask_yourself&&s.ask_yourself.length?pbxAkLab('ถามตัวเอง')+pbxAkLis(s.ask_yourself):'')+
-      (s.tools&&s.tools.length?pbxAkLab('เครื่องมือ')+s.tools.map(function(t){return '<div class="pbx-ak-li pbx-ak-tool"><b>'+pbxEsc(t.name)+'</b>'+(t.use_for?'<div>'+pbxEsc(t.use_for)+'</div>':'')+(t.url?'<div class="pbx-ak-url">'+pbxEsc(t.url)+'</div>':'')+'</div>';}).join(''):'')+
-      (s.pitfall?'<div class="pbx-ak-li pbx-ak-pit"><div class="pbx-ak-lab">กับดักที่พบบ่อย</div><div class="pbx-ak-tx">'+pbxTxt(s.pitfall)+'</div>'+pbxRefs(s.refs)+'</div>':(s.refs&&s.refs.length?'<div class="pbx-ak-li">'+pbxRefs(s.refs)+'</div>':''));
-  }).join('');
-  var MM=D.method_matrix;
-  if(MM&&MM.rows&&MM.rows.length)out+=pbxAkHead('วิธีลงทุน',pbxEsc(MM.title))+(MM.note?'<p class="pbx-ms-fn pbx-ak-note pb-keep">'+pbxEsc(MM.note)+'</p>':'')+
-    MM.rows.map(function(r){return '<div class="pbx-ak-mr"><div class="pbx-ak-mt">'+pbxEsc(r.step)+'</div><div class="pbx-ak-mg">'+r.cells.map(function(c,j){return '<div><div class="pbx-ak-lab">'+pbxEsc((MM.columns||[])[j]||'')+'</div><div class="pbx-ak-tx">'+pbxTxt(c)+'</div></div>';}).join('')+'</div></div>';}).join('');
-  var WE=D.worked_example;
-  if(WE&&WE.calc_steps&&WE.calc_steps.length)out+=pbxAkHead('ตัวอย่างคำนวณ',pbxEsc(WE.title))+
-    (WE.persona?'<div class="pbx-ak-li pbx-ak-tx">'+pbxTxt(WE.persona)+'</div>':'')+
-    pbxAkLab('ข้อมูลที่ใช้')+(WE.inputs||[]).map(function(x){return '<div class="pbx-ak-kv"><span>'+pbxEsc(x.label)+'</span><b>'+pbxEsc(x.value)+'</b></div>';}).join('')+
-    pbxAkLab('คำนวณทีละขั้น')+WE.calc_steps.map(function(c){return '<div class="pbx-ak-calc">'+pbxEsc(c)+'</div>';}).join('')+
-    (WE.takeaway?pbxAkLab('สรุปจากตัวอย่าง')+'<div class="pbx-ak-li pbx-ak-tx pbx-ak-take">'+pbxTxt(WE.takeaway)+(WE.disclaimer?'<p class="pbx-ms-fn">'+pbxEsc(WE.disclaimer)+'</p>':'')+'</div>':'');
-  var TH=D.takehome;
-  if(TH&&TH.fields&&TH.fields.length)out+=pbxAkHead(pbxEsc(TH.title),'เขียนกติกาของตัวเอง')+
-    pbxAkLab('ช่องให้กรอก')+TH.fields.map(function(f){return '<div class="pbx-ak-fld">'+pbxEsc(f).replace(/_{3,}/g,'<i class="pbx-ak-bl"></i>')+'</div>';}).join('')+
-    ((TH.checklist||[]).length?pbxAkLab('เช็กลิสต์')+TH.checklist.map(function(c){return '<div class="pbx-ak-ck">'+pbxEsc(String(c).replace(/^\s*□\s*/,''))+'</div>';}).join(''):'')+
-    (TH.final_question?'<div class="pbx-ak-li pbx-ak-fq"><div class="pbx-ak-lab">คำถามสุดท้ายก่อนตัดสินใจ</div><p>'+pbxEsc(TH.final_question)+'</p></div>':'');
-  if(D.at_event&&D.at_event.length)out+=pbxAkHead('ที่งาน BetterTrade 2026','ไปลองต่อที่ไหน')+D.at_event.map(function(e,i){return pbxAkItem(pbxRoman(i+1),pbxEsc(e.title),'<div class="pbx-ak-tx">'+pbxTxt(e.text)+'</div>');}).join('');
-  out+=pbxAkHead('สัญญาณอันตราย','เห็นแบบนี้ ให้หยุดก่อน')+D.red_flags.map(function(f,i){return pbxAkItem(pbxRoman(i+1),pbxEsc(f.sign),'<div class="pbx-ak-tx"><p><b>ทำไม:</b> '+pbxEsc(f.why)+'</p><p><b>ทำอย่างไร:</b> '+pbxEsc(f.what_to_do)+'</p></div>'+pbxRefs(f.refs),'flag');}).join('');
-  out+=pbxAkHead('แหล่งอ้างอิง',D.sources.length+' แหล่งที่เปิดอ่านจริงก่อนเขียน')+D.sources.map(function(s){
-    return '<div class="pbx-ak-src"><b>'+pbxEsc(String(s.id).replace(/^S/,''))+'</b><div>'+pbxEsc(s.publisher)+' · '+pbxEsc(s.title)+(s.accessed?' <span>(เข้าถึง '+pbxThDate(s.accessed)+')</span>':'')+(s.url?'<div class="pbx-ak-url">'+pbxEsc(s.url)+'</div>':'')+'</div></div>';}).join('');
-  return out;
-}
-function pbxAkHTML(){
-  var IX=window.ASSET_PB_INDEX,DD=window.ASSET_PB_DATA||{};if(!IX)return '';
-  var books=IX.books.filter(function(b){return (!APB_BOOKS||APB_BOOKS.indexOf(b.id)>-1)&&DD[b.id];});if(!books.length)return '';
-  var open=pbxOpenHTML([IX.groups.length+' กลุ่มสินทรัพย์',['ASSET','Playbooks']],IX.books.length+' Asset Knowledge','เลือกเรื่องที่สนใจ แต่ละเรื่องพาคุณรู้จักตัวเอง ตรวจข้อมูลจากแหล่งทางการ จนเขียนกติกาของตัวเองได้');
-  var index=IX.groups.map(function(g){return '<section class="pbx-ak-ixg"><div class="pbx-ak-lab">'+pbxEsc(g)+'</div>'+
-    IX.books.filter(function(b){return b.group===g;}).map(function(b){return '<div class="pbx-ak-ixr"><span class="pbx-lg-in">'+b.n+'</span><div><b>'+pbxEsc(b.name_th)+'</b><span>'+pbxEsc(b.tagline)+'</span></div></div>';}).join('')+'</section>';}).join('');
-  return open+index+books.map(function(b){return pbxAkBookHTML(DD[b.id],IX.books.length);}).join('');
-}
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
    (playbook-final-extracted.html — see PLAYBOOK-2026-DATA-BASELINE.md §7): 8 categories, 41 items
    total. The source's own sub-screen goes 3 levels deep (category → item → full myth/fact body);
@@ -1036,7 +900,7 @@ function glossaryBlocksHTML(){
 }
 /* pbSetZoom — the fit-shrink for a block taller than a whole sheet (never needed by today's content). */
 function pbSetZoom(el,k){el.style.zoom=k&&k!==1?k:'';}
-var PBX_CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'ความสนใจ',port:'พอร์ต',apb:'Asset Knowledge',journey:'เส้นทาง',library:'คลังความรู้'}; // chapter labels: สารบัญ's group names and each sheet's running header
+var PBX_CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'ความสนใจ',port:'พอร์ต',journey:'เส้นทาง',library:'คลังความรู้'}; // chapter labels: สารบัญ's group names and each sheet's running header
 var PBX_ORN='<i class="pbx-cn l" aria-hidden="true"></i><i class="pbx-cn r" aria-hidden="true"></i>'; // corner sprigs; CSS shows them only on feature sheets and the สารบัญ
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 /* Line-art illustrations (round 2, steps 3-4) and the bottom contour field (round 6): placed AFTER pagination as absolutely
@@ -1078,7 +942,7 @@ function pbxIllustrate(pages){
     var body=pg.querySelector('.pb-body'),first=body.firstElementChild,ill=PBX_ILL[pg.dataset.panel];
     if(!first)return;
     if(first.classList.contains('pbx-open')){ // opener: upper right, above the kicker (~31.5%)
-      if(first.dataset.ill)mark(pg,'head',first.dataset.ill,W-PADX-250,104,250,220);else if(ill)mark(pg,'head','ill-'+ill,W-PADX-250,104,250,220);
+      if(ill)mark(pg,'head','ill-'+ill,W-PADX-250,104,250,220);
     }else if(first.classList.contains('pbx-feat')){ // feature sheet: the compass under the name, right-aligned
       var t=first.querySelector('.pbx-feat-t'),r=document.createRange();r.selectNodeContents(t);
       var textBottom=y(r.getBoundingClientRect().bottom),rule=y(t.getBoundingClientRect().bottom),free=rule-textBottom;
@@ -1215,7 +1079,7 @@ function pbTOC(doc,pages){
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
   if(first&&first.parentNode)first.parentNode.insertBefore(fit,first);else doc.appendChild(fit);
-  /* สารบัญ runs onto a second sheet when it outgrows one (2026-10-09, the Asset Knowledge chapter adds a row per book):
+  /* สารบัญ runs onto a second sheet when it outgrows one (added 2026-10-09 for the Asset Knowledge chapter, since removed; kept as the overflow path):
      whole chapter groups move to the continuation sheet from the end; a group too tall for a sheet of its own moves row
      by row under a repeated chapter label. Only if the second sheet still overflows are its rows shrunk (the old guard). */
   var list=pg.querySelector('.toc-list'),over=function(l){return l.scrollHeight>l.clientHeight+1;};
