@@ -253,6 +253,45 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* a category not touched yet: label, numeral, stroke and diamond all in the quiet tone */
 .pbx-ms-r.muted .pbx-ms-l,.pbx-ms-r.muted .pbx-ms-v{color:var(--muted);font-weight:var(--w-body);}
 .pbx-ms-r.muted .pbx-ms-ru::before,.pbx-ms-r.muted .pbx-ms-ru::after{background:var(--rule);}
+/* พอร์ต chapter (pbxPortEduHTML): the 5-level table, the 1-year ladder and the 10-year growth line, all in the report idiom of .pbx-ms */
+.pbx-pe-mirror{max-width:var(--read-measure);margin-top:48px;}
+.pbx-open .pbx-ms-fn{max-width:var(--read-measure);margin-top:32px;}
+.pbx-pe-t{margin-top:var(--sp-stack);}
+.pbx-pe-h,.pbx-pe-r{display:grid;grid-template-columns:150px repeat(4,1fr);column-gap:24px;align-items:end;}
+.pbx-pe-h{padding-bottom:var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
+.pbx-pe-r{padding:14px 0;border-bottom:var(--rule-w) solid var(--line);}
+.pbx-pe-lv b{display:block;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1;color:var(--ink);}
+.pbx-pe-lv small{display:block;margin-top:6px;font-size:var(--pbx-fs-kicker);line-height:1.35;color:var(--muted);}
+.pbx-pe-c b{display:block;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);font-variant-numeric:tabular-nums;}
+.pbx-pe-band{display:block;position:relative;height:9px;margin-top:8px;background:linear-gradient(var(--rule),var(--rule)) 0 100%/100% 1px no-repeat,linear-gradient(to right,var(--rule) 1px,transparent 1px) 0 100%/calc(50% - .5px) 5px repeat-x;}
+.pbx-pe-band::before{content:'';position:absolute;bottom:0;left:var(--lo);right:calc(100% - var(--hi));min-width:2px;height:3px;background:var(--ink);}
+.pbx-pe-how{max-width:calc(var(--read-measure) + 34px);margin-top:var(--sp-stack);}
+.pbx-pe-how b{font-weight:var(--w-label);}
+.pbx-pe-cta{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);font-weight:500;line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+.pbx-pe-lad{position:relative;margin-top:var(--sp-stack);padding-bottom:26px;}
+.pbx-pe-lr{display:grid;grid-template-columns:110px 1fr 130px;column-gap:24px;align-items:center;padding:12px 0;border-bottom:var(--rule-w) solid var(--line);}
+.pbx-pe-lr .pbx-ms-l{font-weight:var(--w-body);color:var(--muted);}
+.pbx-pe-lr.on .pbx-ms-l{font-weight:var(--w-label);color:var(--ink);}
+.pbx-pe-avg{text-align:right;font-size:var(--fs-label);font-weight:var(--w-label);color:var(--ink);font-variant-numeric:tabular-nums;}
+.pbx-pe-rng{position:relative;height:14px;background:linear-gradient(var(--rule),var(--rule)) var(--z) 0/1px 100% no-repeat;}
+.pbx-pe-rng::before{content:'';position:absolute;top:6px;left:var(--a);right:calc(100% - var(--b));height:2px;background:var(--ink);}
+.pbx-pe-lr:not(.on) .pbx-pe-rng::before{background:var(--muted);}
+.pbx-pe-rng::after{content:'';position:absolute;top:2px;left:var(--m);width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--sheet);border:1.5px solid var(--ink);box-sizing:border-box;}
+.pbx-pe-ax{position:absolute;left:134px;right:154px;bottom:0;height:20px;font-size:11px;line-height:20px;color:var(--muted);}
+.pbx-pe-ax span{position:absolute;transform:translateX(-50%);white-space:nowrap;}
+.pbx-pe-today{display:flex;align-items:baseline;gap:10px;margin-top:var(--sp-stack);font-size:var(--fs-label);color:var(--muted);}
+.pbx-pe-today b{font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;}
+.pbx-pe-today small{font-size:var(--fs-label);color:var(--muted);}
+.pbx-pe-g{display:block;margin-top:var(--sp-block);overflow:visible;}
+.pbx-pe-g .g{stroke:var(--line);stroke-width:1;}
+.pbx-pe-g .t{font-size:11px;fill:var(--muted);font-family:var(--font);}
+.pbx-pe-g .k{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round;}
+.pbx-pe-g .q{fill:none;stroke:var(--muted);stroke-width:1;stroke-linejoin:round;}
+.pbx-pe-g .q.d{stroke-dasharray:3 3;}
+.pbx-pe-g .e{font-size:13px;fill:var(--muted);font-family:var(--font);}
+.pbx-pe-g .e.on{fill:var(--ink);font-weight:700;}
+.pbx-pe-g .dm{fill:var(--ink);}
+.pbx-pe-gx{display:flex;justify-content:space-between;width:546px;margin-top:6px;padding-top:6px;border-top:var(--rule-w) solid var(--rule);font-size:11px;color:var(--muted);}
 .pbx-ms-fn{margin-top:var(--sp-stack);padding-top:var(--sp-list);border-top:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-kicker);line-height:1.6;color:var(--muted);}
 .pbx-data-note{max-width:var(--read-measure);margin-top:var(--sp-inline);font-size:14px;line-height:1.6;color:var(--muted);text-wrap:pretty;}
 .pbx-data-note b{font-weight:var(--w-label);color:var(--ink);}
@@ -371,6 +410,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
      from here) in case a future screen wants them back — see the corresponding CSS removal note at
      .lmb / #cta-slot for the same reasoning. -->
 <script src="js/library-data.js"></script>
+<script src="data/app/port/edu.js"></script><!-- the live app's พอร์ต tab data (window.PORT_EDU_DATA), copied verbatim -->
 
 <script>
 /* Icon asset audit (2026-09-11, per direction "ไอคอน spectrum ทั้งหมดในระบบ audit เรื่อง size, item
@@ -663,6 +703,7 @@ function renderBook(){
     '<div class="b2-panel" data-panel="analysis">'+pbxAnalysisHTML(r,h,matchOk)+'</div>'+
     (pre?'':(
     '<div class="b2-panel" data-panel="portfolio">'+pbxPortfolioHTML(h,r)+'</div>'+
+    '<div class="b2-panel" data-panel="port">'+pbxPortEduHTML()+'</div>'+
     '<div class="b2-panel" data-panel="journey">'+sidesHTML(r)+learnedLedgerHTML()+'</div>'+
     '<div class="b2-panel" data-panel="library">'+libraryBlocksHTML(h)+'</div>'+
     '<div class="b2-panel" data-panel="glossary" data-sect="library">'+glossaryBlocksHTML()+'</div>'
@@ -717,6 +758,61 @@ function pbxPortfolioHTML(h,r){
     h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd=i%2?'l':'r'; // illustration alternates right / left, bleeding off the page edge
       return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-'+Math.round(77+fg.w*.25)+'px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
   return open+ints+trait+alloc+dd;
+}
+/* ══ พอร์ต (the live app's "5 ระดับพอร์ตลงทุน" tab) ══ every word and figure comes from PORT_EDU_DATA (data/app/port/edu.js,
+   copied from the app). The app's controls are fixed at its own defaults: level 3, stocks 80% Thai / 20% foreign
+   (history.default_foreign), 100,000 baht. The "your own portfolio" calculator is left out — the app keeps no numbers. */
+var TH_MON=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function pbxThMonth(ym){var p=ym.split('-');return TH_MON[+p[1]-1]+' '+(+p[0]+543);}
+function pbxFill(t,o){return t.replace(/\{(\w+)\}/g,function(m,k){return o[k]!=null?o[k]:m;});}
+function pbxPct(v){return (v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(1)+'%';}
+function pbxBaht(v){return Math.round(v).toLocaleString('en-US')+' บาท';}
+function pbxPortEduHTML(){
+  var D=window.PORT_EDU_DATA;if(!D)return '';
+  var T=D.texts,tb=D.table,H=D.history,fx=H.default_foreign,lv=tb.pick.default,S=H.by_foreign[fx];
+  var open=pbxOpenHTML(['พอร์ต',['YOUR','Portfolio']],'5 ระดับ พอร์ตลงทุน','แต่ละระดับแบ่งเงินกันอย่างไร เคยขึ้นลงแค่ไหน แล้วลองเทียบกับพอร์ตของคุณเอง',
+    '<div class="pbx-pe-mirror"><div class="pbx-side-hd"><span class="pbx-side-t">'+D.mirror.title+'</span></div><p class="pbx-ms-lede">'+D.mirror.not_played+'</p></div>'+
+    '<p class="pbx-ms-fn">'+D.banner+'</p>');
+  /* the five levels: one row each — numeral + risk label, then each bucket's range in figures over a 0–100 ruler with the band inked */
+  var B=['cash','bond','equity','alt'];
+  var table='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+tb.title+'</h3><p class="pbx-ms-lede">'+tb.intro+'</p>'+
+    '<div class="pbx-pe-t"><div class="pbx-pe-h"><span>'+tb.level_col+'</span>'+B.map(function(b){return '<span>'+T.bucket_short[b]+'</span>';}).join('')+'</div>'+
+    tb.levels.map(function(l){return '<div class="pbx-pe-r"><span class="pbx-pe-lv"><b>'+l.value+'</b><small>'+l.label+'</small></span>'+
+      l.ranges.map(function(g){return '<span class="pbx-pe-c"><b>'+g.range_text+'</b><i class="pbx-pe-band" style="--lo:'+g.lo+'%;--hi:'+g.hi+'%"></i></span>';}).join('')+'</div>';}).join('')+
+    '</div><p class="pbx-ms-fn">'+tb.intro_more+'<br>'+tb.derived_note+'</p></section>';
+  var how='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+tb.how.title+'</h3><div class="pbx-pe-how">'+
+    tb.how.items.map(function(t,i){var p=t.split(' — ');return '<div class="pbx-lg-i"><span class="pbx-lg-in">'+pbxRoman(i+1)+'</span><span class="pbx-lg-it"><b>'+p[0]+'</b> '+p.slice(1).join(' — ')+'</span></div>';}).join('')+
+    '</div><p class="pbx-ms-lede">'+tb.how.more+'</p><p class="pbx-pe-cta">'+tb.how.cta+'</p></section>';
+  /* one-year holding ladder on a shared axis (the app's −20%…+45%): worst-to-best as an inked rule, the normal year as a white dot */
+  var A0=-20,A1=45,ax=function(v){return ((v-A0)/(A1-A0)*100).toFixed(2)+'%';},m=S[lv].hold_12m;
+  var ladder='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+T.ladder_title+'</h3>'+
+    '<p class="pbx-ms-lede">'+pbxFill(T.split_template,{th:100-fx,fx:fx})+' · '+T.split_note.split(' · ').slice(1).join(' · ')+'</p>'+
+    '<div class="pbx-pe-lad">'+[1,2,3,4,5].map(function(n){var h=S[n].hold_12m;
+      return '<div class="pbx-pe-lr'+(n===lv?' on':'')+'"><span class="pbx-ms-l">'+pbxFill(T.row_label,{level:n})+'</span><i class="pbx-pe-rng" style="--z:'+ax(0)+';--a:'+ax(h.worst)+';--b:'+ax(h.best)+';--m:'+ax(h.median)+'"></i><span class="pbx-pe-avg">'+pbxFill(T.avg_label,{cagr:pbxPct(S[n].cagr)})+'</span></div>';}).join('')+
+    '<div class="pbx-pe-ax"><span style="left:0">−20%</span><span style="left:'+ax(0)+'">0%</span><span style="left:100%">+45%</span></div></div>'+
+    '<p class="pbx-ms-fn">'+T.ladder_legend+'</p><p class="pbx-pe-cta">'+T.ladder_summary+'</p>'+
+    '<p class="pbx-ms-lede">'+pbxFill(T.ladder_pick,{level:lv,median:pbxPct(m.median),worst:pbxPct(m.worst),neg:m.pct_negative})+'</p>'+
+    '<p class="pbx-ms-fn">'+T.disclaimer+'</p></section>';
+  /* ten years of 100,000 baht: level 3 in ink, levels 1 and 5 as quiet lines (1 dashed), the worst point marked */
+  var W=642,GW=W-96,Hh=250,all=[1,3,5].map(function(n){return S[n].growth_of_100k;});
+  var mx=Math.max.apply(null,all.map(function(a){return Math.max.apply(null,a);})),mn=Math.min.apply(null,all.map(function(a){return Math.min.apply(null,a);}));
+  var lo=Math.floor(mn/50000)*50000,hi=Math.ceil(mx/50000)*50000;
+  var X=function(i,len){return (i/(len-1)*GW).toFixed(1);},Y=function(v){return (Hh-(v-lo)/(hi-lo)*Hh).toFixed(1);};
+  var path=function(a){return a.map(function(v,i){return (i?'L':'M')+X(i,a.length)+' '+Y(v);}).join('');};
+  var g3=S[lv].growth_of_100k,md=S[lv].max_drop,bi=H.months.indexOf(md.bottom),amt=100000;
+  var last=function(n){var a=S[n].growth_of_100k;return a[a.length-1];};
+  var grid='';for(var v=lo;v<=hi;v+=50000)grid+='<line x1="0" x2="'+GW+'" y1="'+Y(v)+'" y2="'+Y(v)+'" class="g"/><text x="0" y="'+(+Y(v)-5)+'" class="t">'+v.toLocaleString('en-US')+'</text>';
+  var svg='<svg class="pbx-pe-g" viewBox="0 -14 '+W+' '+(Hh+28)+'" width="'+W+'" height="'+(Hh+28)+'" aria-hidden="true">'+grid+
+    '<path d="'+path(S[1].growth_of_100k)+'" class="q d"/><path d="'+path(S[5].growth_of_100k)+'" class="q"/><path d="'+path(g3)+'" class="k"/>'+
+    [5,3,1].map(function(n){return '<text x="'+(GW+10)+'" y="'+(+Y(last(n))+4)+'" class="e'+(n===lv?' on':'')+'">'+pbxFill(T.row_label,{level:n})+'</text>';}).join('')+
+    (bi>=0?'<path d="M'+X(bi,g3.length)+' '+Y(g3[bi])+'m0 -5l5 5l-5 5l-5 -5z" class="dm"/><text x="'+(+X(bi,g3.length)+10)+'" y="'+(+Y(g3[bi])+20)+'" class="t">'+pbxFill(T.growth_bottom,{month:pbxThMonth(md.bottom),pct:pbxPct(md.pct)})+'</text>':'')+'</svg>';
+  var growth='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+pbxFill(T.growth_title_amount,{amount:pbxBaht(amt),level:lv})+'</h3>'+
+    '<div class="pbx-pe-today"><span>วันนี้ ≈</span><b>'+Math.round(last(lv)).toLocaleString('en-US')+'</b><small>บาท</small></div>'+svg+
+    '<div class="pbx-pe-gx"><span>'+pbxThMonth(H.period.from)+' · '+pbxFill(T.growth_base_amount,{amount:pbxBaht(amt)})+'</span><span>'+pbxThMonth(H.period.to)+'</span></div>'+
+    '<p class="pbx-ms-lede">'+pbxFill(T.growth_drop_baht,{pct:pbxPct(md.pct),amount:pbxBaht(amt),baht:pbxBaht(-md.pct/100*amt),months:md.months_to_recover})+'</p>'+
+    '<p class="pbx-ms-lede">'+pbxFill(T.growth_compare_hi,{value:pbxBaht(last(5)),pct:pbxPct(S[5].max_drop.pct)})+'<br>'+pbxFill(T.growth_compare_lo,{value:pbxBaht(last(1))})+'</p>'+
+    '<p class="pbx-ms-fn">'+pbxFill(T.source,{from:pbxThMonth(H.period.from),to:pbxThMonth(H.period.to)})+'<br>'+T.disclaimer+'</p></section>';
+  return open+table+how+ladder+growth;
 }
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
    (playbook-final-extracted.html — see PLAYBOOK-2026-DATA-BASELINE.md §7): 8 categories, 41 items
@@ -802,7 +898,7 @@ function glossaryBlocksHTML(){
 }
 /* pbSetZoom — the fit-shrink for a block taller than a whole sheet (never needed by today's content). */
 function pbSetZoom(el,k){el.style.zoom=k&&k!==1?k:'';}
-var PBX_CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'ความสนใจ',journey:'เส้นทาง',library:'คลังความรู้'}; // chapter labels: สารบัญ's group names and each sheet's running header
+var PBX_CH={identity:'ตัวตน',analysis:'วิเคราะห์',portfolio:'ความสนใจ',port:'พอร์ต',journey:'เส้นทาง',library:'คลังความรู้'}; // chapter labels: สารบัญ's group names and each sheet's running header
 var PBX_ORN='<i class="pbx-cn l" aria-hidden="true"></i><i class="pbx-cn r" aria-hidden="true"></i>'; // corner sprigs; CSS shows them only on feature sheets and the สารบัญ
 var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — option B, "top half / bottom half"
 /* Line-art illustrations (round 2, steps 3-4) and the bottom contour field (round 6): placed AFTER pagination as absolutely
@@ -811,7 +907,7 @@ var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — op
    - the identity feature sheet: the compass between the persona name and the hairline, when there is room;
    - any sheet whose content ends high (>= PBX_BT_ROOM px free under it, 40px margin kept): a faint contour field rising from the
      bottom edge, fading upward, so a short sheet is weighted at both ends instead of top-heavy (the opener's top has the same lines). */
-var PBX_ILL={identity:'compass',analysis:'scale',portfolio:'chart',journey:'path',library:'book',glossary:'quill'};
+var PBX_ILL={identity:'compass',analysis:'scale',portfolio:'chart',port:'chart',journey:'path',library:'book',glossary:'quill'};
 var PBX_BT_ROOM=360;
 /* the interest-share sheet (portfolio, .pbx-ints): the leading category's engraved drawing stands lower right, a quarter cut by the page
    edge (as on the เจาะราย sheet), and the contour field comes in from 280px of free band. Two categories have no drawing yet → the coin. */
