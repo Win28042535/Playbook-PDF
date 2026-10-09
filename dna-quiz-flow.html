@@ -112,6 +112,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-card::after{inset:-22px;}
 .pb-page.pbx:has(.pbx-card) .pb-body{overflow:visible;} /* the frame reaches 22px past the column; sheet fit is still measured by scrollHeight */
 .pb-page.pbx:has(.pbx-feat)>.pbx-cn,.pb-toc>.pbx-cn{display:block;}
+.pb-toc-cont::after{display:none;}
 /* contour lines (reference: "Chapter Three"): a faint ink field behind the top of opener, feature and สารบัญ sheets */
 .pb-page.pbx:has(.pbx-open)::after,.pb-page.pbx:has(.pbx-feat)::after,.pb-toc::after{content:'';position:absolute;left:0;right:0;top:0;height:46%;z-index:-1;background:url(assets/topo.svg) center top/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);}
 /* opener */
@@ -306,7 +307,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-ak-src{display:grid;grid-template-columns:36px 1fr;padding:6px 0;border-bottom:var(--rule-w) solid var(--line);font-size:12px;line-height:1.5;color:var(--ink);}
 .pbx-ak-src b{font-weight:var(--w-label);color:var(--muted);font-variant-numeric:tabular-nums;}
 .pbx-ak-src span{color:var(--muted);}
-.pbx-ak-ixg+.pbx-ak-ixg{margin-top:36px;}
+.pbx .pbx-ak-ixg{padding-top:36px;}
+.pbx .pb-body>.pbx-ak-ixg:first-child{padding-top:0;}
 .pbx-ak-ixg>.pbx-ak-lab{padding-bottom:var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--fs-label);}
 .pbx-ak-ixr{display:grid;grid-template-columns:80px 1fr;padding:10px 0;border-bottom:var(--rule-w) solid var(--line);}
 .pbx-ak-ixr b{display:block;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
@@ -477,7 +479,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
      .lmb / #cta-slot for the same reasoning. -->
 <script src="js/library-data.js"></script>
 <script src="data/app/port/edu.js"></script>
-<script src="data/app/playbooks/index.js"></script><script src="data/app/playbooks/gold.js"></script><!-- the live app's Asset Knowleges (window.ASSET_PB_INDEX / ASSET_PB_DATA), copied verbatim --><!-- the live app's พอร์ต tab data (window.PORT_EDU_DATA), copied verbatim -->
+<script src="data/app/playbooks/index.js"></script><script src="data/app/playbooks/macro.js"></script><script src="data/app/playbooks/stock.js"></script><script src="data/app/playbooks/bond.js"></script><script src="data/app/playbooks/fund.js"></script><script src="data/app/playbooks/dr.js"></script><script src="data/app/playbooks/gold.js"></script><script src="data/app/playbooks/realestate.js"></script><script src="data/app/playbooks/crypto.js"></script><script src="data/app/playbooks/collectible.js"></script><script src="data/app/playbooks/tax.js"></script><script src="data/app/playbooks/insurance.js"></script><script src="data/app/playbooks/longevity.js"></script><script src="data/app/playbooks/ai.js"></script><script src="data/app/playbooks/scam.js"></script><!-- the live app's Asset Knowleges (window.ASSET_PB_INDEX / ASSET_PB_DATA), copied verbatim --><!-- the live app's พอร์ต tab data (window.PORT_EDU_DATA), copied verbatim -->
 
 <script>
 /* Icon asset audit (2026-09-11, per direction "ไอคอน spectrum ทั้งหมดในระบบ audit เรื่อง size, item
@@ -887,8 +889,8 @@ function pbxPortEduHTML(){
    Each book prints in full, in the app's order: opener → who / outcome → คำถามหลัก → ศัพท์พื้นฐาน → 8 ขั้นตอน → ตารางวิธีลงทุน →
    ตัวอย่างคำนวณ → แผนที่ของฉัน (a printable worksheet) → ที่งานนี้ → สัญญาณอันตราย → แหล่งอ้างอิง. Only book titles go to สารบัญ
    (.s-h); in-book section heads use .pbx-ak-st. Lists are emitted one item per block (labels .pb-keep with what follows) so pbBuild
-   can break between items and sheets fill. APB_BOOKS lists the books printed (sample: gold only). */
-var APB_BOOKS=['gold'];
+   can break between items and sheets fill. APB_BOOKS can narrow the books printed (null = all). */
+var APB_BOOKS=null; // null = every book in ASSET_PB_INDEX, in the app's order
 var APB_FIG={macro:'eng-lens',stock:'eng-stockth',bond:'eng-bond',fund:'eng-fund',dr:'eng-stockintl',gold:'eng-gold',realestate:'eng-house',crypto:'eng-bitcoin',collectible:'eng-coin',tax:'eng-bank',insurance:'eng-heart',longevity:'eng-hourglass',ai:'eng-gauge',scam:'eng-hook'};
 function pbxEsc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function pbxThDate(iso){var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso||'');return m?(+m[3])+' '+TH_MON[+m[2]-1]+' '+(+m[1]+543):pbxEsc(iso);}
@@ -943,10 +945,10 @@ function pbxAkBookHTML(D,total){
 }
 function pbxAkHTML(){
   var IX=window.ASSET_PB_INDEX,DD=window.ASSET_PB_DATA||{};if(!IX)return '';
-  var books=IX.books.filter(function(b){return APB_BOOKS.indexOf(b.id)>-1&&DD[b.id];});if(!books.length)return '';
+  var books=IX.books.filter(function(b){return (!APB_BOOKS||APB_BOOKS.indexOf(b.id)>-1)&&DD[b.id];});if(!books.length)return '';
   var open=pbxOpenHTML([IX.groups.length+' กลุ่มสินทรัพย์',['ASSET','Playbooks']],IX.books.length+' Asset Knowledge','เลือกเรื่องที่สนใจ แต่ละเรื่องพาคุณรู้จักตัวเอง ตรวจข้อมูลจากแหล่งทางการ จนเขียนกติกาของตัวเองได้');
-  var index='<section class="pbx-block pbx-ak-ix">'+IX.groups.map(function(g){return '<div class="pbx-ak-ixg"><div class="pbx-ak-lab">'+pbxEsc(g)+'</div>'+
-    IX.books.filter(function(b){return b.group===g;}).map(function(b){return '<div class="pbx-ak-ixr"><span class="pbx-lg-in">'+b.n+'</span><div><b>'+pbxEsc(b.name_th)+'</b><span>'+pbxEsc(b.tagline)+'</span></div></div>';}).join('')+'</div>';}).join('')+'</section>';
+  var index=IX.groups.map(function(g){return '<section class="pbx-ak-ixg"><div class="pbx-ak-lab">'+pbxEsc(g)+'</div>'+
+    IX.books.filter(function(b){return b.group===g;}).map(function(b){return '<div class="pbx-ak-ixr"><span class="pbx-lg-in">'+b.n+'</span><div><b>'+pbxEsc(b.name_th)+'</b><span>'+pbxEsc(b.tagline)+'</span></div></div>';}).join('')+'</section>';}).join('');
   return open+index+books.map(function(b){return pbxAkBookHTML(DD[b.id],IX.books.length);}).join('');
 }
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
@@ -1212,15 +1214,37 @@ function pbTOC(doc,pages){
   /* after the front cover, before sheet 1 */
   var first=pages[0]?pages[0].parentNode:null;
   if(first&&first.parentNode)first.parentNode.insertBefore(fit,first);else doc.appendChild(fit);
-  /* สารบัญ is one fixed page with no fallback sheet to spill onto (unlike pbBuild's paginated
-     content), so if the row/chapter count ever makes .toc-list taller than the space left under
-     toc-h, shrink its rows uniformly to fit — same zoom-balance idiom place() uses elsewhere —
-     rather than letting the last rows run into the page's bottom padding/frame (2026-09-23, found
-     after bumping .toc-t/.toc-ch: 16 rows no longer fit unshrunk at the larger sizes). */
-  var list=pg.querySelector('.toc-list');
-  if(list.scrollHeight>list.clientHeight+1){ // 19 rows end at ~84% today, so this is only the overflow guard
+  /* สารบัญ runs onto a second sheet when it outgrows one (2026-10-09, the Asset Knowledge chapter adds a row per book):
+     whole chapter groups move to the continuation sheet from the end; a group too tall for a sheet of its own moves row
+     by row under a repeated chapter label. Only if the second sheet still overflows are its rows shrunk (the old guard). */
+  var list=pg.querySelector('.toc-list'),over=function(l){return l.scrollHeight>l.clientHeight+1;};
+  if(over(list)){
+    var fit2=document.createElement('div');fit2.className='pb-fit';
+    var pg2=document.createElement('div');pg2.className='pb-page pbx pb-toc pb-toc-cont';pg2.dataset.sect='toc';
+    pg2.innerHTML='<div class="pb-body"><div class="pbx-kicker">สารบัญ (ต่อ)</div><div class="toc-list"></div></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span></span></div>';
+    fit2.appendChild(pg2);fit.parentNode.insertBefore(fit2,fit.nextSibling);
+    var list2=pg2.querySelector('.toc-list'),guard=0;
+    while(over(list)&&guard++<400){
+      var g=list.lastElementChild;
+      if(list.children.length>1&&!(list2.firstElementChild&&list2.firstElementChild.dataset.part===g.querySelector('.toc-ch').textContent)){list2.insertBefore(g,list2.firstChild);continue;}
+      var head=list2.firstElementChild,chName=g.querySelector('.toc-ch').textContent;
+      if(!head||head.dataset.part!==chName){head=document.createElement('div');head.className='toc-grp';head.dataset.part=chName;head.innerHTML='<div class="toc-ch">'+chName+'</div><div class="toc-rows"></div>';list2.insertBefore(head,list2.firstChild);}
+      var rowsEl=g.querySelector('.toc-rows');head.querySelector('.toc-rows').insertBefore(rowsEl.lastElementChild,head.querySelector('.toc-rows').firstChild);
+      if(!rowsEl.children.length)list.removeChild(g);
+    }
+    var g2=list2.firstElementChild;
+    if(g2&&!over(list)){
+      var chN=g2.querySelector('.toc-ch').textContent,back=document.createElement('div');back.className='toc-grp';
+      back.innerHTML='<div class="toc-ch">'+chN+'</div><div class="toc-rows"></div>';list.appendChild(back);
+      var from=g2.querySelector('.toc-rows'),to=back.querySelector('.toc-rows');
+      while(from.children.length>1){to.appendChild(from.firstElementChild);if(over(list)){from.insertBefore(to.lastElementChild,from.firstChild);break;}}
+      if(!to.children.length)list.removeChild(back);
+    }
+    list=list2;
+  }
+  if(over(list)){
     var kids=[].slice.call(list.children),q=list.scrollHeight/list.clientHeight,z=Math.floor(1000/q)/1000-.004,tries=0;
-    do{kids.forEach(function(c){pbSetZoom(c,z);});tries++;z-=.01;}while(list.scrollHeight>list.clientHeight+1&&tries<9);
+    do{kids.forEach(function(c){pbSetZoom(c,z);});tries++;z-=.01;}while(over(list)&&tries<9);
   }
 }
 /* confidenceScore (2026-09-21, per direction "สูตร Confidence — ใช้สูตรใหม่") — replaces the quiz-only
