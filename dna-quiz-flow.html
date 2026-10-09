@@ -100,6 +100,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-bt{position:absolute;left:0;right:0;z-index:-1;background:url(assets/topo-b.svg) center bottom/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to top,#000 22%,transparent 100%);mask-image:linear-gradient(to top,#000 22%,transparent 100%);}
 /* line-art drawings placed by pbxIllustrate() (position + size inline) */
 .pbx-ill{position:absolute;display:block;background:center/contain no-repeat;pointer-events:none;}
+.pbx-lead{position:absolute;display:block;object-fit:contain;pointer-events:none;} /* placed by pbxIllustrate (PBX_LEAD_FIG), engraved drawing on its own ground shadow */
 .pbx-float{position:absolute;display:block;object-fit:contain;pointer-events:none;filter:saturate(1.3) drop-shadow(0 12px 16px rgba(17,19,24,.16));} /* placed by pbxIllustrate (PBX_FLOAT) */
 /* two articles on a sheet: a small asterism in the gap above the second (reference: Maguss' section breaks) */
 .pbx .pb-body>article.pbx-unit+article.pbx-unit{position:relative;}
@@ -812,6 +813,10 @@ var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — op
      bottom edge, fading upward, so a short sheet is weighted at both ends instead of top-heavy (the opener's top has the same lines). */
 var PBX_ILL={identity:'compass',analysis:'scale',portfolio:'chart',journey:'path',library:'book',glossary:'quill'};
 var PBX_BT_ROOM=360;
+/* the interest-share sheet (portfolio, .pbx-ints): the leading category's engraved drawing stands lower right, a quarter cut by the page
+   edge (as on the เจาะราย sheet), and the contour field comes in from 280px of free band. Two categories have no drawing yet → the coin. */
+var PBX_LEAD_FIG={'หุ้นไทย':'eng-stockth','ต่างประเทศ':'eng-stockintl','กองทุน':'eng-fund','ตราสารหนี้':'eng-bond','ทอง':'eng-gold','อสังหา':'eng-house','ประกัน':'eng-coin','คริปโต':'eng-bitcoin','ทางเลือก':'eng-coin','สุขภาพ':'eng-heart'};
+var PBX_LEAD_W=220,PBX_INTS_BT_ROOM=280;
 /* floating-asset clusters per panel opener: w/h box, r = gap from the page's right edge (negative = bleeds off it),
    b = gap above the footer line, a = rotation */
 var PBX_FLOAT={journey:[
@@ -848,7 +853,7 @@ function pbxIllustrate(pages){
     // where the sheet's content really ends: text, images (+ the card's 22px frame), data bars and rule-split containers
     var end=0,w=document.createTreeWalker(body,NodeFilter.SHOW_TEXT),n,rg=document.createRange(),j,rs;
     while((n=w.nextNode())){if(!n.nodeValue.trim())continue;rg.selectNodeContents(n);rs=rg.getClientRects();for(j=0;j<rs.length;j++)end=Math.max(end,y(rs[j].bottom));}
-    [].forEach.call(body.querySelectorAll('img,.pbx-db,.pbx-vr,.pbx-card'),function(e){end=Math.max(end,y(e.getBoundingClientRect().bottom)+(e.matches('.pbx-card')?22:0));});
+    [].forEach.call(body.querySelectorAll('img,.pbx-db,.pbx-ms-ru,.pbx-vr,.pbx-card'),function(e){end=Math.max(end,y(e.getBoundingClientRect().bottom)+(e.matches('.pbx-card')?22:0));});
     var avail=H-(end+40);
     /* floating assets (journey + glossary openers, per the BT2026 site's hero): three original-colour objects
        of very different sizes in the empty lower right, turned at odd angles, the biggest cut by the page edge.
@@ -863,7 +868,13 @@ function pbxIllustrate(pages){
         pg.appendChild(im);
       });
     }
-    if(avail>=PBX_BT_ROOM){var hgt=Math.min(520,avail),bt=document.createElement('i');bt.className='pbx-bt';bt.setAttribute('aria-hidden','true');bt.style.cssText='top:'+Math.round(H-hgt)+'px;height:'+Math.round(hgt)+'px';pg.appendChild(bt);}
+    var ints=body.querySelector('.pbx-ints'),lead=ints&&ints.querySelector('.pbx-ms-l');
+    if(lead&&ft){
+      var lw=PBX_LEAD_W,lh=Math.round(lw*228/240),lt=Math.round(y(ft.getBoundingClientRect().top)-24-lh);
+      if(lt>=end+40){var li=document.createElement('img');li.className='pbx-lead';li.src='assets/'+(PBX_LEAD_FIG[lead.textContent.trim()]||'eng-coin')+'.svg';li.alt='';li.setAttribute('aria-hidden','true');
+        li.style.cssText='left:'+Math.round(W-lw*.75)+'px;top:'+lt+'px;width:'+lw+'px;height:'+lh+'px';pg.appendChild(li);}
+    }
+    if(avail>=(ints?PBX_INTS_BT_ROOM:PBX_BT_ROOM)){var hgt=Math.min(520,avail),bt=document.createElement('i');bt.className='pbx-bt';bt.setAttribute('aria-hidden','true');bt.style.cssText='top:'+Math.round(H-hgt)+'px;height:'+Math.round(hgt)+'px';pg.appendChild(bt);}
   });
 }
 function pbBuild(){
