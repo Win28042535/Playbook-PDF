@@ -194,9 +194,26 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx .pbx-sec{padding:0 0 28px;}
 .pbx .pbx-sec-t{margin:0;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.2;color:var(--ink);}
 .pbx-sec-sub{margin-top:var(--sp-inline);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
-.pbx-led-row{padding:var(--sp-inline) 0;border-top:var(--rule-w) solid var(--rule);}
-.pbx-led-t{max-width:var(--read-measure);font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
-.pbx-led-s{margin-top:2px;font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);}
+/* "เรื่องที่คุณเข้าใจแล้ว" as book notes: the first insight is a pull-quote (numeral in the margin column, lead clause large,
+   any further " · " clause as a reading line, its game once under it), an asterism, then the rest as numbered notes grouped under
+   the game they came from, hanging in the reading column (numerals in a 34px gutter left of it). Each piece is its own block so
+   pbBuild can break between notes; group headings are .pb-keep so they never end a sheet. */
+.pbx-lg-q{display:grid;grid-template-columns:calc(var(--pbx-col-x) - var(--pbx-pad-x)) 1fr;padding:12px 0 32px;}
+.pbx-lg-qn{font-family:var(--font-caps);font-weight:500;font-size:34px;line-height:1;color:var(--ink);padding-top:6px;}
+.pbx-lg-qt{max-width:var(--read-measure);font-size:30px;font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-wrap:balance;}
+.pbx-lg-q2{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
+.pbx-lg-src{margin-top:var(--sp-block);font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);}
+.pbx-lg-src::before{content:'';display:inline-block;width:28px;height:var(--rule-w);background:var(--rule);vertical-align:middle;margin-right:10px;}
+.pbx-lg-br{height:40px;background:url(assets/orn-asterism.svg) center top/60px 14px no-repeat;}
+.pbx-lg-gt,.pbx-lg-i{width:calc(var(--read-measure) + 34px);margin-left:calc(var(--pbx-col-x) - var(--pbx-pad-x) - 34px)!important;}
+.pbx-lg-gt{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding:12px 0 var(--sp-list);border-bottom:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
+.pbx-lg-gt+.pbx-lg-i{padding-top:var(--sp-stack);}
+.pbx-lg-br+.pbx-lg-gt{padding-top:0;}
+.pbx-lg-gt span{font-weight:var(--w-body);color:var(--muted);}
+.pbx-lg-i{display:grid;grid-template-columns:34px 1fr;padding-bottom:10px;}
+.pbx-lg-in{font-family:var(--font-caps);font-weight:500;font-size:12px;line-height:24px;letter-spacing:.06em;color:var(--muted);}
+.pbx-lg-it{font-family:var(--font-read);font-size:15px;line-height:1.6;color:var(--ink);text-wrap:pretty;}
+.pbx-lg-c2{display:block;margin-top:2px;color:var(--muted);} /* a further " · " point: its own line, quieter */
 /* data page: blocks separated by air; label | value rows with the share as a thin ink rule on a hairline
    track (muted = categories not touched yet) */
 .pbx .pbx-block{padding-top:56px;}
@@ -1147,12 +1164,24 @@ function learnedInsights(inProgress){
 function learnedLedgerHTML(){
   var items=learnedInsights();
   if(!items.length)return '';
-  /* section heading on a fresh sheet (kept with its first row), then one block per insight —
-     plain ruled rows, the source game as a small line under it; no icons. */
-  return '<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สะสมจากการเล่นเกมวันนี้</div><h2 class="s-h pbx-sec-t">เรื่องที่คุณ <span>เข้าใจแล้ว</span></h2>'+
+  /* section heading on a fresh sheet (kept with what follows), the first insight as a pull-quote, then the rest as roman-numbered
+     notes grouped under their game (heading once per run of the same game); see .pbx-lg-* */
+  var parts=items[0].text.split(' · '),n=1,game=null;
+  var out='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สะสมจากการเล่นเกมวันนี้</div><h2 class="s-h pbx-sec-t">เรื่องที่คุณ <span>เข้าใจแล้ว</span></h2>'+
     '<p class="pbx-sec-sub">'+items.length+' เรื่อง · อัปเดตอัตโนมัติทุกครั้งที่เล่นเกมจบ</p></section>'+
-    items.map(function(l){return '<div class="pbx-led-row"><div class="pbx-led-t">'+l.text+'</div><div class="pbx-led-s">จากเกม '+playLabel(l.kind,l.idx)+'</div></div>';}).join('');
+    '<blockquote class="pbx-lg-q"><div class="pbx-lg-qn">'+pbxRoman(n++)+'</div><div><p class="pbx-lg-qt">'+parts[0]+'</p>'+
+    (parts.length>1?'<p class="pbx-lg-q2">'+parts.slice(1).join(' · ')+'</p>':'')+'<p class="pbx-lg-src">จากเกม '+playLabel(items[0].kind,items[0].idx)+'</p></div></blockquote>';
+  if(items.length>1)out+='<div class="pbx-lg-br pb-keep" aria-hidden="true"></div>';
+  items.slice(1).forEach(function(l,i,rest){
+    var g=playLabel(l.kind,l.idx);
+    if(g!==game){game=g;var cnt=0;for(var j=i;j<rest.length&&playLabel(rest[j].kind,rest[j].idx)===g;j++)cnt++;
+      out+='<div class="pbx-lg-gt pb-keep">'+g+'<span>'+cnt+' เรื่อง</span></div>';}
+    out+='<div class="pbx-lg-i"><span class="pbx-lg-in">'+pbxRoman(n++)+'</span><span class="pbx-lg-it">'+
+      l.text.split(' · ').map(function(c,k){return k?'<span class="pbx-lg-c2">'+c+'</span>':c;}).join('')+'</span></div>';
+  });
+  return out;
 }
+function pbxRoman(n){var s='';[[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']].forEach(function(p){while(n>=p[0]){s+=p[1];n-=p[0];}});return s;}
 
 /* ── RESPONSIVE VIEW (mobile | tablet | pc) ── driven by window, overridable via demo panel ── */
 /* Both 'view' and 'draw' default to 'auto' (2026-08-26, per direction — "อัตโนมัติ default ไว้ที่
