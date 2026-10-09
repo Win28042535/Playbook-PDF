@@ -236,6 +236,19 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-db{grid-column:1/-1;display:block;height:3px;margin-top:8px;background:linear-gradient(to right,var(--ink) var(--v),var(--line) var(--v));}
 .pbx-dr.muted .pbx-dl{color:var(--muted);}
 .pbx-dr.muted .pbx-db{background:linear-gradient(to right,var(--rule) var(--v),var(--line) var(--v));}
+/* report table (คะแนนพฤติกรรม / เวลาตัดสินใจ…): one line per figure across the full width — label | ruler | numeral. The ruler is
+   a hairline with a tick every tenth (taller at 0, 50, 100), an ink stroke up to the value and a solid diamond on it. */
+.pbx-ms-lede{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:15px;line-height:1.6;color:var(--muted);text-wrap:pretty;}
+.pbx-ms{margin-top:var(--sp-list);}
+.pbx-ms-r{display:grid;grid-template-columns:236px 1fr 84px;column-gap:28px;align-items:center;padding:14px 0;}
+.pbx-ms-r+.pbx-ms-r{border-top:var(--rule-w) solid var(--line);}
+.pbx-ms-l{font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
+.pbx-ms-v{text-align:right;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;}
+.pbx-ms-v small{margin-left:2px;font-size:var(--pbx-fs-kicker);font-weight:var(--w-body);color:var(--muted);}
+.pbx-ms-ru{position:relative;height:12px;margin-top:6px;background:linear-gradient(var(--rule),var(--rule)) 0 100%/100% 1px no-repeat,linear-gradient(to right,var(--muted) 1px,transparent 1px) 0 0/calc(50% - .5px) 100% repeat-x,linear-gradient(to right,var(--rule) 1px,transparent 1px) 0 100%/calc(10% - .1px) 6px repeat-x;}
+.pbx-ms-ru::before{content:'';position:absolute;left:0;bottom:0;width:var(--v);height:2px;background:var(--ink);}
+.pbx-ms-ru::after{content:'';position:absolute;left:var(--v);bottom:-3px;width:8px;height:8px;margin-left:-4px;transform:rotate(45deg);background:var(--ink);}
+.pbx-ms-fn{margin-top:var(--sp-stack);padding-top:var(--sp-list);border-top:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-kicker);line-height:1.6;color:var(--muted);}
 .pbx-data-cap{max-width:var(--read-measure);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
 .pbx-data-note{max-width:var(--read-measure);margin-top:var(--sp-inline);font-size:14px;line-height:1.6;color:var(--muted);text-wrap:pretty;}
 .pbx-data-note b{font-weight:var(--w-label);color:var(--ink);}
@@ -674,6 +687,10 @@ var ALLOC_SEGS=[{l:'สินทรัพย์แกนหลัก (กอง�
 function pbxRow(label,valHTML,pct,muted,icon){
   return '<div class="pbx-dr'+(muted?' muted':'')+(icon?' has-ic':'')+'">'+(icon?'<img class="pbx-dic" src="'+icon+'" alt="">':'')+'<span class="pbx-dl">'+label+'</span><span class="pbx-dv">'+valHTML+'</span><i class="pbx-db" style="--v:'+pct+'%"></i></div>';
 }
+/* report row (portfolio p7): label | engraved ruler | large numeral with its unit small and grey */
+function pbxMsRow(label,big,unit,pct){
+  return '<div class="pbx-ms-r"><span class="pbx-ms-l">'+label+'</span><i class="pbx-ms-ru" style="--v:'+pct+'%"></i><span class="pbx-ms-v">'+big+'<small>'+unit+'</small></span></div>';
+}
 function pbxPortfolioHTML(h,r){
   // radar: ranked high → low; ties keep axis order
   var ax=h.radar.map(function(v,i){return {i:i,v:v};}).sort(function(a,b){return b.v-a.v||a.i-b.i;});
@@ -687,11 +704,11 @@ function pbxPortfolioHTML(h,r){
   var order=S3_OPTS.map(function(o,i){return i;}).sort(function(a,b){return pct[b]-pct[a];});
   var ints='<section class="pbx-block pbx-ints"><p class="pbx-data-cap">จากเกมและบูธที่คุณทำจริง · รวมทุกแท่ง = 100% ของข้อมูลที่เรามี · แท่งสีจางคือหมวดที่คุณยังไม่ได้แตะวันนี้</p><div class="pbx-data">'+
     order.map(function(i){var touched=((BOOTH_CHK[i]&&BOOTH_CHK[i].size)>0)||!!BOOTH_ACT[i];return pbxRow(INT_SHORT_L[i],pct[i]+'%',pct[i],!touched);}).join('')+'</div></section>';
-  var trait='<section class="pbx-block"><h3 class="s-h pbx-blk-t">คะแนน <span>พฤติกรรม</span></h3><p class="pbx-sec-sub">วัดจากกิจกรรมในงาน</p><div class="pbx-data">'+
-    TRAIT_ROWS.map(function(t){return pbxRow(t.l,'<b>'+t.v+'</b>/'+t.m,Math.round(t.v/t.m*100));}).join('')+'</div>'+
-    '<p class="pbx-data-note">'+TRAIT_SRC.map(function(c){return '<span>'+c.t+'</span>';}).join(' · ')+'</p><p class="pbx-data-note">บอกว่าเรารู้จักคุณแค่ไหน ไม่ใช่คำทำนายผลตอบแทน</p></section>';
-  var alloc='<section class="pbx-block"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3><p class="pbx-sec-sub">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p><div class="pbx-data">'+
-    ALLOC_SEGS.map(function(s){return pbxRow(s.l,s.p+'%',s.p);}).join('')+'</div></section>';
+  var trait='<section class="pbx-block"><h3 class="s-h pbx-blk-t">คะแนน <span>พฤติกรรม</span></h3><p class="pbx-ms-lede">วัดจากกิจกรรมในงาน</p><div class="pbx-ms">'+
+    TRAIT_ROWS.map(function(t){return pbxMsRow(t.l,t.v,'/'+t.m,Math.round(t.v/t.m*100));}).join('')+'</div>'+
+    '<p class="pbx-ms-fn">'+TRAIT_SRC.map(function(c){return '<span>'+c.t+'</span>';}).join(' · ')+'<br>บอกว่าเรารู้จักคุณแค่ไหน ไม่ใช่คำทำนายผลตอบแทน</p></section>';
+  var alloc='<section class="pbx-block"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3><p class="pbx-ms-lede">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p><div class="pbx-ms">'+
+    ALLOC_SEGS.map(function(s){return pbxMsRow(s.l,s.p,'%',s.p);}).join('')+'</div></section>';
   var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
     h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd=i%2?'l':'r'; // illustration alternates right / left, bleeding off the page edge
       return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-'+Math.round(77+fg.w*.25)+'px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
