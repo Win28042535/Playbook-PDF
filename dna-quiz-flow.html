@@ -248,8 +248,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-ms-ru{position:relative;height:12px;margin-top:6px;background:linear-gradient(var(--rule),var(--rule)) 0 100%/100% 1px no-repeat,linear-gradient(to right,var(--muted) 1px,transparent 1px) 0 0/calc(50% - .5px) 100% repeat-x,linear-gradient(to right,var(--rule) 1px,transparent 1px) 0 100%/calc(10% - .1px) 6px repeat-x;}
 .pbx-ms-ru::before{content:'';position:absolute;left:0;bottom:0;width:var(--v);height:2px;background:var(--ink);}
 .pbx-ms-ru::after{content:'';position:absolute;left:var(--v);bottom:-3px;width:8px;height:8px;margin-left:-4px;transform:rotate(45deg);background:var(--ink);}
+.pbx-ints .pbx-ms-lede{margin-top:0;max-width:none;text-wrap:balance;}
+/* a category not touched yet: label, numeral, stroke and diamond all in the quiet tone */
+.pbx-ms-r.muted .pbx-ms-l,.pbx-ms-r.muted .pbx-ms-v{color:var(--muted);font-weight:var(--w-body);}
+.pbx-ms-r.muted .pbx-ms-ru::before,.pbx-ms-r.muted .pbx-ms-ru::after{background:var(--rule);}
 .pbx-ms-fn{margin-top:var(--sp-stack);padding-top:var(--sp-list);border-top:var(--rule-w) solid var(--rule);font-size:var(--pbx-fs-kicker);line-height:1.6;color:var(--muted);}
-.pbx-data-cap{max-width:var(--read-measure);font-size:var(--fs-label);line-height:1.5;color:var(--muted);}
 .pbx-data-note{max-width:var(--read-measure);margin-top:var(--sp-inline);font-size:14px;line-height:1.6;color:var(--muted);text-wrap:pretty;}
 .pbx-data-note b{font-weight:var(--w-label);color:var(--ink);}
 .pbx-open .pbx-data-note{margin-top:var(--sp-stack);font-size:var(--fs-label);color:var(--ink);}
@@ -688,8 +691,8 @@ function pbxRow(label,valHTML,pct,muted,icon){
   return '<div class="pbx-dr'+(muted?' muted':'')+(icon?' has-ic':'')+'">'+(icon?'<img class="pbx-dic" src="'+icon+'" alt="">':'')+'<span class="pbx-dl">'+label+'</span><span class="pbx-dv">'+valHTML+'</span><i class="pbx-db" style="--v:'+pct+'%"></i></div>';
 }
 /* report row (portfolio p7): label | engraved ruler | large numeral with its unit small and grey */
-function pbxMsRow(label,big,unit,pct){
-  return '<div class="pbx-ms-r"><span class="pbx-ms-l">'+label+'</span><i class="pbx-ms-ru" style="--v:'+pct+'%"></i><span class="pbx-ms-v">'+big+'<small>'+unit+'</small></span></div>';
+function pbxMsRow(label,big,unit,pct,muted){
+  return '<div class="pbx-ms-r'+(muted?' muted':'')+'"><span class="pbx-ms-l">'+label+'</span><i class="pbx-ms-ru" style="--v:'+pct+'%"></i><span class="pbx-ms-v">'+big+'<small>'+unit+'</small></span></div>';
 }
 function pbxPortfolioHTML(h,r){
   // radar: ranked high → low; ties keep axis order
@@ -702,8 +705,8 @@ function pbxPortfolioHTML(h,r){
   var raw=BOOTHS.map(function(b,i){var c=(BOOTH_CHK[i]&&BOOTH_CHK[i].size)||0,a=BOOTH_ACT[i]?1:0;return 2+c*3+a*6;});
   var sum=raw.reduce(function(a,b){return a+b;},0),pct=roundPct(raw.map(function(v){return v/sum*100;}));
   var order=S3_OPTS.map(function(o,i){return i;}).sort(function(a,b){return pct[b]-pct[a];});
-  var ints='<section class="pbx-block pbx-ints"><p class="pbx-data-cap">จากเกมและบูธที่คุณทำจริง · รวมทุกแท่ง = 100% ของข้อมูลที่เรามี · แท่งสีจางคือหมวดที่คุณยังไม่ได้แตะวันนี้</p><div class="pbx-data">'+
-    order.map(function(i){var touched=((BOOTH_CHK[i]&&BOOTH_CHK[i].size)>0)||!!BOOTH_ACT[i];return pbxRow(INT_SHORT_L[i],pct[i]+'%',pct[i],!touched);}).join('')+'</div></section>';
+  var ints='<section class="pbx-block pbx-ints"><p class="pbx-ms-lede">จากเกมและบูธที่คุณทำจริง · รวมทุกแท่ง = 100% ของข้อมูลที่เรามี · แท่งสีจางคือหมวดที่คุณยังไม่ได้แตะวันนี้</p><div class="pbx-ms">'+
+    order.map(function(i){var touched=((BOOTH_CHK[i]&&BOOTH_CHK[i].size)>0)||!!BOOTH_ACT[i];return pbxMsRow(INT_SHORT_L[i],pct[i],'%',pct[i],!touched);}).join('')+'</div></section>';
   var trait='<section class="pbx-block"><h3 class="s-h pbx-blk-t">คะแนน <span>พฤติกรรม</span></h3><p class="pbx-ms-lede">วัดจากกิจกรรมในงาน</p><div class="pbx-ms">'+
     TRAIT_ROWS.map(function(t){return pbxMsRow(t.l,t.v,'/'+t.m,Math.round(t.v/t.m*100));}).join('')+'</div>'+
     '<p class="pbx-ms-fn">'+TRAIT_SRC.map(function(c){return '<span>'+c.t+'</span>';}).join(' · ')+'<br>บอกว่าเรารู้จักคุณแค่ไหน ไม่ใช่คำทำนายผลตอบแทน</p></section>';
