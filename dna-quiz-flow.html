@@ -793,7 +793,7 @@ function pbxPortfolioHTML(h,r){
     ALLOC_SEGS.map(function(s){return pbxMsRow(s.l,s.p,'%',s.p);}).join('')+'</div></section>';
   /* talking points for the adviser — the live app no longer splits these per asset (2026-10-14): one ticked list, same for everyone */
   /* the list sits straight under the section head (its 28px), not in a .pbx-block, whose 56px top would stack to 84 */
-  var dd='<section class="pbx-sec pb-keep pbx-break" data-float="adv"><h2 class="s-h pbx-sec-t">สรุปไว้คุยกับผู้แนะนำการลงทุน</h2></section>'+
+  var dd='<section class="pbx-sec pb-keep pbx-break" data-fig="eng-lens"><h2 class="s-h pbx-sec-t">สรุปไว้คุยกับผู้แนะนำการลงทุน</h2></section>'+
     '<div class="pbx-adv pb-keep"><ul class="pbx-adv-l">'+ADV_POINTS.slice(0,ADV_MAX).map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'+
     '<p class="pbx-ms-fn">* เนื้อหาปรับตามพฤติกรรมจริงของคุณในงาน</p></div>';
   /* every asset the book can name, whatever the persona (2026-10-14, per direction): name + drawing only, a sheet of their own */
@@ -822,7 +822,7 @@ function pbxPortEduHTML(){
     tb.levels.map(function(l){return '<div class="pbx-pe-r"><span class="pbx-pe-lv"><b>'+l.value+'</b><small>'+l.label+'</small></span>'+
       l.ranges.map(function(g){return '<span class="pbx-pe-c"><b>'+g.range_text+'</b><i class="pbx-pe-band" style="--lo:'+g.lo+'%;--hi:'+g.hi+'%"></i></span>';}).join('')+'</div>';}).join('')+
     '</div><p class="pbx-ms-fn">'+tb.intro_more+'<br>'+tb.derived_note+'</p></section>';
-  var how='<section class="pbx-block" data-float="port-how"><h3 class="s-h pbx-blk-t">'+tb.how.title+'</h3><div class="pbx-pe-how">'+
+  var how='<section class="pbx-block" data-fig="eng-gauge"><h3 class="s-h pbx-blk-t">'+tb.how.title+'</h3><div class="pbx-pe-how">'+
     tb.how.items.map(function(t,i){var p=t.split(' — ');return '<div class="pbx-lg-i"><span class="pbx-lg-in">'+pbxRoman(i+1)+'</span><span class="pbx-lg-it"><b>'+p[0]+'</b> '+p.slice(1).join(' — ')+'</span></div>';}).join('')+
     '</div><p class="pbx-ms-lede">'+tb.how.more+'</p><p class="pbx-pe-cta">'+tb.how.cta+'</p></section>';
   /* one-year holding ladder on a shared axis (the app's −20%…+45%): worst-to-best as an inked rule, the normal year as a white dot */
@@ -961,15 +961,6 @@ var PBX_FLOAT={journey:[
   {src:'float-stock.png',w:200,h:200,r:70,b:32,a:-26},
   {src:'float-heart.png',w:88,h:128,r:228,b:0,a:14},
   {src:'float-gold.png',w:51,h:77,r:232,b:192,a:22}
-],
-'port-how':[
-  {src:'float-heart.png',w:190,h:278,r:64,b:24,a:12},
-  {src:'float-gold.png',w:84,h:126,r:262,b:30,a:-14},
-  {src:'float-stock.png',w:96,h:96,r:236,b:214,a:-22}
-],adv:[
-  {src:'float-stock.png',w:180,h:180,r:58,b:28,a:16},
-  {src:'float-bitcoin.png',w:74,h:96,r:246,b:18,a:-20},
-  {src:'float-gold.png',w:52,h:78,r:210,b:206,a:-30}
 ],glossary:[
   {src:'float-bitcoin.png',w:160,h:207,r:64,b:24,a:18},
   {src:'float-gold.png',w:77,h:115,r:228,b:8,a:-16},
@@ -1045,6 +1036,14 @@ function pbxIllustrate(pages){
       var lw=PBX_LEAD_W,lh=Math.round(lw*228/240),lt=Math.round(y(ft.getBoundingClientRect().top)-24-lh);
       if(lt>=end+40){var li=document.createElement('img');li.className='pbx-lead';li.src='assets/'+(PBX_LEAD_FIG[lead.textContent.trim()]||'eng-coin')+'.svg';li.alt='';li.setAttribute('aria-hidden','true');
         li.style.cssText='left:'+(750-lw)+'px;top:'+lt+'px;width:'+lw+'px;height:'+lh+'px';pg.appendChild(li);}
+    }
+    /* a named engraved drawing, placed the same way (2026-10-14: replaced the floating clusters on the adviser
+       list = eng-lens and the "3 เรื่อง" sheet = eng-gauge) */
+    var nf=!lead&&first.dataset.fig;
+    if(nf&&ft){
+      var fw=PBX_LEAD_W,fh=Math.round(fw*228/240),ftp=Math.round(y(ft.getBoundingClientRect().top)-24-fh);
+      if(ftp>=end+40){var fi=document.createElement('img');fi.className='pbx-lead';fi.src='assets/'+nf+'.svg';fi.alt='';fi.setAttribute('aria-hidden','true');
+        fi.style.cssText='left:'+(750-fw)+'px;top:'+ftp+'px;width:'+fw+'px;height:'+fh+'px';pg.appendChild(fi);}
     }
     if(avail>=(ints?PBX_INTS_BT_ROOM:PBX_BT_ROOM)){var hgt=Math.min(520,avail),bt=document.createElement('i');bt.className='pbx-bt';bt.setAttribute('aria-hidden','true');bt.style.cssText='top:'+Math.round(H-hgt)+'px;height:'+Math.round(hgt)+'px';pg.appendChild(bt);}
   });
