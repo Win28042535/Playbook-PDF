@@ -251,8 +251,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* a category not touched yet: label, numeral, stroke and diamond all in the quiet tone */
 .pbx-ms-r.muted .pbx-ms-l,.pbx-ms-r.muted .pbx-ms-v{color:var(--muted);font-weight:var(--w-body);}
 .pbx-ms-r.muted .pbx-ms-ru::before,.pbx-ms-r.muted .pbx-ms-ru::after{background:var(--rule);}
-.pbx-oa-g{display:grid;grid-template-columns:repeat(3,1fr);gap:34px 28px;margin-top:var(--sp-block);}
-.pbx-oa-c img{display:block;width:176px;height:auto;margin:0 auto;object-fit:contain;}
+.pbx-oa-g{display:grid;grid-template-columns:repeat(4,1fr);gap:64px 22px;margin-top:48px;}
+.pbx-oa-c img{display:block;width:140px;height:auto;margin:0 auto;object-fit:contain;}
 .pbx-oa-n{margin-top:10px;padding-top:8px;border-top:var(--rule-w) solid var(--rule);text-align:center;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 /* พอร์ต chapter (pbxPortEduHTML): the 5-level table, the 1-year ladder and the 10-year growth line, all in the report idiom of .pbx-ms */
 .pbx-pe-mirror{max-width:var(--read-measure);margin-top:48px;}
@@ -774,9 +774,9 @@ function pbxPortfolioHTML(h,r){
   var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
     h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd='r'; // illustration always on the right, bleeding off the page edge
       return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-'+Math.round(77+fg.w*.25)+'px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
-  /* the assets this persona does not list: name + drawing only (the bullets above are about the persona's own assets), a sheet of their own */
-  var mine=h.assets.slice(0,4).map(function(a){return a.t;}),others=ALL_ASSETS.filter(function(n){return mine.indexOf(n)<0&&DD_FIG[n];});
-  var oa=others.length?'<section class="pbx-sec pb-keep pbx-break"><h2 class="pbx-sec-t">สินทรัพย์อื่น ๆ</h2></section><div class="pbx-oa-g">'+others.map(function(n){return '<div class="pbx-oa-c"><img src="assets/'+DD_FIG[n].src+'" alt=""><div class="pbx-oa-n">'+n+'</div></div>';}).join('')+'</div>':'';
+  /* every asset the book can name, whatever the persona (2026-10-14, per direction): name + drawing only, a sheet of their own */
+  var others=ALL_ASSETS.filter(function(n){return DD_FIG[n];});
+  var oa=others.length?'<section class="pbx-sec pb-keep pbx-break"><h2 class="pbx-sec-t">สินทรัพย์ทั้งหมด</h2></section><div class="pbx-oa-g">'+others.map(function(n){return '<div class="pbx-oa-c"><img src="assets/'+DD_FIG[n].src+'" width="140" height="133" alt=""><div class="pbx-oa-n">'+n+'</div></div>';}).join('')+'</div>':'';
   return open+ints+trait+alloc+dd+oa;
 }
 /* ══ พอร์ต (the live app's "5 ระดับพอร์ตลงทุน" tab) ══ every word and figure comes from PORT_EDU_DATA (data/app/port/edu.js,
