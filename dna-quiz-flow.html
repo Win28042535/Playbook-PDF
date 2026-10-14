@@ -1010,7 +1010,7 @@ function pbBuild(){
     fit.appendChild(pg);doc.appendChild(fit);pages.push(pg);
     return pg.querySelector('.pb-body');
   }
-  /* front / back cover (2026-09-21): full-bleed A4 images (assets/playbook-cover-*.webp, 842x1191 = A4), not counted in the page numbers */
+  /* front / back cover (2026-09-21): full-bleed A4 images (assets/playbook-cover-*.webp, A4 ratio; the front is the leather cover, 1240x1754 = 150 dpi, since 2026-10-14), not counted in the page numbers */
   function addCover(which){
     var fit=document.createElement('div');fit.className='pb-fit';
     var pg=document.createElement('div');pg.className='pb-page pb-cover';pg.dataset.sect='cover';
