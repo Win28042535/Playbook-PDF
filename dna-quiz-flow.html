@@ -22,13 +22,13 @@
 :root{
   --ink:#111318; --muted:#5a6168;
   --paper:#f7f8f7; --white:#ffffff;
-  --sheet:#f9f8f6;             /* the printed sheet: a just-warm white towards the leather cover's hue (was cool grey #fafafc until 2026-10-14) */
-  --sheet-ink:112,100,90;      /* r,g,b of the edge vignette: a soft warm grey after the leather cover's worn edge (was blue-grey 78,92,118 until 2026-10-14) */
+  --sheet:#fafafc;             /* the printed sheet: near-white cool grey (reference: Torino; a warm trial after the leather cover was reverted 2026-10-14) */
+  --sheet-ink:78,92,118;       /* r,g,b of the blue-grey used for the edge vignette */
   --pbx-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .34 0 0 0 0 .42 .12 0 0 0 -.043'/%3E%3C/filter%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .26 .23 0 0 0 -.095'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23m)'/%3E%3Crect width='360' height='360' filter='url(%23g)'/%3E%3C/svg%3E");  /* seamless 360px tile: a faint blue-grey fibre mottle + fine grain, both feTurbulence */
   /* the leather cover's texture DNA, rebuilt procedurally and kept far fainter (2026-10-14, "P1 จาง"): large soft patches (the cover's dominant
-     >23px band) and an embossed wrinkle relief (stretched turbulence through diffuse light from the upper left); with the original blue-grey grain above (tone "C", 2026-10-14) */
-  --pbx-cloud:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%27720%27%3E%3Cfilter%20id%3D%27c%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.0055%27%20numOctaves%3D%272%27%20seed%3D%2711%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.36%200%200%200%200%20.33%200%200%200%200%20.3%200.143%200%200%200%20-0.0585%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27720%27%20height%3D%27720%27%20filter%3D%27url(%23c)%27%2F%3E%3C%2Fsvg%3E");
-  --pbx-veins:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27360%27%20height%3D%27360%27%3E%3Cfilter%20id%3D%27v%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%3E%3CfeTurbulence%20type%3D%27turbulence%27%20baseFrequency%3D%27.045%20.016%27%20numOctaves%3D%273%27%20seed%3D%275%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27luminanceToAlpha%27%2F%3E%3CfeDiffuseLighting%20surfaceScale%3D%272.2%27%20diffuseConstant%3D%271%27%20lighting-color%3D%27%23fff%27%3E%3CfeDistantLight%20azimuth%3D%27225%27%20elevation%3D%2758%27%2F%3E%3C%2FfeDiffuseLighting%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.29%200%200%200%200%20.27%200%200%200%200%20.25%20-0.34%200%200%200%200.27%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27360%27%20height%3D%27360%27%20filter%3D%27url(%23v)%27%2F%3E%3C%2Fsvg%3E");
+     >23px band) and an embossed wrinkle relief (stretched turbulence through diffuse light from the upper left); all three layers in the book's blue-grey */
+  --pbx-cloud:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%27720%27%3E%3Cfilter%20id%3D%27c%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.0055%27%20numOctaves%3D%272%27%20seed%3D%2711%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.3%200%200%200%200%20.34%200%200%200%200%20.42%200.143%200%200%200%20-0.0585%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27720%27%20height%3D%27720%27%20filter%3D%27url(%23c)%27%2F%3E%3C%2Fsvg%3E");
+  --pbx-veins:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27360%27%20height%3D%27360%27%3E%3Cfilter%20id%3D%27v%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%3E%3CfeTurbulence%20type%3D%27turbulence%27%20baseFrequency%3D%27.045%20.016%27%20numOctaves%3D%273%27%20seed%3D%275%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27luminanceToAlpha%27%2F%3E%3CfeDiffuseLighting%20surfaceScale%3D%272.2%27%20diffuseConstant%3D%271%27%20lighting-color%3D%27%23fff%27%3E%3CfeDistantLight%20azimuth%3D%27225%27%20elevation%3D%2758%27%2F%3E%3C%2FfeDiffuseLighting%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.22%200%200%200%200%20.25%200%200%200%200%20.32%20-0.34%200%200%200%200.27%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27360%27%20height%3D%27360%27%20filter%3D%27url(%23v)%27%2F%3E%3C%2Fsvg%3E");
   --line:rgba(16,20,24,0.08);  /* hairline track under the data rules; the screen sheet's outline */
   --rule:#bcc2cc;              /* every divider rule: a cool hairline */
   --rule-w:1px;
@@ -150,7 +150,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx .pbx-cat{padding:0 0 36px;}
 .pbx .pbx-cat .pb-cat-t{display:block;font-size:var(--fs-heading);font-weight:var(--w-label);line-height:1.2;color:var(--ink);}
 .pbx .pbx-cat{position:relative;}
-.pbx-cic{position:absolute;right:-60px;top:-34px;width:148px;height:141px;pointer-events:none;} /* the category's engraved drawing at the right of its header, whole on the page, lifted between the running head and the first article's title rule (it overlaps no text, so the sheet fit is unchanged) */
+.pbx-cic{position:absolute;right:-30px;top:-28px;width:148px;height:141px;pointer-events:none;} /* the category's engraved drawing at the right of its header, whole on the page, lifted between the running head and the first article's title rule (it overlaps no text, so the sheet fit is unchanged) */
 .pb-page.pbx:has(.pbx-cic) .pb-body{overflow:visible;}
 .pbx .pb-body>article.pbx-unit:first-of-type{min-height:50%;}
 /* vertical rule between two equal columns, a small diamond on it (footer ornament's twin); the container
@@ -307,7 +307,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-dd{position:relative;padding:0 0 40px;}
 /* the article's illustration: a line drawing in the margin beside the text, turned a little and cut by the page edge,
    always on the right so every asset reads left-aligned; the text column gives way there */
-.pbx-dd.has-fig{padding-right:150px;}
+.pbx-dd.has-fig{padding-right:180px;}
 .pbx-dd-fig{position:absolute;top:0;object-fit:contain;pointer-events:none;} /* engraved drawings stand upright on their own ground shadow */
 
 /* .pbx-dd-fig side offset (the 77px page margin plus a quarter of the piece, so that quarter is cut by the page edge) is set inline */
@@ -457,10 +457,10 @@ var RADAR_IC=['STOCK_TH','STOCK_INTL','FUND','CRYPTO','GOLD','HEALTH'].map(pbxIc
 /* "เจาะรายสินทรัพย์" illustrations, by persona asset name: a large ink line drawing beside each article (traced from the v1
    glass art by an edge filter, so the book stays single-ink like the chapter drawings) (w x h drawn box,
    h defaults to w; the two with only small source art are drawn smaller) */
-var DD_FIG={'หุ้นไทย':{src:'eng-stockth.svg',w:210,h:200},'หุ้นต่างประเทศ':{src:'eng-stockintl.svg',w:210,h:200},'กองทุนรวม':{src:'eng-fund.svg',w:210,h:200},
-  'ตราสารหนี้':{src:'eng-bond.svg',w:210,h:200},'ทองคำ':{src:'eng-gold.svg',w:210,h:200},'อสังหา/REIT':{src:'eng-house.svg',w:210,h:200},
-  'คริปโต':{src:'eng-bitcoin.svg',w:210,h:200},'ปันผล':{src:'eng-coin.svg',w:210,h:200},'เงินฝาก':{src:'eng-bank.svg',w:210,h:200},
-  'ประกัน':{src:'eng-shield.svg',w:210,h:200},'ของสะสมและสินทรัพย์ทางเลือก':{src:'eng-watch.svg',w:210,h:200},'สุขภาพ':{src:'eng-heart.svg',w:210,h:200}};
+var DD_FIG={'หุ้นไทย':{src:'eng-stockth.svg',w:170,h:162},'หุ้นต่างประเทศ':{src:'eng-stockintl.svg',w:170,h:162},'กองทุนรวม':{src:'eng-fund.svg',w:170,h:162},
+  'ตราสารหนี้':{src:'eng-bond.svg',w:170,h:162},'ทองคำ':{src:'eng-gold.svg',w:170,h:162},'อสังหา/REIT':{src:'eng-house.svg',w:170,h:162},
+  'คริปโต':{src:'eng-bitcoin.svg',w:170,h:162},'ปันผล':{src:'eng-coin.svg',w:170,h:162},'เงินฝาก':{src:'eng-bank.svg',w:170,h:162},
+  'ประกัน':{src:'eng-shield.svg',w:170,h:162},'ของสะสมและสินทรัพย์ทางเลือก':{src:'eng-watch.svg',w:170,h:162},'สุขภาพ':{src:'eng-heart.svg',w:170,h:162}};
 /* every asset the book can name, in the app's order (the persona lists use the same names; the last three come from the interest categories) */
 var ALL_ASSETS=['หุ้นไทย','หุ้นต่างประเทศ','กองทุนรวม','ตราสารหนี้','เงินฝาก','ทองคำ','อสังหา/REIT','ประกัน','คริปโต','ปันผล','ของสะสมและสินทรัพย์ทางเลือก','สุขภาพ'];
 var SIDE_FIG=['gauge','lens','hook','hourglass','stetho','steps']; // engraved drawing per journey side (sidesHTML order): assets/eng-*.svg
@@ -775,7 +775,7 @@ function pbxPortfolioHTML(h,r){
     ALLOC_SEGS.map(function(s){return pbxMsRow(s.l,s.p,'%',s.p);}).join('')+'</div></section>';
   var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
     h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd='r'; // illustration always on the right, bleeding off the page edge
-      return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-'+Math.round(77+fg.w*.25)+'px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
+      return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-33px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
   /* every asset the book can name, whatever the persona (2026-10-14, per direction): name + drawing only, a sheet of their own */
   var others=ALL_ASSETS.filter(function(n){return DD_FIG[n];});
   var oa=others.length?'<section class="pbx-sec pb-keep pbx-break"><h2 class="pbx-sec-t">สินทรัพย์ทั้งหมด</h2></section><div class="pbx-oa-g">'+others.map(function(n){return '<div class="pbx-oa-c"><img src="assets/'+DD_FIG[n].src+'" width="140" height="133" alt=""><div class="pbx-oa-n">'+n+'</div></div>';}).join('')+'</div>':'';
@@ -934,21 +934,21 @@ var PBX_BT_ROOM=360;
 /* the interest-share sheet (portfolio, .pbx-ints): the leading category's engraved drawing stands lower right, a quarter cut by the page
    edge (as on the เจาะราย sheet), and the contour field comes in from 280px of free band. Every category has its own piece (ประกัน = shield, ทางเลือก = watch on a stand, 2026-10-14). */
 var PBX_LEAD_FIG={'หุ้นไทย':'eng-stockth','ต่างประเทศ':'eng-stockintl','กองทุน':'eng-fund','ตราสารหนี้':'eng-bond','ทอง':'eng-gold','อสังหา':'eng-house','ประกัน':'eng-shield','คริปโต':'eng-bitcoin','ทางเลือก':'eng-watch','สุขภาพ':'eng-heart'};
-var PBX_LEAD_W=220,PBX_INTS_BT_ROOM=280;
+var PBX_LEAD_W=190,PBX_INTS_BT_ROOM=280;
 /* floating-asset clusters per panel opener: w/h box, r = gap from the page's right edge (negative = bleeds off it),
    b = gap above the footer line, a = rotation */
 var PBX_FLOAT={journey:[
-  {src:'float-stock.png',w:250,h:250,r:-110,b:40,a:-26},
-  {src:'float-heart.png',w:110,h:160,r:170,b:0,a:14},
-  {src:'float-gold.png',w:64,h:96,r:150,b:240,a:22}
+  {src:'float-stock.png',w:200,h:200,r:84,b:32,a:-26},
+  {src:'float-heart.png',w:88,h:128,r:274,b:0,a:14},
+  {src:'float-gold.png',w:51,h:77,r:258,b:192,a:22}
 ],glossary:[
-  {src:'float-bitcoin.png',w:200,h:259,r:-80,b:30,a:18},
-  {src:'float-gold.png',w:96,h:144,r:200,b:10,a:-16},
-  {src:'float-heart.png',w:62,h:90,r:170,b:250,a:-10}
+  {src:'float-bitcoin.png',w:160,h:207,r:62,b:24,a:18},
+  {src:'float-gold.png',w:77,h:115,r:274,b:8,a:-16},
+  {src:'float-heart.png',w:50,h:72,r:250,b:200,a:-10}
 ]};
 /* the contents sheet: two small pieces right of the "สารบัญ" title, above its hairline and clear of the corner
    sprig (x/y = absolute page position); kept small so the list stays the first read */
-var PBX_FLOAT_TOC=[{src:'float-stock.png',w:90,h:90,x:310,y:36,a:-18},{src:'float-gold.png',w:44,h:66,x:575,y:88,a:48}];
+var PBX_FLOAT_TOC=[{src:'float-stock.png',w:90,h:90,x:310,y:52,a:-18},{src:'float-gold.png',w:44,h:66,x:575,y:88,a:48}];
 /* the leather cover's frame (round 30, 2026-10-14): two silver hairlines 26 / 31.5px in from the edge, corner radius 35 / 32.25,
    broken at the top centre for the running header (gap = its text width + 36) or, with no header, for a star, and at the bottom
    centre for a four-point star — the cover's own frame, scaled to sit outside the 76px text margin. One shared gradient defs. */
@@ -976,6 +976,10 @@ function pbxFrame(doc){
       (hw?'':'<path d="'+star(CX,mid,10)+'" fill="url(#pbxStar)" stroke="rgba(17,19,24,.55)" stroke-width=".6"/>')+
       '<path d="'+star(CX,H-mid,10)+'" fill="url(#pbxStar)" stroke="rgba(17,19,24,.55)" stroke-width=".6"/></svg>';
     pg.insertAdjacentHTML('afterbegin',svg);
+    /* journey side drawings sit in the 44px between the frame and the text, too narrow for them: cut at the frame's inner line */
+    var P=pg.getBoundingClientRect(),k=P.width/W||1;
+    [].forEach.call(pg.querySelectorAll('.pbx-side-fig'),function(im){var b=im.getBoundingClientRect(),L=(b.left-P.left)/k,R=(b.right-P.left)/k,w=b.width/k||1,cut=F.i+2;
+      var cl=Math.max(0,cut-L),cr=Math.max(0,R-(W-cut));if(cl||cr)im.style.clipPath='inset(0 '+(cr/w*100).toFixed(2)+'% 0 '+(cl/w*100).toFixed(2)+'%)';});
   });
 }
 function pbxIllustrate(pages){
@@ -1015,7 +1019,7 @@ function pbxIllustrate(pages){
     if(lead&&ft){
       var lw=PBX_LEAD_W,lh=Math.round(lw*228/240),lt=Math.round(y(ft.getBoundingClientRect().top)-24-lh);
       if(lt>=end+40){var li=document.createElement('img');li.className='pbx-lead';li.src='assets/'+(PBX_LEAD_FIG[lead.textContent.trim()]||'eng-coin')+'.svg';li.alt='';li.setAttribute('aria-hidden','true');
-        li.style.cssText='left:'+Math.round(W-lw*.75)+'px;top:'+lt+'px;width:'+lw+'px;height:'+lh+'px';pg.appendChild(li);}
+        li.style.cssText='left:'+(750-lw)+'px;top:'+lt+'px;width:'+lw+'px;height:'+lh+'px';pg.appendChild(li);}
     }
     if(avail>=(ints?PBX_INTS_BT_ROOM:PBX_BT_ROOM)){var hgt=Math.min(520,avail),bt=document.createElement('i');bt.className='pbx-bt';bt.setAttribute('aria-hidden','true');bt.style.cssText='top:'+Math.round(H-hgt)+'px;height:'+Math.round(hgt)+'px';pg.appendChild(bt);}
   });
