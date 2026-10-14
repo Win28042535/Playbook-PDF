@@ -180,12 +180,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* journey sides: each carries an engraved drawing in the outer page margin (left column off the left edge, right
    column off the right edge), a quarter of it cut by the page; the text gives way a little on that side */
 .pbx-side{position:relative;}
-.pbx-side-fig{position:absolute;top:52px;width:110px;height:105px;pointer-events:none;}
-.pbx-side.fig-l .pbx-side-fig{left:-105px;}
-.pbx-side.fig-r .pbx-side-fig{right:-105px;}
-.pbx-side.fig-l .pbx-side-b{padding-left:8px;}
-.pbx-side.fig-r .pbx-side-b{padding-right:8px;}
-.pb-page.pbx:has(.pbx-side-fig) .pb-body{overflow:visible;}
+/* the side's engraved drawing at the right end of its heading, standing on the hairline (2026-10-14: it used to hang in the page margin,
+   where the frame left it no room) */
+.pbx-side-hd:has(.pbx-side-fig){align-items:flex-end;}
+.pbx-side-fig{flex:0 0 auto;display:block;width:64px;height:61px;margin:-30px 0 -6px;pointer-events:none;}
+.pb-page.pbx:has(.pbx-side-fig) .pb-body{overflow:visible;} /* the first row's drawings rise above the sheet body's top edge */
 .pbx-side-b{margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-side .pbx-side-b{font-size:calc(var(--read-fs) - 2px);}
 .pbx-side .pbx-art-s{font-size:12px;}
@@ -976,10 +975,6 @@ function pbxFrame(doc){
       (hw?'':'<path d="'+star(CX,mid,10)+'" fill="url(#pbxStar)" stroke="rgba(17,19,24,.55)" stroke-width=".6"/>')+
       '<path d="'+star(CX,H-mid,10)+'" fill="url(#pbxStar)" stroke="rgba(17,19,24,.55)" stroke-width=".6"/></svg>';
     pg.insertAdjacentHTML('afterbegin',svg);
-    /* journey side drawings sit in the 44px between the frame and the text, too narrow for them: cut at the frame's inner line */
-    var P=pg.getBoundingClientRect(),k=P.width/W||1;
-    [].forEach.call(pg.querySelectorAll('.pbx-side-fig'),function(im){var b=im.getBoundingClientRect(),L=(b.left-P.left)/k,R=(b.right-P.left)/k,w=b.width/k||1,cut=F.i+2;
-      var cl=Math.max(0,cut-L),cr=Math.max(0,R-(W-cut));if(cl||cr)im.style.clipPath='inset(0 '+(cr/w*100).toFixed(2)+'% 0 '+(cl/w*100).toFixed(2)+'%)';});
   });
 }
 function pbxIllustrate(pages){
@@ -1230,7 +1225,7 @@ function sidesHTML(r){
       /* the grey sub-line repeats the body's first paragraph (or its opening words) on most sides — dropped there; where it is
          new text (life-stage goals) it becomes the body's first paragraph, in the same Sarabun as the rest */
       var first=(sd.body.match(/<p>([\s\S]*?)<\/p>/)||[])[1]||'',dup=plain(first).indexOf(plain(sd.s))===0;
-      var one='<article class="pbx-side fig-'+(i%2?'r':'l')+'"><img class="pbx-side-fig" src="assets/eng-'+SIDE_FIG[i]+'.svg" alt=""><div class="pbx-side-hd"><div class="pbx-side-t">'+sd.t+'</div></div>'+
+      var one='<article class="pbx-side fig-'+(i%2?'r':'l')+'"><div class="pbx-side-hd"><div class="pbx-side-t">'+sd.t+'</div><img class="pbx-side-fig" src="assets/eng-'+SIDE_FIG[i]+'.svg" width="64" height="61" alt=""></div>'+
         '<div class="pbx-side-b">'+(dup?'':'<p>'+sd.s+'</p>')+sd.body+'</div></article>';
       return i%2?one+'</div>':'<div class="pbx-side-row pbx-vr">'+one; // three rows of two, split by the vertical rule
     }).join('');
