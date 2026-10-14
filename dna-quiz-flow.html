@@ -957,10 +957,10 @@ var PBX_FLOAT={journey:[
 /* the contents sheet: two small pieces right of the "สารบัญ" title, above its hairline and clear of the corner
    sprig (x/y = absolute page position); kept small so the list stays the first read */
 var PBX_FLOAT_TOC=[{src:'float-stock.png',w:90,h:90,x:310,y:52,a:-18},{src:'float-gold.png',w:44,h:66,x:575,y:88,a:48}];
-/* the leather cover's frame (round 30, 2026-10-14): two silver hairlines 26 / 31.5px in from the edge, corner radius 17.5 / 16 (halved again 2026-10-14),
+/* the leather cover's frame (round 30, 2026-10-14): two silver hairlines 26 / 31.5px in from the edge, corner radius 16 / 12 (2026-10-14),
    broken at the top centre for the running header (gap = its text width + 36) or, with no header, for a star, and at the bottom
    centre for a four-point star — the cover's own frame, scaled to sit outside the 76px text margin. One shared gradient defs. */
-var PBX_FRAME={o:26,i:31.5,ro:17.5,ri:16,gap:34};
+var PBX_FRAME={o:26,i:31.5,ro:16,ri:12,gap:34};
 function pbxFrame(doc){
   var W=794,H=Math.round(794*3508/2480*100)/100,CX=W/2;
   if(!document.getElementById('pbx-frame-defs')){
