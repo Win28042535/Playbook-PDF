@@ -14,8 +14,7 @@
 <style>
 @font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-100-500.ttf) format('truetype');font-weight:100 500;font-style:normal;font-display:swap;}
 @font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-600-900.ttf) format('truetype');font-weight:600 900;font-style:normal;font-display:swap;}
-@font-face{font-family:'Pinyon Script';src:url(assets/pinyon-script-sub.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap;} /* Latin letters, digits and a few marks only (24 KB, OFL) */
-@font-face{font-family:'Cinzel';src:url(assets/cinzel-caps-sub.woff2) format('woff2');font-weight:500;font-style:normal;font-display:swap;} /* capitals + digits, weight pinned to 500 (9 KB, OFL) */
+@font-face{font-family:'Baskervville';src:url(assets/baskervville-regular-sub.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap;} /* Regular, printable ASCII + dashes/quotes only (19 KB, OFL; from Font/Baskervville/static) */
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-400.ttf) format('truetype');font-weight:400;font-style:normal;font-display:swap;}
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-500.ttf) format('truetype');font-weight:500;font-style:normal;font-display:swap;}
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-700.ttf) format('truetype');font-weight:700;font-style:normal;font-display:swap;}
@@ -58,9 +57,8 @@
   /* type: FC Minimal for UI and headings (the embedded file covers Thai AND Latin, so headings never fall back to a system face); Sarabun, a
      looped Thai text face, for long reading text */
   --font:'FC Minimal','Noto Sans Thai','Thonburi','DB Helvethaica X',system-ui,-apple-system,'Segoe UI',sans-serif;
-  /* Latin lettering (reference: "CHAPTER / Three"): tracked capitals over a formal script, for English words only; Thai never uses these */
-  --font-script:'Pinyon Script','Snell Roundhand','Apple Chancery',cursive;
-  --font-caps:'Cinzel','Times New Roman',serif;
+  /* Latin lettering (reference: "CHAPTER / Three"): tracked capitals over a lower-case word, all in Baskervville Regular, for English words only; Thai never uses it */
+  --font-serif:'Baskervville','Times New Roman',serif;
   --pbx-lock-h:88px;
   --font-read:'Sarabun','Noto Sans Thai','Thonburi','DB Helvethaica X',system-ui,-apple-system,'Segoe UI',sans-serif;
   --fs-heading:32px; --fs-sub:24px; --fs-sig:22px; --fs-bodysm:18px; --fs-label:16px;
@@ -122,8 +120,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx .pbx-open:has(.pbx-lock){padding-top:calc(var(--pbx-open-y) - var(--pbx-pad-top) - var(--pbx-lock-h));} /* the lockup takes the room above the kicker, so the title stays where it was */
 .pbx-lock{display:block;position:relative;height:var(--pbx-lock-h);}
 .pbx-lock-c,.pbx-lock-s{position:absolute;white-space:nowrap;color:var(--ink);} /* left/top are set inline from measured ink (see pbxLockPos) */
-.pbx-lock-c{font-family:var(--font-caps);font-weight:500;font-size:17px;letter-spacing:.42em;line-height:20px;}
-.pbx-lock-s{font-family:var(--font-script);font-weight:400;font-size:52px;line-height:60px;}
+.pbx-lock-c{font-family:var(--font-serif);font-weight:400;font-size:17px;letter-spacing:.42em;line-height:20px;}
+.pbx-lock-s{font-family:var(--font-serif);font-weight:400;font-size:46px;line-height:56px;}
 .pbx-kicker{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);color:var(--ink);line-height:1.4;margin-bottom:var(--sp-block);}
 .pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);padding-bottom:calc(var(--sp-inline) + 5px);} /* 17px under the text: the room the underline used to take, so nothing below moves */
 .pbx-lede{max-width:var(--read-measure);margin-top:56px;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
@@ -201,7 +199,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    the game they came from, hanging in the reading column (numerals in a 34px gutter left of it). Each piece is its own block so
    pbBuild can break between notes; group headings are .pb-keep so they never end a sheet. */
 .pbx-lg-q{display:grid;grid-template-columns:calc(var(--pbx-col-x) - var(--pbx-pad-x)) 1fr;padding:12px 0 26px;}
-.pbx-lg-qn{font-family:var(--font-caps);font-weight:500;font-size:34px;line-height:1;color:var(--ink);padding-top:6px;}
+.pbx-lg-qn{font-family:var(--font-serif);font-weight:400;font-size:34px;line-height:1;color:var(--ink);padding-top:6px;}
 .pbx-lg-qt{max-width:var(--read-measure);font-size:30px;font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-wrap:balance;}
 .pbx-lg-q2{max-width:var(--read-measure);margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
 .pbx-lg-src{margin-top:var(--sp-block);font-size:var(--pbx-fs-kicker);line-height:1.4;color:var(--muted);}
@@ -213,7 +211,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-lg-br+.pbx-lg-gt{padding-top:0;}
 .pbx-lg-gt span{font-size:var(--pbx-fs-kicker);font-weight:var(--w-body);color:var(--muted);}
 .pbx-lg-i{display:grid;grid-template-columns:34px 1fr;padding-bottom:10px;}
-.pbx-lg-in{font-family:var(--font-caps);font-weight:500;font-size:12px;line-height:24px;letter-spacing:.06em;color:var(--muted);}
+.pbx-lg-in{font-family:var(--font-serif);font-weight:400;font-size:12px;line-height:24px;letter-spacing:.06em;color:var(--muted);}
 .pbx-lg-it{font-family:var(--font-read);font-size:15px;line-height:1.6;color:var(--ink);text-wrap:pretty;}
 .pbx-lg-c2{display:block;margin-top:2px;color:var(--muted);} /* a further " · " point: its own line, quieter */
 /* data page: blocks separated by air; label | value rows with the share as a thin ink rule on a hairline
@@ -335,7 +333,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx .pbx-feat-t{box-sizing:border-box;margin:0;min-height:calc(var(--pbx-feat-rule) - var(--pbx-feat-y));font-size:var(--pbx-fs-feat);font-weight:var(--w-body);line-height:1.1;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);text-wrap:balance;}
 .pbx-feat-row{display:grid;grid-template-columns:262px minmax(0,1fr);column-gap:38px;align-items:start;margin-top:34px;} /* the gap and top margin leave room for the card's double frame (-22px) clear of the text column and the title hairline */
 .pbx-feat-fam{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
-.pbx-feat-fam-s{display:block;font-family:var(--font-script);font-weight:400;font-size:52px;line-height:1.05;white-space:nowrap;}
+.pbx-feat-fam-s{display:block;font-family:var(--font-serif);font-weight:400;font-size:46px;line-height:1.05;white-space:nowrap;}
 .pbx-feat-fam-t{display:block;margin-top:2px;}
 .pbx-feat-phase{margin-bottom:var(--sp-inline);font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
 .pbx-feat-row .pbx-data-note{margin-top:var(--sp-stack);}
@@ -870,13 +868,13 @@ function libraryBlocksHTML(h){
 /* Lockup geometry (CAPS over a script word): both lines start on the column axis and the script's highest ink sits
    LOCK_GAP px under the capitals' baseline whatever the word, so no swash can touch the capitals and every lockup has
    the same rhythm. Positions come from canvas ink metrics (fonts are loaded before the book is built). */
-var LOCK={capsFs:17,capsLh:20,scrFs:52,scrLh:60,capsBase:12,gap:9,axis:1};
+var LOCK={capsFs:17,capsLh:20,scrFs:46,scrLh:56,capsBase:12,gap:9,axis:1};
 function pbxLockPos(caps,word){
   var cx=document.createElement('canvas').getContext('2d');if(!cx||cx.measureText('x').fontBoundingBoxAscent===undefined)return '';
-  cx.font='500 '+LOCK.capsFs+'px Cinzel';if('letterSpacing' in cx)cx.letterSpacing=(.42*LOCK.capsFs)+'px';
+  cx.font='400 '+LOCK.capsFs+'px Baskervville';if('letterSpacing' in cx)cx.letterSpacing=(.42*LOCK.capsFs)+'px';
   var mc=cx.measureText(caps),cM=cx.measureText('M');
   var capsTop=LOCK.capsBase-((LOCK.capsLh-(cM.fontBoundingBoxAscent+cM.fontBoundingBoxDescent))/2+cM.fontBoundingBoxAscent);
-  cx.letterSpacing='0px';cx.font='400 '+LOCK.scrFs+'px "Pinyon Script"';
+  cx.letterSpacing='0px';cx.font='400 '+LOCK.scrFs+'px Baskervville';
   var ms=cx.measureText(word),sM=cx.measureText('M');
   var scrBase=LOCK.capsBase+LOCK.gap+ms.actualBoundingBoxAscent;
   var scrTop=scrBase-((LOCK.scrLh-(sM.fontBoundingBoxAscent+sM.fontBoundingBoxDescent))/2+sM.fontBoundingBoxAscent);
@@ -1396,6 +1394,6 @@ RESULT.revealed=RESULT.declared;RESULT.gap=0; // the PDF sample reads "สอด
   var done=false;function go(){if(done)return;done=true;render();}
   setTimeout(go,2500);
   if(!document.fonts||!document.fonts.load){go();return;}
-  Promise.all([document.fonts.load('500 16px "FC Minimal"'),document.fonts.load('700 16px "FC Minimal"'),document.fonts.load('500 16px "Sarabun"'),document.fonts.load('700 16px "Sarabun"'),document.fonts.load('400 20px "Pinyon Script"'),document.fonts.load('500 16px "Cinzel"')]).then(function(){return document.fonts.ready;}).then(go,go);
+  Promise.all([document.fonts.load('500 16px "FC Minimal"'),document.fonts.load('700 16px "FC Minimal"'),document.fonts.load('500 16px "Sarabun"'),document.fonts.load('700 16px "Sarabun"'),document.fonts.load('400 20px "Baskervville"')]).then(function(){return document.fonts.ready;}).then(go,go);
 })();
 </script>

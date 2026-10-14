@@ -109,9 +109,9 @@
       var c=L.querySelector('.pbx-lock-c'),s=L.querySelector('.pbx-lock-s'),cs=getComputedStyle(c),ss=getComputedStyle(s),Lr=L.getBoundingClientRect(),W=420,H=110;
       var ca=document.createElement('canvas'),cb=document.createElement('canvas');ca.width=cb.width=W;ca.height=cb.height=H;
       var xa=ca.getContext('2d'),xb=cb.getContext('2d'),cr=c.getBoundingClientRect(),sr=s.getBoundingClientRect();
-      xa.font='500 '+cs.fontSize+' Cinzel';if('letterSpacing' in xa)xa.letterSpacing=cs.letterSpacing;var mc=xa.measureText('M');
+      xa.font='400 '+cs.fontSize+' Baskervville';if('letterSpacing' in xa)xa.letterSpacing=cs.letterSpacing;var mc=xa.measureText('M');
       xa.fillText(c.textContent,cr.left-Lr.left,(cr.top-Lr.top)+(parseFloat(cs.lineHeight)-(mc.fontBoundingBoxAscent+mc.fontBoundingBoxDescent))/2+mc.fontBoundingBoxAscent);
-      xb.font='400 '+ss.fontSize+' "Pinyon Script"';var ms=xb.measureText('M');
+      xb.font='400 '+ss.fontSize+' Baskervville';var ms=xb.measureText('M');
       xb.fillText(s.textContent,sr.left-Lr.left,(sr.top-Lr.top)+(parseFloat(ss.lineHeight)-(ms.fontBoundingBoxAscent+ms.fontBoundingBoxDescent))/2+ms.fontBoundingBoxAscent);
       var A=ink(xa,W,H),B=ink(xb,W,H),both=0,cBot=0,sTop=H,sBot=0,cL=W,sL=W,x,y,i;
       for(y=0;y<H;y++)for(x=0;x<W;x++){i=y*W+x;if(A[i]&&B[i])both++;if(A[i]){cBot=Math.max(cBot,y);cL=Math.min(cL,x);}if(B[i]){sTop=Math.min(sTop,y);sBot=Math.max(sBot,y);sL=Math.min(sL,x);}}
