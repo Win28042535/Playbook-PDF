@@ -48,10 +48,9 @@
   --pbx-open-y:354px;
   --pbx-fs-open:44px;
   --pbx-fs-kicker:13px;
-  /* feature page ("MINIMALISM BOOK MOCKUP"): title from ~14% down, full-width hairline at ~41% */
-  --pbx-feat-y:157px;
-  --pbx-feat-rule:460px;
+  /* card sheet (pbxHeroHTML): persona name size, card width */
   --pbx-fs-feat:56px;
+  --pbx-hero-card:340px;
   /* spacing scale */
   --sp-glue:6px; --sp-list:8px; --sp-inline:12px; --sp-stack:16px; --sp-block:22px; --sp-section:20px;
   /* type: FC Minimal for UI and headings (the embedded file covers Thai AND Latin, so headings never fall back to a system face); Sarabun, a
@@ -328,9 +327,18 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* identity feature page: lighter, larger title than the openers (the reference's light display vs its heavy
    section title); the title box runs down to the hairline so the rule lands at ~41% whatever the line count;
    split row = narrow text column (262px ≈ 33%) + the card (the reference's photo), flat, no shadow */
-.pbx .pbx-feat{padding-top:calc(var(--pbx-feat-y) - var(--pbx-pad-top));}
-.pbx .pbx-feat-t{box-sizing:border-box;margin:0;min-height:calc(var(--pbx-feat-rule) - var(--pbx-feat-y));font-size:var(--pbx-fs-feat);font-weight:var(--w-body);line-height:1.1;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);text-wrap:balance;}
-.pbx-feat-row{display:grid;grid-template-columns:262px minmax(0,1fr);column-gap:38px;align-items:start;margin-top:34px;} /* the gap and top margin leave room for the card's double frame (-22px) clear of the text column and the title hairline */
+/* card sheet (pbxHeroHTML): one centred column; the card is the picture of the sheet */
+.pbx .pbx-hero{display:flex;flex-direction:column;align-items:center;text-align:center;}
+.pbx-hero-ph{display:flex;align-items:center;justify-content:center;}
+.pbx-hero-ph .pbx-phase-s{margin-left:10px;}
+.pbx .pbx-hero .pbx-feat-t{margin-top:26px;font-size:var(--pbx-fs-feat);font-weight:var(--w-body);line-height:1.1;color:var(--ink);text-wrap:balance;}
+.pbx-hero-orn{display:flex;align-items:center;gap:16px;margin:16px 0 14px;}
+.pbx-hero-orn::before,.pbx-hero-orn::after{content:'';width:64px;height:var(--rule-w);background:var(--rule);}
+.pbx-hero-orn i{display:block;width:70px;height:70px;background:url(assets/ill-compass.svg) center/contain no-repeat;}
+.pbx-hero .pbx-feat-fam-s{font-size:32px;line-height:1.1;}
+.pbx-hero .pbx-feat-sig{max-width:var(--read-measure);}
+.pbx-hero .pbx-data-note{max-width:var(--read-measure);margin-top:var(--sp-inline);}
+.pbx-hero .pbx-card{width:var(--pbx-hero-card,340px);margin-top:46px;}
 .pbx-feat-fam{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .pbx-feat-fam-s{display:block;font-family:var(--font-serif);font-weight:400;font-size:46px;line-height:1.05;white-space:nowrap;}
 .pbx-feat-fam-t{display:block;margin-top:2px;}
@@ -342,16 +350,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-phase i{font-style:normal;font-family:var(--font-serif);font-weight:400;font-size:var(--pbx-fs-kicker);letter-spacing:.2em;text-transform:uppercase;}
 .pbx-phase.post{background:var(--ink);color:var(--sheet);}
 .pbx-phase-s{display:inline-block;margin-left:10px;padding:2px 9px;border:var(--rule-w) solid var(--muted);font-size:11px;font-weight:var(--w-label);line-height:1.5;color:var(--muted);vertical-align:middle;}
-.pbx-feat-row .pbx-phase{margin-bottom:var(--sp-block);}
-.pbx-post>.pbx-phase{margin-bottom:var(--sp-block);}
-.pbx-card-cap{margin-top:34px;text-align:center;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
-.pbx-card-cap::before,.pbx-card-cap::after{content:'';display:inline-block;width:22px;height:var(--rule-w);margin:0 10px;background:var(--rule);vertical-align:middle;}
-.pbx-feat-row .pbx-data-note{margin-top:var(--sp-stack);}
-/* post-event sheet (pbxPostHTML) */
-.pbx .pbx-post-t{margin:0;padding-bottom:var(--sp-inline);font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
-.pbx-post-row{display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:48px;align-items:start;margin-top:44px;}
-.pbx-post .pbx-tags{margin-top:var(--sp-block);}
-.pbx-post .pbx-split{margin-top:64px;}
 .pbx-feat-sig{margin-top:var(--sp-inline);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-card img{display:block;width:100%;height:auto;border-radius:5.8% / 4.15%;}
 /* identity follow-up blocks */
@@ -668,22 +666,27 @@ function pbxEvo(r){
 function pbxFamHTML(h){return (function(m){return m?'<span class="pbx-feat-fam-s">'+m[1]+'</span><span class="pbx-feat-fam-t">'+m[2]+'</span>':h.famTh;})(h.famTh.match(/^([A-Za-z]+)\s+(.+)$/));}
 /* the post-event sheet: one sheet in the identity chapter, after SKILL — phase kicker, persona name over a hairline,
    then family / signature / why it moved / preferred assets beside the card, and strengths | watch-outs below */
+/* the card sheet, pre- and post-event alike (2026-10-14, per direction: centred, ordered by what the reader needs first):
+   phase label → persona name → a short rule with the chapter's compass (70px) → family (Latin + Thai gloss) → signature →
+   any note → the card as the sheet's picture. A sheet of its own (.pbx-solo). */
+function pbxHeroHTML(phase,h,img,note){
+  return '<section class="pbx-feat pbx-hero pbx-solo">'+phase+'<h2 class="s-h pbx-feat-t">'+h.th+'</h2>'+
+    '<div class="pbx-hero-orn" aria-hidden="true"><i></i></div>'+
+    '<div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+(note||'')+
+    '<div class="pbx-card"><img src="'+img+'" alt="การ์ด '+h.en+'"></div></section>';
+}
+/* the post-event card: its hero sheet, then (like the pre-event sheet 2) its preferred assets and strengths | watch-outs */
 function pbxPostHTML(ev){
   var h=ev.hero,col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
-  return ('<section class="pbx-post pb-keep pbx-break"><div class="pbx-phase post"><b>หลังร่วมงาน</b><i>Post-event</i></div>'+(ev.sample?'<span class="pbx-phase-s">ตัวอย่าง</span>':'')+'<h2 class="s-h pbx-post-t">'+h.th+'</h2>'+
-    '<div class="pbx-post-row"><div><div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+
-      '<p class="pbx-data-note">'+(ev.up?'พฤติกรรมจริงในงานรับความเสี่ยงได้มากกว่าที่คุณตอบไว้':'พฤติกรรมจริงในงานระมัดระวังกว่าที่คุณตอบไว้')+' การ์ดหลังร่วมงานจึงต่างจากก่อนร่วมงาน</p>'+
-      '<ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></div>'+
-    '<div><div class="pbx-card"><img src="'+REAL_CARD_IMG[ev.key]+'" alt="การ์ด '+h.en+'"></div><div class="pbx-card-cap">การ์ดหลังร่วมงาน</div></div></div>'+
-    '<div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/\s*—\s*/g,' ');
+  return (pbxHeroHTML('<div class="pbx-hero-ph"><div class="pbx-phase post"><b>หลังร่วมงาน</b><i>Post-event</i></div>'+(ev.sample?'<span class="pbx-phase-s">ตัวอย่าง</span>':'')+'</div>',h,REAL_CARD_IMG[ev.key],
+      '<p class="pbx-data-note">'+(ev.up?'พฤติกรรมจริงในงานรับความเสี่ยงได้มากกว่าที่คุณตอบไว้':'พฤติกรรมจริงในงานระมัดระวังกว่าที่คุณตอบไว้')+' การ์ดหลังร่วมงานจึงต่างจากก่อนร่วมงาน</p>')+
+    '<section class="pbx-block"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></section>'+
+    '<section class="pbx-block"><div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/s*—s*/g,' ');
 }
 function pbxIdentityHTML(h,key,unreg,ev){
-  var card='<img src="'+REAL_CARD_IMG[key]+'" alt="การ์ด '+h.en+'">'; // all 12 personas have photographed card art
   ev=ev||{state:'none'};
-  var feat='<section class="pbx-feat pbx-solo"><h2 class="s-h pbx-feat-t">'+h.th+'</h2>'+
-    '<div class="pbx-feat-row"><div><div class="pbx-phase"><b>ก่อนร่วมงาน</b><i>Pre-event</i></div><div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+
-    (ev.state==='same'?'<p class="pbx-data-note"><b>หลังร่วมงาน (Post-event)</b> ยังเป็นการ์ดใบเดิม พฤติกรรมในงานสอดคล้องกับที่ตอบไว้</p>':'')+
-    '</div><div><div class="pbx-card">'+card+'</div><div class="pbx-card-cap">การ์ดก่อนร่วมงาน</div></div></div></section>';
+  var feat=pbxHeroHTML('<div class="pbx-hero-ph"><div class="pbx-phase"><b>ก่อนร่วมงาน</b><i>Pre-event</i></div></div>',h,REAL_CARD_IMG[key],
+    ev.state==='same'?'<p class="pbx-data-note"><b>หลังร่วมงาน (Post-event)</b> ยังเป็นการ์ดใบเดิม พฤติกรรมในงานสอดคล้องกับที่ตอบไว้</p>':'');
   /* rhythm 1 - 2 - 3: the preferred assets as ONE line (names split by small diamonds), strengths | watch-outs in two columns,
      the three SKILL values as three dials; every block opens with the same heading (22px + hairline) */
   var assets='<section class="pbx-block"><div class="pbx-side-hd"><h2 class="s-h pbx-side-t">สินทรัพย์ที่ <span>ถนัด</span></h2></div><ul class="pbx-tags">'+
@@ -951,10 +954,6 @@ function pbxIllustrate(pages){
     if(!first)return;
     if(first.classList.contains('pbx-open')){ // opener: upper right, above the kicker (~31.5%)
       if(ill)mark(pg,'head','ill-'+ill,W-PADX-250,104,250,220);
-    }else if(first.classList.contains('pbx-feat')){ // feature sheet: the compass under the name, right-aligned
-      var t=first.querySelector('.pbx-feat-t'),r=document.createRange();r.selectNodeContents(t);
-      var textBottom=y(r.getBoundingClientRect().bottom),rule=y(t.getBoundingClientRect().bottom),free=rule-textBottom;
-      if(free>=170){var sz=Math.min(230,free-40);mark(pg,'feat','ill-'+PBX_ILL.identity,W-PADX-sz,textBottom+(free-sz)/2,sz,sz);}
     }
     // where the sheet's content really ends: text, images (+ the card's 22px frame), data bars and rule-split containers
     var end=0,w=document.createTreeWalker(body,NodeFilter.SHOW_TEXT),n,rg=document.createRange(),j,rs;
