@@ -28,6 +28,8 @@
   /* the leather cover's texture DNA, rebuilt procedurally and kept far fainter (2026-10-14, "P1 จาง"): large soft patches (the cover's dominant
      >23px band) and an embossed wrinkle relief (stretched turbulence through diffuse light from the upper left); all three layers in the book's blue-grey */
   --pbx-cloud:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%27720%27%3E%3Cfilter%20id%3D%27c%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.0055%27%20numOctaves%3D%272%27%20seed%3D%2711%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.3%200%200%200%200%20.34%200%200%200%200%20.42%200.143%200%200%200%20-0.0585%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27720%27%20height%3D%27720%27%20filter%3D%27url(%23c)%27%2F%3E%3C%2Fsvg%3E");
+  /* the same patches at 60% (alpha row scaled), for the card sheets only so the card has a quieter ground (2026-10-14) */
+  --pbx-cloud-soft:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%27720%27%3E%3Cfilter%20id%3D%27c%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.0055%27%20numOctaves%3D%272%27%20seed%3D%2711%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.3%200%200%200%200%20.34%200%200%200%200%20.42%200.086%200%200%200%20-0.0351%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27720%27%20height%3D%27720%27%20filter%3D%27url(%23c)%27%2F%3E%3C%2Fsvg%3E");
   --pbx-veins:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27360%27%20height%3D%27360%27%3E%3Cfilter%20id%3D%27v%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%3E%3CfeTurbulence%20type%3D%27turbulence%27%20baseFrequency%3D%27.045%20.016%27%20numOctaves%3D%273%27%20seed%3D%275%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27luminanceToAlpha%27%2F%3E%3CfeDiffuseLighting%20surfaceScale%3D%272.2%27%20diffuseConstant%3D%271%27%20lighting-color%3D%27%23fff%27%3E%3CfeDistantLight%20azimuth%3D%27225%27%20elevation%3D%2758%27%2F%3E%3C%2FfeDiffuseLighting%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.22%200%200%200%200%20.25%200%200%200%200%20.32%20-0.34%200%200%200%200.27%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27360%27%20height%3D%27360%27%20filter%3D%27url(%23v)%27%2F%3E%3C%2Fsvg%3E");
   --line:rgba(16,20,24,0.08);  /* hairline track under the data rules; the screen sheet's outline */
   --rule:#bcc2cc;              /* every divider rule: a cool hairline */
@@ -54,7 +56,7 @@
   --pbx-fs-kicker:13px;
   /* card sheet (pbxHeroHTML): persona name size, card width */
   --pbx-fs-feat:56px;
-  --pbx-hero-card:340px;
+  --pbx-hero-card:360px;
   /* spacing scale */
   --sp-glue:6px; --sp-list:8px; --sp-inline:12px; --sp-stack:16px; --sp-block:22px; --sp-section:20px;
   /* type: FC Minimal for UI and headings (the embedded file covers Thai AND Latin, so headings never fall back to a system face); Sarabun, a
@@ -113,7 +115,12 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-card::before,.pbx-card::after{content:'';position:absolute;border:var(--rule-w) solid var(--rule);pointer-events:none;}
 .pbx-card::before{inset:-16px;}
 .pbx-card::after{inset:-22px;}
-.pb-page.pbx:has(.pbx-card) .pb-body{overflow:visible;} /* the frame reaches 22px past the column; sheet fit is still measured by scrollHeight */
+.pb-page.pbx:has(.pbx-card) .pb-body{overflow:visible;}
+/* lifting the card off the paper (2026-10-14): a quieter cloud layer on its sheet, a pale plate inside the inner frame,
+   a 1px ink edge on the card and a two-step shadow in the sheet's blue-grey, the way a sheet rests on the screen */
+.pb-page.pbx:has(.pbx-card){background-image:radial-gradient(ellipse 88% 82% at 50% 46%,rgba(var(--sheet-ink),0) 58%,rgba(var(--sheet-ink),.16) 100%),var(--pbx-cloud-soft),var(--pbx-veins),var(--pbx-grain);}
+.pbx-card::before{background:rgba(250,250,252,.72);z-index:-1;}
+.pbx-card img{box-shadow:0 0 0 1px rgba(17,19,24,.14),0 2px 4px rgba(var(--sheet-ink),.18),0 14px 32px -6px rgba(var(--sheet-ink),.34);} /* the frame reaches 22px past the column; sheet fit is still measured by scrollHeight */
 .pb-toc-cont::after{display:none;}
 /* contour lines (reference: "Chapter Three"): a faint ink field behind the top of opener, feature and สารบัญ sheets */
 .pb-page.pbx:has(.pbx-open)::after,.pb-page.pbx:has(.pbx-feat)::after,.pb-toc::after{content:'';position:absolute;left:0;right:0;top:0;height:46%;z-index:-1;background:url(assets/topo.svg) center top/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);}
