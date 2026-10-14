@@ -334,7 +334,18 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-feat-fam{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .pbx-feat-fam-s{display:block;font-family:var(--font-serif);font-weight:400;font-size:46px;line-height:1.05;white-space:nowrap;}
 .pbx-feat-fam-t{display:block;margin-top:2px;}
-.pbx-feat-phase{margin-bottom:var(--sp-inline);font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
+/* pre- / post-event: the phase is the first thing on each identity card sheet. A framed label (Thai large, Latin in tracked caps);
+   the post-event one is inked solid, the pre-event one is an empty frame, so the two sheets differ at a glance. The same
+   words sit as a caption under the card itself. 'ตัวอย่าง' is its own small tag, not part of the label. */
+.pbx-phase{display:inline-flex;align-items:baseline;gap:10px;padding:7px 14px 8px;border:var(--rule-w) solid var(--ink);color:var(--ink);white-space:nowrap;}
+.pbx-phase b{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.2;}
+.pbx-phase i{font-style:normal;font-family:var(--font-serif);font-weight:400;font-size:var(--pbx-fs-kicker);letter-spacing:.2em;text-transform:uppercase;}
+.pbx-phase.post{background:var(--ink);color:var(--sheet);}
+.pbx-phase-s{display:inline-block;margin-left:10px;padding:2px 9px;border:var(--rule-w) solid var(--muted);font-size:11px;font-weight:var(--w-label);line-height:1.5;color:var(--muted);vertical-align:middle;}
+.pbx-feat-row .pbx-phase{margin-bottom:var(--sp-block);}
+.pbx-post>.pbx-phase{margin-bottom:var(--sp-block);}
+.pbx-card-cap{margin-top:34px;text-align:center;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
+.pbx-card-cap::before,.pbx-card-cap::after{content:'';display:inline-block;width:22px;height:var(--rule-w);margin:0 10px;background:var(--rule);vertical-align:middle;}
 .pbx-feat-row .pbx-data-note{margin-top:var(--sp-stack);}
 /* post-event sheet (pbxPostHTML) */
 .pbx .pbx-post-t{margin:0;padding-bottom:var(--sp-inline);font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
@@ -659,20 +670,20 @@ function pbxFamHTML(h){return (function(m){return m?'<span class="pbx-feat-fam-s
    then family / signature / why it moved / preferred assets beside the card, and strengths | watch-outs below */
 function pbxPostHTML(ev){
   var h=ev.hero,col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
-  return ('<section class="pbx-post pb-keep pbx-break"><div class="pbx-kicker">หลังร่วมงาน (Post-event)'+(ev.sample?' · ตัวอย่าง':'')+'</div><h2 class="s-h pbx-post-t">'+h.th+'</h2>'+
+  return ('<section class="pbx-post pb-keep pbx-break"><div class="pbx-phase post"><b>หลังร่วมงาน</b><i>Post-event</i></div>'+(ev.sample?'<span class="pbx-phase-s">ตัวอย่าง</span>':'')+'<h2 class="s-h pbx-post-t">'+h.th+'</h2>'+
     '<div class="pbx-post-row"><div><div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+
       '<p class="pbx-data-note">'+(ev.up?'พฤติกรรมจริงในงานรับความเสี่ยงได้มากกว่าที่คุณตอบไว้':'พฤติกรรมจริงในงานระมัดระวังกว่าที่คุณตอบไว้')+' การ์ดหลังร่วมงานจึงต่างจากก่อนร่วมงาน</p>'+
       '<ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></div>'+
-    '<div class="pbx-card"><img src="'+REAL_CARD_IMG[ev.key]+'" alt="การ์ด '+h.en+'"></div></div>'+
+    '<div><div class="pbx-card"><img src="'+REAL_CARD_IMG[ev.key]+'" alt="การ์ด '+h.en+'"></div><div class="pbx-card-cap">การ์ดหลังร่วมงาน</div></div></div>'+
     '<div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/\s*—\s*/g,' ');
 }
 function pbxIdentityHTML(h,key,unreg,ev){
   var card='<img src="'+REAL_CARD_IMG[key]+'" alt="การ์ด '+h.en+'">'; // all 12 personas have photographed card art
   ev=ev||{state:'none'};
   var feat='<section class="pbx-feat pbx-solo"><h2 class="s-h pbx-feat-t">'+h.th+'</h2>'+
-    '<div class="pbx-feat-row"><div><div class="pbx-feat-phase">ก่อนร่วมงาน (Pre-event)</div><div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+
+    '<div class="pbx-feat-row"><div><div class="pbx-phase"><b>ก่อนร่วมงาน</b><i>Pre-event</i></div><div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+
     (ev.state==='same'?'<p class="pbx-data-note"><b>หลังร่วมงาน (Post-event)</b> ยังเป็นการ์ดใบเดิม พฤติกรรมในงานสอดคล้องกับที่ตอบไว้</p>':'')+
-    '</div><div class="pbx-card">'+card+'</div></div></section>';
+    '</div><div><div class="pbx-card">'+card+'</div><div class="pbx-card-cap">การ์ดก่อนร่วมงาน</div></div></div></section>';
   /* rhythm 1 - 2 - 3: the preferred assets as ONE line (names split by small diamonds), strengths | watch-outs in two columns,
      the three SKILL values as three dials; every block opens with the same heading (22px + hairline) */
   var assets='<section class="pbx-block"><div class="pbx-side-hd"><h2 class="s-h pbx-side-t">สินทรัพย์ที่ <span>ถนัด</span></h2></div><ul class="pbx-tags">'+
