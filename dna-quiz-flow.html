@@ -23,7 +23,7 @@
   --ink:#111318; --muted:#5a6168;
   --paper:#f7f8f7; --white:#ffffff;
   --sheet:#fafafc;             /* the printed sheet: near-white cool grey (reference: Torino) */
-  --sheet-ink:78,92,118;       /* r,g,b of the blue-grey used for the edge vignette */
+  --sheet-ink:122,96,72;       /* r,g,b of the edge vignette: the leather cover's worn brown edge (was blue-grey 78,92,118 until 2026-10-14) */
   --pbx-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .34 0 0 0 0 .42 .12 0 0 0 -.043'/%3E%3C/filter%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .26 .23 0 0 0 -.095'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23m)'/%3E%3Crect width='360' height='360' filter='url(%23g)'/%3E%3C/svg%3E");  /* seamless 360px tile: a faint blue-grey fibre mottle + fine grain, both feTurbulence */
   --line:rgba(16,20,24,0.08);  /* hairline track under the data rules; the screen sheet's outline */
   --rule:#bcc2cc;              /* every divider rule: a cool hairline */
@@ -86,15 +86,17 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    one inline SVG tile (feTurbulence, seamless), so it costs no asset. No spine shade: every sheet reads the same. */
 .pb-page.pbx{isolation:isolate;background-color:var(--sheet);background-image:radial-gradient(ellipse 88% 82% at 50% 46%,rgba(var(--sheet-ink),0) 58%,rgba(var(--sheet-ink),.16) 100%),var(--pbx-grain);background-size:100% 100%,360px 360px;}
 /* running header: the chapter name, small and centred, between two short hairlines (reference: Maguss) */
-.pbx-hd{position:absolute;top:42px;left:var(--pbx-pad-x);right:var(--pbx-pad-x);display:flex;justify-content:center;align-items:center;gap:14px;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
+.pbx-hd{position:absolute;top:19px;left:var(--pbx-pad-x);right:var(--pbx-pad-x);display:flex;justify-content:center;align-items:center;gap:14px;font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.4;color:var(--muted);}
 .pbx-hd:not(:has(span:not(:empty))){display:none;}
-.pbx-hd::before,.pbx-hd::after{content:'';width:44px;height:var(--rule-w);background:var(--rule);}
 /* corner sprigs, mirrored left/right: feature sheets and the สารบัญ only (openers hang a plumb line and carry their chapter drawing instead) */
 .pbx-cn{display:none;position:absolute;top:22px;width:118px;height:90px;background:url(assets/orn-corner.svg) center/contain no-repeat;pointer-events:none;}
 .pbx-cn.r{right:28px;}
 .pbx-cn.l{left:28px;transform:scaleX(-1);}
 /* bottom contour field (see pbxIllustrate): faint lines rising from the bottom edge, fading upward, only where the sheet has room */
 .pbx-bt{position:absolute;left:0;right:0;z-index:-1;background:url(assets/topo-b.svg) center bottom/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to top,#000 22%,transparent 100%);mask-image:linear-gradient(to top,#000 22%,transparent 100%);}
+/* the cover's frame on every inside sheet (pbxFrame): silver double hairline, rounded corners, gaps at top and bottom centre (running header / four-point star).
+   Painted under the content (z-index -1, after the bottom contour field) so drawings that bleed off the page pass over it. */
+.pbx-frame{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);z-index:-1;pointer-events:none;}
 /* line-art drawings placed by pbxIllustrate() (position + size inline) */
 .pbx-ill{position:absolute;display:block;background:center/contain no-repeat;pointer-events:none;}
 .pbx-lead{position:absolute;display:block;object-fit:contain;pointer-events:none;} /* placed by pbxIllustrate (PBX_LEAD_FIG), engraved drawing on its own ground shadow */
@@ -108,18 +110,18 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-card::before{inset:-16px;}
 .pbx-card::after{inset:-22px;}
 .pb-page.pbx:has(.pbx-card) .pb-body{overflow:visible;} /* the frame reaches 22px past the column; sheet fit is still measured by scrollHeight */
-.pb-page.pbx:has(.pbx-feat)>.pbx-cn,.pb-toc>.pbx-cn{display:block;}
 .pb-toc-cont::after{display:none;}
 /* contour lines (reference: "Chapter Three"): a faint ink field behind the top of opener, feature and สารบัญ sheets */
 .pb-page.pbx:has(.pbx-open)::after,.pb-page.pbx:has(.pbx-feat)::after,.pb-toc::after{content:'';position:absolute;left:0;right:0;top:0;height:46%;z-index:-1;background:url(assets/topo.svg) center top/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);mask-image:linear-gradient(to bottom,#000 28%,transparent 100%);}
 /* opener */
 /* plumb line: hangs from the top edge on the text column's left edge (x = --pbx-col-x) and ends in a hollow diamond, clear above the lockup */
-.pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:0;left:calc(var(--pbx-col-x) - 6px);width:12px;height:var(--pbx-plumb-h);background:linear-gradient(rgba(17,19,24,.62),rgba(17,19,24,.62)) 50% 0/var(--rule-w) calc(100% - 11px) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 .8 11.2 6 6 11.2 .8 6Z' fill='none' stroke='%23111318' stroke-opacity='.7'/%3E%3C/svg%3E") 50% 100%/12px 12px no-repeat;pointer-events:none;}
+.pb-page.pbx:has(.pbx-open)::before{content:'';position:absolute;top:31px;left:calc(var(--pbx-col-x) - 6px);width:12px;height:calc(var(--pbx-plumb-h) - 31px);background:linear-gradient(rgba(17,19,24,.62),rgba(17,19,24,.62)) 50% 0/var(--rule-w) calc(100% - 11px) no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 .8 11.2 6 6 11.2 .8 6Z' fill='none' stroke='%23111318' stroke-opacity='.7'/%3E%3C/svg%3E") 50% 100%/12px 12px no-repeat;pointer-events:none;}
 .pbx .pbx-open{padding:calc(var(--pbx-open-y) - var(--pbx-pad-top)) 0 0 calc(var(--pbx-col-x) - var(--pbx-pad-x));}
 .pbx .pbx-open:has(.pbx-lock){padding-top:calc(var(--pbx-open-y) - var(--pbx-pad-top) - var(--pbx-lock-h));} /* the lockup takes the room above the kicker, so the title stays where it was */
 .pbx-lock{display:block;position:relative;height:var(--pbx-lock-h);}
 .pbx-lock-c,.pbx-lock-s{position:absolute;white-space:nowrap;color:var(--ink);} /* left/top are set inline from measured ink (see pbxLockPos) */
 .pbx-lock-c{font-family:var(--font-serif);font-weight:400;font-size:17px;letter-spacing:.42em;line-height:20px;}
+.pbx-lock-c,.pbx-lock-s,.pbx-feat-fam-s{text-shadow:0 1px 0 rgba(255,255,255,.85),0 -1px 0 rgba(17,19,24,.12);} /* letterpress, as the cover's title */
 .pbx-lock-s{font-family:var(--font-serif);font-weight:400;font-size:46px;line-height:56px;}
 .pbx-kicker{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);color:var(--ink);line-height:1.4;margin-bottom:var(--sp-block);}
 .pbx .pbx-open-t{display:inline-block;margin:0;font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);padding-bottom:calc(var(--sp-inline) + 5px);} /* 17px under the text: the room the underline used to take, so nothing below moves */
@@ -372,10 +374,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* every line of both columns sits on one pitch (line + the old item gap), so rows line up across the rule even when one column wraps */
 .pbx-list li{line-height:calc((var(--read-fs) - 2px) * var(--read-lh) + var(--sp-list));}
 .pbx-ft{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);position:relative;padding:var(--sp-stack) 0 calc(var(--sp-list) + var(--rule-w));font-size:var(--pbx-fs-ft);line-height:1.4;color:var(--muted);}
-.pbx-ft::before,.pbx-ft::after{content:'';position:absolute;bottom:0;height:var(--rule-w);width:calc(50% - 26px);background:var(--rule);}
-.pbx-ft::before{left:0;}
-.pbx-ft::after{right:0;}
-.pbx-ft-r::after{content:'';position:absolute;left:50%;bottom:-5px;width:34px;height:11px;transform:translateX(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 11'%3E%3Cg fill='none' stroke='%23111318' stroke-opacity='.62'%3E%3Cpath d='M17 1.5 22 5.5 17 9.5 12 5.5Z'/%3E%3C/g%3E%3Cg fill='%23111318' fill-opacity='.62'%3E%3Ccircle cx='6' cy='5.5' r='1'/%3E%3Ccircle cx='28' cy='5.5' r='1'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;}
 .pbx-ft-brand{text-transform:uppercase;letter-spacing:.14em;} /* Latin only — Thai has no case and tracking hurts it */
 .pbx-ft-brand b{font-weight:var(--w-label);color:var(--ink);}
 .pbx-ft-r{display:flex;align-items:baseline;gap:var(--sp-stack);}
@@ -947,6 +945,35 @@ var PBX_FLOAT={journey:[
 /* the contents sheet: two small pieces right of the "สารบัญ" title, above its hairline and clear of the corner
    sprig (x/y = absolute page position); kept small so the list stays the first read */
 var PBX_FLOAT_TOC=[{src:'float-stock.png',w:90,h:90,x:310,y:36,a:-18},{src:'float-gold.png',w:44,h:66,x:575,y:88,a:48}];
+/* the leather cover's frame (round 30, 2026-10-14): two silver hairlines 26 / 31.5px in from the edge, corner radius 35 / 32.25,
+   broken at the top centre for the running header (gap = its text width + 36) or, with no header, for a star, and at the bottom
+   centre for a four-point star — the cover's own frame, scaled to sit outside the 76px text margin. One shared gradient defs. */
+var PBX_FRAME={o:26,i:31.5,ro:35,ri:32.25,gap:34};
+function pbxFrame(doc){
+  var W=794,H=Math.round(794*3508/2480*100)/100,CX=W/2;
+  if(!document.getElementById('pbx-frame-defs')){
+    var d=document.createElementNS('http://www.w3.org/2000/svg','svg');d.id='pbx-frame-defs';d.setAttribute('width','0');d.setAttribute('height','0');d.setAttribute('aria-hidden','true');d.style.position='absolute';
+    d.innerHTML='<defs><linearGradient id="pbxMetal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="'+W+'" y2="'+H+'"><stop offset="0" stop-color="#7c828a"/><stop offset=".18" stop-color="#e2e5ea"/><stop offset=".38" stop-color="#8b9199"/><stop offset=".58" stop-color="#eceef1"/><stop offset=".8" stop-color="#848a92"/><stop offset="1" stop-color="#cfd3d8"/></linearGradient>'+
+      '<linearGradient id="pbxStar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f5f7"/><stop offset=".5" stop-color="#8a9098"/><stop offset="1" stop-color="#d7dadf"/></linearGradient></defs>';
+    document.body.appendChild(d);
+  }
+  function edge(i,r,gT,gB){var L=i,R=W-i,T=i,B=H-i;
+    return 'M'+(CX+gT/2)+' '+T+'H'+(R-r)+'A'+r+' '+r+' 0 0 1 '+R+' '+(T+r)+'V'+(B-r)+'A'+r+' '+r+' 0 0 1 '+(R-r)+' '+B+'H'+(CX+gB/2)+
+      'M'+(CX-gB/2)+' '+B+'H'+(L+r)+'A'+r+' '+r+' 0 0 1 '+L+' '+(B-r)+'V'+(T+r)+'A'+r+' '+r+' 0 0 1 '+(L+r)+' '+T+'H'+(CX-gT/2);}
+  function star(cx,cy,sz){var k=sz*.18;return 'M'+cx+' '+(cy-sz)+'Q'+(cx+k)+' '+(cy-k)+' '+(cx+sz)+' '+cy+'Q'+(cx+k)+' '+(cy+k)+' '+cx+' '+(cy+sz)+'Q'+(cx-k)+' '+(cy+k)+' '+(cx-sz)+' '+cy+'Q'+(cx-k)+' '+(cy-k)+' '+cx+' '+(cy-sz)+'Z';}
+  var F=PBX_FRAME,mid=(F.o+F.i)/2;
+  [].forEach.call(doc.querySelectorAll('.pb-page.pbx'),function(pg){
+    if(pg.querySelector(':scope>.pbx-frame'))return;
+    var hd=pg.querySelector(':scope>.pbx-hd span'),hw=hd&&hd.textContent.trim()?hd.getBoundingClientRect().width/(pg.getBoundingClientRect().width/W||1):0;
+    var gT=hw?Math.round(hw+36):F.gap;
+    var svg='<svg class="pbx-frame" viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><g fill="none" stroke="url(#pbxMetal)" stroke-linecap="round">'+
+      '<path d="'+edge(F.o,F.ro,gT,F.gap)+'" stroke-width="1.3"/><path d="'+edge(F.i,F.ri,gT,F.gap)+'" stroke-width=".8"/></g>'+
+      '<path d="'+edge(F.o+1.2,F.ro,gT,F.gap)+'" fill="none" stroke="rgba(17,19,24,.18)" stroke-width=".5"/>'+
+      (hw?'':'<path d="'+star(CX,mid,10)+'" fill="url(#pbxStar)" stroke="rgba(17,19,24,.55)" stroke-width=".6"/>')+
+      '<path d="'+star(CX,H-mid,10)+'" fill="url(#pbxStar)" stroke="rgba(17,19,24,.55)" stroke-width=".6"/></svg>';
+    pg.insertAdjacentHTML('afterbegin',svg);
+  });
+}
 function pbxIllustrate(pages){
   function mark(pg,cls,img,x,y,w,h){
     var i=document.createElement('i');i.className='pbx-ill '+cls;i.setAttribute('aria-hidden','true');
@@ -1055,6 +1082,7 @@ function pbBuild(){
   pages.forEach(function(pg,i){pg.id='pb-p'+(i+1);pg.querySelector('.pb-pn').innerHTML='หน้า <span class="pb-pn-n">'+(i+1)+'</span> / '+pages.length;});
   pbxIllustrate(pages);
   pbTOC(doc,pages);
+  pbxFrame(doc);
 }
 /* สารบัญ (2026-09-22, per direction) — built AFTER pagination, from the sheets themselves, so every
    row's page number is the real one; inserted right before sheet 1 (after the front cover). Each row
