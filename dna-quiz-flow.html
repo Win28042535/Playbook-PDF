@@ -296,11 +296,10 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-data-note b{font-weight:var(--w-label);color:var(--ink);}
 .pbx-open .pbx-data-note{margin-top:var(--sp-stack);font-size:var(--fs-label);color:var(--ink);}
 /* เจาะรายสินทรัพย์: asset name on a hairline, its three lines in the reading column */
-.pbx-dd{position:relative;padding:0 0 32px;}
+.pbx-dd{position:relative;padding:0 0 40px;}
 /* the article's illustration: a line drawing in the margin beside the text, turned a little and cut by the page edge,
-   alternating sides; the text column gives way on that side */
-.pbx-dd.has-fig.r{padding-right:190px;}
-.pbx-dd.has-fig.l{padding-left:190px;}
+   always on the right so every asset reads left-aligned; the text column gives way there */
+.pbx-dd.has-fig{padding-right:150px;}
 .pbx-dd-fig{position:absolute;top:0;object-fit:contain;pointer-events:none;} /* engraved drawings stand upright on their own ground shadow */
 
 /* .pbx-dd-fig side offset (the 77px page margin plus a quarter of the piece, so that quarter is cut by the page edge) is set inline */
@@ -446,9 +445,9 @@ var RADAR_IC=['STOCK_TH','STOCK_INTL','FUND','CRYPTO','GOLD','HEALTH'].map(pbxIc
 /* "เจาะรายสินทรัพย์" illustrations, by persona asset name: a large ink line drawing beside each article (traced from the v1
    glass art by an edge filter, so the book stays single-ink like the chapter drawings) (w x h drawn box,
    h defaults to w; the two with only small source art are drawn smaller) */
-var DD_FIG={'หุ้นไทย':{src:'eng-stockth.svg',w:180,h:171},'หุ้นต่างประเทศ':{src:'eng-stockintl.svg',w:180,h:171},'กองทุนรวม':{src:'eng-fund.svg',w:180,h:171},
-  'ตราสารหนี้':{src:'eng-bond.svg',w:180,h:171},'ทองคำ':{src:'eng-gold.svg',w:180,h:171},'อสังหา/REIT':{src:'eng-house.svg',w:180,h:171},
-  'คริปโต':{src:'eng-bitcoin.svg',w:180,h:171},'ปันผล':{src:'eng-coin.svg',w:180,h:171},'เงินฝาก':{src:'eng-bank.svg',w:180,h:171}};
+var DD_FIG={'หุ้นไทย':{src:'eng-stockth.svg',w:210,h:200},'หุ้นต่างประเทศ':{src:'eng-stockintl.svg',w:210,h:200},'กองทุนรวม':{src:'eng-fund.svg',w:210,h:200},
+  'ตราสารหนี้':{src:'eng-bond.svg',w:210,h:200},'ทองคำ':{src:'eng-gold.svg',w:210,h:200},'อสังหา/REIT':{src:'eng-house.svg',w:210,h:200},
+  'คริปโต':{src:'eng-bitcoin.svg',w:210,h:200},'ปันผล':{src:'eng-coin.svg',w:210,h:200},'เงินฝาก':{src:'eng-bank.svg',w:210,h:200}};
 var SIDE_FIG=['gauge','lens','hook','hourglass','heart','steps']; // engraved drawing per journey side (sidesHTML order): assets/eng-*.svg
 /* 2026-09-04: all 12 personas now have approved final photographed card art (replaces the earlier
    3-card partial set — harvester/diamondhand/waverider — with the full set), so pcFrontInner's CSS
@@ -755,7 +754,7 @@ function pbxPortfolioHTML(h,r){
   var alloc='<section class="pbx-block"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3><p class="pbx-ms-lede">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p><div class="pbx-ms">'+
     ALLOC_SEGS.map(function(s){return pbxMsRow(s.l,s.p,'%',s.p);}).join('')+'</div></section>';
   var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
-    h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd=i%2?'l':'r'; // illustration alternates right / left, bleeding off the page edge
+    h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd='r'; // illustration always on the right, bleeding off the page edge
       return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-'+Math.round(77+fg.w*.25)+'px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
   return open+ints+trait+alloc+dd;
 }
