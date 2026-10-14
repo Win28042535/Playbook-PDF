@@ -330,7 +330,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* card sheet (pbxHeroHTML): one centred column; the card is the picture of the sheet */
 .pbx .pbx-hero{display:flex;flex-direction:column;align-items:center;text-align:center;}
 .pbx-hero-ph{display:flex;align-items:center;justify-content:center;}
-.pbx-hero-ph .pbx-phase-s{margin-left:10px;}
 .pbx .pbx-hero .pbx-feat-t{margin-top:26px;font-size:var(--pbx-fs-feat);font-weight:var(--w-body);line-height:1.1;color:var(--ink);text-wrap:balance;}
 .pbx-hero-orn{display:flex;align-items:center;gap:16px;margin:16px 0 14px;}
 .pbx-hero-orn::before,.pbx-hero-orn::after{content:'';width:64px;height:var(--rule-w);background:var(--rule);}
@@ -344,12 +343,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-feat-fam-t{display:block;margin-top:2px;}
 /* pre- / post-event: the phase is the first thing on each identity card sheet. A framed label (Thai large, Latin in tracked caps);
    the post-event one is inked solid, the pre-event one is an empty frame, so the two sheets differ at a glance. The same
-   words sit as a caption under the card itself. 'ตัวอย่าง' is its own small tag, not part of the label. */
+   words sit as a caption under the card itself. The sample-book 'ตัวอย่าง' tag was dropped (2026-10-14). */
 .pbx-phase{display:inline-flex;align-items:baseline;gap:10px;padding:7px 14px 8px;border:var(--rule-w) solid var(--ink);color:var(--ink);white-space:nowrap;}
 .pbx-phase b{font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.2;}
 .pbx-phase i{font-style:normal;font-family:var(--font-serif);font-weight:400;font-size:var(--pbx-fs-kicker);letter-spacing:.2em;text-transform:uppercase;}
 .pbx-phase.post{background:var(--ink);color:var(--sheet);}
-.pbx-phase-s{display:inline-block;margin-left:10px;padding:2px 9px;border:var(--rule-w) solid var(--muted);font-size:11px;font-weight:var(--w-label);line-height:1.5;color:var(--muted);vertical-align:middle;}
 .pbx-feat-sig{margin-top:var(--sp-inline);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-card img{display:block;width:100%;height:auto;border-radius:5.8% / 4.15%;}
 /* identity follow-up blocks */
@@ -678,7 +676,7 @@ function pbxHeroHTML(phase,h,img,note){
 /* the post-event card: its hero sheet, then (like the pre-event sheet 2) its preferred assets and strengths | watch-outs */
 function pbxPostHTML(ev){
   var h=ev.hero,col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
-  return (pbxHeroHTML('<div class="pbx-hero-ph"><div class="pbx-phase post"><b>หลังร่วมงาน</b><i>Post-event</i></div>'+(ev.sample?'<span class="pbx-phase-s">ตัวอย่าง</span>':'')+'</div>',h,REAL_CARD_IMG[ev.key],
+  return (pbxHeroHTML('<div class="pbx-hero-ph"><div class="pbx-phase post"><b>หลังร่วมงาน</b><i>Post-event</i></div>'+'</div>',h,REAL_CARD_IMG[ev.key],
       '<p class="pbx-data-note">'+(ev.up?'พฤติกรรมจริงในงานรับความเสี่ยงได้มากกว่าที่คุณตอบไว้':'พฤติกรรมจริงในงานระมัดระวังกว่าที่คุณตอบไว้')+' การ์ดหลังร่วมงานจึงต่างจากก่อนร่วมงาน</p>')+
     '<section class="pbx-block"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></section>'+
     '<section class="pbx-block"><div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/s*—s*/g,' ');
