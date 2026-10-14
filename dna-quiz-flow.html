@@ -251,6 +251,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* a category not touched yet: label, numeral, stroke and diamond all in the quiet tone */
 .pbx-ms-r.muted .pbx-ms-l,.pbx-ms-r.muted .pbx-ms-v{color:var(--muted);font-weight:var(--w-body);}
 .pbx-ms-r.muted .pbx-ms-ru::before,.pbx-ms-r.muted .pbx-ms-ru::after{background:var(--rule);}
+.pbx-oa-g{display:grid;grid-template-columns:repeat(3,1fr);gap:34px 28px;margin-top:var(--sp-block);}
+.pbx-oa-c img{display:block;width:176px;height:auto;margin:0 auto;object-fit:contain;}
+.pbx-oa-n{margin-top:10px;padding-top:8px;border-top:var(--rule-w) solid var(--rule);text-align:center;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 /* พอร์ต chapter (pbxPortEduHTML): the 5-level table, the 1-year ladder and the 10-year growth line, all in the report idiom of .pbx-ms */
 .pbx-pe-mirror{max-width:var(--read-measure);margin-top:48px;}
 .pbx-open .pbx-ms-fn{max-width:var(--read-measure);margin-top:32px;}
@@ -454,7 +457,10 @@ var RADAR_IC=['STOCK_TH','STOCK_INTL','FUND','CRYPTO','GOLD','HEALTH'].map(pbxIc
    h defaults to w; the two with only small source art are drawn smaller) */
 var DD_FIG={'หุ้นไทย':{src:'eng-stockth.svg',w:210,h:200},'หุ้นต่างประเทศ':{src:'eng-stockintl.svg',w:210,h:200},'กองทุนรวม':{src:'eng-fund.svg',w:210,h:200},
   'ตราสารหนี้':{src:'eng-bond.svg',w:210,h:200},'ทองคำ':{src:'eng-gold.svg',w:210,h:200},'อสังหา/REIT':{src:'eng-house.svg',w:210,h:200},
-  'คริปโต':{src:'eng-bitcoin.svg',w:210,h:200},'ปันผล':{src:'eng-coin.svg',w:210,h:200},'เงินฝาก':{src:'eng-bank.svg',w:210,h:200}};
+  'คริปโต':{src:'eng-bitcoin.svg',w:210,h:200},'ปันผล':{src:'eng-coin.svg',w:210,h:200},'เงินฝาก':{src:'eng-bank.svg',w:210,h:200},
+  'ประกัน':{src:'eng-shield.svg',w:210,h:200},'ของสะสมและสินทรัพย์ทางเลือก':{src:'eng-watch.svg',w:210,h:200},'สุขภาพ':{src:'eng-heart.svg',w:210,h:200}};
+/* every asset the book can name, in the app's order (the persona lists use the same names; the last three come from the interest categories) */
+var ALL_ASSETS=['หุ้นไทย','หุ้นต่างประเทศ','กองทุนรวม','ตราสารหนี้','เงินฝาก','ทองคำ','อสังหา/REIT','ประกัน','คริปโต','ปันผล','ของสะสมและสินทรัพย์ทางเลือก','สุขภาพ'];
 var SIDE_FIG=['gauge','lens','hook','hourglass','stetho','steps']; // engraved drawing per journey side (sidesHTML order): assets/eng-*.svg
 /* 2026-09-04: all 12 personas now have approved final photographed card art (replaces the earlier
    3-card partial set — harvester/diamondhand/waverider — with the full set), so pcFrontInner's CSS
@@ -768,7 +774,10 @@ function pbxPortfolioHTML(h,r){
   var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
     h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd='r'; // illustration always on the right, bleeding off the page edge
       return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-'+Math.round(77+fg.w*.25)+'px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
-  return open+ints+trait+alloc+dd;
+  /* the assets this persona does not list: name + drawing only (the bullets above are about the persona's own assets), a sheet of their own */
+  var mine=h.assets.slice(0,4).map(function(a){return a.t;}),others=ALL_ASSETS.filter(function(n){return mine.indexOf(n)<0&&DD_FIG[n];});
+  var oa=others.length?'<section class="pbx-sec pb-keep pbx-break"><h2 class="pbx-sec-t">สินทรัพย์อื่น ๆ</h2></section><div class="pbx-oa-g">'+others.map(function(n){return '<div class="pbx-oa-c"><img src="assets/'+DD_FIG[n].src+'" alt=""><div class="pbx-oa-n">'+n+'</div></div>';}).join('')+'</div>':'';
+  return open+ints+trait+alloc+dd+oa;
 }
 /* ══ พอร์ต (the live app's "5 ระดับพอร์ตลงทุน" tab) ══ every word and figure comes from PORT_EDU_DATA (data/app/port/edu.js,
    copied from the app). The app's controls are fixed at its own defaults: level 3, stocks 80% Thai / 20% foreign
