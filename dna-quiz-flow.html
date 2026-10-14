@@ -455,7 +455,7 @@ var RADAR_IC=['STOCK_TH','STOCK_INTL','FUND','CRYPTO','GOLD','HEALTH'].map(pbxIc
 var DD_FIG={'หุ้นไทย':{src:'eng-stockth.svg',w:210,h:200},'หุ้นต่างประเทศ':{src:'eng-stockintl.svg',w:210,h:200},'กองทุนรวม':{src:'eng-fund.svg',w:210,h:200},
   'ตราสารหนี้':{src:'eng-bond.svg',w:210,h:200},'ทองคำ':{src:'eng-gold.svg',w:210,h:200},'อสังหา/REIT':{src:'eng-house.svg',w:210,h:200},
   'คริปโต':{src:'eng-bitcoin.svg',w:210,h:200},'ปันผล':{src:'eng-coin.svg',w:210,h:200},'เงินฝาก':{src:'eng-bank.svg',w:210,h:200}};
-var SIDE_FIG=['gauge','lens','hook','hourglass','heart','steps']; // engraved drawing per journey side (sidesHTML order): assets/eng-*.svg
+var SIDE_FIG=['gauge','lens','hook','hourglass','stetho','steps']; // engraved drawing per journey side (sidesHTML order): assets/eng-*.svg
 /* 2026-09-04: all 12 personas now have approved final photographed card art (replaces the earlier
    3-card partial set — harvester/diamondhand/waverider — with the full set), so pcFrontInner's CSS
    editorial-mockup branch is unreached for every real persona now; left in place as a safe fallback
@@ -921,8 +921,8 @@ var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — op
 var PBX_ILL={identity:'compass',analysis:'scale',portfolio:'chart',port:'chart',journey:'path',library:'book',glossary:'quill'};
 var PBX_BT_ROOM=360;
 /* the interest-share sheet (portfolio, .pbx-ints): the leading category's engraved drawing stands lower right, a quarter cut by the page
-   edge (as on the เจาะราย sheet), and the contour field comes in from 280px of free band. Two categories have no drawing yet → the coin. */
-var PBX_LEAD_FIG={'หุ้นไทย':'eng-stockth','ต่างประเทศ':'eng-stockintl','กองทุน':'eng-fund','ตราสารหนี้':'eng-bond','ทอง':'eng-gold','อสังหา':'eng-house','ประกัน':'eng-coin','คริปโต':'eng-bitcoin','ทางเลือก':'eng-coin','สุขภาพ':'eng-heart'};
+   edge (as on the เจาะราย sheet), and the contour field comes in from 280px of free band. Every category has its own piece (ประกัน = shield, ทางเลือก = watch on a stand, 2026-10-14). */
+var PBX_LEAD_FIG={'หุ้นไทย':'eng-stockth','ต่างประเทศ':'eng-stockintl','กองทุน':'eng-fund','ตราสารหนี้':'eng-bond','ทอง':'eng-gold','อสังหา':'eng-house','ประกัน':'eng-shield','คริปโต':'eng-bitcoin','ทางเลือก':'eng-watch','สุขภาพ':'eng-heart'};
 var PBX_LEAD_W=220,PBX_INTS_BT_ROOM=280;
 /* floating-asset clusters per panel opener: w/h box, r = gap from the page's right edge (negative = bleeds off it),
    b = gap above the footer line, a = rotation */
