@@ -318,6 +318,11 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-dd-l{max-width:var(--read-measure);margin:var(--sp-stack) 0 0;padding:0 0 0 1.2em;list-style:disc;font-family:var(--font-read);font-size:calc(var(--read-fs) - 2px);line-height:var(--read-lh);color:var(--ink);}
 .pbx-dd-l li::marker{color:var(--muted);}
 .pbx-dd-l li+li{margin-top:var(--sp-list);}
+/* สรุปไว้คุยกับผู้แนะนำ: one ticked list (the app's check-circle bullets, drawn in ink) */
+.pbx-adv-l{max-width:var(--read-measure);margin:0;padding:0;list-style:none;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
+.pbx-adv-l li{position:relative;padding-left:2.2em;}
+.pbx-adv-l li+li{margin-top:var(--sp-stack);}
+.pbx-adv-l li::before{content:"";position:absolute;left:0;top:calc((var(--read-lh) * 1em - 1.4em) / 2);width:1.4em;height:1.4em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111318' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M7.5 12.5l3 3 6-6.5'/%3E%3C/svg%3E") center/contain no-repeat;}
 /* analysis: risk comparison as two big numerals under hairlines; Confidence Score header = level as the
    heading with the big score beside it */
 /* risk comparison | Confidence Score as two columns (rule + diamond between): stacked they ran 113px past the sheet and the opener was zoom-shrunk */
@@ -748,6 +753,9 @@ var REG_URL='https://dc1hw.efin.finance/events/better-trade/better-trade2026';
 /* example data for the portfolio data page (pbxPortfolioHTML) */
 var TRAIT_ROWS=[{l:'เก็บข้อมูลก่อนตัดสินใจ',v:31,m:35},{l:'ความมีวินัยการลงทุน',v:25,m:25},{l:'การกระจายความเสี่ยง',v:10,m:25},{l:'รับความผันผวนได้',v:11,m:15}];
 var TRAIT_SRC=[{t:'แบบทดสอบตัวตน 7 ข้อ',done:true},{t:'เกมย้อนเวลาพอร์ต',done:true},{t:'เกมบูธ 5/10',done:true}];
+var ADV_POINTS=['พอร์ตที่นิ่งพอให้ถือผ่านการลดลงราว 10% ได้ หน้าตาเป็นยังไง','ถ้าจะเริ่มแบบตั้งอัตโนมัติ เริ่มจากอะไรดี ค่าธรรมเนียมอะไร','ของสะสมหรือคริปโตแค่ไหน ถึงจะไม่ต้องขายของรักตอนต้องใช้เงิน','แผนของฉันต้องปรับยังไงเมื่ออายุเปลี่ยน','ควรมีเงินสำรองฉุกเฉินเท่าไหร่ ก่อนเริ่มลงทุนจริง','ถ้าตลาดผันผวนแรง ควรทำอะไร และไม่ควรทำอะไร'];
+var PBX_SHOW_ALL_ASSETS=false;
+var ADV_MAX=6; // the app shows at most 6 talking points
 var ALLOC_SEGS=[{l:'สินทรัพย์แกนหลัก (กองทุน/หุ้นใหญ่)',p:40},{l:'สินทรัพย์เติบโต',p:30},{l:'สินทรัพย์ทางเลือก / กระจาย',p:20},{l:'เงินสด / สภาพคล่อง',p:10}];
 /* Data page (the reference has none — designed under its DNA): every figure is a ruled label | value
    row, its share drawn as one thin ink rule on a hairline track; no colour, no radar, no chips. */
@@ -776,11 +784,13 @@ function pbxPortfolioHTML(h,r){
     '<p class="pbx-ms-fn">'+TRAIT_SRC.map(function(c){return '<span>'+c.t+'</span>';}).join(' · ')+'<br>บอกว่าเรารู้จักคุณแค่ไหน ไม่ใช่คำทำนายผลตอบแทน</p></section>';
   var alloc='<section class="pbx-block"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3><p class="pbx-ms-lede">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p><div class="pbx-ms">'+
     ALLOC_SEGS.map(function(s){return pbxMsRow(s.l,s.p,'%',s.p);}).join('')+'</div></section>';
-  var dd='<section class="pbx-sec pb-keep pbx-break"><div class="pbx-kicker">สรุปไว้คุยกับผู้แนะนำการลงทุน</div><h2 class="s-h pbx-sec-t">เจาะราย <span>สินทรัพย์</span></h2></section>'+
-    h.assets.slice(0,4).map(function(a,i){var fg=DD_FIG[a.t],sd='r'; // illustration always on the right, bleeding off the page edge
-      return '<article class="pbx-dd'+(fg?' has-fig '+sd:'')+'">'+(fg?'<img class="pbx-dd-fig" src="assets/'+fg.src+'" alt="" style="width:'+fg.w+'px;height:'+(fg.h||fg.w)+'px;'+(sd==='r'?'right':'left')+':-33px">':'')+'<div class="pbx-art-t">'+a.t+'</div><ul class="pbx-dd-l"><li>'+a.t+' เข้ากับจุดแกร่งของ '+h.th+' — เป็นสินทรัพย์ที่คุณน่าจะเข้าใจได้เร็ว</li><li>เริ่มจากสัดส่วนเล็กก่อน แล้วค่อยเพิ่มเมื่อมั่นใจขึ้น</li><li>ตั้งเป้าหมายและกรอบความเสี่ยงให้ชัดก่อนลงเงินจริง</li></ul></article>';}).join('');
+  /* talking points for the adviser — the live app no longer splits these per asset (2026-10-14): one ticked list, same for everyone */
+  /* the list sits straight under the section head (its 28px), not in a .pbx-block, whose 56px top would stack to 84 */
+  var dd='<section class="pbx-sec pb-keep pbx-break" data-float="adv"><h2 class="s-h pbx-sec-t">สรุปไว้คุยกับผู้แนะนำการลงทุน</h2></section>'+
+    '<div class="pbx-adv pb-keep"><ul class="pbx-adv-l">'+ADV_POINTS.slice(0,ADV_MAX).map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'+
+    '<p class="pbx-ms-fn">* เนื้อหาปรับตามพฤติกรรมจริงของคุณในงาน</p></div>';
   /* every asset the book can name, whatever the persona (2026-10-14, per direction): name + drawing only, a sheet of their own */
-  var others=ALL_ASSETS.filter(function(n){return DD_FIG[n];});
+  var others=PBX_SHOW_ALL_ASSETS?ALL_ASSETS.filter(function(n){return DD_FIG[n];}):[]; // off 2026-10-14 per direction (set PBX_SHOW_ALL_ASSETS=true to bring the sheet back)
   var oa=others.length?'<section class="pbx-sec pb-keep pbx-break"><h2 class="pbx-sec-t">สินทรัพย์ทั้งหมด</h2></section><div class="pbx-oa-g">'+others.map(function(n){return '<div class="pbx-oa-c"><img src="assets/'+DD_FIG[n].src+'" width="140" height="133" alt=""><div class="pbx-oa-n">'+n+'</div></div>';}).join('')+'</div>':'';
   return open+ints+trait+alloc+dd+oa;
 }
@@ -949,6 +959,10 @@ var PBX_FLOAT={journey:[
   {src:'float-heart.png',w:190,h:278,r:64,b:24,a:12},
   {src:'float-gold.png',w:84,h:126,r:262,b:30,a:-14},
   {src:'float-stock.png',w:96,h:96,r:236,b:214,a:-22}
+],adv:[
+  {src:'float-stock.png',w:180,h:180,r:58,b:28,a:16},
+  {src:'float-bitcoin.png',w:74,h:96,r:246,b:18,a:-20},
+  {src:'float-gold.png',w:52,h:78,r:210,b:206,a:-30}
 ],glossary:[
   {src:'float-bitcoin.png',w:160,h:207,r:64,b:24,a:18},
   {src:'float-gold.png',w:77,h:115,r:228,b:8,a:-16},
