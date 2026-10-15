@@ -126,7 +126,7 @@ function calendar() {
 }
 /* 6 risk & reading yourself: an upright hand mirror (oval glass, turned handle) showing an eye */
 function mirror() {
-  const d = Doc(240, 228), cx = 120, cy = 88, rx = 52, ry = 62;
+  const d = Doc(240, 228), cx = 120, cy = 92, rx = 58, ry = 58; // a true circle (was 52 x 62, which read as a squeezed oval); cy + ry stays 150 so the handle joins where it did
   ground(d, 120, 210, 52, 7);
   const handle = `M${cx - 7} ${cy + ry + 6}Q${cx - 14} ${cy + ry + 30} ${cx - 9} ${cy + ry + 52}L${cx - 12} 204H${cx + 12}L${cx + 9} ${cy + ry + 52}Q${cx + 14} ${cy + ry + 30} ${cx + 7} ${cy + ry + 6}Z`;
   d.fill(handle); d.hatch(`M${cx + 1} ${cy + ry + 6}H${cx + 14}V204H${cx + 1}Z`, [cx, cy + ry, cx + 14, 204], 90, 1.6, .5, .85); d.path(handle, 1.6, .9);
