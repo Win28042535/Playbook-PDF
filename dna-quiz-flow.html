@@ -190,7 +190,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* the side's engraved drawing at the right end of its heading, standing on the hairline (2026-10-14: it used to hang in the page margin,
    where the frame left it no room) */
 .pbx-side-hd:has(.pbx-side-fig){align-items:flex-end;}
-.pbx-side-fig{flex:0 0 auto;display:block;width:64px;height:61px;margin:-30px 0 -6px;pointer-events:none;}
+.pbx-side-fig{flex:0 0 auto;display:block;width:auto;height:54px;max-width:72px;object-fit:contain;object-position:right bottom;margin:-24px 0 -3px;pointer-events:none;} /* the files are cropped to their ink: one height for all, base and right edge on one line */
 .pb-page.pbx:has(.pbx-side-fig) .pb-body{overflow:visible;} /* the first row's drawings rise above the sheet body's top edge */
 .pbx-side-b{margin-top:var(--sp-stack);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
 .pbx-side .pbx-side-b{font-size:calc(var(--read-fs) - 2px);}
@@ -494,7 +494,7 @@ var DD_FIG={'หุ้นไทย':{src:'eng-stockth.svg',w:170,h:162},'หุ�
   'ประกัน':{src:'eng-shield.svg',w:170,h:162},'ของสะสมและสินทรัพย์ทางเลือก':{src:'eng-watch.svg',w:170,h:162},'สุขภาพ':{src:'eng-heart.svg',w:170,h:162}};
 /* every asset the book can name, in the app's order (the persona lists use the same names; the last three come from the interest categories) */
 var ALL_ASSETS=['หุ้นไทย','หุ้นต่างประเทศ','กองทุนรวม','ตราสารหนี้','เงินฝาก','ทองคำ','อสังหา/REIT','ประกัน','คริปโต','ปันผล','ของสะสมและสินทรัพย์ทางเลือก','สุขภาพ'];
-var SIDE_FIG=['gauge','lens','hook','hourglass','stetho','steps']; // engraved drawing per journey side (sidesHTML order): assets/eng-*.svg
+var SIDE_FIG=['side-gauge','side-lens','hook','hourglass','stetho','steps']; // engraved drawing per journey side (sidesHTML order): assets/eng-*.svg, each viewBox cropped to its ink (2026-10-20; gauge / lens as eng-side-* copies, the full-box originals stay on p9 / p12 / the Visionary card)
 /* 2026-09-04: all 12 personas now have approved final photographed card art (replaces the earlier
    3-card partial set — harvester/diamondhand/waverider — with the full set), so pcFrontInner's CSS
    editorial-mockup branch is unreached for every real persona now; left in place as a safe fallback
@@ -1279,7 +1279,7 @@ function sidesHTML(r){
    {chip:'เสร็จ',t:'ความเสี่ยง ที่คิด vs ที่ทำจริง',s:'ที่คุณบอกไว้ 2 · ที่คุณทำจริง 2 — สอดคล้อง (Aligned)',body:'<p>ที่คุณบอกไว้ <b>2</b> · ที่คุณทำจริง <b>2</b> — <b>สอดคล้อง (Aligned)</b></p><p>ถ้าคุณทำแบบเดิมทุกวิกฤต พอร์ตจะฟื้นได้ 0/100 — ขายที่จุดต่ำสุดทั้งสองครั้ง จึงไม่ได้ร่วมขาขึ้นเลย</p>'},
    {chip:'เสร็จ',t:'เลนส์ที่คุณใช้ตัดสินใจ',s:'เลนส์หลักของคุณคือ สายเทคนิค',body:'<p>เลนส์หลักของคุณคือ <b>สายเทคนิค</b><br>วัดจากลำดับที่คุณเปิดเครื่องมือวิเคราะห์ ไม่ใช่จากที่คุณบอก</p><ul><li>พื้นฐาน (VI) 38%</li><li>เทคนิค (กราฟ) 63%</li><li>ปันผล (Yield) 0%</li><li>DCA / กองทุน 0%</li></ul>'},
    {chip:'เสร็จ',t:'กับดัก FOMO และกลลวง',s:'ต้านได้ทั้งสองกับดัก · 2/2',body:'<p><b>ต้านได้ทั้งสองกับดัก · 2/2</b></p><ul><li>หุ้นพุ่งพุ่ง คนแห่ซื้อ ไม่ตามฝูง</li><li>ข้อความชวนลงทุน ไม่โอน</li></ul><p>กฎที่คุณเลือกพกติดตัว <b>ถ้ามันเร่งให้รีบ = สัญญาณอันตราย</b></p><p>วัดจาก 2 สถานการณ์เท่านั้น — นี่คือ “คุณในวันนี้” ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน</p>'},
-   {chip:'เสร็จ',t:'เป้าหมายเงินของคุณ ตามช่วงวัย',s:'สิ่งที่คุณเลือกให้ตัวเองในแต่ละช่วงชีวิต — ไม่มีคำตอบถูกผิด',body:'<ul><li>อายุ 25 สมดุล</li><li>อายุ 35 รักษาเงินต้น</li><li>อายุ 50 ลดเสี่ยงตามอายุ</li><li>อายุ 65 สร้างกระแสเงินสด</li></ul><p>เป้าหมายของคุณ<b>เปลี่ยนไปตามวัย</b> (4 แบบใน 4 ช่วง)</p>'},
+   {chip:'เสร็จ',t:'เป้าหมายเงิน ตามช่วงวัย',s:'สิ่งที่คุณเลือกให้ตัวเองในแต่ละช่วงชีวิต — ไม่มีคำตอบถูกผิด',body:'<ul><li>อายุ 25 สมดุล</li><li>อายุ 35 รักษาเงินต้น</li><li>อายุ 50 ลดเสี่ยงตามอายุ</li><li>อายุ 65 สร้างกระแสเงินสด</li></ul><p>เป้าหมายของคุณ<b>เปลี่ยนไปตามวัย</b> (4 แบบใน 4 ช่วง)</p>'},
    {chip:'เสร็จ',t:'สินทรัพย์ที่ ๙ — สุขภาพ',s:'Health-Wealth 5.5/10',body:'<p>Health-Wealth <b>5.5</b>/10</p>'},
    {chip:'เสร็จ',t:'ก้าวแรกของคุณ',s:'กำแพงที่คุณบอกว่าขวางอยู่ ไม่รู้จะเริ่มยังไง',body:'<p>กำแพงที่คุณบอกว่าขวางอยู่ <b>ไม่รู้จะเริ่มยังไง</b></p><p>3 ขั้น เปิดบัญชี → เลือกตัวเลือกแรกที่เข้าใจและกระจายความเสี่ยงในตัว → ตั้งอัตโนมัติ</p><p>สิ่งที่คุณบอกว่าจะทำ <b>จดรายรับ-รายจ่าย 7 วัน</b></p>'}
   ];
@@ -1293,7 +1293,7 @@ function sidesHTML(r){
       /* the grey sub-line repeats the body's first paragraph (or its opening words) on most sides — dropped there; where it is
          new text (life-stage goals) it becomes the body's first paragraph, in the same Sarabun as the rest */
       var first=(sd.body.match(/<p>([\s\S]*?)<\/p>/)||[])[1]||'',dup=plain(first).indexOf(plain(sd.s))===0;
-      var one='<article class="pbx-side fig-'+(i%2?'r':'l')+'"><div class="pbx-side-hd"><div class="pbx-side-t">'+sd.t+'</div><img class="pbx-side-fig" src="assets/eng-'+SIDE_FIG[i]+'.svg" width="64" height="61" alt=""></div>'+
+      var one='<article class="pbx-side fig-'+(i%2?'r':'l')+'"><div class="pbx-side-hd"><div class="pbx-side-t">'+sd.t+'</div><img class="pbx-side-fig" src="assets/eng-'+SIDE_FIG[i]+'.svg" alt=""></div>'+
         '<div class="pbx-side-b">'+(dup?'':'<p>'+sd.s+'</p>')+sd.body+'</div></article>';
       return i%2?one+'</div>':'<div class="pbx-side-row pbx-vr">'+one; // three rows of two, split by the vertical rule
     }).join('');
