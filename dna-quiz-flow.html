@@ -372,6 +372,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-hero-orn{display:flex;align-items:center;gap:16px;margin:16px 0 14px;}
 .pbx-hero-orn::before,.pbx-hero-orn::after{content:'';width:64px;height:var(--rule-w);background:var(--rule);}
 .pbx-hero-orn i{display:block;width:70px;height:70px;background:url(assets/ill-compass.svg) center/contain no-repeat;}
+.pbx-hero-orn i.f-G{width:84px;height:80px;background-image:url(assets/eng-shield.svg);} /* engraved pieces carry their own ground shadow and margin, so drawn a little larger to match the compass */
+.pbx-hero-orn i.f-V{width:84px;height:80px;background-image:url(assets/eng-lens.svg);}
 .pbx-hero .pbx-feat-fam-s{font-size:32px;line-height:1.1;}
 .pbx-hero .pbx-feat-sig{max-width:var(--read-measure);}
 .pbx-hero .pbx-data-note{max-width:var(--read-measure);margin-top:var(--sp-inline);}
@@ -704,9 +706,11 @@ function pbxFamHTML(h){return (function(m){return m?'<span class="pbx-feat-fam-s
 /* the card sheet, pre- and post-event alike (2026-10-14, per direction: centred, ordered by what the reader needs first):
    phase label → persona name → a short rule with the chapter's compass (70px) → family (Latin + Thai gloss) → signature →
    any note → the card as the sheet's picture. A sheet of its own (.pbx-solo). */
+/* the drawing between name and family follows the family (2026-10-20): Guardian = shield, Navigator = compass, Visionary = lens */
+var PBX_FAM_ILL={G:'eng-shield',N:'ill-compass',V:'eng-lens'};
 function pbxHeroHTML(phase,h,img,note){
   return '<section class="pbx-feat pbx-hero pbx-solo">'+phase+'<h2 class="s-h pbx-feat-t">'+h.th+'</h2>'+
-    '<div class="pbx-hero-orn" aria-hidden="true"><i></i></div>'+
+    '<div class="pbx-hero-orn" aria-hidden="true"><i class="f-'+(PBX_FAM_ILL[h.fam]?h.fam:'N')+'"></i></div>'+
     '<div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+(note||'')+
     '<div class="pbx-card"><img src="'+img+'" alt="การ์ด '+h.en+'"></div></section>';
 }
