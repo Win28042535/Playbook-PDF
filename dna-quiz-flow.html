@@ -268,6 +268,20 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-oa-n{margin-top:10px;padding-top:8px;border-top:var(--rule-w) solid var(--rule);text-align:center;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 /* พอร์ต chapter (pbxPortEduHTML): the 5-level table, the 1-year ladder and the 10-year growth line, all in the report idiom of .pbx-ms */
 .pbx-pe-mirror{max-width:var(--read-measure);margin-top:48px;}
+/* mirror as a book page: the verdict as the lead, the said / real figures as a typographic pair (serif numerals, "/10" small,
+   a hairline arrow between, captions under), one reading paragraph, a footnote */
+.pbx-mr-lead{margin-top:var(--sp-block);font-size:var(--fs-sig);font-weight:var(--w-label);line-height:1.4;color:var(--ink);text-wrap:balance;}
+.pbx-mr-pair{display:flex;align-items:flex-start;gap:28px;margin-top:var(--sp-block);}
+.pbx-mr-f{display:flex;flex-direction:column;gap:8px;}
+.pbx-mr-n{font-family:var(--font-serif);font-weight:400;font-size:64px;line-height:.9;color:var(--ink);font-variant-numeric:lining-nums;}
+.pbx-mr-n small{margin-left:4px;font-size:20px;color:var(--muted);}
+.pbx-mr-f:first-child .pbx-mr-n{color:var(--muted);}
+.pbx-mr-cap{font-size:var(--pbx-fs-kicker);font-weight:var(--w-label);line-height:1.3;color:var(--muted);}
+.pbx-mr-f:last-child .pbx-mr-cap{color:var(--ink);}
+.pbx-mr-ar{position:relative;flex:none;width:56px;height:var(--rule-w);margin-top:30px;background:var(--ink);}
+.pbx-mr-ar::after{content:'';position:absolute;right:0;top:-3.5px;width:8px;height:8px;border-top:var(--rule-w) solid var(--ink);border-right:var(--rule-w) solid var(--ink);transform:rotate(45deg);transform-origin:center;}
+.pbx-mr-tx{margin-top:var(--sp-block);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);text-wrap:pretty;}
+.pbx-mr-fn{margin-top:var(--sp-block);font-size:var(--pbx-fs-kicker);line-height:1.6;color:var(--muted);}
 .pbx-open .pbx-ms-fn{max-width:var(--read-measure);margin-top:32px;}
 .pbx-pe-t{margin-top:var(--sp-stack);}
 .pbx-pe-h,.pbx-pe-r{display:grid;grid-template-columns:150px repeat(4,1fr);column-gap:24px;align-items:end;}
@@ -809,11 +823,32 @@ function pbxThMonth(ym){var p=ym.split('-');return TH_MON[+p[1]-1]+' '+(+p[0]+54
 function pbxFill(t,o){return t.replace(/\{(\w+)\}/g,function(m,k){return o[k]!=null?o[k]:m;});}
 function pbxPct(v){return (v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(1)+'%';}
 function pbxBaht(v){return Math.round(v).toLocaleString('en-US')+' บาท';}
+/* กระจกจากเกมย้อนเวลาพอร์ต (2026-10-20, third pass, per direction: built from the data the app shows here —
+   ความเสี่ยงที่บอก · ความเสี่ยงจริง · ต่างกัน · นิ่ง/ยังไม่นิ่ง · ปฏิกิริยาต่อวิกฤตสองฉาก · ข้อสรุป). Said / real are RESULT.declared /
+   revealed (1–10, the same figures as the analysis chapter); steady = the two crisis choices of the app's GAME_ANSWERS[0]
+   ([Q1, 2008, covid], 0 ขาย / 1 ถือ / 2 ซื้อเพิ่ม) agree. The verdict follows the app's sideResultFromAnswers order (split crises
+   first, then the gap). Laid out as a book page: the verdict as the lead, the two figures as a typographic pair (serif numerals,
+   "/10" small, a hairline arrow between), one reading paragraph that says the gap and the steadiness in words, the note as a footnote.
+   PBX_MIRROR_SAMPLE is example game data (the book has no game state); null shows not_played. */
+var PBX_MIRROR_SAMPLE=[0,0,2];
+function pbxMirrorHTML(M){
+  var a=(window.GAME_ANSWERS&&window.GAME_ANSWERS[0])||PBX_MIRROR_SAMPLE,r=RESULT;
+  var head='<div class="pbx-pe-mirror"><div class="pbx-side-hd"><span class="pbx-side-t">'+M.title+'</span></div>';
+  if(!r||!a||a[1]==null||a[2]==null)return head+'<p class="pbx-ms-lede">'+M.not_played+'</p></div>';
+  var said=r.declared,real=r.revealed,d=real-said,steady=a[1]===a[2];
+  var lead=!steady?'ยังอยู่ระหว่างสำรวจตัวเอง':d>0?'ใจถึงกว่าที่บอกไว้':d<0?'ระวังกว่าที่คิดไว้':'ทำได้ตรงกับที่บอกไว้';
+  var gapTx=d>0?'ความเสี่ยงที่คุณรับได้จริงสูงกว่าที่บอกไว้ '+d+' ระดับ':d<0?'ความเสี่ยงที่คุณรับได้จริงต่ำกว่าที่บอกไว้ '+(-d)+' ระดับ':'ความเสี่ยงที่คุณรับได้จริงตรงกับที่บอกไว้';
+  var stTx=steady?'และในวิกฤตทั้งสองฉาก คุณตัดสินใจไปทางเดียวกัน แปลว่ามีแนวทางของตัวเองค่อนข้างชัด':'แต่ในวิกฤตสองฉาก คุณตัดสินใจต่างกัน แปลว่ายังไม่นิ่งว่าจะรับความเสี่ยงจริงแค่ไหน';
+  var fig=function(v,cap){return '<div class="pbx-mr-f"><span class="pbx-mr-n">'+v+'<small>/10</small></span><span class="pbx-mr-cap">'+cap+'</span></div>';};
+  return head+'<p class="pbx-mr-lead">'+lead+'</p>'+
+    '<div class="pbx-mr-pair" role="img" aria-label="ความเสี่ยงที่บอก '+said+' ความเสี่ยงจริง '+real+' จาก 10">'+fig(said,'ความเสี่ยงที่บอก')+'<i class="pbx-mr-ar" aria-hidden="true"></i>'+fig(real,'ความเสี่ยงจริง')+'</div>'+
+    '<p class="pbx-mr-tx">'+gapTx+' '+stTx+'</p><p class="pbx-mr-fn">* '+M.note+'</p></div>';
+}
 function pbxPortEduHTML(){
   var D=window.PORT_EDU_DATA;if(!D)return '';
   var T=D.texts,tb=D.table,H=D.history,fx=H.default_foreign,lv=tb.pick.default,S=H.by_foreign[fx];
   var open=pbxOpenHTML(['พอร์ต',['YOUR','Portfolio']],'5 ระดับ พอร์ตลงทุน','แต่ละระดับแบ่งเงินกันอย่างไร เคยขึ้นลงแค่ไหน แล้วลองเทียบกับพอร์ตของคุณเอง',
-    '<div class="pbx-pe-mirror"><div class="pbx-side-hd"><span class="pbx-side-t">'+D.mirror.title+'</span></div><p class="pbx-ms-lede">'+D.mirror.not_played+'</p></div>'+
+    pbxMirrorHTML(D.mirror)+
     '<p class="pbx-ms-fn">'+D.banner+'</p>');
   /* the five levels: one row each — numeral + risk label, then each bucket's range in figures over a 0–100 ruler with the band inked */
   var B=['cash','bond','equity','alt'];
