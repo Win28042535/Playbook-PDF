@@ -373,20 +373,6 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-hero-orn::before,.pbx-hero-orn::after{content:'';width:64px;height:var(--rule-w);background:var(--rule);}
 .pbx-hero-orn i{display:block;width:70px;height:70px;background:url(assets/ill-compass.svg) center/contain no-repeat;}
 .pbx-hero-orn i.f-G{width:84px;height:80px;background-image:url(assets/eng-shield.svg);} /* engraved pieces carry their own ground shadow and margin, so drawn a little larger to match the compass */
-/* the three-families sheet: emblem | name, trait line, four personas in two columns */
-.pbx-fam{display:grid;grid-template-columns:120px 1fr;column-gap:32px;align-items:start;padding:24px 0;border-bottom:var(--rule-w) solid var(--rule);}
-.pbx-fam:last-of-type{border-bottom:0;} /* the footnote rule closes the list */
-.pbx-sec-sub+.pbx-fam{margin-top:var(--sp-block);border-top:var(--rule-w) solid var(--rule);}
-.pbx-fam-ic{display:block;width:120px;height:114px;background:url(assets/ill-compass.svg) center/contain no-repeat;}
-.pbx-fam-ic.f-G{background-image:url(assets/eng-shield.svg);}
-.pbx-fam-ic.f-V{background-image:url(assets/eng-lens.svg);}
-.pbx-fam-d{margin-top:var(--sp-inline);font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
-.pbx-fam-l{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin-top:var(--sp-stack);padding:0;list-style:none;}
-.pbx-fam-l li{display:flex;flex-direction:column;font-size:var(--fs-label);line-height:1.35;color:var(--muted);}
-.pbx-fam-l b{font-family:var(--font-serif);font-weight:400;font-size:17px;color:var(--ink);}
-.pbx-fam-l span{font-size:var(--pbx-fs-kicker);}
-.pbx-fam-l li.on b{font-weight:700;}
-.pbx-fam-l li.on span{color:var(--ink);font-weight:var(--w-label);}
 .pbx-hero-orn i.f-V{width:84px;height:80px;background-image:url(assets/eng-lens.svg);}
 .pbx-hero .pbx-feat-fam-s{font-size:32px;line-height:1.1;}
 .pbx-hero .pbx-feat-sig{max-width:var(--read-measure);}
@@ -736,17 +722,6 @@ function pbxPostHTML(ev){
     '<section class="pbx-block"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></section>'+
     '<section class="pbx-block"><div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/s*—s*/g,' ');
 }
-/* the three families on one sheet (2026-10-21), before the pre-event card: each family's emblem (the same drawing its card sheet
-   carries), its name in the card's Latin + Thai lettering, one line from its strengths, and its four personas (English + Thai),
-   the reader's own in bold */
-function pbxFamiliesHTML(key){
-  var by={G:[],N:[],V:[]};Object.keys(HEROES).forEach(function(k){if(by[HEROES[k].fam])by[HEROES[k].fam].push(k);});
-  return '<section class="pbx-fams pbx-solo"><h2 class="s-h pbx-sec-t">3 ตระกูลนักลงทุน</h2><p class="pbx-sec-sub">ตัวตนทั้ง 12 แบบแบ่งเป็น 3 ตระกูล แต่ละตระกูลมีภาพประจำของตัวเอง</p>'+
-    ['G','N','V'].map(function(f){var F=FAM[f];
-      return '<div class="pbx-fam"><i class="pbx-fam-ic f-'+f+'" aria-hidden="true"></i><div class="pbx-fam-b"><div class="pbx-feat-fam">'+pbxFamHTML({famTh:F.th})+'</div>'+
-        '<p class="pbx-fam-d">'+F.strengths[0]+'</p><ul class="pbx-fam-l">'+by[f].map(function(k){var x=HEROES[k];return '<li'+(k===key?' class="on"':'')+'><b>'+x.en+'</b><span>'+x.th+(k===key?' · คุณ':'')+'</span></li>';}).join('')+'</ul></div></div>';}).join('')+
-    '<p class="pbx-ms-fn">* ภาพประจำตระกูลจะปรากฏบนหน้าการ์ดตัวตนของคุณ</p></section>';
-}
 function pbxIdentityHTML(h,key,unreg,ev){
   ev=ev||{state:'none'};
   var feat=pbxHeroHTML('<div class="pbx-hero-ph"><div class="pbx-phase"><b>ก่อนร่วมงาน</b><i>Pre-event</i></div></div>',h,REAL_CARD_IMG[key],
@@ -764,7 +739,7 @@ function pbxIdentityHTML(h,key,unreg,ev){
     '<p class="pbx-side-b">ร่วมเดินทางต่อในวันงาน กับ <b>10 INVESTMENT EXPERIENCES</b> • <b>6 INVESTMENT GAMES</b> พร้อม efin AI • Speaker ชั้นนำ • PAVILION ZONE</p>'+
     '<p class="pbx-side-b">รับ Playbook การลงทุนส่วนตัว เพื่อสแกนทุกโอกาสการลงทุนในโลกยุคใหม่</p>'+
     '<a class="pbx-reg-a" href="'+REG_URL+'" target="_blank" rel="noopener">ลงทะเบียนเข้าร่วมงาน</a></section>';
-  return (pbxFamiliesHTML(key)+feat+assets+str+(unreg?reg:skill)).replace(/\s*—\s*/g,' ')+(ev.state==='evolved'&&!unreg?pbxPostHTML(ev):''); // no em dashes on a sheet
+  return (feat+assets+str+(unreg?reg:skill)).replace(/\s*—\s*/g,' ')+(ev.state==='evolved'&&!unreg?pbxPostHTML(ev):''); // no em dashes on a sheet
 }
 function renderBook(){
   if(!RESULT){st.phase='splash';render();return;}
