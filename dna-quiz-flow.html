@@ -149,7 +149,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx.parch .pbx-open2 .pbx-open-t span{font-weight:inherit;}
 .pbx.parch .pbx-open2 .pbx-lede{margin-top:18px;}
 .pbx-op-pill{display:table;margin-top:94px;}
-.pbx .pbx-open.pbx-open2:not(.pbx-solo){padding-bottom:40px;} /* room between the pill and the chapter content that flows up under it */
+.pbx .pbx-open.pbx-open2:not(.pbx-solo){padding-bottom:40px;}
+.pb-page.pbx.parch .pb-body>.pbx-open2:not(.pbx-solo)~*{margin-left:-32px;width:calc(100% + 32px);} /* what flows up under the pill starts at the opener's x 44, so pill and content share one edge */ /* room between the pill and the chapter content that flows up under it */
 .pbx-op-hd:has(.pbx-lede)+.pbx-op-pill{margin-top:44px;}
 /* analysis (layout 2026-10-22): two columns 334 | 312 with a plain rule at x 397; text in Noto Sans Thai; notes in grey italics;
    the said / real pair centred and large; Confidence rows with a thick ink bar on a pale track, 62px apart */
