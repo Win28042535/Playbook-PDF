@@ -12,12 +12,11 @@
 <meta name="viewport" content="width=794">
 <link rel="icon" href="assets/bt.png">
 <style>
-@font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-100-500.ttf) format('truetype');font-weight:100 500;font-style:normal;font-display:swap;}
-@font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-600-900.ttf) format('truetype');font-weight:600 900;font-style:normal;font-display:swap;}
 @font-face{font-family:'Baskervville';src:url(assets/baskervville-regular-sub.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap;} /* Regular, printable ASCII + dashes/quotes only (19 KB, OFL; from Font/Baskervville/static) */
 @font-face{font-family:'PSL Praewsuda Serif';src:url(assets/psl-praewsuda-serif-bold.otf) format('opentype');font-weight:700;font-style:normal;font-display:swap;} /* PSL Praewsuda Serif Pro Bold (Fonts PSL series/PSL-5 Pro/PSL273pro.otf): the parchment layouts' display Thai, 2026-10-22 */
 @font-face{font-family:'TH Sarabun New';src:url(assets/th-sarabun-new.ttf) format('truetype');font-weight:400;font-style:normal;font-display:swap;} /* TH Sarabun New (SIPA national font) for the card sheet's three outlook lines, 2026-10-22 */
 @font-face{font-family:'Noto Sans Thai';src:url(assets/noto-sans-thai.ttf) format('truetype');font-weight:100 900;font-stretch:62.5% 100%;font-style:normal;font-display:swap;} /* Noto Sans Thai, variable (Google Fonts, OFL) for the card sheet's Thai persona name, 2026-10-22 */
+@font-face{font-family:'Noto Sans Thai UI';src:url(assets/noto-sans-thai.ttf) format('truetype');font-weight:100 900;font-stretch:62.5% 100%;font-style:normal;font-display:swap;size-adjust:80%;} /* the UI face (--font) since 2026-10-22, in place of FC Minimal: Noto runs ~30% taller and ~36% wider, so 80% keeps the old sizes' look */
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-400.ttf) format('truetype');font-weight:400;font-style:normal;font-display:swap;}
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-500.ttf) format('truetype');font-weight:500;font-style:normal;font-display:swap;}
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-700.ttf) format('truetype');font-weight:700;font-style:normal;font-display:swap;}
@@ -63,9 +62,9 @@
   --pbx-hero-card:320px;   /* 360 → 320 (2026-10-21): room for up to 3 lines of text above the frame without the sheet shrinking */
   /* spacing scale */
   --sp-glue:6px; --sp-list:8px; --sp-inline:12px; --sp-stack:16px; --sp-block:22px; --sp-section:20px;
-  /* type: FC Minimal for UI and headings (the embedded file covers Thai AND Latin, so headings never fall back to a system face); Sarabun, a
-     looped Thai text face, for long reading text */
-  --font:'FC Minimal','Noto Sans Thai','Thonburi','DB Helvethaica X',system-ui,-apple-system,'Segoe UI',sans-serif;
+  /* type: Noto Sans Thai UI (the variable file at 80%, so the sizes set for FC Minimal keep their look and line length; the file covers
+     Thai AND Latin, so headings never fall back to a system face) for UI and headings; Sarabun, a looped Thai text face, for long reading text */
+  --font:'Noto Sans Thai UI','Noto Sans Thai','Thonburi','DB Helvethaica X',system-ui,-apple-system,'Segoe UI',sans-serif;
   /* Latin lettering (reference: "CHAPTER / Three"): tracked capitals over a lower-case word, all in Baskervville Regular, for English words only; Thai never uses it */
   --font-serif:'Baskervville','Times New Roman',serif;
   --pbx-lock-h:88px;
@@ -124,7 +123,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx .pbx-hero2{align-items:center;}
 .pbx-pill{display:inline-block;padding:4px 16px 5px;border-radius:999px;background:#3a3a3a;color:#fbf9f2;font-size:13px;font-weight:var(--w-body);line-height:17px;white-space:nowrap;}
 .pbx-pill.post{background:var(--ink);}
-.pbx-hero-en{margin-top:8px;font-family:var(--font-serif);font-weight:400;font-size:90px;line-height:1.02;white-space:nowrap;color:#3a352f;
+/* padding-bottom: the silver fill is clipped to the box, and a 1.02 line box ends mid-descender (g, p, y lost half their tails, 2026-10-22) */
+.pbx-hero-en{margin-top:8px;padding-bottom:.3em;margin-bottom:-.2em;font-family:var(--font-serif);font-weight:400;font-size:90px;line-height:1.02;white-space:nowrap;color:#3a352f;
   background:linear-gradient(100deg,#2b2621 0%,#45403a 28%,#a9a59e 47%,#d9d6cf 52%,#5d5852 66%,#2b2621 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 .pbx .pbx-hero.pbx-hero2 .pbx-feat-t{margin-top:6px;font-family:'Noto Sans Thai',var(--font);font-size:31px;font-weight:500;line-height:1.3;} /* Noto Sans Thai Medium per the layout's type list (weight and size matched to its ink and width) */
 .pbx-hero-art{display:block;width:auto;height:410px;max-width:470px;object-fit:contain;margin:40px 0 26px;} /* the supplied character cut-outs (transparent PNG → assets/art-*.webp, trimmed): 410px tall as in the layout (≤ 470 wide so the wide ones don't dominate), with its ~40px of air above and below */
@@ -144,7 +144,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-op-hd{max-width:415px;}
 .pbx-op-en{display:flex;align-items:center;gap:16px;font-family:var(--font-serif);font-weight:400;font-size:56px;line-height:1;white-space:nowrap;}
 .pbx-op-en i{font-style:normal;font-size:38px;color:var(--ink);line-height:1;transform:translateY(-2px);}
-.pbx-op-en span{background:linear-gradient(100deg,#2b2621 0%,#45403a 28%,#a9a59e 47%,#d9d6cf 52%,#5d5852 66%,#2b2621 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.pbx-op-en span{padding-bottom:.3em;margin-bottom:-.3em;background:linear-gradient(100deg,#2b2621 0%,#45403a 28%,#a9a59e 47%,#d9d6cf 52%,#5d5852 66%,#2b2621 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 .pbx.parch .pbx-open2 .pbx-open-t{display:block;margin-top:10px;padding:0;font-family:'Noto Sans Thai',var(--font);font-size:38px;font-weight:500;line-height:1.3;border:0;text-wrap:balance;}
 .pbx.parch .pbx-open2 .pbx-open-t span{font-weight:inherit;}
 .pbx.parch .pbx-open2 .pbx-lede{margin-top:18px;}
@@ -529,7 +529,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx .pbx-toc-t{margin:0 0 var(--sp-block);padding-bottom:var(--sp-inline);font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
 .toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
 /* parchment สารบัญ (2026-10-22, from the supplied layout, 1414px → 794): title centred in the display face, each chapter a four-point
-   star + its name in a 200px column, entries in FC Minimal 17px on a ~28px pitch, folios in Baskervville old-style figures flush right
+   star + its name in a 200px column, entries in the UI face (Noto Sans Thai UI) 17px on a ~28px pitch, folios in Baskervville old-style figures flush right
    at x 691; no rules between chapters; a faint hand-inked compass (centre 588, 598, its N / W / S letters 337px out, cut by the right edge) behind the list. No header hairlines (the title stands in for them). */
 .pb-page.pbx.pb-toc.parch{padding:62px 103px 34px 94px;}
 .parch .pbx-toc-t{margin:0 0 30px;padding:0;border:0;text-align:center;font-family:var(--font-display);font-size:83px;font-weight:700;line-height:1.05;letter-spacing:0;}
@@ -1674,6 +1674,6 @@ RESULT.revealed=RESULT.declared;RESULT.gap=0; // the PDF sample reads "สอด
   var done=false;function go(){if(done)return;done=true;render();}
   setTimeout(go,2500);
   if(!document.fonts||!document.fonts.load){go();return;}
-  Promise.all([document.fonts.load('500 16px "FC Minimal"'),document.fonts.load('700 16px "FC Minimal"'),document.fonts.load('500 16px "Sarabun"'),document.fonts.load('700 16px "Sarabun"'),document.fonts.load('400 20px "Baskervville"'),document.fonts.load('700 20px "PSL Praewsuda Serif"'),document.fonts.load('400 20px "TH Sarabun New"'),document.fonts.load('500 20px "Noto Sans Thai"')]).then(function(){return document.fonts.ready;}).then(go,go);
+  Promise.all([document.fonts.load('500 16px "Noto Sans Thai UI"'),document.fonts.load('700 16px "Noto Sans Thai UI"'),document.fonts.load('500 16px "Sarabun"'),document.fonts.load('700 16px "Sarabun"'),document.fonts.load('400 20px "Baskervville"'),document.fonts.load('700 20px "PSL Praewsuda Serif"'),document.fonts.load('400 20px "TH Sarabun New"'),document.fonts.load('500 20px "Noto Sans Thai"')]).then(function(){return document.fonts.ready;}).then(go,go);
 })();
 </script>
