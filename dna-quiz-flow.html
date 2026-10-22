@@ -177,6 +177,24 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-an2 .pbx-dl,.pbx-an2 .pbx-dv{font-family:'Noto Sans Thai',var(--font);font-size:20px;font-weight:500;color:var(--ink);}
 .pbx-an2 .pbx-dv{font-size:17px;}
 .pbx-an2 .pbx-db{height:4px;margin-top:10px;background:linear-gradient(to right,var(--ink) var(--v),#cfc7b8 var(--v));}
+/* analysis-layout DNA carried through the book (2026-10-22): notes and sources in grey italics, two-column rules plain
+   (no diamond), a content page's small kicker as the filled section pill */
+.parch .pbx-data-note:not(.pbx-open .pbx-data-note),.parch .pbx-ms-fn,.parch .pbx-mr-fn,.parch .pbx-ms-lede{font-style:italic;}
+.parch .pbx-vr::after{display:none;}
+.parch .pbx-vr::before{border-left-color:#a29a8b;}
+.parch .pbx-sec>.pbx-kicker{display:table;padding:4px 16px 5px;border-radius:999px;background:#3a3a3a;color:#fbf9f2;font-size:13px;font-weight:var(--w-body);line-height:17px;}
+/* round 2 (2026-10-22): every data bar as the Confidence row's bar (4px ink on a pale track, no ticks or diamonds), and
+   block / side / section headings in Noto Sans Thai as on the analysis page; long reading text stays Sarabun */
+.parch .pbx-db{height:4px;background:linear-gradient(to right,var(--ink) var(--v),#cfc7b8 var(--v));}
+.parch .pbx-dr.muted .pbx-db{background:linear-gradient(to right,#9a9081 var(--v),#cfc7b8 var(--v));}
+.parch .pbx-ms-ru{height:4px;margin-top:0;background:#cfc7b8;}
+.parch .pbx-ms-ru::before{bottom:auto;top:0;height:4px;}
+.parch .pbx-ms-ru::after{display:none;}
+.parch .pbx-ms-r.muted .pbx-ms-ru::before{background:#9a9081;}
+.parch .pbx-sk-s{height:4px;margin-top:10px;background:#cfc7b8;border-right:0;}
+.parch .pbx-sk-s::before{top:0;height:4px;background:linear-gradient(to right,var(--ink) var(--v),transparent var(--v));}
+.parch .pbx-sk-s i{display:none;}
+.pbx.parch .pbx-blk-t,.parch .pbx-side-t,.pbx.parch .pbx-sec-t{font-family:'Noto Sans Thai',var(--font);font-weight:500;}
 .pbx-chrome{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);z-index:-1;pointer-events:none;}
 .parch .pbx-hd{top:35px;font-family:var(--font-display);font-size:25px;font-weight:700;line-height:28px;color:var(--ink);} /* chapter name between the stars (2026-10-22, from the card-sheet layout) */
 .parch .pbx-ft{position:static;}
@@ -272,7 +290,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-side{padding:0 0 36px;}
 .pbx-side-hd{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-stack);padding-bottom:var(--sp-inline);border-bottom:var(--rule-w) solid var(--rule);}
 .pbx-side-t{font-family:var(--font-read);font-size:calc(var(--fs-sig) - 2px);font-weight:var(--w-label);line-height:1.35;color:var(--ink);}
-.pbx-side-st{display:inline-block;padding:2px 11px 3px;border-radius:999px;background:#3a3a3a;font-size:12px;line-height:1.4;color:#fbf9f2;white-space:nowrap;} /* the phase pill's shape (2026-10-22) */
+.pbx-side-st{display:inline-block;padding:2px 11px 3px;border-radius:999px;border:var(--rule-w) solid var(--ink);background:none;font-size:12px;line-height:1.4;color:var(--ink);white-space:nowrap;} /* status = outline pill; filled pills label a section (analysis layout, 2026-10-22) */ /* the phase pill's shape (2026-10-22) */
 /* journey sides: each carries an engraved drawing in the outer page margin (left column off the left edge, right
    column off the right edge), a quarter of it cut by the page; the text gives way a little on that side */
 .pbx-side{position:relative;}
