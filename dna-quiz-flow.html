@@ -15,6 +15,9 @@
 @font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-100-500.ttf) format('truetype');font-weight:100 500;font-style:normal;font-display:swap;}
 @font-face{font-family:'FC Minimal';src:url(assets/fc-minimal-600-900.ttf) format('truetype');font-weight:600 900;font-style:normal;font-display:swap;}
 @font-face{font-family:'Baskervville';src:url(assets/baskervville-regular-sub.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap;} /* Regular, printable ASCII + dashes/quotes only (19 KB, OFL; from Font/Baskervville/static) */
+@font-face{font-family:'PSL Praewsuda Serif';src:url(assets/psl-praewsuda-serif-bold.otf) format('opentype');font-weight:700;font-style:normal;font-display:swap;} /* PSL Praewsuda Serif Pro Bold (Fonts PSL series/PSL-5 Pro/PSL273pro.otf): the parchment layouts' display Thai, 2026-10-22 */
+@font-face{font-family:'TH Sarabun New';src:url(assets/th-sarabun-new.ttf) format('truetype');font-weight:400;font-style:normal;font-display:swap;} /* TH Sarabun New (SIPA national font) for the card sheet's three outlook lines, 2026-10-22 */
+@font-face{font-family:'Noto Sans Thai';src:url(assets/noto-sans-thai.ttf) format('truetype');font-weight:100 900;font-stretch:62.5% 100%;font-style:normal;font-display:swap;} /* Noto Sans Thai, variable (Google Fonts, OFL) for the card sheet's Thai persona name, 2026-10-22 */
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-400.ttf) format('truetype');font-weight:400;font-style:normal;font-display:swap;}
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-500.ttf) format('truetype');font-weight:500;font-style:normal;font-display:swap;}
 @font-face{font-family:'Sarabun';src:url(assets/sarabun-700.ttf) format('truetype');font-weight:700;font-style:normal;font-display:swap;}
@@ -25,6 +28,7 @@
   --sheet:#fafafc;             /* the printed sheet: near-white cool grey (reference: Torino; a warm trial after the leather cover was reverted 2026-10-14) */
   --sheet-ink:78,92,118;       /* r,g,b of the blue-grey used for the edge vignette */
   --pbx-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .34 0 0 0 0 .42 .12 0 0 0 -.043'/%3E%3C/filter%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .26 .23 0 0 0 -.095'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23m)'/%3E%3Crect width='360' height='360' filter='url(%23g)'/%3E%3C/svg%3E");  /* seamless 360px tile: a faint blue-grey fibre mottle + fine grain, both feTurbulence */
+  --pbx-grain-warm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.024' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .46 0 0 0 0 .37 0 0 0 0 .25 .12 0 0 0 -.043'/%3E%3C/filter%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .23 0 0 0 0 .15 .23 0 0 0 -.095'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23m)'/%3E%3Crect width='360' height='360' filter='url(%23g)'/%3E%3C/svg%3E");  /* the same tile in the parchment sheet's warm brown (2026-10-22) */
   /* the leather cover's texture DNA, rebuilt procedurally and kept far fainter (2026-10-14, "P1 จาง"): large soft patches (the cover's dominant
      >23px band) and an embossed wrinkle relief (stretched turbulence through diffuse light from the upper left); all three layers in the book's blue-grey */
   --pbx-cloud:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%27720%27%3E%3Cfilter%20id%3D%27c%27%20x%3D%270%27%20y%3D%270%27%20width%3D%27100%25%27%20height%3D%27100%25%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.0055%27%20numOctaves%3D%272%27%20seed%3D%2711%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.3%200%200%200%200%20.34%200%200%200%200%20.42%200.143%200%200%200%20-0.0585%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27720%27%20height%3D%27720%27%20filter%3D%27url(%23c)%27%2F%3E%3C%2Fsvg%3E");
@@ -65,6 +69,7 @@
   /* Latin lettering (reference: "CHAPTER / Three"): tracked capitals over a lower-case word, all in Baskervville Regular, for English words only; Thai never uses it */
   --font-serif:'Baskervville','Times New Roman',serif;
   --pbx-lock-h:88px;
+  --font-display:'PSL Praewsuda Serif','Taviraj','Noto Serif Thai',serif; /* the parchment display face: สารบัญ title + chapter names, the running header's chapter name */
   --font-read:'Sarabun','Noto Sans Thai','Thonburi','DB Helvethaica X',system-ui,-apple-system,'Segoe UI',sans-serif;
   --fs-heading:32px; --fs-sub:24px; --fs-sig:22px; --fs-bodysm:18px; --fs-label:16px;
   --w-body:500; --w-label:700;
@@ -102,7 +107,47 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-bt{position:absolute;left:0;right:0;z-index:-1;background:url(assets/topo-b.svg) center bottom/100% auto no-repeat;opacity:.11;pointer-events:none;-webkit-mask-image:linear-gradient(to top,#000 22%,transparent 100%);mask-image:linear-gradient(to top,#000 22%,transparent 100%);}
 /* the cover's frame on every inside sheet (pbxFrame): silver double hairline, rounded corners, gaps at top and bottom centre (running header / four-point star).
    Painted under the content (z-index -1, after the bottom contour field) so drawings that bleed off the page pass over it. */
-.pbx-frame{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);z-index:-1;pointer-events:none;}
+/* ── parchment sheet (2026-10-22, from the supplied layout; test on folios PBX_PARCH): warm paper lit from the centre (#fbf9f2) and
+   browning to the edges, the measured profile as two edge ramps over a warm grain; header = two hairlines and two four-point stars
+   around the chapter name; footer = two hairlines around the flourish cut from the layout, brand left, folio centre, note right.
+   The silver frame, contour field and corner sprigs are not drawn on these sheets; inks turn warm; engraved drawings multiply so
+   their paper-white fills take the sheet's colour. ── */
+.pb-page.pbx.parch.parch{--ink:#14110f;--muted:#6b5e57;--rule:#c9bba3;--line:rgba(60,45,25,.10);--sheet:#fbf9f2;
+  background-color:#fbf9f2;
+  background-image:linear-gradient(to right,rgba(214,182,136,.48) 0,rgba(214,182,136,.34) 4.2%,rgba(214,182,136,.24) 8.5%,rgba(214,182,136,.15) 14%,rgba(214,182,136,.07) 21%,rgba(214,182,136,0) 30%,rgba(214,182,136,0) 70%,rgba(214,182,136,.07) 79%,rgba(214,182,136,.16) 87%,rgba(214,182,136,.22) 93%,rgba(214,182,136,.34) 98.6%,rgba(214,182,136,.38) 100%),
+    linear-gradient(to bottom,rgba(214,182,136,.56) 0,rgba(214,182,136,.46) 1.5%,rgba(214,182,136,.25) 8%,rgba(214,182,136,.12) 14%,rgba(214,182,136,.03) 21%,rgba(214,182,136,0) 26%,rgba(214,182,136,0) 74%,rgba(214,182,136,.03) 79%,rgba(214,182,136,.10) 86%,rgba(214,182,136,.21) 92%,rgba(214,182,136,.39) 98%,rgba(214,182,136,.44) 100%),
+    var(--pbx-grain-warm);
+  background-size:100% 100%,100% 100%,360px 360px;}
+.parch .pbx-bt,.parch .pbx-cn,.pb-page.pbx.parch::after{display:none;} /* contour fields (bottom band and the openers' top lines) off */
+.parch .pbx-ill,.parch .pbx-lead,.parch .pbx-side-fig,.parch .pbx-hero-orn i,.parch .pbx-dd-fig{mix-blend-mode:multiply;}
+.parch .pbx-card::before{background:rgba(251,249,242,.6);}
+/* card sheet, parchment layout: sits higher (the pill at y 79), everything centred */
+.pb-page.pbx.parch:has(.pbx-hero2){padding-top:78px;}
+.pbx .pbx-hero2{align-items:center;}
+.pbx-pill{display:inline-block;padding:4px 16px 5px;border-radius:999px;background:#3a3a3a;color:#fbf9f2;font-size:13px;font-weight:var(--w-body);line-height:17px;white-space:nowrap;}
+.pbx-pill.post{background:var(--ink);}
+.pbx-hero-en{margin-top:8px;font-family:var(--font-serif);font-weight:400;font-size:90px;line-height:1.02;white-space:nowrap;color:#3a352f;
+  background:linear-gradient(100deg,#2b2621 0%,#45403a 28%,#a9a59e 47%,#d9d6cf 52%,#5d5852 66%,#2b2621 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.pbx .pbx-hero.pbx-hero2 .pbx-feat-t{margin-top:6px;font-family:'Noto Sans Thai',var(--font);font-size:31px;font-weight:500;line-height:1.3;} /* Noto Sans Thai Medium per the layout's type list (weight and size matched to its ink and width) */
+.pbx-hero-art{display:block;width:500px;height:auto;margin-top:12px;mix-blend-mode:multiply;
+  -webkit-mask-image:radial-gradient(closest-side ellipse at 50% 50%,#000 72%,transparent 100%);mask-image:radial-gradient(closest-side ellipse at 50% 50%,#000 72%,transparent 100%);}
+.pbx-hero-sp{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:36px;width:100%;margin-top:14px;padding:0 6px;text-align:left;}
+.pbx .pbx-hero2 .pbx-feat-sig{margin:0;max-width:none;font-family:var(--font);font-size:19px;font-weight:var(--w-body);line-height:1.45;}
+.pbx-hero-tags{display:grid;grid-template-columns:auto auto;gap:6px 22px;margin:0;padding:0;list-style:none;font-size:13px;line-height:1.5;color:var(--ink);}
+.pbx-hero-tags li::before{content:'✦';margin-right:10px;font-size:11px;}
+.pbx-hero-philo{margin-top:26px;font-family:'TH Sarabun New','Sarabun',var(--font-read);font-size:31px;font-weight:400;line-height:36px;color:var(--ink);} /* TH Sarabun New per the layout's type list; 31px sets its widest line at the layout's 434px */
+.pbx-hero-philo p{margin:0;}
+.pbx .pbx-hero2 .pbx-data-note{max-width:none;margin-top:22px;font-style:italic;font-size:13.5px;color:var(--muted);text-align:center;}
+.pbx .pbx-hero2 .pbx-data-note b{font-weight:var(--w-body);}
+.pbx-chrome{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);z-index:-1;pointer-events:none;}
+.parch .pbx-hd{top:35px;font-family:var(--font-display);font-size:25px;font-weight:700;line-height:28px;color:var(--ink);} /* chapter name between the stars (2026-10-22, from the card-sheet layout) */
+.parch .pbx-ft{position:static;}
+.parch .pbx-ft-r{display:contents;}
+.parch .pbx-ft-brand{position:absolute;left:44px;top:1074px;font-family:var(--font-serif);font-size:14px;line-height:18px;letter-spacing:0;text-transform:none;color:var(--ink);}
+.parch .pbx-ft-brand i{font-style:normal;font-size:9px;vertical-align:2px;margin:0 6px;}
+.parch .pbx-ft-r>span{position:absolute;right:49px;top:1074px;font-size:12.5px;line-height:18px;color:var(--muted);}
+.parch .pbx-ft .pb-pn{position:absolute;left:0;right:0;top:1074px;text-align:center;font-family:var(--font-serif);font-size:12px;line-height:18px;color:var(--muted);}
+.parch .pbx-ft .pb-pn .pb-pn-n{font-weight:400;color:var(--ink);}.pbx-frame{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);z-index:-1;pointer-events:none;}
 /* line-art drawings placed by pbxIllustrate() (position + size inline) */
 .pbx-ill{position:absolute;display:block;background:center/contain no-repeat;pointer-events:none;}
 .pbx-lead{position:absolute;display:block;object-fit:contain;pointer-events:none;} /* placed by pbxIllustrate (PBX_LEAD_FIG), engraved drawing on its own ground shadow */
@@ -419,6 +464,21 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    set apart by a hairline — type and rules only. ── */
 .pbx .pbx-toc-t{margin:0 0 var(--sp-block);padding-bottom:var(--sp-inline);font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1.15;color:var(--ink);border-bottom:var(--rule-w) solid var(--rule);}
 .toc-list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
+/* parchment สารบัญ (2026-10-22, from the supplied layout, 1414px → 794): title centred in the display face, each chapter a four-point
+   star + its name in a 200px column, entries in FC Minimal 17px on a ~28px pitch, folios in Baskervville old-style figures flush right
+   at x 691; no rules between chapters; a faint engraved compass rose (centre 588, 598; ring r 247, cut by the right edge) with
+   serif N / W / S behind the list. No header hairlines (the title stands in for them). */
+.pb-page.pbx.pb-toc.parch{padding:62px 103px 34px 94px;}
+.parch .pbx-toc-t{margin:0 0 30px;padding:0;border:0;text-align:center;font-family:var(--font-display);font-size:83px;font-weight:700;line-height:1.05;letter-spacing:0;}
+.parch .toc-grp{grid-template-columns:200px minmax(0,1fr);column-gap:0;padding:0 0 20px;border-bottom:0;}
+.parch .toc-ch{display:flex;align-items:baseline;gap:12px;font-family:var(--font-display);font-size:29px;font-weight:700;line-height:28px;}
+.parch .toc-ch::before{content:'';flex:none;width:14px;height:17px;align-self:center;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 19'%3E%3Cpath d='M8 0Q9.5 8 16 9.5Q9.5 11 8 19Q6.5 11 0 9.5Q6.5 8 8 0Z' fill='%2314110f'/%3E%3C/svg%3E") center/contain no-repeat;}
+.parch .toc-row{padding:0;}
+.parch .toc-t{font-size:17px;line-height:28px;font-weight:500;}
+.parch .toc-n{font-family:var(--font-serif);font-size:17px;line-height:28px;color:var(--ink);font-variant-numeric:oldstyle-nums;}
+.parch .pbx-kicker{text-align:center;}
+.toc-rose{position:absolute;left:288px;top:298px;width:600px;height:600px;z-index:-1;opacity:.08;mix-blend-mode:multiply;pointer-events:none;}
+.toc-rose-l{position:absolute;z-index:-1;transform:translate(-50%,-50%);font-family:var(--font-serif);font-size:56px;line-height:1;color:var(--ink);opacity:.06;pointer-events:none;}
 .toc-grp{display:grid;grid-template-columns:148px minmax(0,var(--read-measure));column-gap:var(--sp-block);align-items:baseline;padding:6px 0;border-bottom:var(--rule-w) solid var(--rule);}
 .toc-ch{font-size:calc(var(--pbx-fs-kicker) + 4px);font-weight:var(--w-label);line-height:1.4;color:var(--ink);}
 .toc-rows{display:flex;flex-direction:column;}
@@ -708,11 +768,37 @@ function pbxFamHTML(h){return (function(m){return m?'<span class="pbx-feat-fam-s
    any note → the card as the sheet's picture. A sheet of its own (.pbx-solo). */
 /* the drawing between name and family follows the family (2026-10-20): Guardian = shield, Navigator = compass, Visionary = lens */
 var PBX_FAM_ILL={G:'eng-shield',N:'ill-compass',V:'eng-lens'};
+/* the card sheet, parchment layout (2026-10-22, from the supplied page): phase pill → the persona's English name large in Baskervville
+   with the card's silver → its Thai name → the card's own picture (cropped from Card Character/*.webp, no frame or lettering: assets/art-*.webp)
+   fading into the paper → the signature beside the card's asset list → three lines on the persona's outlook → any note, in italics.
+   The family name and emblem are not on this sheet. PBX_CARD_TAGS = the asset list printed on each card (read off the 12 card images);
+   PBX_PHILO = the three lines (drafted 2026-10-22, to be reviewed). */
+var PBX_CARD_TAGS={guardian:['พันธบัตรรัฐบาล','เงินฝากประจำ','กองทุนตลาดเงิน','ทองคำ'],harvester:['REIT','พันธบัตรดอกเบี้ยสูง','หุ้นปันผลสูง','กองทุน Dividend'],
+  steadyhand:['ETF','SSF/RMF','หุ้นปันผล'],diamondhand:['ทองคำ','ของสะสมหายาก','หุ้น Value','อสังหาริมทรัพย์'],analyst:['หุ้น Value','กองทุนตราสารหนี้','หุ้น Sector Rotation'],
+  planner:['หุ้น','อสังหาริมทรัพย์','พันธบัตร','Options Hedging','ทองคำ','Global Portfolio'],explorer:['หุ้นต่างประเทศ','Global Fund','US ETF','Crypto'],
+  sage:['การศึกษา','ทักษะ','สุขภาพ','Network','Financial Independence Portfolio'],maverick:['อนุพันธ์','Crypto','Startup','Venture Capital','Growth Stocks'],
+  waverider:['Growth Stocks','Sector ETF','Crypto','Futures'],contrarian:['หุ้น Turnaround','Crisis Investing','หุ้นหรือ Sector ที่ถูกเทขาย'],collector:['การ์ดสะสม','พระเครื่อง','แบรนด์เนม','งานศิลปะ','NFT']};
+var PBX_PHILO={
+  guardian:['การปกป้องสิ่งที่มีอยู่คือปรัชญาการลงทุนของคุณ','คุณนอนหลับสบายทุกคืนเพราะรู้ว่าทุนปลอดภัย','ความมั่นคงมีคุณค่ามากกว่าผลตอบแทนสูงสำหรับคุณ'],
+  harvester:['การปลูกแล้วรอเก็บเกี่ยวคือปรัชญาการลงทุนของคุณ','คุณชอบเห็นเงินงอกเงยกลับมาเป็นรายได้สม่ำเสมอ','กระแสเงินสดที่มั่นคงมีความหมายกว่ากำไรครั้งใหญ่สำหรับคุณ'],
+  steadyhand:['ความสม่ำเสมอคือปรัชญาการลงทุนของคุณ','คุณเชื่อว่าการลงทุนทีละนิดอย่างมีวินัยพาไปได้ไกล','เวลาและวินัยสำคัญกว่าการเดาจังหวะตลาดสำหรับคุณ'],
+  diamondhand:['ความอดทนคือปรัชญาการลงทุนของคุณ','เมื่อเชื่อมั่นแล้ว คุณให้เวลาของดีได้เติบโตเต็มที่','ความผันผวนระยะสั้นสั่นคลอนความตั้งใจของคุณไม่ได้'],
+  analyst:['ความเข้าใจคือปรัชญาการลงทุนของคุณ','คุณตัดสินใจจากข้อมูลและเหตุผล ไม่ใช่เสียงรอบข้าง','ตัวเลขที่ตรวจสอบได้มีน้ำหนักกว่าความรู้สึกสำหรับคุณ'],
+  planner:['การวางแผนล่วงหน้าคือปรัชญาการลงทุนของคุณ','คุณมองภาพรวมและเตรียมทางเลือกไว้ทุกสถานการณ์','พอร์ตที่รับมือได้ทุกสภาวะมีค่ากว่าการชนะครั้งเดียวสำหรับคุณ'],
+  explorer:['การเปิดรับโลกกว้างคือปรัชญาการลงทุนของคุณ','คุณสนุกกับการค้นหาโอกาสใหม่ที่คนอื่นยังไม่เห็น','ความหลากหลายคือความแข็งแรงของพอร์ตสำหรับคุณ'],
+  sage:['ความสมดุลของชีวิตคือปรัชญาการลงทุนของคุณ','คุณลงทุนในสุขภาพ ความรู้ และความสัมพันธ์ ไปพร้อมกับเงิน','ชีวิตที่ดีครบทุกด้านสำคัญกว่าตัวเลขในพอร์ตสำหรับคุณ'],
+  maverick:['การบุกเบิกคือปรัชญาการลงทุนของคุณ','คุณกล้าลองสิ่งใหม่ก่อนคนอื่น แม้ต้องรับความไม่แน่นอน','โอกาสเติบโตครั้งใหญ่คุ้มค่ากับความเสี่ยงสำหรับคุณ'],
+  waverider:['การจับจังหวะคือปรัชญาการลงทุนของคุณ','คุณอ่านกระแสได้ไวและพร้อมปรับทิศเมื่อตลาดเปลี่ยน','ความยืดหยุ่นคือจุดแข็งที่สุดในตลาดสำหรับคุณ'],
+  contrarian:['การคิดสวนกระแสคือปรัชญาการลงทุนของคุณ','คุณมองหาของดีในวันที่คนส่วนใหญ่พากันขาย','เหตุผลของตัวเองมีน้ำหนักกว่าเสียงของฝูงชนสำหรับคุณ'],
+  collector:['การมองเห็นคุณค่าคือปรัชญาการลงทุนของคุณ','คุณรู้ลึกในสิ่งที่รัก และเห็นค่าที่คนทั่วไปมองข้าม','ของหายากที่เข้าใจจริงมีความหมายกว่าราคาตลาดสำหรับคุณ']};
 function pbxHeroHTML(phase,h,img,note){
-  return '<section class="pbx-feat pbx-hero pbx-solo">'+phase+'<h2 class="s-h pbx-feat-t">'+h.th+'</h2>'+
-    '<div class="pbx-hero-orn" aria-hidden="true"><i class="f-'+(PBX_FAM_ILL[h.fam]?h.fam:'N')+'"></i></div>'+
-    '<div class="pbx-feat-fam">'+pbxFamHTML(h)+'</div><p class="pbx-feat-sig">'+h.sig+'</p>'+(note||'')+
-    '<div class="pbx-card"><img src="'+img+'" alt="การ์ด '+h.en+'"></div></section>';
+  var key=Object.keys(HEROES).filter(function(k){return HEROES[k]===h;})[0],post=/\bpost\b/.test(phase);
+  var tags=PBX_CARD_TAGS[key]||h.assets.map(function(a){return a.t;}),philo=PBX_PHILO[key]||[];
+  return '<section class="pbx-feat pbx-hero pbx-hero2 pbx-solo"><div class="pbx-pill'+(post?' post':'')+'">'+(post?'หลังร่วมงาน Post-event':'ก่อนร่วมงาน Pre-event')+'</div>'+
+    '<div class="pbx-hero-en" aria-hidden="true" style="font-size:'+Math.min(90,Math.floor(520/(.506*h.en.length)))+'px">'+h.en+'</div><h2 class="s-h pbx-feat-t">'+h.th+'</h2>'+
+    '<img class="pbx-hero-art" src="assets/art-'+key+'.webp" alt="'+h.en+'">'+
+    '<div class="pbx-hero-sp"><p class="pbx-feat-sig">'+h.sig+'</p><ul class="pbx-hero-tags">'+tags.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>'+
+    (philo.length?'<div class="pbx-hero-philo">'+philo.map(function(l){return '<p>'+l+'</p>';}).join('')+'</div>':'')+(note||'')+'</section>';
 }
 /* the post-event card: its hero sheet, then (like the pre-event sheet 2) its preferred assets and strengths | watch-outs */
 function pbxPostHTML(ev){
@@ -1012,7 +1098,20 @@ var PBX_FLOAT_TOC=[{src:'float-stock.png',w:90,h:90,x:310,y:52,a:-18},{src:'floa
    broken at the top centre for the running header (gap = its text width + 36) or, with no header, for a star, and at the bottom
    centre for a four-point star — the cover's own frame, scaled to sit outside the 76px text margin. One shared gradient defs. */
 var PBX_FRAME={o:26,i:31.5,ro:16,ri:12,gap:34};
-function pbxFrame(doc){
+/* the parchment sheet's header and footer, measured off the supplied layout (1414 px wide → 794): hairlines from x 36.5 to 757.5 at
+   y 49 (header) and y 1062 (footer), #7e7468, 0.6px; header stars 13.5 × 17.4px, #13110f, centred 54px either side of the middle,
+   pushed out to clear a longer chapter name (18px between star and hairline); footer flourish 121 × 28px at y 1046. */
+var PBX_PARCH=[1,999]; // folios that get the parchment sheet (every sheet since 2026-10-22; was [1,5] while tested); null = none
+function pbxChrome(pg){
+  var W=794,H=Math.round(794*3508/2480*100)/100,CX=W/2,L=36.5,R=757.5,LC='#7e7468',SC='#13110f';
+  var hd=pg.querySelector(':scope>.pbx-hd span'),hw=hd&&hd.textContent.trim()?hd.getBoundingClientRect().width/(pg.getBoundingClientRect().width/W||1):0;
+  var sx=hw?hw/2+20:54,hy=49,fy=1062,toc=pg.classList.contains('pb-toc'),le=Math.min(324.5,CX-sx-18); // the stars hug the name; the hairlines stop at x 324.5 / 469.5 or short of a long name
+  var star=function(cx,cy){var rx=6.8,ry=8.7,k=1.3;return 'M'+cx+' '+(cy-ry)+'Q'+(cx+k)+' '+(cy-k)+' '+(cx+rx)+' '+cy+'Q'+(cx+k)+' '+(cy+k)+' '+cx+' '+(cy+ry)+'Q'+(cx-k)+' '+(cy+k)+' '+(cx-rx)+' '+cy+'Q'+(cx-k)+' '+(cy-k)+' '+cx+' '+(cy-ry)+'Z';};
+  var line=function(x1,x2,y){return '<path d="M'+x1+' '+y+'H'+x2+'" stroke="'+LC+'" stroke-width=".6"/>';};
+  pg.insertAdjacentHTML('afterbegin','<svg class="pbx-chrome" viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+
+    (toc?'':line(L,le,hy)+line(W-le,R,hy)+'<path d="'+star(CX-sx,hy)+star(CX+sx,hy)+'" fill="'+SC+'"/>')+
+    line(L,324.5,fy)+line(469.5,R,fy)+'<image href="assets/orn-footer.png" x="'+(CX-60.6)+'" y="1046" width="121.2" height="28"/></svg>');
+}function pbxFrame(doc){
   var W=794,H=Math.round(794*3508/2480*100)/100,CX=W/2;
   if(!document.getElementById('pbx-frame-defs')){
     var d=document.createElementNS('http://www.w3.org/2000/svg','svg');d.id='pbx-frame-defs';d.setAttribute('width','0');d.setAttribute('height','0');d.setAttribute('aria-hidden','true');d.style.position='absolute';
@@ -1026,7 +1125,8 @@ function pbxFrame(doc){
   function star(cx,cy,sz){var k=sz*.18;return 'M'+cx+' '+(cy-sz)+'Q'+(cx+k)+' '+(cy-k)+' '+(cx+sz)+' '+cy+'Q'+(cx+k)+' '+(cy+k)+' '+cx+' '+(cy+sz)+'Q'+(cx-k)+' '+(cy+k)+' '+(cx-sz)+' '+cy+'Q'+(cx-k)+' '+(cy-k)+' '+cx+' '+(cy-sz)+'Z';}
   var F=PBX_FRAME,mid=(F.o+F.i)/2;
   [].forEach.call(doc.querySelectorAll('.pb-page.pbx'),function(pg){
-    if(pg.querySelector(':scope>.pbx-frame'))return;
+    if(pg.querySelector(':scope>.pbx-frame,:scope>.pbx-chrome'))return;
+    if(pg.classList.contains('parch')){pbxChrome(pg);return;}
     var hd=pg.querySelector(':scope>.pbx-hd span'),hw=hd&&hd.textContent.trim()?hd.getBoundingClientRect().width/(pg.getBoundingClientRect().width/W||1):0;
     var gT=hw?Math.round(hw+36):F.gap;
     var svg='<svg class="pbx-frame" viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><g fill="none" stroke="url(#pbxMetal)" stroke-linecap="round">'+
@@ -1151,6 +1251,7 @@ function pbBuild(){
   addCover('back');
   src.remove();
   pages.forEach(function(pg,i){pg.id='pb-p'+(i+1);pg.querySelector('.pb-pn').innerHTML='หน้า <span class="pb-pn-n">'+(i+1)+'</span> / '+pages.length;});
+  pages.forEach(function(pg,i){if(PBX_PARCH&&i+1>=PBX_PARCH[0]&&i+1<=PBX_PARCH[1]){pg.classList.add('parch');pg.querySelector('.pb-pn').innerHTML='<span class="pb-pn-n">'+(i+1)+'</span> / '+pages.length;var b=pg.querySelector('.pbx-ft-brand');if(b)b.innerHTML='BetterTrade 2026<i>✦</i>Personalized Playbook';}});
   pbxIllustrate(pages);
   pbTOC(doc,pages);
   pbxFrame(doc);
@@ -1180,10 +1281,12 @@ function pbTOC(doc,pages){
   });
   if(lastCh!==null)out+='</div></div>';
   var fit=document.createElement('div');fit.className='pb-fit';
-  var pg=document.createElement('div');pg.className='pb-page pbx pb-toc';pg.id='pb-toc';pg.dataset.sect='toc';
+  var pg=document.createElement('div');pg.className='pb-page pbx pb-toc'+(PBX_PARCH?' parch':'');pg.id='pb-toc';pg.dataset.sect='toc';
   /* same footer as the content sheets, minus the folio (สารบัญ itself is not numbered) */
   pg.innerHTML=PBX_ORN+'<div class="pb-body"><h2 class="pbx-toc-t">สารบัญ</h2><div class="toc-list">'+out+'</div></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span></span></div>';
-  PBX_FLOAT_TOC.forEach(function(f){
+  if(PBX_PARCH){pg.querySelector('.pbx-ft-brand').innerHTML='BetterTrade 2026<i>✦</i>Personalized Playbook';
+    pg.insertAdjacentHTML('beforeend','<img class="toc-rose" src="assets/ill-compass-rose.svg" alt="" aria-hidden="true">'+[['N',586,255],['W',247,604],['S',587,929]].map(function(l){return '<span class="toc-rose-l" aria-hidden="true" style="left:'+l[1]+'px;top:'+l[2]+'px">'+l[0]+'</span>';}).join(''));}
+  else PBX_FLOAT_TOC.forEach(function(f){
     var im=document.createElement('img');im.className='pbx-float';im.src='assets/'+f.src;im.alt='';im.setAttribute('aria-hidden','true');
     im.style.cssText='left:'+f.x+'px;top:'+f.y+'px;width:'+f.w+'px;height:'+f.h+'px;transform:rotate('+f.a+'deg)';
     pg.appendChild(im);
@@ -1198,7 +1301,7 @@ function pbTOC(doc,pages){
   var list=pg.querySelector('.toc-list'),over=function(l){return l.scrollHeight>l.clientHeight+1;};
   if(over(list)){
     var fit2=document.createElement('div');fit2.className='pb-fit';
-    var pg2=document.createElement('div');pg2.className='pb-page pbx pb-toc pb-toc-cont';pg2.dataset.sect='toc';
+    var pg2=document.createElement('div');pg2.className='pb-page pbx pb-toc pb-toc-cont'+(PBX_PARCH?' parch':'');pg2.dataset.sect='toc';
     pg2.innerHTML='<div class="pb-body"><div class="pbx-kicker">สารบัญ (ต่อ)</div><div class="toc-list"></div></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span></span></div>';
     fit2.appendChild(pg2);fit.parentNode.insertBefore(fit2,fit.nextSibling);
     var list2=pg2.querySelector('.toc-list'),guard=0;
