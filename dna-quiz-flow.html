@@ -127,6 +127,16 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-hero-en{margin-top:8px;padding-bottom:.3em;margin-bottom:-.2em;font-family:var(--font-serif);font-weight:400;font-size:90px;line-height:1.02;white-space:nowrap;color:#3a352f;
   background:linear-gradient(100deg,#2b2621 0%,#45403a 28%,#a9a59e 47%,#d9d6cf 52%,#5d5852 66%,#2b2621 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 .pbx .pbx-hero.pbx-hero2 .pbx-feat-t{margin-top:6px;font-family:'Noto Sans Thai',var(--font);font-size:31px;font-weight:500;line-height:1.3;} /* Noto Sans Thai Medium per the layout's type list (weight and size matched to its ink and width) */
+/* the 12-persona proof sheet (temporary, for review, 2026-10-26): each art at 0.34 of the card's 410 x 470 box, the card's silver
+   Latin + Thai name */
+.pbx-proof .pbx-sec-sub{margin-top:14px;}
+.pbx-pf-g{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 18px;margin-top:18px;}
+.pbx-pf-c{display:flex;flex-direction:column;align-items:center;text-align:center;}
+.pbx-pf-box{display:flex;align-items:center;justify-content:center;width:100%;height:140px;}
+.pbx-pf-box img{display:block;width:auto;height:auto;max-height:140px;max-width:160px;}
+.pbx-pf-en{margin-top:8px;padding-bottom:.3em;margin-bottom:-.3em;font-family:var(--font-serif);font-size:21px;line-height:1.1;white-space:nowrap;
+  background:linear-gradient(100deg,#2b2621 0%,#45403a 28%,#a9a59e 47%,#d9d6cf 52%,#5d5852 66%,#2b2621 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.pbx-pf-th{margin-top:2px;font-family:'Noto Sans Thai',var(--font);font-size:14px;font-weight:500;line-height:1.35;color:var(--ink);}
 .pbx-hero-art{display:block;width:auto;height:410px;max-width:470px;object-fit:contain;margin:40px 0 26px;} /* the supplied character cut-outs (transparent PNG → assets/art-*.webp, trimmed): 410px tall as in the layout (≤ 470 wide so the wide ones don't dominate), with its ~40px of air above and below */
 .pbx-hero-sp{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;column-gap:36px;width:100%;margin-top:14px;padding:0 6px;text-align:left;}
 .pbx .pbx-hero2 .pbx-feat-sig{margin:0;max-width:none;font-family:var(--font);font-size:19px;font-weight:var(--w-body);line-height:1.45;}
@@ -869,6 +879,14 @@ function pbxPostHTML(ev){
     '<section class="pbx-block"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></section>'+
     '<section class="pbx-block"><div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/s*—s*/g,' ');
 }
+/* proof sheet of all 12 persona arts (temporary, for review, 2026-10-26): ends the ตัวตน chapter, family by family; no .s-h, so it
+   stays out of the สารบัญ. */
+function pbxProofHTML(){
+  var ks=[];['G','N','V'].forEach(function(f){Object.keys(HEROES).forEach(function(k){if(HEROES[k].fam===f)ks.push(k);});});
+  return '<section class="pbx-proof pbx-solo"><div class="pbx-pill">ตัวตนทั้ง 12 แบบ</div><p class="pbx-sec-sub">ตัวอย่างภาพตัวตนทุกแบบในสัดส่วนเดียวกับหน้าการ์ด</p><div class="pbx-pf-g">'+
+    ks.map(function(k){var x=HEROES[k];return '<div class="pbx-pf-c"><div class="pbx-pf-box"><img src="assets/art-'+k+'.webp" alt="'+x.en+'"></div>'+
+      '<div class="pbx-pf-en" aria-hidden="true">'+x.en+'</div><div class="pbx-pf-th">'+x.th+'</div></div>';}).join('')+'</div></section>';
+}
 function pbxIdentityHTML(h,key,unreg,ev){
   ev=ev||{state:'none'};
   var feat=pbxHeroHTML('<div class="pbx-hero-ph"><div class="pbx-phase"><b>ก่อนร่วมงาน</b><i>Pre-event</i></div></div>',h,REAL_CARD_IMG[key],
@@ -886,7 +904,7 @@ function pbxIdentityHTML(h,key,unreg,ev){
     '<p class="pbx-side-b">ร่วมเดินทางต่อในวันงาน กับ <b>10 INVESTMENT EXPERIENCES</b> • <b>6 INVESTMENT GAMES</b> พร้อม efin AI • Speaker ชั้นนำ • PAVILION ZONE</p>'+
     '<p class="pbx-side-b">รับ Playbook การลงทุนส่วนตัว เพื่อสแกนทุกโอกาสการลงทุนในโลกยุคใหม่</p>'+
     '<a class="pbx-reg-a" href="'+REG_URL+'" target="_blank" rel="noopener">ลงทะเบียนเข้าร่วมงาน</a></section>';
-  return (feat+assets+str+(unreg?reg:skill)).replace(/\s*—\s*/g,' ')+(ev.state==='evolved'&&!unreg?pbxPostHTML(ev):''); // no em dashes on a sheet
+  return (feat+assets+str+(unreg?reg:skill)).replace(/\s*—\s*/g,' ')+(ev.state==='evolved'&&!unreg?pbxPostHTML(ev):'')+pbxProofHTML(); // no em dashes on a sheet
 }
 function renderBook(){
   if(!RESULT){st.phase='splash';render();return;}
