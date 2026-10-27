@@ -28,7 +28,7 @@ back covers. Colours were sampled from the reference and rounded.
 ### Emphasis by importance
 - **A result** — a pale gold field and a larger figure in tone 1:
   - list rows (the first row of interests, behaviour scores, decision mix): the whole row washed (dark at the figure,
-    fading left), the field 14px past the column so the data keeps its line; label bold, figure 50px (rows 36px), the bar
+    fading left), the field 20px past the column so the data keeps its line (map sheets do not clip their body); label bold, figure 50px (rows 36px), the bar
     gold and 6px; a ranked list's top row carries an "อันดับ 1" tag (interests, decision mix — not the behaviour scores,
     which keep their topic order)
   - said / real pairs (the analysis 4 / 4, the mirror's 4/10 → 4/10): one rounded band, darker in the middle, split by a
@@ -38,6 +38,7 @@ back covers. Colours were sampled from the reference and rounded.
 - **B main message** (the analysis verdict line, "ยิ่งขั้นสูง…", the mirror's lead, the 3-points CTA): a gold ✦ at its head.
 - **C worth a look** (the status pill, the level-3 figures line, the one-year ladder's example row, the library's
   "คนมักเข้าใจผิด" notes, the journey's own results): a pale gold highlighter.
+- **The library's example notes** (no "คนมักเข้าใจผิด" label): no fill, a gold rule down the left, a "ตัวอย่าง" tag, italics — so they read apart from the misconception notes.
 - **D dividers**: the dotted gold rule.
 
 ## Line-tinted drawings (map sheets)

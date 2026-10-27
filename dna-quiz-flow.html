@@ -136,17 +136,17 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* a said / real pair is one field (one band, rounded) split by a thin upright rule in the middle (2026-10-27) */
 .map .pbx-an2 .pbx-pair,.map .pbx-mr-pair{position:relative;border-radius:6px;
   background:linear-gradient(90deg,rgba(201,163,90,.16),rgba(201,163,90,.30) 50%,rgba(201,163,90,.16));}
-.map .pbx-an2 .pbx-pair{padding:12px 0 10px;}
+.map .pbx-an2 .pbx-pair{margin-left:-20px;margin-right:-10px;padding:12px 10px 10px 20px;} /* right side stops short of the column rule */
 .map .pbx-an2 .pbx-pair::before{content:'';position:absolute;left:50%;top:20%;bottom:20%;width:1px;background:#a88c62;}
-.map .pbx-mr-pair{padding:6px 14px;}
+.map .pbx-mr-pair{margin-left:-20px;padding:6px 20px;}
 .map .pbx-an2 .pbx-big{font-size:88px;color:var(--t1);}
 .map .pbx-an2 .pbx-score{padding:4px 10px;}
 .map .pbx-an2 .pbx-score b{font-size:76px;}
 .map .pbx-mr-n{font-size:72px;color:var(--t1);}
-.map .pbx-pe-today{padding:8px 12px;background:linear-gradient(90deg,rgba(201,163,90,.30),rgba(201,163,90,.06) 80%,rgba(201,163,90,0));}
+.map .pbx-pe-today{margin-left:-20px;margin-right:-20px;padding:8px 20px;background:linear-gradient(90deg,rgba(201,163,90,.30),rgba(201,163,90,.06) 80%,rgba(201,163,90,0));}
 .map .pbx-pe-today b{font-size:calc(var(--pbx-fs-open) * 1.35);color:var(--t1);}
 .map .pbx-pe-pick .pbx-pe-r.on{background:linear-gradient(90deg,rgba(201,163,90,.30),rgba(201,163,90,.08) 85%,rgba(201,163,90,0));
-  margin:0 -14px;padding-left:14px;padding-right:14px;border-radius:4px;} /* the field reaches past the table edge, the data stays on its line */
+  margin:0 -20px;padding-left:20px;padding-right:20px;border-radius:4px;} /* the field reaches 20px past the table edge, the data stays on its line */
 .map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv b{font-size:52px;color:var(--t1);}
 .map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-band::before{height:6px;background:#8a6530;}
 .map .pbx-block:has(.pbx-pe-today) h3.pbx-blk-t{border-bottom:0!important;}/* B main message: a gold ✦ at its head (the 2px bar down the left was dropped 2026-10-27) */
@@ -164,15 +164,21 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
    "คนมักเข้าใจผิด" notes and the journey's own results */
 /* A on the first row of each ruled list: the row washed gold (dark at the figure), label bold, figure 1.4x, the bar gold and
    thicker; a ranked list's top row also carries an "อันดับ 1" tag (.top, set where the list is sorted) */
-.map .pbx-ms .pbx-ms-r:first-child{background:linear-gradient(270deg,rgba(201,163,90,.34),rgba(201,163,90,.10) 70%,rgba(201,163,90,0));border-radius:4px;margin:0 -14px;padding-left:14px;padding-right:14px;} /* field past the column, data on its line */
+.map .pbx-ms .pbx-ms-r:first-child{background:linear-gradient(270deg,rgba(201,163,90,.34),rgba(201,163,90,.10) 70%,rgba(201,163,90,0));border-radius:4px;margin:0 -20px;padding-left:20px;padding-right:20px;} /* field 20px past the column, data on its line */
 .map .pbx-ms .pbx-ms-r:first-child .pbx-ms-l{font-weight:700;color:var(--t1);font-size:1.08em;}
 .map .pbx-ms .pbx-ms-r:first-child .pbx-ms-v{color:var(--t1);font-size:50px;} /* 1.4x the rows' 36px */
 .map .pbx-ms .pbx-ms-r:first-child .pbx-ms-ru{height:6px;background:linear-gradient(to right,#8a6530 var(--v),#d9c49a var(--v));}
 .map .pbx-ms .pbx-ms-r.top .pbx-ms-l::after{content:'อันดับ 1';display:table;margin-top:6px;padding:1px 9px 2px;border-radius:999px;background:#8a6a34;color:#f6ecd4;font-size:11px;font-weight:500;line-height:1.4;}
 /* map sheets carry no lower-right line drawing (the interests figure, the adviser lens, the 3-points gauge; dropped 2026-10-27) */
 .map .pbx-lead{display:none;}
-.map .pbx-pe-lr.on{background:linear-gradient(90deg,rgba(201,163,90,.24),rgba(201,163,90,0) 92%);}
+/* the fields reach past the text edge: map sheets do not clip their body (as the openers already do) */
+.pb-page.pbx.parch.map .pb-body{overflow:visible;}
+.map .pbx-pe-lr.on{background:linear-gradient(90deg,rgba(201,163,90,.24),rgba(201,163,90,0) 92%);margin:0 -20px;padding-left:20px;padding-right:20px;border-radius:4px;}
 .map .pbx-note{background:rgba(201,163,90,.14);padding:6px 10px;margin-left:-10px;}
+/* the article's example (the note with no "คนมักเข้าใจผิด" label) reads differently from the misconception (2026-10-27): no fill and
+   no top rule, a gold rule down its left, a small "ตัวอย่าง" tag and the text in italics */
+.map .pbx-note:not(:has(b)){background:none;border-top:0;border-left:2px solid #a88c62;padding:2px 0 2px 12px;margin-left:0;font-style:italic;color:var(--t3);}
+.map .pbx-note:not(:has(b))::before{content:'ตัวอย่าง';display:table;margin-bottom:4px;padding:0 8px 1px;border:var(--rule-w) solid #8a6a34;border-radius:999px;font-style:normal;font-size:11px;font-weight:500;line-height:1.5;color:#8a6a34;}
 .map[data-panel="journey"] .pbx-side-b b{padding:0 3px;background:linear-gradient(transparent 55%,rgba(201,163,90,.34) 55%);-webkit-box-decoration-break:clone;box-decoration-break:clone;}
 /* text tones on the rest: article titles and glossary terms in tone 1; list markers and the Roman numerals in gold */
 .map .pbx-art-t,.map .pbx-gl-term,.map .pb-cat-t{color:var(--t1);}
