@@ -419,6 +419,12 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-pe-r{padding:14px 0;border-bottom:var(--rule-w) solid var(--line);}
 .pbx-pe-lv b{display:block;font-size:38px;line-height:1;color:var(--ink);font-family:'Noto Sans Thai',var(--font);font-weight:400;font-variant-numeric:lining-nums tabular-nums;}
 .pbx-pe-lv small{display:block;margin-top:6px;font-size:var(--pbx-fs-kicker);line-height:1.35;color:var(--muted);}
+/* the example level's row in ink, the others quiet (2026-10-27) */
+.pbx-pe-pick .pbx-pe-r:not(.on) .pbx-pe-lv b,.pbx-pe-pick .pbx-pe-r:not(.on) .pbx-pe-c b{color:var(--muted);}
+.pbx-pe-pick .pbx-pe-r:not(.on) .pbx-pe-band::before{background:#a29a8b;}
+.pbx-pe-pick .pbx-pe-r.on .pbx-pe-band::before{height:5px;}
+.pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv small{color:var(--ink);font-weight:var(--w-label);}
+.pbx-pe-tag{display:table;margin-top:8px;padding:2px 10px 3px;border:var(--rule-w) solid var(--ink);border-radius:999px;font-style:normal;font-size:12px;line-height:1.3;color:var(--ink);}
 .pbx-pe-c b{display:block;font-size:var(--fs-label);font-weight:var(--w-label);line-height:1.4;color:var(--ink);font-variant-numeric:tabular-nums;}
 .pbx-pe-band{display:block;position:relative;height:9px;margin-top:8px;background:linear-gradient(var(--rule),var(--rule)) 0 100%/100% 1px no-repeat,linear-gradient(to right,var(--rule) 1px,transparent 1px) 0 100%/calc(50% - .5px) 5px repeat-x;}
 .pbx-pe-band::before{content:'';position:absolute;bottom:0;left:var(--lo);right:calc(100% - var(--hi));min-width:2px;height:3px;background:var(--ink);}
@@ -1030,24 +1036,25 @@ function pbxPortEduHTML(){
     pbxMirrorHTML(D.mirror)+
     '<p class="pbx-ms-fn">'+D.banner+'</p>');
   /* the five levels: one row each — numeral + risk label, then each bucket's range in figures over a 0–100 ruler with the band inked */
-  var B=['cash','bond','equity','alt'];
+  /* 2026-10-27, per direction: the one-year summary ("ยิ่งขั้นสูง…" + the example level's figures) sits over the table, and the
+     example level's row is the one in ink (labelled ระดับตัวอย่าง: the app's default, not the reader's level, not advice) */
+  var B=['cash','bond','equity','alt'],A0=-20,A1=45,ax=function(v){return ((v-A0)/(A1-A0)*100).toFixed(2)+'%';},m=S[lv].hold_12m;
   var table='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+tb.title+'</h3><p class="pbx-ms-lede">'+tb.intro+'</p>'+
-    '<div class="pbx-pe-t"><div class="pbx-pe-h"><span>'+tb.level_col+'</span>'+B.map(function(b){return '<span>'+pbxSpec(T.bucket_short[b])+T.bucket_short[b]+'</span>';}).join('')+'</div>'+
-    tb.levels.map(function(l){return '<div class="pbx-pe-r"><span class="pbx-pe-lv"><b>'+l.value+'</b><small>'+l.label+'</small></span>'+
+    '<p class="pbx-pe-cta">'+T.ladder_summary+'</p><p class="pbx-ms-lede">'+pbxFill(T.ladder_pick,{level:lv,median:pbxPct(m.median),worst:pbxPct(m.worst),neg:m.pct_negative})+'</p>'+
+    '<div class="pbx-pe-t pbx-pe-pick"><div class="pbx-pe-h"><span>'+tb.level_col+'</span>'+B.map(function(b){return '<span>'+pbxSpec(T.bucket_short[b])+T.bucket_short[b]+'</span>';}).join('')+'</div>'+
+    tb.levels.map(function(l){return '<div class="pbx-pe-r'+(l.value===lv?' on':'')+'"><span class="pbx-pe-lv"><b>'+l.value+'</b><small>'+l.label+'</small>'+(l.value===lv?'<i class="pbx-pe-tag">ระดับตัวอย่าง</i>':'')+'</span>'+
       l.ranges.map(function(g){return '<span class="pbx-pe-c"><b>'+g.range_text+'</b><i class="pbx-pe-band" style="--lo:'+g.lo+'%;--hi:'+g.hi+'%"></i></span>';}).join('')+'</div>';}).join('')+
     '</div><p class="pbx-ms-fn">'+tb.intro_more+'<br>'+tb.derived_note+'</p></section>';
   var how='<section class="pbx-block" data-fig="eng-gauge"><h3 class="s-h pbx-blk-t">'+tb.how.title+'</h3><div class="pbx-pe-how">'+
     tb.how.items.map(function(t,i){var p=t.split(' — ');return '<div class="pbx-lg-i"><span class="pbx-lg-in">'+pbxRoman(i+1)+'</span><span class="pbx-lg-it"><b>'+p[0]+'</b> '+p.slice(1).join(' — ')+'</span></div>';}).join('')+
     '</div><p class="pbx-ms-lede">'+tb.how.more+'</p><p class="pbx-pe-cta">'+tb.how.cta+'</p></section>';
   /* one-year holding ladder on a shared axis (the app's −20%…+45%): worst-to-best as an inked rule, the normal year as a white dot */
-  var A0=-20,A1=45,ax=function(v){return ((v-A0)/(A1-A0)*100).toFixed(2)+'%';},m=S[lv].hold_12m;
   var ladder='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+T.ladder_title+'</h3>'+
     '<p class="pbx-ms-lede">'+pbxFill(T.split_template,{th:100-fx,fx:fx})+' · '+T.split_note.split(' · ').slice(1).join(' · ')+'</p>'+
     '<div class="pbx-pe-lad">'+[1,2,3,4,5].map(function(n){var h=S[n].hold_12m;
       return '<div class="pbx-pe-lr'+(n===lv?' on':'')+'"><span class="pbx-ms-l">'+pbxFill(T.row_label,{level:n})+'</span><i class="pbx-pe-rng" style="--z:'+ax(0)+';--a:'+ax(h.worst)+';--b:'+ax(h.best)+';--m:'+ax(h.median)+'"></i><span class="pbx-pe-avg">'+pbxFill(T.avg_label,{cagr:pbxPct(S[n].cagr)})+'</span></div>';}).join('')+
     '<div class="pbx-pe-ax"><span style="left:0">−20%</span><span style="left:'+ax(0)+'">0%</span><span style="left:100%">+45%</span></div></div>'+
-    '<p class="pbx-ms-fn">'+T.ladder_legend+'</p><p class="pbx-pe-cta">'+T.ladder_summary+'</p>'+
-    '<p class="pbx-ms-lede">'+pbxFill(T.ladder_pick,{level:lv,median:pbxPct(m.median),worst:pbxPct(m.worst),neg:m.pct_negative})+'</p>'+
+    '<p class="pbx-ms-fn">'+T.ladder_legend+'</p>'+
     '<p class="pbx-ms-fn">'+T.disclaimer+'</p></section>';
   /* ten years of 100,000 baht: level 3 in ink, levels 1 and 5 as quiet lines (1 dashed), the worst point marked */
   var W=642,GW=W-96,Hh=250,all=[1,3,5].map(function(n){return S[n].growth_of_100k;});
@@ -1068,7 +1075,7 @@ function pbxPortEduHTML(){
     '<p class="pbx-ms-lede">'+pbxFill(T.growth_drop_baht,{pct:pbxPct(md.pct),amount:pbxBaht(amt),baht:pbxBaht(-md.pct/100*amt),months:md.months_to_recover})+'</p>'+
     '<p class="pbx-ms-lede">'+pbxFill(T.growth_compare_hi,{value:pbxBaht(last(5)),pct:pbxPct(S[5].max_drop.pct)})+'<br>'+pbxFill(T.growth_compare_lo,{value:pbxBaht(last(1))})+'</p>'+
     '<p class="pbx-ms-fn">'+pbxFill(T.source,{from:pbxThMonth(H.period.from),to:pbxThMonth(H.period.to)})+'<br>'+T.disclaimer+'</p></section>';
-  return open+table+how+ladder+growth;
+  return open+table+ladder+growth+how; // the "3 เรื่อง" sheet closes the chapter (2026-10-27)
 }
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
    (playbook-final-extracted.html — see PLAYBOOK-2026-DATA-BASELINE.md §7): 8 categories, 41 items
