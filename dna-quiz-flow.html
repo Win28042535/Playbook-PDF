@@ -115,6 +115,73 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pb-page.pbx.parch.parch{--ink:#14110f;--muted:#6b5e57;--rule:#c9bba3;--line:rgba(60,45,25,.10);--sheet:#fbf9f2;
   background-color:#fbf9f2;
   background-image:url(assets/paper-parchment.jpg);background-size:100% 100%;background-repeat:no-repeat;}
+/* ── MAP DNA sheets (2026-10-27, demo case, MAP-DNA.md) ── on the usual paper: sepia inks, sepia pills, dotted gold rules.
+   (Tried and dropped the same day, per direction: the burnt map paper, bronze key figures, engraved-caps Latin, the gold
+   example row and the dotted route between glass pieces.) */
+.pb-page.pbx.parch.parch.map{--ink:#3b2a1c;--muted:#8f765a;--rule:#b59870;--line:rgba(90,60,25,.16);color:var(--ink);
+  --t1:#24170c;--t3:#6b5238;--t4:#8f765a;--gold:#8a6a34;}
+/* five tones of one sepia (2026-10-27): 1 headings + key figures · 2 body + values (--ink) · 3 labels, column / row names ·
+   4 notes, sources · gold for kickers, small tags and secondary units */
+.map .s-h,.map .pbx-sec-t,.map .pbx-blk-t,.map .pbx-side-t,.map .pbx-open-t,.map .pbx-feat-t,.map .pbx-big,.map .pbx-score b,
+.map .pbx-pe-r.on .pbx-pe-lv b,.map .pbx-pe-today b,.map .pbx-mr-n{color:var(--t1);}
+.map .pbx-dl,.map .pbx-pe-h span,.map .pbx-ms-l,.map .pbx-pe-lv small,.map .pbx-pair span,.map .pbx-hero-tags,.map .pbx-sk-h>span:first-child{color:var(--t3);}
+.map .pbx-data-note,.map .pbx-ms-fn,.map .pbx-ms-lede,.map .pbx-mr-fn,.map .pbx-art-b{color:var(--t4);}
+.map .pbx-kicker,.map .pbx-score,.map .pbx-side-t small,.map .pbx-conf-hd .pbx-kicker{color:var(--gold);}
+.map .pbx-score b{color:var(--t1);}
+/* borders by importance (2026-10-27, MAP-DNA.md): drawn with pseudo elements so nothing reflows
+   A result: no frame (dropped 2026-10-27) — a short rule with a ✦ in its middle above the figure and another below it,
+   like the flourishes round a name on a chart; the full-width example row gets them at its left, framing the level numeral */
+.map .pbx-an2 .pbx-pair>div,.map .pbx-an2 .pbx-score,.map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv,.map .pbx-pe-today{position:relative;}
+.map .pbx-an2 .pbx-pair>div::before,.map .pbx-an2 .pbx-pair>div::after,.map .pbx-an2 .pbx-score::before,.map .pbx-an2 .pbx-score::after,
+.map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv::before,.map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv::after,.map .pbx-pe-today::before,.map .pbx-pe-today::after{
+  content:'';position:absolute;left:50%;width:76px;height:9px;transform:translateX(-50%);pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 9'%3E%3Cpath d='M0 4.5H30M46 4.5H76' stroke='%237d5f3c' stroke-width='.8'/%3E%3Cpath d='M38 0Q38.8 3.7 42.5 4.5Q38.8 5.3 38 9Q37.2 5.3 33.5 4.5Q37.2 3.7 38 0Z' fill='%235a3d1c'/%3E%3C/svg%3E") center/contain no-repeat;}
+.map .pbx-an2 .pbx-pair>div::before,.map .pbx-an2 .pbx-score::before,.map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv::before,.map .pbx-pe-today::before{top:-14px;}
+.map .pbx-an2 .pbx-pair>div::after,.map .pbx-an2 .pbx-score::after,.map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv::after,.map .pbx-pe-today::after{bottom:-14px;}
+.map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv::before,.map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv::after{left:0;transform:none;width:60px;}
+.map .pbx-pe-today::before,.map .pbx-pe-today::after{left:0;transform:none;}
+/* B main message: a 2px gold bar down the left with a ✦ heading it */
+.map .pbx-an2 .pbx-side-b,.map .pbx-pe-cta,.map .pbx-mr-lead{position:relative;}
+.map .pbx-pe-cta,.map .pbx-mr-lead{padding-left:20px;} /* at the text edge the bar would be clipped: it moves inside */
+.map .pbx-pe-cta::before,.map .pbx-mr-lead::before{left:5px!important;}
+.map .pbx-pe-cta::after,.map .pbx-mr-lead::after{left:0!important;}
+.map .pbx-an2 .pbx-side-b::before,.map .pbx-pe-cta::before,.map .pbx-mr-lead::before{content:'';position:absolute;left:-16px;top:12px;bottom:2px;width:2px;background:var(--gold);}
+.map .pbx-an2 .pbx-side-b::after,.map .pbx-pe-cta::after,.map .pbx-mr-lead::after{content:'✦';position:absolute;left:-21px;top:-2px;font-size:12px;line-height:1;color:var(--gold);}
+/* C worth a look: a pale gold highlighter behind the words */
+.map .pbx-an2 .pbx-side-st{background:rgba(201,163,90,.22);}
+.map .pbx-pe-cta+.pbx-ms-lede{display:inline-block;margin-top:10px;padding:0 4px;background:linear-gradient(transparent 52%,rgba(201,163,90,.32) 52%);-webkit-box-decoration-break:clone;box-decoration-break:clone;}
+/* the analysis split's heads lose the dotted rule (2026-10-27) */
+.map .pbx-an2 .pbx-side-hd,.map .pbx-an2 h3.pbx-blk-t,.map .pbx-an2 .pbx-conf-hd{border-bottom:0!important;}
+/* the rest of the book (2026-10-27, every sheet): A on the first figure of each ruled list (interests, behaviour scores, decision
+   mix) and on the mirror's said / real pair; B on every library pull-quote; C on the one-year ladder's example row, the library's
+   "คนมักเข้าใจผิด" notes and the journey's own results */
+.map .pbx-ms .pbx-ms-r:first-child .pbx-ms-v,.map .pbx-mr-f{position:relative;}
+.map .pbx-ms .pbx-ms-r:first-child .pbx-ms-v::before,.map .pbx-ms .pbx-ms-r:first-child .pbx-ms-v::after,.map .pbx-mr-f::before,.map .pbx-mr-f::after{
+  content:'';position:absolute;right:0;width:64px;height:9px;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 9'%3E%3Cpath d='M0 4.5H30M46 4.5H76' stroke='%237d5f3c' stroke-width='.8'/%3E%3Cpath d='M38 0Q38.8 3.7 42.5 4.5Q38.8 5.3 38 9Q37.2 5.3 33.5 4.5Q37.2 3.7 38 0Z' fill='%235a3d1c'/%3E%3C/svg%3E") center/contain no-repeat;}
+.map .pbx-ms .pbx-ms-r:first-child .pbx-ms-v::before,.map .pbx-mr-f::before{top:-12px;}
+.map .pbx-ms .pbx-ms-r:first-child .pbx-ms-v::after,.map .pbx-mr-f::after{bottom:-12px;}
+.map .pbx-mr-f::before,.map .pbx-mr-f::after{right:auto;left:0;}
+.map .pbx-ms .pbx-ms-r:first-child .pbx-ms-v{color:var(--t1);}
+.map .pbx-art-s.pbx-quote{background:linear-gradient(var(--gold),var(--gold)) 27px 6px/2px calc(100% - 10px) no-repeat;} /* the bar runs between the opening mark and the words, inside the text edge (its ::after is the closing mark) */
+.map .pbx-pe-lr.on{background:linear-gradient(90deg,rgba(201,163,90,.24),rgba(201,163,90,0) 92%);}
+.map .pbx-note{background:rgba(201,163,90,.14);padding:6px 10px;margin-left:-10px;}
+.map[data-panel="journey"] .pbx-side-b b{padding:0 3px;background:linear-gradient(transparent 55%,rgba(201,163,90,.34) 55%);-webkit-box-decoration-break:clone;box-decoration-break:clone;}
+/* text tones on the rest: article titles and glossary terms in tone 1; list markers and the Roman numerals in gold */
+.map .pbx-art-t,.map .pbx-gl-term,.map .pb-cat-t{color:var(--t1);}
+.map .pbx-adv-l li::before,.map .pbx-dd-l li::marker,.map .pbx-tags li+li::before,.map .pbx-hero-tags li::before{color:var(--gold);}
+.map .pbx-lg-in{background:linear-gradient(135deg,#7a5426 0%,#d8b36a 35%,#9a7034 55%,#efd498 72%,#80592a 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:.5px rgba(70,40,12,.35);}
+/* the สารบัญ on a map sheet: chapter stars in sepia, joined by a dotted route down the chapter column (a sea chart's course) */
+.map.pb-toc .toc-ch::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 19'%3E%3Cpath d='M8 0Q9.5 8 16 9.5Q9.5 11 8 19Q6.5 11 0 9.5Q6.5 8 8 0Z' fill='%235a3d1c'/%3E%3C/svg%3E");}
+.map.pb-toc .toc-grp{position:relative;}
+.map.pb-toc .toc-grp:not(:last-child)::after{content:'';position:absolute;left:6px;top:24px;bottom:-14px;border-left:2px dotted #a88c62;pointer-events:none;}
+/* small chart vignettes (waves, hills, a cloud) in a sheet's empty lower band (pbxMapVignette) */
+.pbx-vig{position:absolute;display:block;pointer-events:none;mix-blend-mode:multiply;opacity:.85;}
+.map .pbx-pill{background:#4a3320;color:#f1e2bf;}
+.map .pbx-side-hd,.map .pbx-blk-t,.map .pbx-sec-t,.map .pbx-pe-h,.map .pbx-pe-r,.map .pbx-dr{border-color:var(--rule)!important;}
+.map .pbx-side-hd,.map h3.pbx-blk-t,.map .pbx-pe-h{border-bottom-style:dotted!important;border-bottom-width:2px!important;border-bottom-color:#a88c62!important;}
+.map .pbx-vr::before{border-left-style:dotted;border-left-color:#a88c62;}
+.map .pbx-db,.map .pbx-ms-ru,.map .pbx-sk-s{background:linear-gradient(to right,var(--ink) var(--v),#cdb68f var(--v));}
 .parch .pbx-bt,.parch .pbx-cn,.pb-page.pbx.parch::after{display:none;} /* contour fields (bottom band and the openers' top lines) off */
 .parch .pbx-ill,.parch .pbx-lead,.parch .pbx-side-fig,.parch .pbx-cic,.parch .pbx-hero-orn i,.parch .pbx-dd-fig{mix-blend-mode:multiply;}
 .parch .pbx-card::before{background:rgba(251,249,242,.6);}
@@ -218,17 +285,9 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .parch .pbx-ft .pb-pn .pb-pn-n{font-weight:400;color:var(--ink);}.pbx-frame{position:absolute;left:0;top:0;width:794px;height:calc(794px*3508/2480);z-index:-1;pointer-events:none;}
 /* line-art drawings placed by pbxIllustrate() (position + size inline) */
 .pbx-ill{position:absolute;display:block;background:center/contain no-repeat;pointer-events:none;}
-/* spectrum glass marks (2026-10-26, trial): in their own colour (no multiply), small, only beside a named asset */
-.parch .pbx-ill.spec{mix-blend-mode:normal;}
 .pb-spec-sw{position:fixed;right:16px;bottom:16px;z-index:60;padding:8px 16px;border:1px solid #3a3a3a;border-radius:999px;background:#fbf8f2;color:#3a3a3a;font:500 13px/1.2 var(--font);cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.14);}
 .pb-spec-sw[aria-pressed="true"]{background:#3a3a3a;color:#fbf8f2;}
 @media print{.pb-spec-sw{display:none!important;}}
-.pbx-spec{display:inline-block;width:20px;height:20px;margin-right:8px;vertical-align:-4px;background:center/contain no-repeat;}
-.pbx-spec.lg{width:28px;height:28px;margin-right:10px;vertical-align:-8px;}
-.pbx-pe-h .pbx-spec{display:block;width:24px;height:24px;margin:0 0 6px;}
-.pbx-pe-h:has(.pbx-spec){align-items:end;}
-.pbx-tags li.sp::before{content:'';margin:0 0 0 22px;}
-.pbx-tags li.sp:first-child::before{margin:0;}
 .pbx-lead{position:absolute;display:block;object-fit:contain;pointer-events:none;} /* placed by pbxIllustrate (PBX_LEAD_FIG), engraved drawing on its own ground shadow */
 .pbx-float{position:absolute;display:block;object-fit:contain;pointer-events:none;filter:saturate(1.3) drop-shadow(0 12px 16px rgba(17,19,24,.16));} /* placed by pbxIllustrate (PBX_FLOAT) */
 /* two articles on a sheet: a small asterism in the gap above the second (reference: Maguss' section breaks) */
@@ -892,7 +951,7 @@ function pbxPostHTML(ev){
   var h=ev.hero,col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
   return (pbxHeroHTML('<div class="pbx-hero-ph"><div class="pbx-phase post"><b>หลังร่วมงาน</b><i>Post-event</i></div>'+'</div>',h,REAL_CARD_IMG[ev.key],
       '<p class="pbx-data-note">'+(ev.up?'พฤติกรรมจริงในงานรับความเสี่ยงได้มากกว่าที่คุณตอบไว้':'พฤติกรรมจริงในงานระมัดระวังกว่าที่คุณตอบไว้')+' การ์ดหลังร่วมงานจึงต่างจากก่อนร่วมงาน</p>')+
-    '<section class="pbx-block"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><ul class="pbx-tags">'+h.assets.map(pbxSpecLi).join('')+'</ul></section>'+
+    '<section class="pbx-block"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></section>'+
     '<section class="pbx-block"><div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/s*—s*/g,' ');
 }
 /* proof sheet of all 12 persona arts (temporary, for review, 2026-10-26): ends the ตัวตน chapter, family by family; no .s-h, so it
@@ -910,7 +969,7 @@ function pbxIdentityHTML(h,key,unreg,ev){
   /* rhythm 1 - 2 - 3: the preferred assets as ONE line (names split by small diamonds), strengths | watch-outs in two columns,
      the three SKILL values as three dials; every block opens with the same heading (22px + hairline) */
   var assets='<section class="pbx-block"><div class="pbx-side-hd"><h2 class="s-h pbx-side-t">สินทรัพย์ที่ <span>ถนัด</span></h2></div><ul class="pbx-tags">'+
-    h.assets.map(pbxSpecLi).join('')+'</ul></section>';
+    h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></section>';
   var col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
   var str='<section class="pbx-block"><div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>';
   var skill='<section class="pbx-block"><div class="pbx-side-hd"><h3 class="pbx-side-t">SKILL ประจำการ์ด</h3></div>'+(h.motto?'<p class="pbx-sec-sub">คำประจำตัว '+h.motto+'</p>':'')+
@@ -1041,7 +1100,7 @@ function pbxPortEduHTML(){
   var B=['cash','bond','equity','alt'],A0=-20,A1=45,ax=function(v){return ((v-A0)/(A1-A0)*100).toFixed(2)+'%';},m=S[lv].hold_12m;
   var table='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+tb.title+'</h3><p class="pbx-ms-lede">'+tb.intro+'</p>'+
     '<p class="pbx-pe-cta">'+T.ladder_summary+'</p><p class="pbx-ms-lede">'+pbxFill(T.ladder_pick,{level:lv,median:pbxPct(m.median),worst:pbxPct(m.worst),neg:m.pct_negative})+'</p>'+
-    '<div class="pbx-pe-t pbx-pe-pick"><div class="pbx-pe-h"><span>'+tb.level_col+'</span>'+B.map(function(b){return '<span>'+pbxSpec(T.bucket_short[b])+T.bucket_short[b]+'</span>';}).join('')+'</div>'+
+    '<div class="pbx-pe-t pbx-pe-pick"><div class="pbx-pe-h"><span>'+tb.level_col+'</span>'+B.map(function(b){return '<span>'+T.bucket_short[b]+'</span>';}).join('')+'</div>'+
     tb.levels.map(function(l){return '<div class="pbx-pe-r'+(l.value===lv?' on':'')+'"><span class="pbx-pe-lv"><b>'+l.value+'</b><small>'+l.label+'</small>'+(l.value===lv?'<i class="pbx-pe-tag">ระดับตัวอย่าง</i>':'')+'</span>'+
       l.ranges.map(function(g){return '<span class="pbx-pe-c"><b>'+g.range_text+'</b><i class="pbx-pe-band" style="--lo:'+g.lo+'%;--hi:'+g.hi+'%"></i></span>';}).join('')+'</div>';}).join('')+
     '</div><p class="pbx-ms-fn">'+tb.intro_more+'<br>'+tb.derived_note+'</p></section>';
@@ -1106,7 +1165,7 @@ function pbArtHTML(a){
      the "common mistake" in the right one, split by a vertical rule with a small diamond. An article with
      neither note keeps its body in the reading column. .pbx-unit = at most two per sheet (see pbBuild). */
   var body='<p class="pbx-art-p">'+libEsc(a.b)+'</p>';
-  return '<article class="pbx-art pbx-unit"><div class="pbx-art-t">'+pbxSpecArt(a.t)+libEsc(a.t)+'</div><div class="pbx-art-s pbx-quote">'+libEsc(a.s)+'</div>'+ // the summary line is a pull-quote
+  return '<article class="pbx-art pbx-unit"><div class="pbx-art-t">'+libEsc(a.t)+'</div><div class="pbx-art-s pbx-quote">'+libEsc(a.s)+'</div>'+ // the summary line is a pull-quote
     ((a.x||a.p)?'<div class="pbx-cols pbx-vr">'+body+'<div class="pbx-art-side">'+
       (a.x?'<div class="pbx-note"><span>'+libEsc(a.x)+'</span></div>':'')+
       (a.p?'<div class="pbx-note"><b>คนมักเข้าใจผิด</b> <span>'+libEsc(a.p)+'</span></div>':'')+
@@ -1180,37 +1239,38 @@ var PBX_UNITS=2; // .pbx-unit blocks (library articles) per sheet at most — op
    - any sheet whose content ends high (>= PBX_BT_ROOM px free under it, 40px margin kept): a faint contour field rising from the
      bottom edge, fading upward, so a short sheet is weighted at both ends instead of top-heavy (the opener's top has the same lines). */
 var PBX_ILL={identity:'compass',analysis:'scale.png',portfolio:'telescope',port:'chart',journey:'path',library:'book',glossary:'quill'};
-/* the spectrum glass marks (2026-10-26, trial): colour only where money / an asset is named. Asset name → assets/spec-<key>(-s).png
-   (tools/spec-icons.js); PBX_SPEC_ON puts one piece INTO a chapter drawing (sheet px). */
-var PBX_SPEC={'ตราสารหนี้':'bond','เงินฝาก':'bank','ทองคำ':'gold','กองทุนรวม':'fund','ปันผล':'coin','อสังหา/REIT':'realestate','หุ้นไทย':'stockth','หุ้นต่างประเทศ':'stockintl','คริปโต':'crypto',
-  'ต่างประเทศ':'stockintl','ต่างปท.':'stockintl','กองทุน':'fund','ทอง':'gold','อสังหา':'realestate','ประกัน':'shield','ทางเลือก':'chest','สุขภาพ':'heart',
-  'เงินฝาก/ตลาดเงิน':'bank','หุ้น':'stockth','ทองคำ/ทางเลือก':'gold'};
-/* every opener's piece floats at the top, level with the journey drawing's flag, just left of the drawing (never on it, 2026-10-26),
-   turned a little; centred on x ≈ 434, y ≈ 128 */
-var PBX_SPEC_ON={analysis:{k:'coin',x:500,y:214,w:50,h:52,a:0},   // the exception (with portfolio): in the scale's left pan, per direction
-  portfolio:{k:'crypto',x:412,y:106,w:44,h:44,a:8},
-  port:{k:'fund',x:714,y:112,w:46,h:46,a:-10},   // the exception: perched on the top of the chart's rightmost candle (wick top ≈ 742, 173), per direction
-  journey:{k:'diamond',x:410,y:109,w:48,h:39,a:8},
-  library:{k:'efin',x:409,y:104,w:50,h:48,a:-8}};
-/* library: the asset articles (สินทรัพย์แต่ละประเภท) carry their asset's mark before the title */
-var PBX_SPEC_ART=[[/^ตราสารหนี้/,'bond'],[/^(ของสะสม|สินทรัพย์ทางเลือก)/,'chest'],[/^คริปโต/,'crypto'],[/^ทองคำ/,'gold'],[/^สุขภาพในฐานะ/,'heart'],
-  [/^กองทุน(ดัชนี|รวม \(| Active)/,'fund'],[/^ประกัน \(/,'shield'],[/^(อสังหาฯ|REIT)/,'realestate'],[/^หุ้น \(/,'stockth']];
-/* still-life groups in a sheet's free lower band (pbxIllustrate): a library category's last sheet, the FOMO sheet, the glossary's end */
-var PBX_SPEC_CAT={'พื้นฐานการลงทุน':['fund','coin'],'สินทรัพย์แต่ละประเภท':['gold','stockth'],'ต้นทุนและผลตอบแทน':['coin','gold'],'กลลวงและการป้องกันตัว':['shield'],
-  'วางแผนชีวิตและสุขภาพการเงิน':['heart','shield'],'ความเสี่ยงและการอ่านตัวเอง':['diamond','stockth']};
-function pbxSpecOn(){return !!(PBX_PARCH&&DEMO.spec);} // the demo switch (DEMO.spec), off by default
-/* the on-screen switch for the demo (screen only, never printed): re-lays the book with / without the asset elements, keeping the place */
-function pbxSpecSwitch(){
+/* the on-screen switch for the demo (screen only, never printed): re-lays the book with / without the map DNA, keeping the place */
+function pbxDemoSwitch(){
   if(!PBX_PARCH||document.querySelector('.pb-spec-sw'))return;
-  var b=document.createElement('button');b.type='button';b.className='pb-spec-sw';
-  var label=function(){b.setAttribute('aria-pressed',DEMO.spec?'true':'false');b.textContent='Asset element: '+(DEMO.spec?'เปิด':'ปิด');};
-  b.addEventListener('click',function(){var y=window.scrollY;DEMO.spec=!DEMO.spec;label();renderBook();window.scrollTo(0,y);});
-  label();document.body.appendChild(b);
+  [['map','แผนที่ (Map DNA)']].forEach(function(s,i){
+    var b=document.createElement('button');b.type='button';b.className='pb-spec-sw';b.style.bottom=(16+i*46)+'px';
+    var label=function(){b.setAttribute('aria-pressed',DEMO[s[0]]?'true':'false');b.textContent=s[1]+': '+(DEMO[s[0]]?'เปิด':'ปิด');};
+    b.addEventListener('click',function(){var y=window.scrollY;DEMO[s[0]]=!DEMO[s[0]];label();renderBook();window.scrollTo(0,y);});
+    label();document.body.appendChild(b);
+  });
 }
-function pbxSpecK(k,cls){return pbxSpecOn()&&k?'<i class="pbx-spec'+(cls?' '+cls:'')+'" style="background-image:url(assets/spec-'+k+(cls==='lg'?'':'-s')+'.png)" aria-hidden="true"></i>':'';}
-function pbxSpec(name,cls){return pbxSpecK(PBX_SPEC[name],cls);}
-function pbxSpecLi(a){var k=pbxSpecOn()&&PBX_SPEC[a.t];return '<li'+(k?' class="sp" data-k="'+k+'"':'')+'>'+pbxSpecK(k)+a.t+'</li>';}
-function pbxSpecArt(t){for(var i=0;i<PBX_SPEC_ART.length;i++)if(PBX_SPEC_ART[i][0].test(t))return pbxSpecK(PBX_SPEC_ART[i][1],'lg');return '';}
+/* ── MAP DNA (2026-10-27, MAP-DNA.md, demo case): sepia ink on burnt-edged map paper, bronze-embossed key figures, engraved
+   all-caps Latin, dotted routes with ✦ way-points. Trial first: only the sheets pbxMapTrial picks; PBX_MAP_ALL = every inside sheet. */
+var PBX_MAP_ALL=true; // every inside sheet since 2026-10-27 (was the four trial sheets)
+function pbxMapOn(){return !!(PBX_PARCH&&DEMO.map);}
+function pbxMapMark(pages){
+  if(!pbxMapOn())return;
+  var cat=null,basicEnd=null,pick={};
+  pages.forEach(function(pg){var c=pg.querySelector('.pb-cat-t');if(c)cat=c.textContent.trim();if(pg.dataset.panel==='library'&&cat==='พื้นฐานการลงทุน')basicEnd=pg;});
+  pages.forEach(function(pg){if(!pg.classList.contains('parch'))return;
+    if(PBX_MAP_ALL||(!pick.card&&pg.querySelector('.pbx-hero2')&&(pick.card=1))||(pg.dataset.panel==='analysis'&&pg.querySelector('.pbx-open2'))||pg.querySelector('.pbx-pe-pick')||pg===basicEnd)pg.classList.add('map');});
+}
+/* on a map sheet every line drawing, the สารบัญ compass and the footer flourish use their line-tinted twin (tools/map-tint.js:
+   only the ink recoloured, warm brown in the light, near-black sepia in shade; fills untouched) */
+function pbxMapSwap(root){
+  [].forEach.call(root.querySelectorAll('.pb-page.map'),function(pg){
+    [].forEach.call(pg.querySelectorAll('[style*="assets/"],img[src*="assets/"]'),function(e){
+      var re=/assets\/((?:ill|eng|toc)-[^.)'"]+)\.(svg|png)/g,to=function(m,n){return 'assets/'+n+'.tint.png';};
+      if(e.tagName==='IMG')e.setAttribute('src',e.getAttribute('src').replace(re,to));
+      else e.setAttribute('style',e.getAttribute('style').replace(re,to));
+    });
+  });
+}
 var PBX_BT_ROOM=360;
 /* the interest-share sheet (portfolio, .pbx-ints): the leading category's engraved drawing stands lower right, a quarter cut by the page
    edge (as on the เจาะราย sheet), and the contour field comes in from 280px of free band. Every category has its own piece (ประกัน = shield, ทางเลือก = watch on a stand, 2026-10-14). */
@@ -1231,14 +1291,15 @@ var PBX_FRAME={o:26,i:31.5,ro:16,ri:12,gap:34};
    pushed out to clear a longer chapter name (18px between star and hairline); footer flourish 121 × 28px at y 1046. */
 var PBX_PARCH=[1,999]; // folios that get the parchment sheet (every sheet since 2026-10-22; was [1,5] while tested); null = none
 function pbxChrome(pg){
-  var W=794,H=Math.round(794*3508/2480*100)/100,CX=W/2,L=36.5,R=757.5,LC='#7e7468',SC='#13110f';
+  var mp=pg.classList.contains('map'); // map DNA: sepia hairlines and stars, the flourish's sepia twin
+  var W=794,H=Math.round(794*3508/2480*100)/100,CX=W/2,L=36.5,R=757.5,LC=mp?'#a88c62':'#7e7468',SC=mp?'#3b2a1c':'#13110f';
   var hd=pg.querySelector(':scope>.pbx-hd span'),hw=hd&&hd.textContent.trim()?hd.getBoundingClientRect().width/(pg.getBoundingClientRect().width/W||1):0;
   var sx=hw?hw/2+20:54,hy=49,fy=1062,toc=pg.classList.contains('pb-toc'),le=Math.min(324.5,CX-sx-18); // the stars hug the name; the hairlines stop at x 324.5 / 469.5 or short of a long name
   var star=function(cx,cy){var rx=6.8,ry=8.7,k=1.3;return 'M'+cx+' '+(cy-ry)+'Q'+(cx+k)+' '+(cy-k)+' '+(cx+rx)+' '+cy+'Q'+(cx+k)+' '+(cy+k)+' '+cx+' '+(cy+ry)+'Q'+(cx-k)+' '+(cy+k)+' '+(cx-rx)+' '+cy+'Q'+(cx-k)+' '+(cy-k)+' '+cx+' '+(cy-ry)+'Z';};
   var line=function(x1,x2,y){return '<path d="M'+x1+' '+y+'H'+x2+'" stroke="'+LC+'" stroke-width=".6"/>';};
   pg.insertAdjacentHTML('afterbegin','<svg class="pbx-chrome" viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+
     (toc?'':line(L,le,hy)+line(W-le,R,hy)+'<path d="'+star(CX-sx,hy)+star(CX+sx,hy)+'" fill="'+SC+'"/>')+
-    line(L,324.5,fy)+line(469.5,R,fy)+'<image href="assets/orn-footer.png" x="'+(CX-60.6)+'" y="1046" width="121.2" height="28"/></svg>');
+    line(L,324.5,fy)+line(469.5,R,fy)+'<image href="assets/orn-footer'+(mp?'.tint':'')+'.png" x="'+(CX-60.6)+'" y="1046" width="121.2" height="28"/></svg>');
 }function pbxFrame(doc){
   var W=794,H=Math.round(794*3508/2480*100)/100,CX=W/2;
   if(!document.getElementById('pbx-frame-defs')){
@@ -1272,30 +1333,6 @@ function pbxIllustrate(pages){
     pg.appendChild(i);
   }
   var W=794,H=794*3508/2480,PADX=76;
-  /* which sheets get a spectrum still-life (2026-10-26): each library category's last sheet, the journey's FOMO sheet, the glossary's
-     last sheet; the assets sheets take theirs from their own marked tags (below) */
-  var shelfOf=new Map(),cat=null,lastCat={},lastGl=null;
-  if(pbxSpecOn())pages.forEach(function(pg){
-    var c=pg.querySelector('.pb-cat-t');if(c)cat=c.textContent.trim();
-    if(pg.dataset.panel==='library'&&cat&&PBX_SPEC_CAT[cat])lastCat[cat]=pg;
-    if(pg.dataset.panel==='glossary')lastGl=pg;
-    var h=pg.querySelector('.s-h,.pbx-side-t');if(pg.dataset.panel==='journey'&&h&&/FOMO/.test(h.textContent))shelfOf.set(pg,['shield']);
-  });
-  Object.keys(lastCat).forEach(function(c){shelfOf.set(lastCat[c],PBX_SPEC_CAT[c]);});
-  if(lastGl)shelfOf.set(lastGl,['efin']);
-  /* a floating group (2026-10-26, per direction: no ground line, not in a row): one or two glass pieces in the free lower band,
-     the biggest lowest at the text edge, the other higher and further in; each turned a little.
-     Per piece: size, dx = its right edge in from the text edge, dy = its bottom up from the band's foot, angle. Mirrored to the
-     left margin when an engraved figure already holds the right. */
-  var FLOAT=[[[100,20,30,-8]],[[92,0,0,-8],[64,184,70,12]]]; // the left piece one of its own widths further out (2026-10-26)
-  /* the assets sheets: at most two pieces, the big one low at the edge and the small one high and further in (was three, 2026-10-27) */
-  var FLOAT_TAGS=[FLOAT[0],[[96,0,0,-8],[54,90,150,-14]]];
-  function shelf(pg,keys,end,ftTop,set){
-    var F=(set||FLOAT)[keys.length-1],foot=Math.round(ftTop-36),top=Math.min.apply(null,F.map(function(f){return foot-f[2]-f[0];}));
-    if(top-40<end)return;
-    var left=!!pg.querySelector('.pbx-lead');
-    keys.forEach(function(k,i){var f=F[i],x=left?PADX+f[1]:W-PADX-f[1]-f[0];mark(pg,'spec','spec-'+k+'-l.png',x,foot-f[2]-f[0],f[0],f[0],f[3]);});
-  }
   pages.forEach(function(pg){
     var P=pg.getBoundingClientRect(),k=P.width/W; // sheet px per CSS px (1 unless the view is scaled)
     var y=function(v){return (v-P.top)/k;};
@@ -1303,7 +1340,6 @@ function pbxIllustrate(pages){
     if(!first)return;
     if(first.classList.contains('pbx-open')){ // opener: upper right, above the kicker (~31.5%)
       if(ill){var im=/^eng-/.test(ill)?ill:'ill-'+ill;if(pg.classList.contains('parch'))mark(pg,'head',im,469,101,288,270);else mark(pg,'head',im,W-PADX-250,104,250,220);}
-      var so=pbxSpecOn()&&pg.classList.contains('parch')&&PBX_SPEC_ON[pg.dataset.panel];if(so)mark(pg,'spec','spec-'+so.k+'.png',so.x,so.y,so.w,so.h,so.a);
     }
     // where the sheet's content really ends: text, images (+ the card's 22px frame), data bars and rule-split containers
     var end=0,w=document.createTreeWalker(body,NodeFilter.SHOW_TEXT),n,rg=document.createRange(),j,rs;
@@ -1337,10 +1373,12 @@ function pbxIllustrate(pages){
       if(ftp>=end+40){var fi=document.createElement('img');fi.className='pbx-lead';fi.src='assets/'+nf+'.svg';fi.alt='';fi.setAttribute('aria-hidden','true');
         fi.style.cssText='left:'+(750-fw)+'px;top:'+ftp+'px;width:'+fw+'px;height:'+fh+'px';pg.appendChild(fi);}
     }
-    if(pbxSpecOn()&&ft){
-      var sk=shelfOf.get(pg),tg=!sk;
-      if(tg){sk=[].map.call(body.querySelectorAll('.pbx-tags li.sp'),function(l){return l.dataset.k;});sk=sk.length>2?[sk[0],sk[2]]:sk;} // the 1st (big) and 3rd (high) pieces; the 2nd, once the left one, is dropped
-      if(sk.length)shelf(pg,sk,end,y(ft.getBoundingClientRect().top),tg?FLOAT_TAGS:null);
+    /* map DNA: a sheet whose lower band stays empty (no figure) gets one small chart vignette — waves, hills or a
+       cloud in turn — sitting on the band's foot at the text edge */
+    if(pg.classList.contains('map')&&ft&&!first.classList.contains('pbx-open')&&!pg.querySelector('.pbx-lead')){
+      var V=[['vig-waves.svg',220,62],['vig-hills.svg',200,70],['vig-cloud.svg',140,62]][(pages.indexOf(pg))%3],vt=Math.round(y(ft.getBoundingClientRect().top)-40-V[2]);
+      if(vt>=end+70){var vg=document.createElement('i');vg.className='pbx-vig';vg.setAttribute('aria-hidden','true');
+        vg.style.cssText='left:'+(W-PADX-V[1])+'px;top:'+vt+'px;width:'+V[1]+'px;height:'+V[2]+'px;background:url(assets/'+V[0]+') center/contain no-repeat';pg.appendChild(vg);}
     }
     if(avail>=(ints?PBX_INTS_BT_ROOM:PBX_BT_ROOM)){var hgt=Math.min(520,avail),bt=document.createElement('i');bt.className='pbx-bt';bt.setAttribute('aria-hidden','true');bt.style.cssText='top:'+Math.round(H-hgt)+'px;height:'+Math.round(hgt)+'px';pg.appendChild(bt);}
   });
@@ -1410,8 +1448,10 @@ function pbBuild(){
   src.remove();
   pages.forEach(function(pg,i){pg.id='pb-p'+(i+1);pg.querySelector('.pb-pn').innerHTML='หน้า <span class="pb-pn-n">'+(i+1)+'</span> / '+pages.length;});
   pages.forEach(function(pg,i){if(PBX_PARCH&&i+1>=PBX_PARCH[0]&&i+1<=PBX_PARCH[1]){pg.classList.add('parch');pg.querySelector('.pb-pn').innerHTML='<span class="pb-pn-n">'+(i+1)+'</span> / '+pages.length;var b=pg.querySelector('.pbx-ft-brand');if(b)b.innerHTML='BetterTrade 2026<i>✦</i>Personalized Playbook';}});
+  pbxMapMark(pages);
   pbxIllustrate(pages);
   pbTOC(doc,pages);
+  pbxMapSwap(doc);
   pbxFrame(doc);
 }
 /* สารบัญ (2026-09-22, per direction) — built AFTER pagination, from the sheets themselves, so every
@@ -1444,9 +1484,7 @@ function pbTOC(doc,pages){
   pg.innerHTML=PBX_ORN+'<div class="pb-body"><h2 class="pbx-toc-t">สารบัญ</h2><div class="toc-list">'+out+'</div></div><div class="pbx-ft"><span class="pbx-ft-brand"><b>BetterTrade 2026</b> · Personalized Playbook</span><span class="pbx-ft-r"><span>เนื้อหาเพื่อการศึกษา ไม่ใช่คำแนะนำการลงทุน</span></span></div>';
   if(PBX_PARCH){pg.querySelector('.pbx-ft-brand').innerHTML='BetterTrade 2026<i>✦</i>Personalized Playbook';
     pg.insertAdjacentHTML('beforeend','<img class="toc-rose" src="assets/toc-compass.png" alt="" aria-hidden="true">');
-    /* spectrum demo: two glass pieces float beside the title (efin left and higher, the diamond right and lower), turned a little */
-    if(pbxSpecOn())pg.insertAdjacentHTML('beforeend',[['efin',216,80,40,38,-10],['diamond',535,104,36,29,10]].map(function(f){
-      return '<i class="pbx-ill spec" aria-hidden="true" style="left:'+f[1]+'px;top:'+f[2]+'px;width:'+f[3]+'px;height:'+f[4]+'px;background-image:url(assets/spec-'+f[0]+'.png);transform:rotate('+f[5]+'deg)"></i>';}).join(''));}
+    if(pbxMapOn())pg.classList.add('map');} // built after pbxMapMark, so it takes the map class here
   else PBX_FLOAT_TOC.forEach(function(f){
     var im=document.createElement('img');im.className='pbx-float';im.src='assets/'+f.src;im.alt='';im.setAttribute('aria-hidden','true');
     im.style.cssText='left:'+f.x+'px;top:'+f.y+'px;width:'+f.w+'px;height:'+f.h+'px;transform:rotate('+f.a+'deg)';
@@ -1733,7 +1771,7 @@ function pbxRoman(n){var s='';[[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'
    ACTIVITY_NEED, so it reads "ยังขาด" out of the box — see the 'auto' branch in renderBooth this
    direction restored). Switching the ช่วงงาน segment to Pre-Event is the one way back to the
    splash/quiz flow (RESULT/quizDone/boothVer aren't touched by that switch, same as before). */
-var DEMO={quizDone:true,draw:'auto',eventPhase:'on',multiTicket:false,boothVer:'v2',registered:true,sampleEvolve:true,spec:false}; // spec (2026-10-26, demo case): false (default) = the book without the spectrum asset elements, true = with them (pbxSpecOn); flipped by the on-screen .pb-spec-sw. // sampleEvolve: see pbxEvo // draw: 'auto' (default, real boothCheckinCount()/boothActivityCount() math) | 'ok' (force eligible) | 'need' (force not-eligible) — see renderBooth. registered (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้ลงทะเบียน"): true (default, the real/active state) = the normal full Book; false previews a quiz-taker who never went through the registration site — renderBook locks to just the ตัวตน tab, truncates it at จุดแข็ง/จุดที่ต้องระวัง, and drops the bottom app-tabbar (see renderBook's `unreg` branches + book2Tabs()). boothVer (2026-09-03, per direction "อยากเพิ่ม หน้าเดินบูธ อีกเวอร์ชัน แยก preview ในเดโม"): 'v1' = the shipped booth page (static map image + separate route list, unchanged); 'v2' = a UX-enhancement preview per the Booth Journey spec — the SAME sections/layout/content, but the map gets numbered semantic markers synced 1:1 with the route steps, plus two-way Step↔Map focus. Everything v2 adds is gated on this flag so v1 stays byte-identical. (splashVer removed 2026-09-18, per direction "preview card เอา v1 ออก" — the splash fan carousel's "การ์ดมีชีวิต" build (added 2026-09-09, promoted to shipped default 2026-09-11) is now the only splash preview; v1 the plain static carousel, v3/v5 the "3D Character Card Flow" field and its living-card variant, were all removed the same day/session — see renderSplash's own comment for that full history.) eventPhase default flipped 'on'->'pre' (2026-08-28, per follow-up direction "จำลองเคส...อยากให้ preview default ที่ Pre-Event ก่อน") — see the comment above. multiTicket: false by default (2026-09-02) — the single-ticket case stays the active/real state; see MULTI_TICKET_DEMO. (sumTitleVer — a brief demo-panel toggle comparing 2 title treatments for renderPlaySummary's game-name — removed 2026-09-11, per direction "เลือกแบบ v2 และเอาแบบ v1 ออกได้เลย": v2, the DNA quiz's .q-icon-bare + .q-title header, is now just how renderPlaySummary always renders — see its own comment there.)
+var DEMO={quizDone:true,draw:'auto',eventPhase:'on',multiTicket:false,boothVer:'v2',registered:true,sampleEvolve:true,map:false}; // map (2026-10-27, demo case, MAP-DNA.md): false (default) = the book as it is, true = the treasure-map DNA on every inside sheet (pbxMapOn / PBX_MAP_ALL), flipped by the on-screen .pb-spec-sw (the spectrum asset elements and their redrawn icons were dropped 2026-10-27). // sampleEvolve: see pbxEvo // draw: 'auto' (default, real boothCheckinCount()/boothActivityCount() math) | 'ok' (force eligible) | 'need' (force not-eligible) — see renderBooth. registered (2026-09-04, per direction "จำลองเคส...ลูกค้าที่เข้ามาเล่น quiz dna โดยที่ยังไม่ได้ลงทะเบียน"): true (default, the real/active state) = the normal full Book; false previews a quiz-taker who never went through the registration site — renderBook locks to just the ตัวตน tab, truncates it at จุดแข็ง/จุดที่ต้องระวัง, and drops the bottom app-tabbar (see renderBook's `unreg` branches + book2Tabs()). boothVer (2026-09-03, per direction "อยากเพิ่ม หน้าเดินบูธ อีกเวอร์ชัน แยก preview ในเดโม"): 'v1' = the shipped booth page (static map image + separate route list, unchanged); 'v2' = a UX-enhancement preview per the Booth Journey spec — the SAME sections/layout/content, but the map gets numbered semantic markers synced 1:1 with the route steps, plus two-way Step↔Map focus. Everything v2 adds is gated on this flag so v1 stays byte-identical. (splashVer removed 2026-09-18, per direction "preview card เอา v1 ออก" — the splash fan carousel's "การ์ดมีชีวิต" build (added 2026-09-09, promoted to shipped default 2026-09-11) is now the only splash preview; v1 the plain static carousel, v3/v5 the "3D Character Card Flow" field and its living-card variant, were all removed the same day/session — see renderSplash's own comment for that full history.) eventPhase default flipped 'on'->'pre' (2026-08-28, per follow-up direction "จำลองเคส...อยากให้ preview default ที่ Pre-Event ก่อน") — see the comment above. multiTicket: false by default (2026-09-02) — the single-ticket case stays the active/real state; see MULTI_TICKET_DEMO. (sumTitleVer — a brief demo-panel toggle comparing 2 title treatments for renderPlaySummary's game-name — removed 2026-09-11, per direction "เลือกแบบ v2 และเอาแบบ v1 ออกได้เลย": v2, the DNA quiz's .q-icon-bare + .q-title header, is now just how renderPlaySummary always renders — see its own comment there.)
 
 /* synthesize a plausible RESULT for a forced persona and jump to the Book (demo shortcut).
    gap:0 here used to mean the demo persona picker could NEVER show a real post-event difference —
@@ -1770,7 +1808,7 @@ RESULT.revealed=RESULT.declared;RESULT.gap=0; // the PDF sample reads "สอด
    ~36 the real font produces. document.fonts.load() forces the three faces to download even though nothing has used them yet; a 2.5s
    timeout keeps the page from ever hanging on a blocked font. */
 (function(){
-  var done=false;function go(){if(done)return;done=true;render();pbxSpecSwitch();}
+  var done=false;function go(){if(done)return;done=true;render();pbxDemoSwitch();}
   setTimeout(go,2500);
   if(!document.fonts||!document.fonts.load){go();return;}
   Promise.all([document.fonts.load('500 16px "Noto Sans Thai UI"'),document.fonts.load('700 16px "Noto Sans Thai UI"'),document.fonts.load('500 16px "Sarabun"'),document.fonts.load('700 16px "Sarabun"'),document.fonts.load('400 20px "Baskervville"'),document.fonts.load('700 20px "PSL Praewsuda Serif"'),document.fonts.load('400 20px "TH Sarabun New"'),document.fonts.load('500 20px "Noto Sans Thai"')]).then(function(){return document.fonts.ready;}).then(go,go);
