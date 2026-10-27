@@ -442,9 +442,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-pe-ax span{position:absolute;transform:translateX(-50%);white-space:nowrap;}
 .pbx-pe-today{display:flex;align-items:baseline;gap:10px;margin-top:var(--sp-stack);font-size:var(--fs-label);color:var(--muted);}
 .pbx-pe-today b{font-size:var(--pbx-fs-open);font-weight:var(--w-label);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;}
-.pbx-pe-today small{font-size:var(--fs-label);color:var(--muted);}
-.pbx-pe-today .pbx-spec{align-self:center;margin:0 0 0 64px;} /* the glass coin a little past the figure, the figure flush left */
-.pbx-pe-g{display:block;margin-top:var(--sp-block);overflow:visible;}
+.pbx-pe-today small{font-size:var(--fs-label);color:var(--muted);}.pbx-pe-g{display:block;margin-top:var(--sp-block);overflow:visible;}
 .pbx-pe-g .g{stroke:var(--line);stroke-width:1;}
 .pbx-pe-g .t{font-size:11px;fill:var(--muted);font-family:var(--font);}
 .pbx-pe-g .k{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round;}
@@ -1065,7 +1063,7 @@ function pbxPortEduHTML(){
     [5,3,1].map(function(n){return '<text x="'+(GW+10)+'" y="'+(+Y(last(n))+4)+'" class="e'+(n===lv?' on':'')+'">'+pbxFill(T.row_label,{level:n})+'</text>';}).join('')+
     (bi>=0?'<path d="M'+X(bi,g3.length)+' '+Y(g3[bi])+'m0 -5l5 5l-5 5l-5 -5z" class="dm"/><text x="'+(+X(bi,g3.length)+10)+'" y="'+(+Y(g3[bi])+20)+'" class="t">'+pbxFill(T.growth_bottom,{month:pbxThMonth(md.bottom),pct:pbxPct(md.pct)})+'</text>':'')+'</svg>';
   var growth='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+pbxFill(T.growth_title_amount,{amount:pbxBaht(amt),level:lv})+'</h3>'+
-    '<div class="pbx-pe-today"><span>วันนี้ ≈</span><b>'+Math.round(last(lv)).toLocaleString('en-US')+'</b><small>บาท</small>'+pbxSpecK('coin','lg')+'</div>'+svg+
+    '<div class="pbx-pe-today"><span>วันนี้ ≈</span><b>'+Math.round(last(lv)).toLocaleString('en-US')+'</b><small>บาท</small></div>'+svg+
     '<div class="pbx-pe-gx"><span>'+pbxThMonth(H.period.from)+' · '+pbxFill(T.growth_base_amount,{amount:pbxBaht(amt)})+'</span><span>'+pbxThMonth(H.period.to)+'</span></div>'+
     '<p class="pbx-ms-lede">'+pbxFill(T.growth_drop_baht,{pct:pbxPct(md.pct),amount:pbxBaht(amt),baht:pbxBaht(-md.pct/100*amt),months:md.months_to_recover})+'</p>'+
     '<p class="pbx-ms-lede">'+pbxFill(T.growth_compare_hi,{value:pbxBaht(last(5)),pct:pbxPct(S[5].max_drop.pct)})+'<br>'+pbxFill(T.growth_compare_lo,{value:pbxBaht(last(1))})+'</p>'+
@@ -1182,17 +1180,16 @@ var PBX_SPEC={'ตราสารหนี้':'bond','เงินฝาก':'b
   'เงินฝาก/ตลาดเงิน':'bank','หุ้น':'stockth','ทองคำ/ทางเลือก':'gold'};
 /* every opener's piece floats at the top, level with the journey drawing's flag, just left of the drawing (never on it, 2026-10-26),
    turned a little; centred on x ≈ 434, y ≈ 128 */
-var PBX_SPEC_ON={analysis:{k:'coin',x:410,y:103,w:48,h:50,a:-8},
+var PBX_SPEC_ON={analysis:{k:'coin',x:500,y:214,w:50,h:52,a:0},   // the exception (with portfolio): in the scale's left pan, per direction
   portfolio:{k:'crypto',x:412,y:106,w:44,h:44,a:8},
-  port:{k:'fund',x:411,y:105,w:46,h:46,a:-10},
+  port:{k:'fund',x:714,y:112,w:46,h:46,a:-10},   // the exception: perched on the top of the chart's rightmost candle (wick top ≈ 742, 173), per direction
   journey:{k:'diamond',x:410,y:109,w:48,h:39,a:8},
-  library:{k:'efin',x:409,y:104,w:50,h:48,a:-8},
-  glossary:{k:'chest',x:410,y:103,w:48,h:51,a:6}};
+  library:{k:'efin',x:409,y:104,w:50,h:48,a:-8}};
 /* library: the asset articles (สินทรัพย์แต่ละประเภท) carry their asset's mark before the title */
 var PBX_SPEC_ART=[[/^ตราสารหนี้/,'bond'],[/^(ของสะสม|สินทรัพย์ทางเลือก)/,'chest'],[/^คริปโต/,'crypto'],[/^ทองคำ/,'gold'],[/^สุขภาพในฐานะ/,'heart'],
   [/^กองทุน(ดัชนี|รวม \(| Active)/,'fund'],[/^ประกัน \(/,'shield'],[/^(อสังหาฯ|REIT)/,'realestate'],[/^หุ้น \(/,'stockth']];
 /* still-life groups in a sheet's free lower band (pbxIllustrate): a library category's last sheet, the FOMO sheet, the glossary's end */
-var PBX_SPEC_CAT={'พื้นฐานการลงทุน':['fund','coin'],'สินทรัพย์แต่ละประเภท':['gold','stockth','bond'],'ต้นทุนและผลตอบแทน':['coin','gold'],'กลลวงและการป้องกันตัว':['shield'],
+var PBX_SPEC_CAT={'พื้นฐานการลงทุน':['fund','coin'],'สินทรัพย์แต่ละประเภท':['gold','stockth'],'ต้นทุนและผลตอบแทน':['coin','gold'],'กลลวงและการป้องกันตัว':['shield'],
   'วางแผนชีวิตและสุขภาพการเงิน':['heart','shield'],'ความเสี่ยงและการอ่านตัวเอง':['diamond','stockth']};
 function pbxSpecOn(){return !!(PBX_PARCH&&DEMO.spec);} // the demo switch (DEMO.spec), off by default
 /* the on-screen switch for the demo (screen only, never printed): re-lays the book with / without the asset elements, keeping the place */
@@ -1279,13 +1276,15 @@ function pbxIllustrate(pages){
   });
   Object.keys(lastCat).forEach(function(c){shelfOf.set(lastCat[c],PBX_SPEC_CAT[c]);});
   if(lastGl)shelfOf.set(lastGl,['efin']);
-  /* a floating group (2026-10-26, per direction: no ground line, not in a row): up to three glass pieces in the free lower band,
-     the biggest lowest at the text edge, the next higher and further in, the smallest highest; each turned a little.
+  /* a floating group (2026-10-26, per direction: no ground line, not in a row): one or two glass pieces in the free lower band,
+     the biggest lowest at the text edge, the other higher and further in; each turned a little.
      Per piece: size, dx = its right edge in from the text edge, dy = its bottom up from the band's foot, angle. Mirrored to the
      left margin when an engraved figure already holds the right. */
-  var FLOAT=[[[100,20,30,-8]],[[92,0,0,-8],[64,184,70,12]],[[96,0,0,-8],[70,188,48,10],[54,60,150,-14]]]; // the left piece one of its own widths further out (2026-10-26)
-  function shelf(pg,keys,end,ftTop){
-    var F=FLOAT[keys.length-1],foot=Math.round(ftTop-36),top=Math.min.apply(null,F.map(function(f){return foot-f[2]-f[0];}));
+  var FLOAT=[[[100,20,30,-8]],[[92,0,0,-8],[64,184,70,12]]]; // the left piece one of its own widths further out (2026-10-26)
+  /* the assets sheets: at most two pieces, the big one low at the edge and the small one high and further in (was three, 2026-10-27) */
+  var FLOAT_TAGS=[FLOAT[0],[[96,0,0,-8],[54,90,150,-14]]];
+  function shelf(pg,keys,end,ftTop,set){
+    var F=(set||FLOAT)[keys.length-1],foot=Math.round(ftTop-36),top=Math.min.apply(null,F.map(function(f){return foot-f[2]-f[0];}));
     if(top-40<end)return;
     var left=!!pg.querySelector('.pbx-lead');
     keys.forEach(function(k,i){var f=F[i],x=left?PADX+f[1]:W-PADX-f[1]-f[0];mark(pg,'spec','spec-'+k+'-l.png',x,foot-f[2]-f[0],f[0],f[0],f[3]);});
@@ -1332,8 +1331,9 @@ function pbxIllustrate(pages){
         fi.style.cssText='left:'+(750-fw)+'px;top:'+ftp+'px;width:'+fw+'px;height:'+fh+'px';pg.appendChild(fi);}
     }
     if(pbxSpecOn()&&ft){
-      var sk=shelfOf.get(pg)||[].map.call(body.querySelectorAll('.pbx-tags li.sp'),function(l){return l.dataset.k;}).slice(0,3);
-      if(sk.length)shelf(pg,sk,end,y(ft.getBoundingClientRect().top));
+      var sk=shelfOf.get(pg),tg=!sk;
+      if(tg){sk=[].map.call(body.querySelectorAll('.pbx-tags li.sp'),function(l){return l.dataset.k;});sk=sk.length>2?[sk[0],sk[2]]:sk;} // the 1st (big) and 3rd (high) pieces; the 2nd, once the left one, is dropped
+      if(sk.length)shelf(pg,sk,end,y(ft.getBoundingClientRect().top),tg?FLOAT_TAGS:null);
     }
     if(avail>=(ints?PBX_INTS_BT_ROOM:PBX_BT_ROOM)){var hgt=Math.min(520,avail),bt=document.createElement('i');bt.className='pbx-bt';bt.setAttribute('aria-hidden','true');bt.style.cssText='top:'+Math.round(H-hgt)+'px;height:'+Math.round(hgt)+'px';pg.appendChild(bt);}
   });
