@@ -21,40 +21,44 @@ back covers. Colours were sampled from the reference and rounded.
 |---|---|
 | ink | `--ink #3b2a1c`, `--muted #8f765a`, `--rule #b59870` on map sheets: text, pills, header / footer hairlines and stars |
 | text tones | one sepia, five weights: 1 `#24170c` headings, key figures, article titles, glossary terms · 2 `#3b2a1c` body + values · 3 `#6b5238` labels, column / row names · 4 `#8f765a` notes, sources · gold `#8a6a34` kickers, list markers, the Roman numerals, secondary units ("/100") |
-| drawings | line-tinted twins (`*.tint.png`, below); no lower-right figures on map sheets; no CSS filters (a PDF rasterises them per sheet) |
+| Latin display | the opener's Latin line and the persona card's English name: pewter with a faint iridescent band (lavender → rose → sky → gold), as soft as in the New Style drawings |
+| opener drawings | the "New Style" engravings (`Icon/New Style`: iridescent metal, hatched, on aged paper) → `assets/ill-*-iri.jpg`; the paper flattened to white by `tools/flatten-paper.js` so they multiply into the sheet; the chart's lower-right rainbow haze toned down afterwards |
+| other drawings | line-tinted twins (`*.tint.png`, below); no lower-right figures on map sheets; no CSS filters (a PDF rasterises them per sheet) |
 | rules | heading / table-head underlines as a dotted gold line (`#a88c62`, 2px dotted); none under the analysis split's heads or the 100,000-baht heading |
-| สารบัญ | chapter ✦ in sepia, joined by a dotted route down the chapter column; the compass watermark in its tinted twin |
+| สารบัญ | chapter ✦ in sepia, joined by a dotted route down the chapter column; the compass watermark in the warm tint, multiplied |
 
 ### Emphasis by importance
-- **A result** — a pale gold field and a larger figure in tone 1:
-  - list rows (the first row of interests, behaviour scores, decision mix): the whole row washed (dark at the figure,
-    fading left), the field 20px past the column so the data keeps its line (map sheets do not clip their body); label bold, figure 50px (rows 36px), the bar
-    gold and 6px; a ranked list's top row carries an "อันดับ 1" tag (interests, decision mix — not the behaviour scores,
-    which keep their topic order)
-  - said / real pairs (the analysis 4 / 4, the mirror's 4/10 → 4/10): one rounded band, darker in the middle, split by a
-    thin upright rule (the mirror's arrow does the splitting there); analysis figures 88px
-  - stand-alone figures (Confidence 40/100 at 76px, the 100,000-baht result): a soft gold panel
-  - the 5-level table's example row: the row washed, the level numeral 52px, its bands gold and 6px
-- **B main message** (the analysis verdict line, "ยิ่งขั้นสูง…", the mirror's lead, the 3-points CTA): a gold ✦ at its head.
-- **C worth a look** (the status pill, the level-3 figures line, the one-year ladder's example row, the library's
-  "คนมักเข้าใจผิด" notes, the journey's own results): a pale gold highlighter.
-- **The library's example notes** (no "คนมักเข้าใจผิด" label): no fill, a gold rule down the left, a "ตัวอย่าง" tag, italics — so they read apart from the misconception notes.
+- **A result** — the figure larger and in tone 1:
+  - emphasised rows (the first row of interests, behaviour scores, decision mix; the 5-level table's and the one-year
+    ladder's example rows): a 2px rule above and below, fading in from both ends and deepening toward a cast-gold ✦ at its
+    middle; label bold (the table's level name 17px, the ladder's level and average 18px with the figure 22px), figure 50px
+    (rows 36px), the bar 6px in gold on the rows' own grey track; a ranked list's top row and the table's example row carry
+    a solid gold tag ("อันดับ 1", "ระดับตัวอย่าง")
+  - said / real pairs (the analysis 4 / 4 split by a thin upright rule, the mirror's 4/10 → 4/10) and Confidence 40/100:
+    no field, figures 88 / 72 / 76px
+  - the 100,000-baht result: a soft gold band, square, deepest under the figure and fading to the paper rightward and at
+    its top and bottom edges, 20px past the column
+- **B main message**: no marker, except the 3-points sheet's call to the adviser — a gold ✦ with a fading gold bar under it.
+- **C worth a look** (the status pill, the level-3 figures line, the library's "คนมักเข้าใจผิด" notes, the journey's own
+  results): a pale gold highlighter.
+- **The library's example notes** (no "คนมักเข้าใจผิด" label): no fill, a gold rule down the left, a "ตัวอย่าง" tag, italics.
 - **D dividers**: the dotted gold rule.
 
 ## Line-tinted drawings (map sheets)
-Every line drawing (openers, the journey's side figures, library category heads), the สารบัญ compass and the footer
-flourish use `*.tint.png` (`tools/map-tint.js`, headless Chrome canvas pass at ~2x their box): **only the ink is
-recoloured**, by line role and light (from the upper left): thick outlines (found by an erosion of the ink) deep sepia
-`#3a2412` → `#1f1208`; dense hatching brass `#a8803e` on the lit side → red-brown `#7a3f22` in shade; sparse thin details
-light gold `#c49a52` → mid brown `#6b4a2a`. White fills and the line style (the engraved scale is the model) stay exactly
-as drawn.
+Every other line drawing (library category heads, the journey's side figures) uses `*.tint.png` (`tools/map-tint.js`,
+headless Chrome canvas pass at ~2x its box): **only the ink is recoloured**, in the New Style colours — grey-brown outlines
+(found by an erosion of the ink), hatching in a pale rainbow running along the light from the upper left (lavender → rose →
+sky → gold over pewter); white fills, no glints. The สารบัญ compass and the footer flourish keep the warm inks (deep sepia
+outlines, brass → red-brown hatching). Size: laid on white (they multiply into the sheet) and reduced to a 256-colour palette
+— the set is ~0.55 MB instead of ~3.4 MB.
 
-## Tried and dropped (2026-10-27, per direction)
+## Tried and dropped (2026-10-27 / 28, per direction)
 - The burnt-edged map paper — the sheet keeps `paper-parchment.jpg`.
-- Bronze-embossed key figures, and engraved all-caps Latin with a small "THE" (Cinzel was not downloaded).
-- Double frames, then ✦ hairlines above / below the key figures — replaced by the gold fields above.
-- The gold bar down the left of main messages and of the library pull-quotes.
-- A sand / ochre fill wash inside the drawings (only the ink is tinted).
+- Bronze-embossed key figures, an iridescent top edge on the key figures, and engraved all-caps Latin with a small "THE".
+- Double frames, ✦ hairlines round single figures, gold fields behind the rows and pairs.
+- The gold bar down the left of main messages and of the library pull-quotes; ✦ before the main messages.
+- A sand / ochre fill wash inside the drawings; gold glints on the small drawings.
 - Glass pieces in place of the line drawings; dotted routes between glass pieces; glass on pedestals.
 - The spectrum asset elements altogether (glass marks, their quiet map twins, and the redrawn engraved map icons).
-- The small chart vignettes (waves, hills, a cloud) in empty lower bands, and the lower-right line drawings on map sheets.
+- The small chart vignettes, the lower-right line drawings on map sheets, faint background drawings on other sheets, and
+  the metal badges / glass chart sampled on the สารบัญ.
