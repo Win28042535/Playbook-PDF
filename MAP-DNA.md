@@ -43,6 +43,16 @@ back covers. Colours were sampled from the reference and rounded.
 - **The library's example notes** (no "คนมักเข้าใจผิด" label): no fill, a gold rule down the left, a "ตัวอย่าง" tag, italics.
 - **D dividers**: the dotted gold rule.
 
+## Portfolio sheets as magazine pages (map sheets, 2026-10-28)
+- **พอร์ต 5 ระดับ:** a 23px headline that says the story ("ยิ่งขั้นสูง เงินยิ่งย้ายจากเงินฝากไปอยู่ในหุ้น"), a colour key, then one 100%
+  bar per level in four sepia-gold inks (bar lengths = range mid-points scaled to 100%, the true ranges printed under each bar);
+  the example level a 38px bar in full ink with its figures inside, a 58px numeral, gold tag and gold rules; the other levels
+  8px bars at 35% opacity with faint labels. Notes gathered at the foot.
+- **ถือ 1 ปี:** a headline ("ยิ่งขั้นสูง ปีดีได้มากขึ้น แต่ปีแย่ก็ลึกขึ้น"), the example level's four figures as a stat row (worst, normal,
+  best, % ending in loss — moved here from the 5-level sheet), then a tall range chart: worst-to-best bars with both ends
+  printed, the normal year a dot, a strong 0% rule with the loss side washed; the example level thick and in ink, the others
+  slim and faint; the yearly average as a figure column at the right; an inline key.
+
 ## Line-tinted drawings (map sheets)
 Every other line drawing (library category heads, the journey's side figures) uses `*.tint.png` (`tools/map-tint.js`,
 headless Chrome canvas pass at ~2x its box): **only the ink is recoloured**, in the champagne-gold crystal colours — gold-brown outlines, lighter on the lit side

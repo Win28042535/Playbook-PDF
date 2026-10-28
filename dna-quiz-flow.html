@@ -204,6 +204,81 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 /* the สารบัญ on a map sheet: chapter stars in sepia, joined by a dotted route down the chapter column (a sea chart's course) */
 .map.pb-toc .toc-ch::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 19'%3E%3Cpath d='M8 0Q9.5 8 16 9.5Q9.5 11 8 19Q6.5 11 0 9.5Q6.5 8 8 0Z' fill='%235a3d1c'/%3E%3C/svg%3E");}
 .map.pb-toc .toc-grp{position:relative;}
+/* the 5-level sheet as a magazine page (pbxPortEduHTML, map DNA, 2026-10-28) */
+.pbx-mg-head{margin-top:18px;font-family:'Noto Sans Thai',var(--font);font-size:23px;font-weight:600;line-height:1.35;color:var(--t1);text-wrap:balance;}
+.pbx-mg-head span{color:#7a5426;}
+.pbx-mag .pbx-ms-lede{margin-top:8px;}
+.pbx-mg-key{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:22px;font-size:13px;color:var(--t3);}
+.pbx-mg-key i,.pbx-mg-cap i{display:inline-block;width:11px;height:11px;margin-right:7px;vertical-align:-1px;border-radius:2px;}
+.pbx-mg{margin-top:16px;}
+.pbx-mg-r{display:grid;grid-template-columns:150px 1fr;column-gap:22px;align-items:start;padding:9px 0;border-top:1px solid rgba(90,60,25,.12);}
+/* the other levels step back (2026-10-28): slim, washed-out bars, smaller faint labels — context for level 3, not rivals */
+.pbx-mg-r:not(.on) .pbx-mg-track{height:8px;margin-top:8px;opacity:.35;} /* opacity only: a CSS filter would be rasterised in the PDF */
+.pbx-mg-r:not(.on) .pbx-mg-lv b{font-size:22px;color:var(--t4);}
+.pbx-mg-r:not(.on) .pbx-mg-lv small{color:var(--t4);}
+.pbx-mg-r:not(.on) .pbx-mg-cap{color:var(--t4);}
+.pbx-mg-r:not(.on) .pbx-mg-cap b{font-weight:400;color:var(--t4);}
+.pbx-mg-r:not(.on) .pbx-mg-cap i{opacity:.45;}
+.pbx-mg-r:first-child{border-top:0;}
+.pbx-mg-r.on{margin:10px 0;padding:22px 0 24px;border-top:2px solid #a88c62;border-bottom:2px solid #a88c62;}
+.pbx-mg-r.on+.pbx-mg-r{border-top:0;}
+.pbx-mg-lv b{display:block;font-family:'Noto Sans Thai',var(--font);font-size:30px;font-weight:400;line-height:1;color:var(--t1);}
+.pbx-mg-lv small{display:block;margin-top:5px;font-size:12px;line-height:1.35;color:var(--t3);}
+.pbx-mg-r.on .pbx-mg-lv b{font-size:58px;}
+.pbx-mg-r.on .pbx-mg-lv small{font-size:16px;font-weight:700;color:var(--t1);}
+.pbx-mg-track{display:flex;height:16px;margin-top:6px;overflow:hidden;border-radius:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.pbx-mg-r.on .pbx-mg-track{height:38px;margin-top:10px;}
+.pbx-mg-s{display:flex;align-items:center;justify-content:center;height:100%;min-width:3px;font-style:normal;}
+.pbx-mg-s+.pbx-mg-s{box-shadow:inset 1px 0 0 rgba(251,249,242,.7);}
+.pbx-mg-s em{font-style:normal;font-size:14px;font-weight:700;white-space:nowrap;color:#fbf6ea;}
+.pbx-mg-s.s-cash em{color:#3b2a1c;}
+.pbx-mg-cap{display:flex;flex-wrap:wrap;gap:2px 16px;margin-top:7px;font-size:11.5px;line-height:1.4;color:var(--t3);}
+.pbx-mg-cap b{font-weight:600;color:var(--t1);}
+.pbx-mg-cap i{width:8px;height:8px;margin-right:5px;}
+.pbx-mg-r.on .pbx-mg-cap{margin-top:10px;font-size:12.5px;gap:4px 14px;}
+/* the one-year sheet as a magazine page (map DNA, 2026-10-28) */
+.pbx-yr-k{margin-top:24px;font-size:13px;font-weight:600;letter-spacing:.02em;color:#8a6a34;}
+.pbx-yr-stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:8px;padding:14px 0;border-top:2px solid #a88c62;border-bottom:2px solid #a88c62;}
+.pbx-yr-st{padding:0 14px;border-left:1px solid rgba(90,60,25,.18);}
+.pbx-yr-st:first-child{padding-left:0;border-left:0;}
+.pbx-yr-st b{display:block;font-family:'Noto Sans Thai',var(--font);font-size:32px;font-weight:500;line-height:1.05;color:var(--t1);font-variant-numeric:tabular-nums;}
+.pbx-yr-st.neg b{color:#8a3a24;}
+.pbx-yr-st span{display:block;margin-top:6px;font-size:13px;line-height:1.35;color:var(--t3);}
+.pbx-yr-chart{position:relative;margin-top:30px;padding-bottom:30px;}
+.pbx-yr-grid{position:absolute;left:84px;right:132px;top:0;bottom:30px;pointer-events:none;}
+.pbx-yr-loss{position:absolute;left:0;top:0;bottom:0;background:rgba(138,58,36,.06);}
+.pbx-yr-zero{position:absolute;top:-6px;bottom:0;width:2px;margin-left:-1px;background:#7a5426;}
+.pbx-yr-r{position:relative;display:grid;grid-template-columns:84px 1fr 132px;align-items:center;height:62px;}
+.pbx-yr-l{font-size:14px;color:var(--t4);}
+.pbx-yr-plot{position:relative;height:100%;}
+.pbx-yr-bar{position:absolute;top:50%;height:6px;margin-top:-3px;border-radius:3px;background:#c8b494;}
+.pbx-yr-dot{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#fbf6ea;border:2px solid #a88c62;}
+.pbx-yr-v{position:absolute;top:50%;transform:translateY(-50%);font-style:normal;font-size:12px;white-space:nowrap;color:var(--t4);font-variant-numeric:tabular-nums;}
+.pbx-yr-v.md{top:auto;bottom:4px;transform:translateX(-50%);font-size:13px;font-weight:600;color:var(--t1);}
+.pbx-yr-avg{text-align:right;font-size:13px;color:var(--t4);}
+.pbx-yr-avg b{font-weight:500;}
+.pbx-yr-r.on{height:86px;}
+.pbx-yr-r.on .pbx-yr-l{font-size:20px;font-weight:700;color:var(--t1);}
+.pbx-yr-r.on .pbx-yr-bar{height:16px;margin-top:-8px;border-radius:8px;background:linear-gradient(90deg,#8a3a24,#7a5426 30%,#4a3320);}
+.pbx-yr-r.on .pbx-yr-dot{width:18px;height:18px;margin:-9px 0 0 -9px;border:3px solid #24170c;}
+.pbx-yr-r.on .pbx-yr-v{font-size:16px;font-weight:700;color:var(--t1);}
+.pbx-yr-r.on .pbx-yr-v.lo{color:#8a3a24;}
+.pbx-yr-r.on .pbx-yr-v.md{font-size:14px;}
+.pbx-yr-r.on .pbx-yr-avg{font-size:15px;color:var(--t1);}
+.pbx-yr-r.on .pbx-yr-avg b{font-size:28px;font-weight:600;}
+.pbx-yr-r.on::before,.pbx-yr-r.on::after{content:'';position:absolute;left:0;right:0;height:2px;background:linear-gradient(to right,rgba(168,128,62,0),rgba(168,128,62,.6) 30%,rgba(138,101,48,.9) 50%,rgba(168,128,62,.6) 70%,rgba(168,128,62,0));}
+.pbx-yr-r.on::before{top:0;}
+.pbx-yr-r.on::after{bottom:0;}
+.pbx-yr-ax{position:absolute;left:84px;right:132px;bottom:0;height:18px;font-size:11px;color:var(--t4);}
+.pbx-yr-ax span{position:absolute;transform:translateX(-50%);}
+.pbx-yr-ax span.z{font-weight:700;color:#7a5426;}
+.pbx-yr-key{margin-top:14px;font-size:12px;color:var(--t3);}
+.pbx-yr-key i{display:inline-block;margin:0 6px 0 14px;vertical-align:middle;}
+.pbx-yr-key i:first-child{margin-left:0;}
+.pbx-yr-key i.b{width:26px;height:6px;border-radius:3px;background:#7a5426;}
+.pbx-yr-key i.d{width:10px;height:10px;border-radius:50%;border:2px solid #24170c;background:#fbf6ea;}
+.pbx-yr-key i.z{width:2px;height:14px;background:#7a5426;}
+.pbx-mg-r.on .pbx-pe-tag{margin-top:8px;padding:1px 9px 2px;border:0;background:#8a6a34;color:#f6ecd4;font-size:11px;font-weight:500;line-height:1.4;}
 .map .toc-rose{mix-blend-mode:multiply;} /* its map twin is drawn on white (tools/map-tint.js) */
 .map.pb-toc .toc-grp:not(:last-child)::after{content:'';position:absolute;left:6px;top:24px;bottom:-14px;border-left:2px dotted #a88c62;pointer-events:none;}
 .map .pbx-pill{background:#4a3320;color:#f1e2bf;}
@@ -1133,17 +1208,60 @@ function pbxPortEduHTML(){
     tb.levels.map(function(l){return '<div class="pbx-pe-r'+(l.value===lv?' on':'')+'"><span class="pbx-pe-lv"><b>'+l.value+'</b><small>'+l.label+'</small>'+(l.value===lv?'<i class="pbx-pe-tag">ระดับตัวอย่าง</i>':'')+'</span>'+
       l.ranges.map(function(g){return '<span class="pbx-pe-c"><b>'+g.range_text+'</b><i class="pbx-pe-band" style="--lo:'+g.lo+'%;--hi:'+g.hi+'%"></i></span>';}).join('')+'</div>';}).join('')+
     '</div><p class="pbx-ms-fn">'+tb.intro_more+'<br>'+tb.derived_note+'</p></section>';
+  /* map DNA (2026-10-28, per direction: read like a magazine page, not a dashboard): one headline that says the story, then one
+     100% bar per level — the four buckets as four inks, each bar's lengths the mid-points of its ranges scaled to 100% (the true
+     ranges printed under it) — the example level large and in full ink, the others slim and quiet; notes gathered at the foot.
+     The one-year figures (ยิ่งขั้นสูง… / ระดับ 3: ปีปกติ…) move to the one-year sheet. */
+  if(pbxMapOn()){
+    var INK={cash:'#e3d2ae',bond:'#c49b5c',equity:'#7a5426',alt:'#3e2a17'};
+    var bars=tb.levels.map(function(l){var on=l.value===lv,mid=l.ranges.map(function(g){return (g.lo+g.hi)/2;}),sum=mid.reduce(function(a,b){return a+b;},0);
+      var seg=l.ranges.map(function(g,i){var w=mid[i]/sum*100;return '<i class="pbx-mg-s s-'+B[i]+'" style="width:'+w.toFixed(2)+'%;background:'+INK[B[i]]+'">'+(on&&w>=12?'<em>'+g.range_text+'</em>':'')+'</i>';}).join('');
+      var cap=l.ranges.map(function(g,i){return '<span><i style="background:'+INK[B[i]]+'"></i>'+T.bucket_short[B[i]]+' <b>'+g.range_text+'</b></span>';}).join('');
+      return '<div class="pbx-mg-r'+(on?' on':'')+'"><div class="pbx-mg-lv"><b>'+l.value+'</b><small>'+l.label+'</small>'+(on?'<i class="pbx-pe-tag">ระดับตัวอย่าง</i>':'')+'</div>'+
+        '<div class="pbx-mg-bar"><div class="pbx-mg-track">'+seg+'</div><div class="pbx-mg-cap">'+cap+'</div></div></div>';}).join('');
+    table='<section class="pbx-block pbx-mag"><h3 class="s-h pbx-blk-t">'+tb.title+'</h3>'+
+      '<p class="pbx-mg-head">ยิ่งขั้นสูง เงินยิ่งย้ายจาก<span>เงินฝาก</span>ไปอยู่ใน<span>หุ้น</span></p><p class="pbx-ms-lede">'+tb.intro+'</p>'+
+      '<div class="pbx-mg-key">'+B.map(function(b){return '<span><i style="background:'+INK[b]+'"></i>'+T.bucket_short[b]+'</span>';}).join('')+'</div>'+
+      '<div class="pbx-mg">'+bars+'</div>'+
+      '<p class="pbx-ms-fn">ความยาวแถบใช้ค่ากลางของแต่ละช่วงปรับให้รวม 100% เพื่อให้เห็นภาพ ตัวเลขใต้แถบคือช่วงจริง<br>'+tb.intro_more+'<br>'+tb.derived_note+'</p></section>';
+  }
   var how='<section class="pbx-block" data-fig="eng-gauge"><h3 class="s-h pbx-blk-t">'+tb.how.title+'</h3><div class="pbx-pe-how">'+
     tb.how.items.map(function(t,i){var p=t.split(' — ');return '<div class="pbx-lg-i"><span class="pbx-lg-in">'+pbxRoman(i+1)+'</span><span class="pbx-lg-it"><b>'+p[0]+'</b> '+p.slice(1).join(' — ')+'</span></div>';}).join('')+
     '</div><p class="pbx-ms-lede">'+tb.how.more+'</p><p class="pbx-pe-cta">'+tb.how.cta+'</p></section>';
   /* one-year holding ladder on a shared axis (the app's −20%…+45%): worst-to-best as an inked rule, the normal year as a white dot */
   var ladder='<section class="pbx-block"><h3 class="s-h pbx-blk-t">'+T.ladder_title+'</h3>'+
     '<p class="pbx-ms-lede">'+pbxFill(T.split_template,{th:100-fx,fx:fx})+' · '+T.split_note.split(' · ').slice(1).join(' · ')+'</p>'+
+    (pbxMapOn()?'<p class="pbx-pe-cta">'+T.ladder_summary+'</p><p class="pbx-ms-lede">'+pbxFill(T.ladder_pick,{level:lv,median:pbxPct(m.median),worst:pbxPct(m.worst),neg:m.pct_negative})+'</p>':'')+ // map: the one-year figures live here (2026-10-28)
     '<div class="pbx-pe-lad">'+[1,2,3,4,5].map(function(n){var h=S[n].hold_12m;
       return '<div class="pbx-pe-lr'+(n===lv?' on':'')+'"><span class="pbx-ms-l">'+pbxFill(T.row_label,{level:n})+'</span><i class="pbx-pe-rng" style="--z:'+ax(0)+';--a:'+ax(h.worst)+';--b:'+ax(h.best)+';--m:'+ax(h.median)+'"></i><span class="pbx-pe-avg">'+pbxFill(T.avg_label,{cagr:'<b>'+pbxPct(S[n].cagr)+'</b>'})+'</span></div>';}).join('')+
     '<div class="pbx-pe-ax"><span style="left:0">−20%</span><span style="left:'+ax(0)+'">0%</span><span style="left:100%">+45%</span></div></div>'+
     '<p class="pbx-ms-fn">'+T.ladder_legend+'</p>'+
     '<p class="pbx-ms-fn">'+T.disclaimer+'</p></section>';
+  /* map DNA (2026-10-28, magazine page): the headline says the story; the example level's four one-year figures as a stat row; one
+     tall range chart — each level a bar from its worst to its best year with both figures printed at the ends, its normal year a
+     dot with its figure, 0% a strong rule, the loss side washed; the example level thick and in ink, the others slim and faint;
+     the yearly average as a column of figures at the right */
+  if(pbxMapOn()){
+    var h3=S[lv].hold_12m,pos=function(v){return ((v-A0)/(A1-A0)*100).toFixed(2)+'%';};
+    var stat=function(v,l,neg){return '<div class="pbx-yr-st'+(neg?' neg':'')+'"><b>'+v+'</b><span>'+l+'</span></div>';};
+    var rows=[1,2,3,4,5].map(function(n){var h=S[n].hold_12m,on=n===lv;
+      return '<div class="pbx-yr-r'+(on?' on':'')+'"><span class="pbx-yr-l">'+pbxFill(T.row_label,{level:n})+'</span>'+
+        '<div class="pbx-yr-plot"><i class="pbx-yr-bar" style="left:'+pos(h.worst)+';right:calc(100% - '+pos(h.best)+')"></i>'+
+        '<em class="pbx-yr-v lo" style="right:calc(100% - '+pos(h.worst)+' + 8px)">'+pbxPct(h.worst)+'</em>'+
+        '<em class="pbx-yr-v hi" style="left:calc('+pos(h.best)+' + 8px)">'+pbxPct(h.best)+'</em>'+
+        '<i class="pbx-yr-dot" style="left:'+pos(h.median)+'"></i>'+(on?'<em class="pbx-yr-v md" style="left:'+pos(h.median)+'">ปีปกติ '+pbxPct(h.median)+'</em>':'')+'</div>'+
+        '<span class="pbx-yr-avg">เฉลี่ย <b>'+pbxPct(S[n].cagr)+'</b>/ปี</span></div>';}).join('');
+    var ticks=[-20,-10,0,10,20,30,40].map(function(t){return '<span style="left:'+pos(t)+'"'+(t===0?' class="z"':'')+'>'+(t>0?'+':t<0?'−':'')+Math.abs(t)+'%</span>';}).join('');
+    ladder='<section class="pbx-block pbx-mag pbx-yr"><h3 class="s-h pbx-blk-t">'+T.ladder_title+'</h3>'+
+      '<p class="pbx-mg-head">ยิ่งขั้นสูง ปีดีได้<span>มากขึ้น</span> แต่ปีแย่ก็<span>ลึกขึ้น</span></p>'+
+      '<p class="pbx-ms-lede">'+pbxFill(T.split_template,{th:100-fx,fx:fx})+' · '+T.split_note.split(' · ').slice(1).join(' · ')+'</p>'+
+      '<div class="pbx-yr-k">ระดับ '+lv+' · ถ้าถือ 1 ปี</div>'+
+      '<div class="pbx-yr-stats">'+stat(pbxPct(h3.worst),'ปีแย่สุด',true)+stat(pbxPct(h3.median),'ปีปกติ')+stat(pbxPct(h3.best),'ปีดีสุด')+stat(h3.pct_negative+'%','ของช่วงถือ 1 ปี จบที่ขาดทุน',true)+'</div>'+
+      '<div class="pbx-yr-chart"><div class="pbx-yr-grid"><i class="pbx-yr-loss" style="width:'+pos(0)+'"></i><i class="pbx-yr-zero" style="left:'+pos(0)+'"></i></div>'+rows+
+      '<div class="pbx-yr-ax">'+ticks+'</div></div>'+
+      '<p class="pbx-yr-key"><i class="b"></i>ปีแย่สุด ถึง ปีดีสุด <i class="d"></i>ปีปกติ <i class="z"></i>เส้น 0% · ซ้ายของเส้นคือขาดทุน</p>'+
+      '<p class="pbx-ms-fn">'+T.disclaimer+'</p></section>';
+  }
   /* ten years of 100,000 baht: level 3 in ink, levels 1 and 5 as quiet lines (1 dashed), the worst point marked */
   var W=642,GW=W-96,Hh=250,all=[1,3,5].map(function(n){return S[n].growth_of_100k;});
   var mx=Math.max.apply(null,all.map(function(a){return Math.max.apply(null,a);})),mn=Math.min.apply(null,all.map(function(a){return Math.min.apply(null,a);}));
