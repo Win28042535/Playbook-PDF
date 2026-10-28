@@ -21,8 +21,8 @@ back covers. Colours were sampled from the reference and rounded.
 |---|---|
 | ink | `--ink #3b2a1c`, `--muted #8f765a`, `--rule #b59870` on map sheets: text, pills, header / footer hairlines and stars |
 | text tones | one sepia, five weights: 1 `#24170c` headings, key figures, article titles, glossary terms · 2 `#3b2a1c` body + values · 3 `#6b5238` labels, column / row names · 4 `#8f765a` notes, sources · gold `#8a6a34` kickers, list markers, the Roman numerals, secondary units ("/100") |
-| Latin display | the opener's Latin line and the persona card's English name: pewter with a faint iridescent band (lavender → rose → sky → gold), as soft as in the New Style drawings |
-| opener drawings | the "New Style" engravings (`Icon/New Style`: iridescent metal, hatched, on aged paper) → `assets/ill-*-iri.jpg`; the paper flattened to white by `tools/flatten-paper.js` so they multiply into the sheet; the chart's lower-right rainbow haze toned down afterwards |
+| Latin display | the opener's Latin line and the persona card's English name: champagne-gold crystal — bronze at the ends, a rainbow band (lavender → sky → white → rose → amber) across the middle (2026-10-28, from the second New Style set) |
+| opener drawings | the "New Style" engravings (`Icon/New Style`, second set 2026-10-28: champagne-gold crystal, hatched, on aged paper) → `assets/ill-*-iri.jpg`; the paper flattened to white by `tools/flatten-paper.js` so they multiply into the sheet; the chart's lower-right rainbow haze toned down afterwards |
 | other drawings | line-tinted twins (`*.tint.png`, below); no lower-right figures on map sheets; no CSS filters (a PDF rasterises them per sheet) |
 | rules | heading / table-head underlines as a dotted gold line (`#a88c62`, 2px dotted); none under the analysis split's heads or the 100,000-baht heading |
 | สารบัญ | chapter ✦ in sepia, joined by a dotted route down the chapter column; the compass watermark in the warm tint, multiplied |
@@ -36,8 +36,7 @@ back covers. Colours were sampled from the reference and rounded.
     a solid gold tag ("อันดับ 1", "ระดับตัวอย่าง")
   - said / real pairs (the analysis 4 / 4 split by a thin upright rule, the mirror's 4/10 → 4/10) and Confidence 40/100:
     no field, figures 88 / 72 / 76px
-  - the 100,000-baht result: a soft gold band, square, deepest under the figure and fading to the paper rightward and at
-    its top and bottom edges, 20px past the column
+  - the 100,000-baht result: the same rules and ✦ as the emphasised rows (its gold band was dropped)
 - **B main message**: no marker, except the 3-points sheet's call to the adviser — a gold ✦ with a fading gold bar under it.
 - **C worth a look** (the status pill, the level-3 figures line, the library's "คนมักเข้าใจผิด" notes, the journey's own
   results): a pale gold highlighter.
@@ -46,9 +45,9 @@ back covers. Colours were sampled from the reference and rounded.
 
 ## Line-tinted drawings (map sheets)
 Every other line drawing (library category heads, the journey's side figures) uses `*.tint.png` (`tools/map-tint.js`,
-headless Chrome canvas pass at ~2x its box): **only the ink is recoloured**, in the New Style colours — grey-brown outlines
-(found by an erosion of the ink), hatching in a pale rainbow running along the light from the upper left (lavender → rose →
-sky → gold over pewter); white fills, no glints. The สารบัญ compass and the footer flourish keep the warm inks (deep sepia
+headless Chrome canvas pass at ~2x its box): **only the ink is recoloured**, in the champagne-gold crystal colours — gold-brown outlines, lighter on the lit side
+(found by an erosion of the ink), hatching in a rainbow running along the light from the upper left over a champagne base;
+white fills, no glints. The สารบัญ compass and the footer flourish keep the warm inks (deep sepia
 outlines, brass → red-brown hatching). Size: laid on white (they multiply into the sheet) and reduced to a 256-colour palette
 — the set is ~0.55 MB instead of ~3.4 MB.
 

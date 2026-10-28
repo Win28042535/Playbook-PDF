@@ -46,7 +46,14 @@ const TINT = async (url, W, STYLE, GLINTS, FLAT) => {
     const lit = Math.min(1, Math.max(0, (x / W) * 0.55 + (y / H) * 0.45 + (D[i] * 2.4 - .3) * .5)); // light from the upper left, deeper where hatched
     const isOut = Math.min(1, thick[i] * 1.6), dense = Math.min(1, D[i] * 3);
     let lc;
-    if (STYLE === 'iri') {
+    if (STYLE === 'champ') { // the second New Style set (2026-10-28): champagne gold — gold-brown outlines lighter on the lit side,
+      // hatching in a clearer rainbow over a champagne base
+      const CH_L = [222, 184, 112], CH_D = [168, 120, 58], CO_L = [196, 146, 62], CO_D = [118, 78, 30];
+      const R2 = [[142, 92, 230], [64, 148, 240], [240, 96, 160], [246, 140, 48]];
+      const t2 = (((x + y) / (W + H) * 1.6) % 1) * R2.length, a2 = Math.floor(t2), hue = mix(R2[a2], R2[(a2 + 1) % R2.length], t2 - a2);
+      const thinC = mix(mix(CH_L, hue, .85 * (1 - lit * .35)), CH_D, lit * .4);
+      lc = mix(thinC, mix(mix(CO_L, hue, .18 * (1 - lit)), CO_D, Math.min(1, lit * 1.1)), isOut); // the gold outline catches a little of the rainbow
+    } else if (STYLE === 'iri') {
       const hue = rain((x + y) / (W + H) * 1.6), thinC = mix(mix(PEW_L, hue, .85 * (1 - lit * .45)), PEW_D, lit * .45);
       lc = mix(thinC, mix(mix(IO_L, hue, .22 * (1 - lit)), IO_D, lit), isOut); // the lit outline catches a little of the rainbow too
     } else {
@@ -76,7 +83,7 @@ const quantize = o => { const t = o + '.q.png';
   require('child_process').execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', o, '-filter_complex', '[0]split[a][b];[a]palettegen=max_colors=256:stats_mode=full[p];[b][p]paletteuse=dither=none', t]);
   if (fs.statSync(t).size < fs.statSync(o).size) fs.renameSync(t, o); else fs.unlinkSync(t); };
 // options (2026-10-28): STYLE=iri (default since 2026-10-28, the New Style colours) or warm (the earlier brass / red-brown); ONLY=a.svg,b.png to render just those; SUFFIX for the output name
-const STYLE = process.env.STYLE || 'iri', ONLY = process.env.ONLY ? process.env.ONLY.split(',') : null, SUFFIX = process.env.SUFFIX || '.tint.png';
+const STYLE = process.env.STYLE || 'champ', ONLY = process.env.ONLY ? process.env.ONLY.split(',') : null, SUFFIX = process.env.SUFFIX || '.tint.png';
 const STYLE_OF = f => /^(toc-compass|orn-footer)/.test(f) && !process.env.STYLE ? 'warm' : STYLE; // the สารบัญ compass and the footer flourish keep the warm inks (2026-10-28)
 (async () => {
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'tint-'));

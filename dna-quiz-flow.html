@@ -139,12 +139,8 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .map .pbx-an2 .pbx-big{font-size:88px;color:var(--t1);}
 .map .pbx-an2 .pbx-score b{font-size:76px;}
 .map .pbx-mr-n{font-size:72px;color:var(--t1);}
-/* the 100,000-baht result on a gold field again (2026-10-27): square corners, the gold deepest under the figure and fading out to
-   the paper toward the right, and a little toward the top and bottom edges, so it reads as a soft band rather than a box */
-.map .pbx-pe-today{position:relative;isolation:isolate;margin-left:-20px;margin-right:-20px;padding:14px 20px;}
-.map .pbx-pe-today::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(to right,rgba(201,163,90,.36) 0,rgba(201,163,90,.27) 25%,rgba(201,163,90,.13) 55%,rgba(201,163,90,.03) 82%,rgba(201,163,90,0) 100%);
-  -webkit-mask-image:linear-gradient(transparent 0,#000 22%,#000 78%,transparent 100%);mask-image:linear-gradient(transparent 0,#000 22%,#000 78%,transparent 100%);}
+/* the 100,000-baht result (2026-10-28): no gold band any more — it takes the emphasised rows' rules and ✦ (below) */
+.map .pbx-pe-today{padding:14px 0;}
 .map .pbx-pe-today b{font-size:calc(var(--pbx-fs-open) * 1.35);color:var(--t1);}
 /* the 5-level table's example row speaks like a list's top row: its level name bold, larger, tone 1; its tag the solid gold pill */
 .map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv small{font-size:17px;font-weight:700;line-height:1.35;color:var(--t1);}
@@ -155,15 +151,15 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .map .pbx-pe-lr.on .pbx-pe-avg b{font-size:22px;font-weight:700;}
 /* emphasised rows (2026-10-27, per direction: no gold field): a 2px rule above and below the row, each with a ✦ at its middle,
    drawn over the row's own hairlines so nothing moves */
-.map .pbx-ms .pbx-ms-r:first-child,.map .pbx-pe-pick .pbx-pe-r.on,.map .pbx-pe-lr.on{position:relative;}
+.map .pbx-ms .pbx-ms-r:first-child,.map .pbx-pe-pick .pbx-pe-r.on,.map .pbx-pe-lr.on,.map .pbx-pe-today{position:relative;}
 .map .pbx-ms .pbx-ms-r:first-child::before,.map .pbx-ms .pbx-ms-r:first-child::after,.map .pbx-pe-pick .pbx-pe-r.on::before,.map .pbx-pe-pick .pbx-pe-r.on::after,
-.map .pbx-pe-lr.on::before,.map .pbx-pe-lr.on::after{
+.map .pbx-pe-lr.on::before,.map .pbx-pe-lr.on::after,.map .pbx-pe-today::before,.map .pbx-pe-today::after{
   content:'';position:absolute;left:0;right:0;height:11px;pointer-events:none;
   /* softened (2026-10-27): the rule fades in from both ends and deepens toward the star; the star is cast gold (light top, bronze foot) */
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 11'%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23f0d48c'/%3E%3Cstop offset='.5' stop-color='%23c09443'/%3E%3Cstop offset='1' stop-color='%236e4b1f'/%3E%3C/linearGradient%3E%3Cpath d='M4.5 0Q5.4 4.5 9 5.5Q5.4 6.5 4.5 11Q3.6 6.5 0 5.5Q3.6 4.5 4.5 0Z' fill='url(%23g)'/%3E%3C/svg%3E") center/9px 11px no-repeat,
     linear-gradient(to right,rgba(168,128,62,0) 0,rgba(168,128,62,.55) 30%,rgba(138,101,48,.9) calc(50% - 11px),transparent calc(50% - 11px),transparent calc(50% + 11px),rgba(138,101,48,.9) calc(50% + 11px),rgba(168,128,62,.55) 70%,rgba(168,128,62,0) 100%) center/100% 2px no-repeat;}
-.map .pbx-ms .pbx-ms-r:first-child::before,.map .pbx-pe-pick .pbx-pe-r.on::before,.map .pbx-pe-lr.on::before{top:-6px;}
-.map .pbx-ms .pbx-ms-r:first-child::after,.map .pbx-pe-pick .pbx-pe-r.on::after,.map .pbx-pe-lr.on::after{bottom:-6px;}
+.map .pbx-ms .pbx-ms-r:first-child::before,.map .pbx-pe-pick .pbx-pe-r.on::before,.map .pbx-pe-lr.on::before,.map .pbx-pe-today::before{top:-6px;}
+.map .pbx-ms .pbx-ms-r:first-child::after,.map .pbx-pe-pick .pbx-pe-r.on::after,.map .pbx-pe-lr.on::after,.map .pbx-pe-today::after{bottom:-6px;}
 .map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-lv b{font-size:52px;color:var(--t1);}
 .map .pbx-pe-pick .pbx-pe-r.on .pbx-pe-band::before{height:6px;background:#8a6530;}
 .map .pbx-block:has(.pbx-pe-today) h3.pbx-blk-t{border-bottom:0!important;}
@@ -188,7 +184,7 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .map .pbx-ms .pbx-ms-r:first-child .pbx-ms-v{color:var(--t1);font-size:50px;} /* 1.4x the rows' 36px */
 /* iridescent sheen on the opener's Latin line (2026-10-28, from the New Style drawings: pewter with a faint lavender → rose → sky →
    gold band, as soft as in the drawings); the key figures stay plain tone 1 (tried and dropped the same day) */
-.map .pbx-op-en span,.map .pbx-hero-en{background-image:linear-gradient(100deg,#2b2621 0%,#5a5057 24%,#a597b2 40%,#cfb3c4 48%,#a9bcd2 56%,#cbb388 64%,#5c5357 78%,#2b2621 100%);} /* image only: the shorthand would reset the text clip */
+.map .pbx-op-en span,.map .pbx-hero-en{background-image:linear-gradient(100deg,#5e3f1c 0%,#9a7036 16%,#b08fd0 30%,#86b6e2 38%,#fff3d6 46%,#f2a6c4 53%,#efab62 61%,#a27638 76%,#5e3f1c 100%);} /* champagne-gold crystal, from the second New Style set (2026-10-28) */ /* image only: the shorthand would reset the text clip */
 .map .pbx-ms .pbx-ms-r:first-child .pbx-ms-ru{height:6px;background:linear-gradient(to right,#8a6530 var(--v),#cfc7b8 var(--v));} /* the track the same grey as the other rows' (2026-10-28) */
 .map .pbx-ms .pbx-ms-r.top .pbx-ms-l::after{content:'อันดับ 1';display:table;margin-top:6px;padding:1px 9px 2px;border-radius:999px;background:#8a6a34;color:#f6ecd4;font-size:11px;font-weight:500;line-height:1.4;}
 /* map sheets carry no lower-right line drawing (the interests figure, the adviser lens, the 3-points gauge; dropped 2026-10-27) */
