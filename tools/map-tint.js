@@ -7,11 +7,18 @@ const { spawn } = require('child_process'), fs = require('fs'), path = require('
 const A = path.join(__dirname, '..', 'assets'), PORT = process.env.PORT || 8731, DBG = 9335;
 // every drawing the book shows, at about 2x its largest box on the sheet
 // (audit 2026-10-28: ~2x the largest box each is shown in — the compass watermark is drawn at 8% opacity, so 640 is plenty)
-const W_OF = f => /^toc-compass/.test(f) ? 640 : /^orn-footer/.test(f) ? 244 : /^ill-/.test(f) ? 576 : /^eng-cat/.test(f) ? 296 : /^eng-(side|hook|hourglass|stetho|steps)/.test(f) ? 112 : 380;
+// the journey's six side drawings (2026-10-28, per direction "clearer, same style"): drawn on the sheet at 66px tall, their 0.5-unit
+// strokes vanished — rendered at 2x the new box with every stroke 2.4x thicker and the champagne inks a step deeper (BOLD)
+const JR = f => /^eng-(side|hook|hourglass|stetho|steps)/.test(f);
+const W_OF = f => /^toc-compass/.test(f) ? 640 : /^orn-footer/.test(f) ? 244 : /^ill-/.test(f) ? 576 : /^eng-cat/.test(f) ? 296 : JR(f) ? 180 : 380;
 const FILES = fs.readdirSync(A).filter(f => /^(ill|eng)-[^.]+\.(svg|png)$/.test(f) && !/^ill-bigrams/.test(f)).concat(['toc-compass.png', 'orn-footer.png']);
 const CH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', sleep = ms => new Promise(r => setTimeout(r, ms));
 // runs in the page: draw the file at width W, then recolour the ink of each pixel
-const TINT = async (url, W, STYLE, GLINTS, FLAT) => {
+const TINT = async (url, W, STYLE, GLINTS, FLAT, BOLD) => {
+  if (BOLD && /\.svg$/.test(url)) { // thicker strokes: scale every stroke-width in the SVG source before drawing it
+    const t = (await (await fetch(url)).text()).replace(/stroke-width="([\d.]+)"/g, (m, v) => 'stroke-width="' + (+v * 2.4).toFixed(2) + '"');
+    url = URL.createObjectURL(new Blob([t], { type: 'image/svg+xml' }));
+  }
   const im = new Image(); im.src = url; await im.decode();
   const H = Math.round(W * (im.naturalHeight || im.height) / (im.naturalWidth || im.width));
   const c = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas'); c.width = W; c.height = H; // (namespaced: the host page may be an SVG document)
@@ -48,10 +55,12 @@ const TINT = async (url, W, STYLE, GLINTS, FLAT) => {
     let lc;
     if (STYLE === 'champ') { // the second New Style set (2026-10-28): champagne gold — gold-brown outlines lighter on the lit side,
       // hatching in a clearer rainbow over a champagne base
-      const CH_L = [222, 184, 112], CH_D = [168, 120, 58], CO_L = [196, 146, 62], CO_D = [118, 78, 30];
-      const R2 = [[142, 92, 230], [64, 148, 240], [240, 96, 160], [246, 140, 48]];
+      // BOLD (the journey's small drawings): the same family half a step deeper (eased to half-way, 2026-10-28, per direction)
+      const CH_L = BOLD ? [203, 162, 92] : [222, 184, 112], CH_D = BOLD ? [148, 103, 47] : [168, 120, 58],
+        CO_L = BOLD ? [171, 123, 50] : [196, 146, 62], CO_D = BOLD ? [100, 65, 24] : [118, 78, 30];
+      const R2 = BOLD ? [[130, 82, 213], [54, 132, 222], [222, 83, 146], [230, 125, 39]] : [[142, 92, 230], [64, 148, 240], [240, 96, 160], [246, 140, 48]];
       const t2 = (((x + y) / (W + H) * 1.6) % 1) * R2.length, a2 = Math.floor(t2), hue = mix(R2[a2], R2[(a2 + 1) % R2.length], t2 - a2);
-      const thinC = mix(mix(CH_L, hue, .85 * (1 - lit * .35)), CH_D, lit * .4);
+      const thinC = mix(mix(CH_L, hue, (BOLD ? .78 : .85) * (1 - lit * .35)), CH_D, lit * (BOLD ? .45 : .4));
       lc = mix(thinC, mix(mix(CO_L, hue, .18 * (1 - lit)), CO_D, Math.min(1, lit * 1.1)), isOut); // the gold outline catches a little of the rainbow
     } else if (STYLE === 'iri') {
       const hue = rain((x + y) / (W + H) * 1.6), thinC = mix(mix(PEW_L, hue, .85 * (1 - lit * .45)), PEW_D, lit * .45);
@@ -95,7 +104,7 @@ const STYLE_OF = f => /^(toc-compass|orn-footer)/.test(f) && !process.env.STYLE 
   await cmd('Page.enable'); await cmd('Page.navigate', { url: `http://localhost:${PORT}/assets/` + FILES[0] }); await sleep(1500);
   let tot = 0;
   for (const f of FILES.filter(f => !ONLY || ONLY.includes(f))) {
-    const r = await cmd('Runtime.evaluate', { expression: `(${TINT})('/assets/${f}',${W_OF(f)},${JSON.stringify(STYLE_OF(f))},${!!process.env.GLINTS},${FLAT_OF(f)})`, awaitPromise: true, returnByValue: true });
+    const r = await cmd('Runtime.evaluate', { expression: `(${TINT})('/assets/${f}',${W_OF(f)},${JSON.stringify(STYLE_OF(f))},${!!process.env.GLINTS},${FLAT_OF(f)},${JR(f)})`, awaitPromise: true, returnByValue: true });
     if (!r.result || r.result.type !== 'string') { console.log(f, 'failed', JSON.stringify(r).slice(0, 200)); continue; }
     const o = path.join(A, f.replace(/\.(svg|png)$/, SUFFIX)); fs.writeFileSync(o, Buffer.from(r.result.value, 'base64')); if (FLAT_OF(f)) quantize(o); tot += fs.statSync(o).size;
   }

@@ -1,9 +1,9 @@
 # MAP DNA — "The Capital Playbook 2027" (treasure-map reference, 2026-10-27)
 
 Extracted from the supplied poster (an antique engraved sea chart with glass assets on brass pedestals, the title
-embossed in bronze). Applied to the book as a **demo case** (`DEMO.map`, the on-screen "แผนที่ (Map DNA)" switch,
-off by default; map sheets carry `.map`) on every inside sheet and the สารบัญ (`PBX_MAP_ALL`), never on the front /
-back covers. Colours were sampled from the reference and rounded.
+embossed in bronze). **It is the book's look** (since 2026-10-28 the off version and its on-screen switch are gone): every
+inside sheet and the สารบัญ carry `.parch` and `.map` from the moment `newPage` makes them, never the front / back covers.
+Colours were sampled from the reference and rounded.
 
 ## What the reference does
 1. **Drawing** — engraved / etched line like a printed sea chart, **sepia ink, never black**; hatching and
@@ -75,12 +75,27 @@ back covers. Colours were sampled from the reference and rounded.
 - **Decision mix (sheet 9):** a headline ("เริ่มจากสินทรัพย์แกนหลักราว 40% ของพอร์ต"), one 38px 100% bar in the 5-level inks,
   a four-cell key under it with the largest share in ink.
 
+## Layout, type and rules audit (2026-10-28)
+Settled at the end of the map rules in `dna-quiz-flow.html` (`/* ══ map DNA audit */`):
+- **Grid:** one text column x 77–717 on every sheet; an opener's head (Latin line, Thai title, lede) keeps its x 45, but its pill
+  and everything under it return to the column. Two-column splits start at 77 and 415 (the analysis split 296 / 296 with a 48px
+  gap, no upright rule).
+- **Figures on three steps:** hero (the analysis 76 / 88px, the card's 72px), lead 40px, support 26px.
+- **Small type on two sizes:** 12px (captions, tags) and 13px (labels, notes); italic notes in two roles — lede Sarabun 15,
+  note Noto Sans Thai UI 13.
+- **Heads:** block head 22px, a card's head inside a column 18px.
+- **One reading face:** TH Sarabun New's lines (lede, card outlook, pull-quotes, mirror lead) are Sarabun, sized down to match.
+- **Rules in four families:** dotted gold (heads, column splits), one faint solid rgba(90,60,25,.14) (rows, notes, group heads),
+  the ✦ pair, the gold left rule of the library's example notes. The analysis status is a gold pill, not a box.
+- **Page 5 "ตัวตนทั้ง 12 แบบ"** left the book; it shows alone at `dna-quiz-flow.html?proof`.
+
 ## Line-tinted drawings (map sheets)
 Every other line drawing (library category heads, the journey's side figures) uses `*.tint.png` (`tools/map-tint.js`,
 headless Chrome canvas pass at ~2x its box): **only the ink is recoloured**, in the champagne-gold crystal colours — gold-brown outlines, lighter on the lit side
 (found by an erosion of the ink), hatching in a rainbow running along the light from the upper left over a champagne base;
 white fills, no glints. The สารบัญ compass and the footer flourish keep the warm inks (deep sepia
-outlines, brass → red-brown hatching). Size: laid on white (they multiply into the sheet) and reduced to a 256-colour palette
+outlines, brass → red-brown hatching). The journey's six side drawings are rendered bolder (`BOLD` in the tool: strokes 2.4x
+thicker, inks half a step deeper, 180px wide) and shown at 66px on map sheets. Size: laid on white (they multiply into the sheet) and reduced to a 256-colour palette
 — the set is ~0.55 MB instead of ~3.4 MB.
 
 ## Tried and dropped (2026-10-27 / 28, per direction)
