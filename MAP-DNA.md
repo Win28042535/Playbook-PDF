@@ -52,6 +52,22 @@ back covers. Colours were sampled from the reference and rounded.
   best, % ending in loss — moved here from the 5-level sheet), then a tall range chart: worst-to-best bars with both ends
   printed, the normal year a dot, a strong 0% rule with the loss side washed; the example level thick and in ink, the others
   slim and faint; the yearly average as a figure column at the right; an inline key.
+- **100,000 บาท 10 ปี:** a headline with the end value, the example level's four figures as a stat row between ✦ rules, the chart,
+  then the three levels' end values side by side (the example level in ink).
+- **เลือกระดับ:** a headline ("ระดับที่ใช่ ขึ้นกับใจ ความพร้อม และเวลา ของคุณ"), items under large gold Roman numerals, the CTA
+  centred between ✦ rules.
+- **The ✦ rule pair** (`.pbx-sr`): every stat row sits between two 2px rules that fade in from both ends toward a cast-gold ✦.
+
+## The same DNA on the identity and interest sheets (map sheets, 2026-10-28)
+- **ตัวตน (sheet 2) / หลังร่วมงาน (sheet 4):** the preferred assets as a headline ("คุณถนัด กองทุนรวม หุ้นไทย และทองคำ", the
+  names in gold); strengths | watch-outs unchanged.
+- **SKILL (sheet 2) / behaviour scores (sheet 8):** the figures as a stat row between ✦ rules, the strongest (highest share of
+  its maximum) 40px in ink with a bold label, the others 28px in tone 3 with their bars at half strength; every bar on one
+  line, at the foot of the tallest cell. The scores open with a headline naming the strongest ("จุดแข็งที่ชัดที่สุดของคุณคือ…").
+- **Interests (sheet 8):** a headline naming the leader (several when tied); the leader keeps its ✦ rules and "อันดับ 1" tag,
+  every other row steps back (22px faint figure, bar at 35%).
+- **Decision mix (sheet 9):** a headline ("เริ่มจากสินทรัพย์แกนหลักราว 40% ของพอร์ต"), one 38px 100% bar in the 5-level inks,
+  a four-cell key under it with the largest share in ink.
 
 ## Line-tinted drawings (map sheets)
 Every other line drawing (library category heads, the journey's side figures) uses `*.tint.png` (`tools/map-tint.js`,

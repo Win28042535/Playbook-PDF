@@ -236,9 +236,70 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-mg-cap b{font-weight:600;color:var(--t1);}
 .pbx-mg-cap i{width:8px;height:8px;margin-right:5px;}
 .pbx-mg-r.on .pbx-mg-cap{margin-top:10px;font-size:12.5px;gap:4px 14px;}
+/* the ✦ rule pair (2026-10-28, per direction, the emphasised rows' style): a 2px rule above and below, fading in from both ends
+   and deepening toward a cast-gold ✦ at its middle — on the 5-level example row, the one-year / 100,000-baht stat blocks, the CTA */
+.pbx-sr,.pbx-mg-r.on{position:relative;}
+.pbx-sr::before,.pbx-sr::after,.pbx-mg-r.on::before,.pbx-mg-r.on::after{content:'';position:absolute;left:0;right:0;height:11px;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 11'%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23f0d48c'/%3E%3Cstop offset='.5' stop-color='%23c09443'/%3E%3Cstop offset='1' stop-color='%236e4b1f'/%3E%3C/linearGradient%3E%3Cpath d='M4.5 0Q5.4 4.5 9 5.5Q5.4 6.5 4.5 11Q3.6 6.5 0 5.5Q3.6 4.5 4.5 0Z' fill='url(%23g)'/%3E%3C/svg%3E") center/9px 11px no-repeat,
+    linear-gradient(to right,rgba(168,128,62,0) 0,rgba(168,128,62,.55) 30%,rgba(138,101,48,.9) calc(50% - 11px),transparent calc(50% - 11px),transparent calc(50% + 11px),rgba(138,101,48,.9) calc(50% + 11px),rgba(168,128,62,.55) 70%,rgba(168,128,62,0) 100%) center/100% 2px no-repeat;}
+.pbx-sr::before,.pbx-mg-r.on::before{top:-6px;}
+.pbx-sr::after,.pbx-mg-r.on::after{bottom:-6px;}
+.pbx-mg-r.on{border-top:0!important;border-bottom:0!important;}
 /* the one-year sheet as a magazine page (map DNA, 2026-10-28) */
-.pbx-yr-k{margin-top:24px;font-size:13px;font-weight:600;letter-spacing:.02em;color:#8a6a34;}
-.pbx-yr-stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:8px;padding:14px 0;border-top:2px solid #a88c62;border-bottom:2px solid #a88c62;}
+.pbx-yr-sb{margin-top:26px;padding:16px 0 14px;}
+.pbx-yr-k{font-size:13px;font-weight:600;letter-spacing:.02em;color:#8a6a34;}
+.pbx-yr-stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:10px;}
+/* the assets / SKILL sheet (map DNA, 2026-10-28): three SKILL figures, the strongest in ink, the others quieter, a short bar under each */
+.pbx-mag .pbx-mg-head:first-of-type{margin-top:16px;}
+.pbx-sk3{grid-template-columns:repeat(3,1fr);margin-top:0;}
+.pbx-sk3 .pbx-yr-st b small{margin-left:2px;font-size:15px;font-weight:400;color:var(--t4);}
+.pbx-sk3 .pbx-yr-st:not(.top) b{color:var(--t3);font-size:28px;}
+.pbx-sk3 .pbx-yr-st.top b{font-size:40px;}
+.pbx-sk3 .pbx-yr-st.top span{font-weight:700;color:var(--t1);}
+.pbx-sk3 .pbx-yr-st{display:flex;flex-direction:column;} /* the bars sit on one line, at the foot of the tallest figure (2026-10-28) */
+.pbx-sk3 .pbx-yr-st span{margin-bottom:10px;}
+.pbx-sk3 .pbx-yr-st .pbx-sk-s{display:block;height:4px;margin-top:auto;background:linear-gradient(to right,#8a6530 var(--v),#cfc7b8 var(--v));}
+.pbx-sk3 .pbx-yr-st:not(.top) .pbx-sk-s{opacity:.5;}
+.pbx-sk4{grid-template-columns:repeat(4,1fr);}
+.pbx-sk4 .pbx-yr-st:first-child{padding-left:0;border-left:0;}
+/* the interests sheet: the rows after the leader step back (slim faint bar, smaller faint figure) */
+.pbx-ms-mg .pbx-ms-r:not(:first-child){padding:8px 0;}
+.pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-l{color:var(--t4);}
+.pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-v{font-size:22px;color:var(--t4);}
+.pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-v small{color:var(--t4);}
+.pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-ru{opacity:.35;}
+.pbx-ms.pbx-ms-mg{margin-top:26px;}
+.pbx-ints.pbx-mag .pbx-ms-lede{margin-top:8px;}
+.pbx-ms-mg .pbx-ms-r:first-child{margin-bottom:8px;}
+/* the decision mix: one 100% bar, its key under it with the largest share in ink */
+.pbx-al{margin-top:22px;}
+.pbx-al .pbx-mg-track{height:38px;}
+.pbx-al-cap{display:grid;grid-template-columns:repeat(4,1fr);margin-top:14px;}
+.pbx-al-cap span{padding:0 12px;border-left:1px solid rgba(90,60,25,.18);font-size:13px;line-height:1.35;color:var(--t4);}
+.pbx-al-cap span:first-child{padding-left:0;border-left:0;}
+.pbx-al-cap b{display:block;margin:4px 0 4px;font-family:'Noto Sans Thai',var(--font);font-size:22px;font-weight:500;line-height:1;color:var(--t3);}
+.pbx-al-cap .top{color:var(--t1);font-weight:700;}
+.pbx-al-cap .top b{font-size:32px;color:var(--t1);}
+.pbx-al-cap i{display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:.18em;border-radius:2px;}
+/* the 100,000-baht sheet: three end values side by side, the example level's in ink */
+.pbx-gw-cmp{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px;}
+.pbx-gw-cmp>div{padding:0 14px;border-left:1px solid rgba(90,60,25,.18);color:var(--t4);}
+.pbx-gw-cmp>div:first-child{padding-left:0;border-left:0;}
+.pbx-gw-cmp b{display:block;font-family:'Noto Sans Thai',var(--font);font-size:19px;font-weight:500;color:var(--t3);}
+.pbx-gw-cmp span{display:block;margin-top:3px;font-size:12px;}
+.pbx-gw-cmp .on b{font-size:22px;font-weight:700;color:var(--t1);}
+.pbx-gw-cmp .on span{color:var(--t3);}
+.pbx-mag .pbx-pe-g{margin-top:26px;}
+/* the 3-points sheet: three numbered statements, the call to the adviser between ✦ rules */
+.pbx-hw-l{margin-top:24px;}
+.pbx-hw-i{display:grid;grid-template-columns:64px 1fr;column-gap:18px;align-items:start;padding:16px 0;border-top:1px solid rgba(90,60,25,.14);}
+.pbx-hw-i:first-child{border-top:0;}
+.pbx-hw-n{font-family:var(--font-serif);font-size:40px;line-height:1;text-align:center;background:linear-gradient(135deg,#7a5426 0%,#d8b36a 35%,#9a7034 55%,#efd498 72%,#80592a 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.pbx-hw-i b{display:block;font-family:'Noto Sans Thai',var(--font);font-size:20px;font-weight:600;color:var(--t1);}
+.pbx-hw-i p{margin:4px 0 0;font-family:var(--font-read);font-size:var(--read-fs);line-height:var(--read-lh);color:var(--ink);}
+.pbx-hw .pbx-ms-lede{margin-top:16px;}
+.pbx-hw-cta{margin-top:30px;padding:20px 0 18px;text-align:center;}
+.pbx-hw-cta p{margin:0 auto;max-width:520px;font-family:'Noto Sans Thai',var(--font);font-size:17px;font-weight:600;line-height:1.55;color:var(--t1);text-wrap:balance;}
 .pbx-yr-st{padding:0 14px;border-left:1px solid rgba(90,60,25,.18);}
 .pbx-yr-st:first-child{padding-left:0;border-left:0;}
 .pbx-yr-st b{display:block;font-family:'Noto Sans Thai',var(--font);font-size:32px;font-weight:500;line-height:1.05;color:var(--t1);font-variant-numeric:tabular-nums;}
@@ -1050,12 +1111,18 @@ function pbxHeroHTML(phase,h,img,note){
     '<div class="pbx-hero-sp"><p class="pbx-feat-sig">'+h.sig+'</p><ul class="pbx-hero-tags">'+tags.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>'+
     (philo.length?'<div class="pbx-hero-philo">'+philo.map(function(l){return '<p>'+l+'</p>';}).join('')+'</div>':'')+(note||'')+'</section>';
 }
+/* the preferred assets as one phrase for a map-sheet headline: "<a> <b> และ<c>", each name gold */
+function pbxAssetList(h){
+  var an=h.assets.map(function(a){return '<span>'+a.t+'</span>';});
+  return an.length>1?an.slice(0,-1).join(' ')+' และ'+an[an.length-1]:an.join('');
+}
 /* the post-event card: its hero sheet, then (like the pre-event sheet 2) its preferred assets and strengths | watch-outs */
 function pbxPostHTML(ev){
   var h=ev.hero,col=function(t,items){return '<div><div class="pbx-side-hd"><div class="pbx-side-t">'+t+'</div></div><ul class="pbx-list">'+items.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>';};
   return (pbxHeroHTML('<div class="pbx-hero-ph"><div class="pbx-phase post"><b>หลังร่วมงาน</b><i>Post-event</i></div>'+'</div>',h,REAL_CARD_IMG[ev.key],
       '<p class="pbx-data-note">'+(ev.up?'พฤติกรรมจริงในงานรับความเสี่ยงได้มากกว่าที่คุณตอบไว้':'พฤติกรรมจริงในงานระมัดระวังกว่าที่คุณตอบไว้')+' การ์ดหลังร่วมงานจึงต่างจากก่อนร่วมงาน</p>')+
-    '<section class="pbx-block"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></section>'+
+    (pbxMapOn()?'<section class="pbx-block pbx-mag"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><p class="pbx-mg-head">หลังร่วมงาน คุณถนัด '+pbxAssetList(h)+'</p></section>':
+    '<section class="pbx-block"><div class="pbx-side-hd"><div class="pbx-side-t">สินทรัพย์ที่ถนัด · หลังร่วมงาน</div></div><ul class="pbx-tags">'+h.assets.map(function(a){return '<li>'+a.t+'</li>';}).join('')+'</ul></section>')+
     '<section class="pbx-block"><div class="pbx-split pbx-vr">'+col('ความแข็งแกร่ง',h.strengths)+col('สิ่งที่ต้องระวัง',h.watchouts)+'</div></section>').replace(/s*—s*/g,' ');
 }
 /* proof sheet of all 12 persona arts (temporary, for review, 2026-10-26): ends the ตัวตน chapter, family by family; no .s-h, so it
@@ -1079,6 +1146,17 @@ function pbxIdentityHTML(h,key,unreg,ev){
   var skill='<section class="pbx-block"><div class="pbx-side-hd"><h3 class="pbx-side-t">SKILL ประจำการ์ด</h3></div>'+(h.motto?'<p class="pbx-sec-sub">คำประจำตัว '+h.motto+'</p>':'')+
     '<div class="pbx-sks">'+SKC_ROWS.map(function(l,i){var v=h.skills[i];return '<div class="pbx-sk"><div class="pbx-sk-h"><span>'+l+'</span><span class="pbx-sk-v"><b>'+v+'</b>/10</span></div><div class="pbx-sk-s" style="--v:'+v*10+'%" role="img" aria-label="'+v+' / 10"><i></i></div></div>';}).join('')+'</div>'+
     '<p class="pbx-data-note"><b>ค่า SKILL บนการ์ด</b> สะท้อนความถนัดในแต่ละสไตล์ ไม่ใช่คำแนะนำการลงทุน</p></section>';
+  /* map DNA, magazine page (2026-10-28, as the portfolio sheets): the assets said as a headline with the reader's own asset names in
+     gold; the SKILL values as a stat row between ✦ rules, the strongest in full ink and the others quieter */
+  if(pbxMapOn()){
+    assets='<section class="pbx-block pbx-mag"><div class="pbx-side-hd"><h2 class="s-h pbx-side-t">สินทรัพย์ที่ <span>ถนัด</span></h2></div>'+
+      '<p class="pbx-mg-head">คุณถนัด '+pbxAssetList(h)+'</p></section>';
+    var top=Math.max.apply(null,h.skills);
+    skill='<section class="pbx-block pbx-mag"><div class="pbx-side-hd"><h3 class="pbx-side-t">SKILL ประจำการ์ด</h3></div>'+(h.motto?'<p class="pbx-sec-sub">คำประจำตัว '+h.motto+'</p>':'')+
+      '<div class="pbx-yr-sb pbx-sr"><div class="pbx-yr-stats pbx-sk3">'+SKC_ROWS.map(function(l,i){var v=h.skills[i];
+        return '<div class="pbx-yr-st'+(v===top?' top':'')+'"><b>'+v+'<small>/10</small></b><span>'+l+'</span><i class="pbx-sk-s" style="--v:'+v*10+'%" role="img" aria-label="'+v+' / 10"></i></div>';}).join('')+'</div></div>'+
+      '<p class="pbx-data-note"><b>ค่า SKILL บนการ์ด</b> สะท้อนความถนัดในแต่ละสไตล์ ไม่ใช่คำแนะนำการลงทุน</p></section>';
+  }
   var reg='<section class="pbx-block"><div class="pbx-kicker">ผลลัพธ์นี้เป็นเพียง Preview ของ Investment DNA</div><h3 class="pbx-blk-t">Investment DNA ของคุณคือจุดเริ่มต้น</h3>'+
     '<p class="pbx-side-b">ร่วมเดินทางต่อในวันงาน กับ <b>10 INVESTMENT EXPERIENCES</b> • <b>6 INVESTMENT GAMES</b> พร้อม efin AI • Speaker ชั้นนำ • PAVILION ZONE</p>'+
     '<p class="pbx-side-b">รับ Playbook การลงทุนส่วนตัว เพื่อสแกนทุกโอกาสการลงทุนในโลกยุคใหม่</p>'+
@@ -1153,6 +1231,26 @@ function pbxPortfolioHTML(h,r){
     '<p class="pbx-ms-fn">'+TRAIT_SRC.map(function(c){return '<span>'+c.t+'</span>';}).join(' · ')+'<br>บอกว่าเรารู้จักคุณแค่ไหน ไม่ใช่คำทำนายผลตอบแทน</p></section>';
   var alloc='<section class="pbx-block"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3><p class="pbx-ms-lede">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p><div class="pbx-ms">'+
     ALLOC_SEGS.map(function(s,n){return pbxMsRow(s.l,s.p,'%',s.p,false,!n);}).join('')+'</div></section>'; // ALLOC_SEGS runs largest first
+  /* map DNA, magazine pages (2026-10-28, as the portfolio sheets): each list opens with a headline that says what it shows. Interests:
+     the leader keeps its ✦ rules, the other rows step back like the 5-level sheet's other levels. Behaviour: the four scores as a stat
+     row between ✦ rules, the strongest (highest share of its maximum) in full ink. Decision mix: one 100% bar in the 5-level inks. */
+  if(pbxMapOn()){
+    var tp=pct[order[0]],lead=order.filter(function(i){return pct[i]===tp;}).map(function(i){return '<span>'+INT_SHORT_L[i]+'</span>';});
+    ints='<section class="pbx-block pbx-ints pbx-mag"><p class="pbx-mg-head">ความสนใจของคุณอยู่ที่'+(lead.length>1?lead.slice(0,-1).join(' ')+' และ'+lead[lead.length-1]:lead[0])+'มากที่สุด</p>'+
+      '<p class="pbx-ms-lede">จากเกมและบูธที่คุณทำจริง · รวมทุกแท่ง = 100% ของข้อมูลที่เรามี · แท่งสีจางคือหมวดที่คุณยังไม่ได้แตะวันนี้</p><div class="pbx-ms pbx-ms-mg">'+
+      order.map(function(i,n){var touched=((BOOTH_CHK[i]&&BOOTH_CHK[i].size)>0)||!!BOOTH_ACT[i];return pbxMsRow(INT_SHORT_L[i],pct[i],'%',pct[i],!touched,!n);}).join('')+'</div></section>';
+    var rt=TRAIT_ROWS.map(function(t){return t.v/t.m;}),best=Math.max.apply(null,rt),bt=TRAIT_ROWS[rt.indexOf(best)];
+    trait='<section class="pbx-block pbx-mag"><h3 class="s-h pbx-blk-t">คะแนน <span>พฤติกรรม</span></h3>'+
+      '<p class="pbx-mg-head">จุดแข็งที่ชัดที่สุดของคุณคือ<span>'+bt.l+'</span> '+bt.v+'/'+bt.m+'</p><p class="pbx-ms-lede">วัดจากกิจกรรมในงาน</p>'+
+      '<div class="pbx-yr-sb pbx-sr"><div class="pbx-yr-stats pbx-sk3 pbx-sk4">'+TRAIT_ROWS.map(function(t,i){var p=Math.round(rt[i]*100);
+        return '<div class="pbx-yr-st'+(rt[i]===best?' top':'')+'"><b>'+t.v+'<small>/'+t.m+'</small></b><span>'+t.l+'</span><i class="pbx-sk-s" style="--v:'+p+'%" role="img" aria-label="'+t.v+' / '+t.m+'"></i></div>';}).join('')+'</div></div>'+
+      '<p class="pbx-ms-fn">'+TRAIT_SRC.map(function(c){return '<span>'+c.t+'</span>';}).join(' · ')+'<br>บอกว่าเรารู้จักคุณแค่ไหน ไม่ใช่คำทำนายผลตอบแทน</p></section>';
+    var AINK=['#3e2a17','#7a5426','#c49b5c','#e3d2ae'],a0=ALLOC_SEGS[0];
+    alloc='<section class="pbx-block pbx-mag"><h3 class="s-h pbx-blk-t">เวลาตัดสินใจคุณดูอะไรก่อน</h3>'+
+      '<p class="pbx-mg-head">เริ่มจาก<span>'+a0.l.replace(/\s*\(.*\)/,'')+'</span>ราว '+a0.p+'% ของพอร์ต</p><p class="pbx-ms-lede">สัดส่วนเริ่มต้นที่เหมาะกับ '+h.th+'</p>'+
+      '<div class="pbx-al"><div class="pbx-mg-track">'+ALLOC_SEGS.map(function(s,i){return '<i class="pbx-mg-s" style="width:'+s.p+'%;background:'+AINK[i]+'"></i>';}).join('')+'</div>'+
+      '<div class="pbx-al-cap">'+ALLOC_SEGS.map(function(s,i){return '<span'+(i?'':' class="top"')+'><b><i style="background:'+AINK[i]+'"></i>'+s.p+'%</b>'+s.l+'</span>';}).join('')+'</div></div></section>';
+  }
   /* talking points for the adviser — the live app no longer splits these per asset (2026-10-14): one ticked list, same for everyone */
   /* the list sits straight under the section head (its 28px), not in a .pbx-block, whose 56px top would stack to 84 */
   var dd='<section class="pbx-sec pb-keep pbx-break" data-fig="eng-lens"><h2 class="s-h pbx-sec-t">สรุปไว้คุยกับผู้แนะนำการลงทุน</h2></section>'+
@@ -1255,8 +1353,8 @@ function pbxPortEduHTML(){
     ladder='<section class="pbx-block pbx-mag pbx-yr"><h3 class="s-h pbx-blk-t">'+T.ladder_title+'</h3>'+
       '<p class="pbx-mg-head">ยิ่งขั้นสูง ปีดีได้<span>มากขึ้น</span> แต่ปีแย่ก็<span>ลึกขึ้น</span></p>'+
       '<p class="pbx-ms-lede">'+pbxFill(T.split_template,{th:100-fx,fx:fx})+' · '+T.split_note.split(' · ').slice(1).join(' · ')+'</p>'+
-      '<div class="pbx-yr-k">ระดับ '+lv+' · ถ้าถือ 1 ปี</div>'+
-      '<div class="pbx-yr-stats">'+stat(pbxPct(h3.worst),'ปีแย่สุด',true)+stat(pbxPct(h3.median),'ปีปกติ')+stat(pbxPct(h3.best),'ปีดีสุด')+stat(h3.pct_negative+'%','ของช่วงถือ 1 ปี จบที่ขาดทุน',true)+'</div>'+
+      '<div class="pbx-yr-sb pbx-sr"><div class="pbx-yr-k">ระดับ '+lv+' · ถ้าถือ 1 ปี</div>'+
+      '<div class="pbx-yr-stats">'+stat(pbxPct(h3.worst),'ปีแย่สุด',true)+stat(pbxPct(h3.median),'ปีปกติ')+stat(pbxPct(h3.best),'ปีดีสุด')+stat(h3.pct_negative+'%','ของช่วงถือ 1 ปี จบที่ขาดทุน',true)+'</div></div>'+
       '<div class="pbx-yr-chart"><div class="pbx-yr-grid"><i class="pbx-yr-loss" style="width:'+pos(0)+'"></i><i class="pbx-yr-zero" style="left:'+pos(0)+'"></i></div>'+rows+
       '<div class="pbx-yr-ax">'+ticks+'</div></div>'+
       '<p class="pbx-yr-key"><i class="b"></i>ปีแย่สุด ถึง ปีดีสุด <i class="d"></i>ปีปกติ <i class="z"></i>เส้น 0% · ซ้ายของเส้นคือขาดทุน</p>'+
@@ -1281,6 +1379,23 @@ function pbxPortEduHTML(){
     '<p class="pbx-ms-lede">'+pbxFill(T.growth_drop_baht,{pct:pbxPct(md.pct),amount:pbxBaht(amt),baht:pbxBaht(-md.pct/100*amt),months:md.months_to_recover})+'</p>'+
     '<p class="pbx-ms-lede">'+pbxFill(T.growth_compare_hi,{value:pbxBaht(last(5)),pct:pbxPct(S[5].max_drop.pct)})+'<br>'+pbxFill(T.growth_compare_lo,{value:pbxBaht(last(1))})+'</p>'+
     '<p class="pbx-ms-fn">'+pbxFill(T.source,{from:pbxThMonth(H.period.from),to:pbxThMonth(H.period.to)})+'<br>'+T.disclaimer+'</p></section>';
+  /* map DNA, magazine pages (2026-10-28), as the 5-level and one-year sheets: a headline that says the story, the key figures as a
+     stat row between ✦ rules, the chart, then the notes; the 3-points sheet as three numbered statements with a headline */
+  if(pbxMapOn()){
+    var st=function(v,l,cls){return '<div class="pbx-yr-st'+(cls?' '+cls:'')+'"><b>'+v+'</b><span>'+l+'</span></div>';};
+    growth='<section class="pbx-block pbx-mag"><h3 class="s-h pbx-blk-t">'+pbxFill(T.growth_title_amount,{amount:pbxBaht(amt),level:lv})+'</h3>'+
+      '<p class="pbx-mg-head">10 ปี เงิน 100,000 บาท โตเป็น <span style="white-space:nowrap">'+Math.round(last(lv)).toLocaleString('en-US')+' บาท</span><br>แม้เคยลดลงระหว่างทาง</p>'+
+      '<div class="pbx-yr-sb pbx-sr"><div class="pbx-yr-k">ระดับ '+lv+' · '+pbxThMonth(H.period.from)+' – '+pbxThMonth(H.period.to)+'</div><div class="pbx-yr-stats">'+
+        st(Math.round(last(lv)).toLocaleString('en-US'),'บาท วันนี้ (เริ่ม 100,000)')+st(pbxPct(md.pct),'ช่วงลดลงลึกสุด ('+pbxThMonth(md.bottom)+')','neg')+
+        st('−'+Math.round(-md.pct/100*amt).toLocaleString('en-US'),'บาท ที่หายไปชั่วคราว','neg')+st(md.months_to_recover,'เดือน กว่าจะกลับมาเท่าเดิม')+'</div></div>'+
+      svg+'<div class="pbx-pe-gx"><span>'+pbxThMonth(H.period.from)+' · '+pbxFill(T.growth_base_amount,{amount:pbxBaht(amt)})+'</span><span>'+pbxThMonth(H.period.to)+'</span></div>'+
+      '<div class="pbx-gw-cmp"><div><b>'+pbxBaht(last(5))+'</b><span>ระดับ 5 · แต่เคยลดลง '+pbxPct(S[5].max_drop.pct)+'</span></div><div class="on"><b>'+pbxBaht(last(lv))+'</b><span>ระดับ '+lv+'</span></div><div><b>'+pbxBaht(last(1))+'</b><span>ระดับ 1</span></div></div>'+
+      '<p class="pbx-ms-fn">'+pbxFill(T.source,{from:pbxThMonth(H.period.from),to:pbxThMonth(H.period.to)})+'<br>'+T.disclaimer+'</p></section>';
+    how='<section class="pbx-block pbx-mag pbx-hw" data-fig="eng-gauge"><h3 class="s-h pbx-blk-t">'+tb.how.title+'</h3>'+
+      '<p class="pbx-mg-head">ระดับที่ใช่ ขึ้นกับ<span>ใจ</span> <span>ความพร้อม</span> และ<span>เวลา</span> ของคุณ</p>'+
+      '<div class="pbx-hw-l">'+tb.how.items.map(function(t,i){var p=t.split(' — ');return '<div class="pbx-hw-i"><span class="pbx-hw-n">'+pbxRoman(i+1)+'</span><div><b>'+p[0]+'</b><p>'+p.slice(1).join(' — ')+'</p></div></div>';}).join('')+'</div>'+
+      '<p class="pbx-ms-lede">'+tb.how.more+'</p><div class="pbx-hw-cta pbx-sr"><p>'+tb.how.cta+'</p></div></section>';
+  }
   return open+table+ladder+growth+how; // the "3 เรื่อง" sheet closes the chapter (2026-10-27)
 }
 /* ══ LIBRARY (คลังความรู้) ══ real category names + item counts extracted verbatim from the source
