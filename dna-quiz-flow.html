@@ -261,10 +261,34 @@ body{font-family:var(--font);background:var(--paper);color:var(--ink);font-weigh
 .pbx-sk3 .pbx-yr-st .pbx-sk-s{display:block;height:4px;margin-top:auto;background:linear-gradient(to right,#8a6530 var(--v),#cfc7b8 var(--v));}
 .pbx-sk3 .pbx-yr-st:not(.top) .pbx-sk-s{opacity:.5;}
 .pbx-sk4{grid-template-columns:repeat(4,1fr);}
+/* the journey's six sides (map DNA, 2026-10-28): a headline per side, its figures as a stat row */
+.pbx-jr .pbx-jr-h{margin-top:14px;font-size:19px;line-height:1.4;}
+.pbx-jr-sb{margin-top:20px;padding:12px 0 12px;}
+.pbx-jr-st{margin-top:0;}
+.pbx-jr-st .pbx-yr-st{padding:0 10px;}
+.pbx-jr-st .pbx-yr-st:first-child{padding-left:0;border-left:0;}
+.pbx-sk3.pbx-jr-st .pbx-yr-st.top b{font-size:34px;}
+.pbx-sk3.pbx-jr-st .pbx-yr-st:not(.top) b{font-size:24px;}
+.pbx-jr-st .pbx-yr-st span{font-size:12.5px;}
+.pbx-sk3.pbx-jr-flat .pbx-yr-st b{font-size:26px;color:var(--t1);}
+.pbx-sk3.pbx-jr-flat .pbx-yr-st b::before{content:'อายุ ';font-size:12px;font-weight:400;color:var(--t4);}
+.pbx-jr-flat .pbx-yr-st span{font-weight:600;color:var(--t1);}
+.pbx-jr-age{margin-top:18px;}
+.pbx-jr-n{margin-top:14px;font-family:var(--font-read);font-size:14px;line-height:1.6;font-style:italic;color:var(--t3);text-wrap:pretty;}
+.pbx-jr-l{margin:12px 0 0;padding:0 0 0 1.3em;list-style-type:'✦  ';font-size:15px;line-height:1.7;color:var(--ink);}
+.pbx-jr-l li::marker{color:var(--gold);font-size:.75em;}
+.pbx-jr-sb .pbx-yr-k{text-align:center;}
+.pbx-jr-q{margin:6px 0 0;text-align:center;font-family:'Noto Sans Thai',var(--font);font-size:18px;font-weight:600;line-height:1.4;color:var(--t1);}
+.pbx-jr-k{margin-top:14px;}
+.pbx-jr-steps{margin:10px 0 0;padding:0;list-style:none;}
+.pbx-jr-steps li{display:grid;grid-template-columns:34px 1fr;align-items:baseline;padding:8px 0;border-top:1px solid rgba(90,60,25,.14);font-size:15px;line-height:1.5;color:var(--ink);}
+.pbx-jr-steps li:first-child{border-top:0;}
+.pbx-jr-steps i{font-style:normal;font-family:var(--font-serif);font-size:20px;color:var(--gold);}
 .pbx-sk4 .pbx-yr-st:first-child{padding-left:0;border-left:0;}
 /* the interests sheet: the rows after the leader step back (slim faint bar, smaller faint figure) */
 .pbx-ms-mg .pbx-ms-r:not(:first-child){padding:8px 0;}
-.pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-l{color:var(--t4);}
+.pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-l{color:var(--t4);font-weight:400;}
+.pbx-open .pbx-mag .pbx-ms-fn{max-width:none;}
 .pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-v{font-size:22px;color:var(--t4);}
 .pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-v small{color:var(--t4);}
 .pbx-ms-mg .pbx-ms-r:not(:first-child) .pbx-ms-ru{opacity:.35;}
@@ -1216,9 +1240,17 @@ function pbxMsRow(label,big,unit,pct,muted,top){ // top: the first row of a rank
 function pbxPortfolioHTML(h,r){
   // radar: ranked high → low; ties keep axis order
   var ax=h.radar.map(function(v,i){return {i:i,v:v};}).sort(function(a,b){return b.v-a.v||a.i-b.i;});
-  var open=pbxOpenHTML(['ความสนใจ',['YOUR','Interests']],'เรดาร์ ความสนใจ','ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น',
-    '<div class="pbx-data">'+ax.map(function(a){return pbxRow(RADAR_AXES[a.i],''+a.v,a.v,false,PBX_PARCH?null:RADAR_IC[a.i]);}).join('')+'</div>'+
-    '<p class="pbx-data-note">จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[ax[0].i]+'</b> ('+ax[0].v+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</p>');
+  var radar='<div class="pbx-data">'+ax.map(function(a){return pbxRow(RADAR_AXES[a.i],''+a.v,a.v,false,PBX_PARCH?null:RADAR_IC[a.i]);}).join('')+'</div>'+
+    '<p class="pbx-data-note">จุดที่คุณถนัดที่สุดคือ <b>'+RADAR_AXES[ax[0].i]+'</b> ('+ax[0].v+'/100) — ลองแวะโซนนี้ในบูธเป็นจุดแรก</p>';
+  /* map DNA, magazine page (2026-10-28, as the interests sheet that follows): a headline naming the leader (several when tied), the
+     leader between ✦ rules with its "อันดับ 1" tag, the other axes stepping back */
+  if(pbxMapOn()){
+    var lead=ax.filter(function(a){return a.v===ax[0].v;}).map(function(a){return '<span>'+RADAR_AXES[a.i].replace('ต่างปท.','หุ้นต่างประเทศ')+'</span>';}); // a headline spells the short axis name out
+    radar='<div class="pbx-mag"><p class="pbx-mg-head">คุณถนัด'+(lead.length>1?lead.slice(0,-1).join(' ')+' และ'+lead[lead.length-1]:lead[0])+'มากที่สุด '+ax[0].v+'/100</p>'+
+      '<div class="pbx-ms pbx-ms-mg">'+ax.map(function(a,n){return pbxMsRow(RADAR_AXES[a.i],a.v,'/100',a.v,false,!n);}).join('')+'</div>'+
+      '<p class="pbx-ms-fn">ลองแวะโซนนี้ในบูธเป็นจุดแรก</p></div>';
+  }
+  var open=pbxOpenHTML(['ความสนใจ',['YOUR','Interests']],'เรดาร์ ความสนใจ','ความถนัดต่อสินทรัพย์แต่ละประเภท และ 3 อันดับที่คุณสนใจ จากคำตอบ DNA Quiz ยิ่งเล่นกิจกรรมในงานครบ ยิ่งแม่นขึ้น',radar);
   /* interests: share of booth check-ins/activity per category (largest-remainder rounded to 100%);
      an untouched category keeps a small base share but reads muted */
   var raw=BOOTHS.map(function(b,i){var c=(BOOTH_CHK[i]&&BOOTH_CHK[i].size)||0,a=BOOTH_ACT[i]?1:0;return 2+c*3+a*6;});
@@ -1849,6 +1881,41 @@ function sidesHTML(r){
      dropped. A summary line identical to the body's first paragraph is not repeated (it printed twice
      before, since every side is shown expanded). */
   var plain=function(h){var d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim();};
+  /* map DNA, magazine pages (2026-10-28, as the portfolio sheets): each side opens with a headline that says its result, then its
+     figures as a stat row (the key one between ✦ rules, the strongest in full ink, the rest quieter), the remaining words as notes */
+  if(pbxMapOn()){
+    var st=function(cells,cls){var top=Math.max.apply(null,cells.map(function(c){return c.n==null?-1:c.n;}));
+      return '<div class="pbx-yr-stats pbx-sk3 pbx-jr-st'+(cls?' '+cls:'')+'" style="grid-template-columns:repeat('+cells.length+',1fr)">'+cells.map(function(c){
+        return '<div class="pbx-yr-st'+(c.n===top||c.top?' top':'')+'"><b>'+c.b+(c.u?'<small>'+c.u+'</small>':'')+'</b><span>'+c.l+'</span>'+(c.v!=null?'<i class="pbx-sk-s" style="--v:'+c.v+'%"></i>':'')+'</div>';}).join('')+'</div>';};
+    var sr=function(h){return '<div class="pbx-yr-sb pbx-sr pbx-jr-sb">'+h+'</div>';};
+    var plainSt=function(h){return '<div class="pbx-jr-age">'+h+'</div>';}; // a figure row with no ✦ rules (the lens shares, Health-Wealth)
+    var note=function(t){return '<p class="pbx-jr-n">'+t+'</p>';};
+    var mag=[
+      '<p class="pbx-mg-head pbx-jr-h">สิ่งที่คุณบอก กับสิ่งที่ทำจริง <span>สอดคล้องกัน</span></p>'+
+        sr(st([{b:'2',l:'ที่คุณบอกไว้',top:1},{b:'2',l:'ที่คุณทำจริง',top:1}]))+
+        note('ถ้าคุณทำแบบเดิมทุกวิกฤต พอร์ตจะฟื้นได้ 0/100 ขายที่จุดต่ำสุดทั้งสองครั้ง จึงไม่ได้ร่วมขาขึ้นเลย'),
+      '<p class="pbx-mg-head pbx-jr-h">เลนส์หลักของคุณคือ<span>สายเทคนิค</span></p>'+
+        plainSt(st([{b:'63',u:'%',l:'เทคนิค (กราฟ)',n:63,v:63},{b:'38',u:'%',l:'พื้นฐาน (VI)',n:38,v:38},{b:'0',u:'%',l:'ปันผล (Yield)',n:0,v:0},{b:'0',u:'%',l:'DCA / กองทุน',n:0,v:0}]))+
+        note('วัดจากลำดับที่คุณเปิดเครื่องมือวิเคราะห์ ไม่ใช่จากที่คุณบอก'),
+      '<p class="pbx-mg-head pbx-jr-h">คุณต้านได้<span>ทั้งสองกับดัก</span> 2/2</p>'+
+        '<ul class="pbx-jr-l"><li>หุ้นพุ่งพุ่ง คนแห่ซื้อ <b>ไม่ตามฝูง</b></li><li>ข้อความชวนลงทุน <b>ไม่โอน</b></li></ul>'+
+        sr('<div class="pbx-yr-k">กฎที่คุณเลือกพกติดตัว</div><p class="pbx-jr-q">ถ้ามันเร่งให้รีบ = สัญญาณอันตราย</p>')+
+        note('วัดจาก 2 สถานการณ์เท่านั้น นี่คือ “คุณในวันนี้” ไม่ใช่คำตัดสินว่าคุณเป็นคนแบบไหน'),
+      '<p class="pbx-mg-head pbx-jr-h">เป้าหมายของคุณ<span>เปลี่ยนไปตามวัย</span></p>'+
+        '<div class="pbx-jr-age">'+st([{b:'25',l:'สมดุล'},{b:'35',l:'รักษาเงินต้น'},{b:'50',l:'ลดเสี่ยงตามอายุ'},{b:'65',l:'สร้างกระแสเงินสด'}],'pbx-jr-flat')+'</div>'+
+        note('4 แบบใน 4 ช่วงวัย สิ่งที่คุณเลือกให้ตัวเองในแต่ละช่วงชีวิต ไม่มีคำตอบถูกผิด'),
+      '<p class="pbx-mg-head pbx-jr-h">คะแนนสุขภาพกับเงินของคุณ <span>5.5</span> จาก 10</p>'+
+        plainSt(st([{b:'5.5',u:'/10',l:'Health-Wealth',top:1,v:55}])),
+      '<p class="pbx-mg-head pbx-jr-h">ก้าวแรกของคุณคือ <span style="white-space:nowrap">จดรายรับ-รายจ่าย 7 วัน</span></p>'+
+        '<div class="pbx-yr-k pbx-jr-k">กำแพงที่คุณบอกว่าขวางอยู่ · ไม่รู้จะเริ่มยังไง</div>'+
+        '<ol class="pbx-jr-steps"><li><i>I</i>เปิดบัญชี</li><li><i>II</i>เลือกตัวเลือกแรกที่เข้าใจและกระจายความเสี่ยงในตัว</li><li><i>III</i>ตั้งอัตโนมัติ</li></ol>'
+    ];
+    return pbxOpenHTML(['สิ่งที่ระบบวัดได้จากคุณ',['THE','Journey']],'<span>6 ด้าน</span> ที่วัดได้จากคุณ','แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม')+
+      sides.map(function(sd,i){
+        var one='<article class="pbx-side pbx-jr fig-'+(i%2?'r':'l')+'"><div class="pbx-side-hd"><div class="pbx-side-t">'+sd.t+'</div><img class="pbx-side-fig" src="assets/eng-'+SIDE_FIG[i]+'.svg" alt=""></div>'+mag[i]+'</article>';
+        return i%2?one+'</div>':'<div class="pbx-side-row pbx-vr">'+one;
+      }).join('');
+  }
   return pbxOpenHTML(['สิ่งที่ระบบวัดได้จากคุณ',['THE','Journey']],'<span>6 ด้าน</span> ที่วัดได้จากคุณ','แต่ละด้านมาจากสิ่งที่คุณทำจริงในงาน ไม่ใช่คำตอบจากแบบสอบถาม')+
     sides.map(function(sd,i){
       /* the grey sub-line repeats the body's first paragraph (or its opening words) on most sides — dropped there; where it is

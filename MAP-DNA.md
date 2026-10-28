@@ -66,6 +66,12 @@ back covers. Colours were sampled from the reference and rounded.
   line, at the foot of the tallest cell. The scores open with a headline naming the strongest ("จุดแข็งที่ชัดที่สุดของคุณคือ…").
 - **Interests (sheet 8):** a headline naming the leader (several when tied); the leader keeps its ✦ rules and "อันดับ 1" tag,
   every other row steps back (22px faint figure, bar at 35%).
+- **Radar (sheet 7, the interests opener):** a headline naming the strongest axis with its score (the short "ต่างปท." spelled out),
+  then the axes as the interests sheet's rows: the leader between ✦ rules with "อันดับ 1", the others stepping back.
+- **The journey's six sides (sheets 16–17):** each side opens with a 19px headline saying its result (words from the side's own
+  copy), then its figures: risk said | real (2 | 2) and the FOMO rule centred between ✦ rules; the lens shares and Health-Wealth
+  as plain stat rows with bars (no rules, per direction); the life-stage goals as four "อายุ 25 / 35 / 50 / 65" cells; the first
+  step's three moves under gold Roman numerals. The rest of the words become italic notes.
 - **Decision mix (sheet 9):** a headline ("เริ่มจากสินทรัพย์แกนหลักราว 40% ของพอร์ต"), one 38px 100% bar in the 5-level inks,
   a four-cell key under it with the largest share in ink.
 
