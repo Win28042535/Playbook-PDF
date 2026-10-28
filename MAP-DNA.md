@@ -21,7 +21,7 @@ back covers. Colours were sampled from the reference and rounded.
 |---|---|
 | ink | `--ink #3b2a1c`, `--muted #8f765a`, `--rule #b59870` on map sheets: text, pills, header / footer hairlines and stars |
 | text tones | one sepia, five weights: 1 `#24170c` headings, key figures, article titles, glossary terms · 2 `#3b2a1c` body + values · 3 `#6b5238` labels, column / row names · 4 `#8f765a` notes, sources · gold `#8a6a34` kickers, list markers, the Roman numerals, secondary units ("/100") |
-| Latin display | the opener's Latin line and the persona card's English name: champagne-gold crystal — bronze at the ends, a rainbow band (lavender → sky → white → rose → amber) across the middle (2026-10-28, from the second New Style set) |
+| Latin display | the opener's Latin line and the persona card's English name: champagne-gold crystal — bronze at the ends, a rainbow band (violet → blue → gold → rose → amber) across the middle, every stop dark enough to read on the paper (2026-10-28, from the second New Style set; a white glint in the middle was dropped — letters vanished there) |
 | opener drawings | the "New Style" engravings (`Icon/New Style`, second set 2026-10-28: champagne-gold crystal, hatched, on aged paper) → `assets/ill-*-iri.jpg`; the paper flattened to white by `tools/flatten-paper.js` so they multiply into the sheet; the chart's lower-right rainbow haze toned down afterwards |
 | other drawings | line-tinted twins (`*.tint.png`, below); no lower-right figures on map sheets; no CSS filters (a PDF rasterises them per sheet) |
 | rules | heading / table-head underlines as a dotted gold line (`#a88c62`, 2px dotted); none under the analysis split's heads or the 100,000-baht heading |
